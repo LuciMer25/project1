@@ -1,16 +1,3 @@
 <template>
-  <div class="home">
-    하위
-  </div>
+    <div>메인시작화면</div>
 </template>
-
-<script>
-// @ is an alias to /src
-
-
-export default {
-  name: 'HomeView',
-  components: {
-  }
-}
-</script>
