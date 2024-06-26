@@ -55,7 +55,7 @@ const routes = [
         component: HomeView
       },
       {
-        path: '/order',
+        path: 'order',
         name: 'order',
         component: OrderView
       },

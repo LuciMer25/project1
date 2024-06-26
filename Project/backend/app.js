@@ -12,9 +12,10 @@ const adminMemberRouter = require('./routes/admin/adminMember.js')
 const adminBoardRouter = require('./routes/admin/adminBoard.js')
 const adminProductRouter = require('./routes/admin/adminProduct.js')
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+// 주문관련(정수범)
 const AccountRouter = require('./routes/account.js');
+const CheckoutRouter = require('./routes/main/order/checkout.js');
+
 // 마이페이지(맹선우)
 var inquiryRouter = require('./routes/mypage/inquiry');
 var qnaRouter = require('./routes/mypage/qna');
@@ -51,16 +52,16 @@ app.use(session({
   store: new fileStore() // 세션 저장소로 fileStore 사용
 }));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+
 //관리자
 app.use('/api/adminOrder', adminOrderRouter);
 app.use('/api/adminMember', adminMemberRouter);
 app.use('/api/adminProduct', adminProductRouter);
 app.use('/api/adminBoard', adminBoardRouter);
 
-
+// 주문관련(정수범)
 app.use('/api/account',AccountRouter);
+app.use('/api/checkout',CheckoutRouter);
 // 마이페이지(맹선우)
 app.use('/api/inquiry', inquiryRouter)
 app.use('/api/qna', qnaRouter)
