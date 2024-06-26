@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const session = require('express-session'); 
 const fileStore = require('session-file-store')(session);
+const adminOrderRouter = require('./routes/admin/adminOrder.js')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -37,6 +38,8 @@ app.use(session({
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/api/admin', adminOrderRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

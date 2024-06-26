@@ -1,35 +1,73 @@
 <template>
     <div class="container-fluid px-4">
       <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item active">관리자</li>
+        <li class="breadcrumb-item active"> </li>
       </ol>
       <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>
-                상품Q&A 리스트
+                상품 Q&A 리스트
             </div>
             <div class="card-body">
-                <DataTableComponent :data="qnaList" :columns="qnaColumns" />
+                <table ref="dataTable">
+                    <thead>
+                        <tr>
+                            <th>게시글 번호</th>
+                            <th>상품명</th>
+                            <th>Q&A 제목</th>
+                            <th>회원ID</th>
+                            <th>작성일</th>
+                            <th>답변상태</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="qna in qnaList">
+                            <td v-text="qna.qna_no"></td> 
+                            <td v-text="qna.prod_name"></td>
+                            <td v-text="qna.qna_title"></td>
+                            <td v-text="qna.user_id"></td>
+                            <td v-text="qna.reg_date"></td>
+                            <td v-text="qna.comment_state"></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </template>
 <script>
-import DataTableComponent from '@/components/Admin/DataTableComponent.vue'
-import axios from 'axios';
+import { DataTable } from "simple-datatables";
+import { nextTick } from 'vue';
+import axios from 'axios'
 
-export default {
-    components: {
-        DataTableComponent
+export default{
+    data() {
+        return {
+            dataTableInstance: null,
+            qnaList : [],
+        };
     },
-    data(){
-        return{
-            qnaList: [],
-            qnaColumns: ['상품명','Q&A제목','회원ID','작성일','답변상태'],
-        }
+    created(){
+        axios.get('/api/admin/qnaAllList')
+        .then(res => {
+            this.qnaList = res.data.list
+            console.log(this.qnaList);
+            this.dataTable();
+        });
     },
-    created() {},
-    methods: {},
+    methods: {
+        dataTable() {
+            nextTick(() => {
+                if (this.dataTableInstance) {
+                    this.dataTableInstance.destroy();
+                }
+                const myTable = this.$refs.dataTable;
+                if (myTable && this.qnaList.length > 0) {
+                    this.dataTableInstance = new DataTable(myTable);
+                }
+            });
+        },
+    },
+
 }
-
 </script>
