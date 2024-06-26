@@ -35,14 +35,6 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import "startbootstrap-sb-admin/dist/css/styles.css"
 import "simple-datatables/dist/style.css"
 
-// Vuetify
-import 'vuetify/styles'
-import { createVuetify } from 'vuetify'
-import * as components from 'vuetify/components'
-import * as directives from 'vuetify/directives'
-
-
-
 
 
 createApp(App)
