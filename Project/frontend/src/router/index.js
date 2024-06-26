@@ -12,6 +12,9 @@ import adminProdInfo from '../views/Admin/AdminProduct/AdminProdInfo.vue'
 import adminMember from '../views/Admin/AdminMember/AdminMember.vue'
 import adminInquiry from '../views/Admin/AdminMember/AdminInquiry.vue'
 import adminQnA from '../views/Admin/AdminMember/AdminQnA.vue'
+import adminOrderList from '../views/Admin/AdminOrder/AdminOrderList.vue'
+import adminCancelOrder from '../views/Admin/AdminOrder/AdminCancelOrder.vue'
+import adminReturnOrder from '../views/Admin/AdminOrder/AdminReturnOrder.vue'
 
 const routes = [
   {
@@ -30,6 +33,8 @@ const routes = [
     path: '/mypage',
     component: MyPageLayout,
   },
+
+  
   {
     path: '/admin',
     component: AdminLayout,
@@ -67,6 +72,18 @@ const routes = [
         path: 'inquiry',
         path: 'inquiry',
         component: adminInquiry
+      },
+      {
+        path: 'orderList',
+        component : adminOrderList
+      },
+      {
+        path: 'cancelList',
+        component : adminCancelOrder
+      },
+      {
+        path: 'returnList',
+        component : adminReturnOrder
       },
       
     ]
