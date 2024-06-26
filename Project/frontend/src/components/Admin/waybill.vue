@@ -31,8 +31,6 @@ export default {
        this.$emit('close');
    },
    createWayBill(){
-        const max = 1000000000000
-        const min = 999999999999
        this.wayBill = Math.random().toString().substr(2, 13);
    },
    addWayBill(){
