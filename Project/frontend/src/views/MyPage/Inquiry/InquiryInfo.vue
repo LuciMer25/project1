@@ -18,14 +18,14 @@
         </thead>
         <tbody>
           <tr>
-            <td colspan="6" class="text-left" valign="top" height="200">
+            <td colspan="6" class="text-left" valign="top" height="600">
               <pre
                 style="
                   white-space: pre-wrap;
                   border: none;
                   background-color: white;
                 "
-                ><textarea v-model = "InquiryInfo.inquiry_content" :disabled="!isdisabled"></textarea> </pre>
+                ><textarea v-model = "InquiryInfo.inquiry_content" :disabled="!isdisabled" cols="170" rows="25"></textarea> </pre>
             </td>
           </tr>
           <tr>

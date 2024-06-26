@@ -4,6 +4,8 @@ import MainLayout from '../layout/MainLayout.vue'
 import MyPageLayout from '../layout/MyPageLayout.vue'
 import AdminLayout from '../layout/AdminLayout.vue'
 import OrderView from '../views/Main/Order/OrderView.vue'
+// 마이페이지 메인
+import MyPageMain from '../views/MyPage/MyPageMain.vue'
 // 문의페이지
 import InquiryList from '../views/MyPage/Inquiry/InquiryList.vue'
 import InquiryInfo from '../views/MyPage/Inquiry/InquiryInfo.vue'
@@ -107,6 +109,11 @@ const routes = [
     path: '/',
     component: MainLayout,
     children: [
+      // 마이페이지 메인
+      {
+        path: '/mypagemain',
+        component: MyPageMain,
+      },
       // 문의페이지
       {
         path: '/inquiryList',

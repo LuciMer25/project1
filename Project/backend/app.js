@@ -13,6 +13,7 @@ const AccountRouter = require('./routes/account.js');
 // 마이페이지(맹선우)
 var inquiryRouter = require('./routes/mypage/inquiry');
 var qnaRouter = require('./routes/mypage/qna');
+const mypageorderRouter = require('./routes/mypage/mypageorder');
 
 var app = express();
 
@@ -49,6 +50,7 @@ app.use('/api/account',AccountRouter);
 // 마이페이지(맹선우)
 app.use('/api/inquiry', inquiryRouter)
 app.use('/api/qna', qnaRouter)
+app.use('/api/mypageorder', mypageorderRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
