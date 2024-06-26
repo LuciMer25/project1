@@ -3,7 +3,7 @@ import HomeView from '../views/Main/HomeView.vue'
 import MainLayout from '../layout/AdminLayout.vue'
 import MyPageLayout from '../layout/MyPageLayout.vue'
 import AdminLayout from '../layout/AdminLayout.vue'
-
+import OrderView from '../views/Main/Order/OrderView.vue'
 //관리자
 import adminMain from '../views/Admin/AdimMain.vue'
 import adminProdList from '../views/Admin/AdminProduct/AdminProdList.vue'
@@ -25,8 +25,12 @@ const routes = [
         path: '',
         name: 'home',
         component: HomeView
+      },
+      {
+        path: 'order',
+        name: 'order',
+        component: OrderView
       }
-
     ]
   },
   {
