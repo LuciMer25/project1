@@ -89,6 +89,8 @@ export default {
             modalCheck : false,
             wayBill : '',
         };
+
+        
     },
     created() {
         axios.get('/api/adminOrder/orderList')
