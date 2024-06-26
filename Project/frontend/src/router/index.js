@@ -25,6 +25,8 @@ import adminQnA from '../views/Admin/AdminMember/AdminQnA.vue'
 import adminOrderList from '../views/Admin/AdminOrder/AdminOrderList.vue'
 import adminCancelOrder from '../views/Admin/AdminOrder/AdminCancelOrder.vue'
 import adminReturnOrder from '../views/Admin/AdminOrder/AdminReturnOrder.vue'
+// 상품
+import NewProductlist from '../views/Main/NewProductListView.vue'
 
 const routes = [
   {
@@ -40,6 +42,11 @@ const routes = [
         path: 'order',
         name: 'order',
         component: OrderView
+      },
+      {
+        path: 'newproductlist',
+        name: 'NewProductlist',
+        component : NewProductlist
       }
     ]
   },
