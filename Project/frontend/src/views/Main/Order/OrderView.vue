@@ -26,7 +26,7 @@
     
     <v-row align="center" justify="center">
       <v-col cols="auto">
-        <v-btn @click="proceed" color="#D3233A" size="large"class="flex-grow-1" variant="flat">{{ totalprice }}원 주문하기</v-btn>
+        <v-btn @click="proceed(itemList.length)" color="#D3233A" size="large"class="flex-grow-1" variant="flat">{{ totalprice }}원 주문하기</v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -53,54 +53,65 @@ export default {
   },
   computed: {
         totalprice() {
-          console.log(this.$store.getters.getItemList)
-          return this.$store.getters.getItemList.price;
+          this.itemList = this.$store.getters.getItemList;
+          let total = 0;
+          for(let item of this.itemList){
+            total += item.price;
+          }
+          this.totalprice = total;
+
+          return total;
         },
    },
   methods:{
     setpaycode(pay){
       this.payment = pay;
     },
-    proceed(){
+    proceed(itemCount){
+      let proceedInfo={user:{},itemInfo:''};
+      if(itemCount>1){proceedInfo.itemInfo = `${this.itemList[0].prod_name+' 외 '+itemCount-1+'건'}`}
+      else{proceedInfo.itemInfo = this.itemList[0].prod_name}
+      proceedInfo.user = this.$store.getters.getUserInfo;
       if(this.payment == 'kakao'){
-        this.kakaoPay();
+        this.kakaoPay(proceedInfo);
       }
       else if(this.payment == 'toss'){
-        this.tossPay();
+        this.tossPay(proceedInfo);
       }
     },
-     kakaoPay(){
+     kakaoPay(proceed){
           PortOne.requestPayment({
                                     // Store ID 설정
                                     storeId: "store-48e0d738-fd6d-4a46-bfb7-aedffef0b647",
                                     // 채널 키 설정
                                     channelKey: "channel-key-ee0cacc5-2d48-4eaa-9dd9-8b4dfecfc881",
                                     paymentId: `payment-${crypto.randomUUID()}`,
-                                    orderName: "나이키 와플 트레이너 2 SD",
-                                    totalAmount: 1000,
+                                    orderName: proceed.itemInfo,
+                                    totalAmount: this.totalprice,
                                     currency: "CURRENCY_KRW",
                                     payMethod: "EASY_PAY",
                                 }).then(res=>res)
                                   .catch(err=>console.log(err));
           
     },
-     tossPay() {
+     tossPay(proceed) {
+      console.log(proceed);
           PortOne.requestPayment({
                             storeId: "store-48e0d738-fd6d-4a46-bfb7-aedffef0b647",
                             paymentId: `payment-${crypto.randomUUID()}`,
-                            orderName: "나이키",
-                            totalAmount: 10000,
+                            orderName: proceed.itemInfo,
+                            totalAmount: this.totalprice,
                             currency: "KRW",
                             channelKey: "channel-key-af2f729c-7952-408c-8290-6a30c10c5785",
                             payMethod: "EASY_PAY",
                             easyPay: {},
                             customer: {
-                              customerId: "zbvmf530",
-                              fullName: "정수범",
-                              phoneNumber: "010-9440-0336",
-                              email: "zbvmf530@gmail.com",
+                              customerId: proceed.user.user_id,
+                              fullName: proceed.user.name,
+                              phoneNumber: proceed.user.phone,
+                              email: proceed.user.email,
                             },
-                          }).then(res=>res)
+                          }).then(res=>console.log(res))
                             .catch(err=>console.log(err));
           
     }
