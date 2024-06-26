@@ -10,6 +10,10 @@ const adminOrderRouter = require('./routes/admin/adminOrder.js')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const AccountRouter = require('./routes/account.js');
+// 마이페이지(맹선우)
+var inquiryRouter = require('./routes/mypage/inquiry');
+var qnaRouter = require('./routes/mypage/qna');
+
 var app = express();
 
 // view engine setup
@@ -42,6 +46,9 @@ app.use('/api/admin', adminOrderRouter);
 
 
 app.use('/api/account',AccountRouter);
+// 마이페이지(맹선우)
+app.use('/api/inquiry', inquiryRouter)
+app.use('/api/qna', qnaRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

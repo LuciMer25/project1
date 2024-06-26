@@ -4,6 +4,16 @@ import MainLayout from '../layout/MainLayout.vue'
 import MyPageLayout from '../layout/MyPageLayout.vue'
 import AdminLayout from '../layout/AdminLayout.vue'
 import OrderView from '../views/Main/Order/OrderView.vue'
+// 문의페이지
+import InquiryList from '../views/MyPage/Inquiry/InquiryList.vue'
+import InquiryInfo from '../views/MyPage/Inquiry/InquiryInfo.vue'
+import InquiryForm from '../views/MyPage/Inquiry/InquiryForm.vue'
+import InquiryUpdate from '../views/MyPage/Inquiry/InquiryUpdate.vue'
+// QnA페이지
+import QnAList from '../views/MyPage/QnA/QnAList.vue'
+import QnAInfo from '../views/MyPage/QnA/QnAInfo.vue'
+import QnAForm from '../views/MyPage/QnA/QnAForm.vue'
+import QnAUpdate from '../views/MyPage/QnA/QnAUpdate.vue'
 //관리자
 import adminMain from '../views/Admin/AdimMain.vue'
 import adminProdList from '../views/Admin/AdminProduct/AdminProdList.vue'
@@ -90,6 +100,47 @@ const routes = [
         component : adminReturnOrder
       },
       
+    ]
+  },
+  // 마이페이지
+  {
+    path: '/',
+    component: MainLayout,
+    children: [
+      // 문의페이지
+      {
+        path: '/inquiryList',
+        component: InquiryList,
+      },
+      {
+        path: '/inquiryInfo',
+        component: InquiryInfo,
+      },
+      {
+        path: '/inquiryForm',
+        component: InquiryForm,
+      },
+      {
+        path: '/inquiryUpdate',
+        component: InquiryUpdate,
+      },
+      // QnA
+      {
+        path: '/QnAList',
+        component: QnAList,
+      },
+      {
+        path: '/QnAInfo',
+        component: QnAInfo,
+      },
+      {
+        path: '/QnAForm',
+        component: QnAForm,
+      },
+      {
+        path: '/QnAUpdate',
+        component: QnAUpdate,
+      },
     ]
   },
   
