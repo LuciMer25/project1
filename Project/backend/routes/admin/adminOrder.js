@@ -65,6 +65,13 @@ const query = require('../../mysql/index.js');
     res.send(result);
   })
 
+  router.put('/updateReturnState/:no' , async(req, res) => {
+    const no = req.params.no;
+    let result = await query("updateReturnState", [no]);
+    res.send(result);
+
+  })
+
 
 
 

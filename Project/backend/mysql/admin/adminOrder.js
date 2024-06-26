@@ -8,7 +8,8 @@ module.exports = {
                                     join order_state ods 
                                     on o.order_no = ods.order_no 
                                     where o.order_state = "상품준비중" or o.order_state = "배송중" 
-                      group by o.order_no, o.order_state, ods.order_date`,
+                      group by o.order_no, o.order_state, ods.order_date
+                      order by o.order_state desc`,
 
     cancelOrderList : `select o.order_no, o.order_state, ods.cancel_req_date, o.waybill_no, o.user_id, o.addr, o.detail_addr, 
                               min(od.prod_img) as first_prod_img, 
@@ -19,7 +20,8 @@ module.exports = {
                                      join order_state ods 
                                      on o.order_no = ods.order_no 
                        where o.order_state = "취소요청" 
-                       group by o.order_no, o.order_state, ods.cancel_req_date`,
+                       group by o.order_no, o.order_state, ods.cancel_req_date
+                       order by o.order_state desc`,
     
     returnOrderList : `select o.order_no, o.order_state, ods.return_req_date, o.waybill_no, o.user_id, o.addr, o.detail_addr, 
                               min(od.prod_img) as first_prod_img, 
@@ -30,7 +32,8 @@ module.exports = {
                                      join order_state ods 
                                      on o.order_no = ods.order_no 
                        where o.order_state = "반품요청" or o.order_state = "반품완료" 
-                       group by o.order_no, o.order_state, ods.return_req_date`,
+                       group by o.order_no, o.order_state, ods.return_req_date
+                       order by o.order_state desc`,
 
     orderAllList : `select o.order_no, o.order_state, ods.order_date, o.waybill_no, o.user_id, o.addr, o.detail_addr, 
                            min(od.prod_img) as first_prod_img, 
@@ -41,7 +44,8 @@ module.exports = {
                                   join order_state ods 
                                   on o.order_no = ods.order_no 
                     where o.order_state = "상품준비중" or o.order_state = "배송중" or o.order_state = "배송완료" 
-                    group by o.order_no, o.order_state, ods.order_date`,
+                    group by o.order_no, o.order_state, ods.order_date
+                    order by o.order_state desc`,
 
     updateWayBill : `UPDATE orders 
                       SET waybill_no = ? , order_state ='배송중' 
@@ -64,7 +68,8 @@ module.exports = {
                                    join order_state ods on o.order_no = ods.order_no
                      where o.order_state = '취소요청' or o.order_state = '취소완료'
                      group by
-                     o.order_no, o.order_state, ods.cancel_req_date;`,
+                     o.order_no, o.order_state, ods.cancel_req_date
+                     order by o.order_state desc`,
 
     updateCancelState : `UPDATE orders
                          SET order_state = "취소완료"
@@ -74,6 +79,10 @@ module.exports = {
                             SET cancel_complete_date = CURRENT_TIMESTAMP
                             WHERE order_no = ?`,
 
+    updateReturnState : `UPDATE orders
+                        SET order_state = "반품완료" 
+                        WHERE order_no = ?`,
 
+       
 
 }

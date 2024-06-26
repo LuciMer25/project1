@@ -25,7 +25,11 @@
                     <tbody>
                         <tr v-for="order in orderAllList">
                             <td v-text="order.order_no"></td> 
-                            <td >{{order.first_prod_name}} (외{{order.prod_cnt}}건)</td>
+                            <td >
+                                <button class="detailBtn" :data-order-no="order.order_no">
+                                    {{order.first_prod_name}} (외{{order.prod_cnt}}건)
+                                </button>
+                            </td>
                             <td v-text="order.waybill_no"></td>
                             <td v-text="order.user_id"></td>
                             <td v-text="order.addr"></td>
@@ -93,6 +97,9 @@ export default{
                 } else if(target.classList.contains('stateBtn')) {
                     const orderNo = target.dataset.orderNo;
                     this.orderStateChange(orderNo);
+                } else if (target.classList.contains('detailBtn')) {
+                    const orderNo = target.dataset.orderNo;
+                    this.goDeatil(orderNo);
                 }
             });
         },
@@ -125,6 +132,11 @@ export default{
                 .catch(() => {
                  alert("업데이트실패");
             });
+        },
+        goDeatil(order_no){
+            this.orderNo = order_no;
+            this.$router.push(`orderDetail/${this.orderNo}`)
+
         }
 
     },

@@ -28,6 +28,7 @@ import adminOrderList from '../views/Admin/AdminOrder/AdminOrderList.vue'
 import adminCancelOrder from '../views/Admin/AdminOrder/AdminCancelOrder.vue'
 import adminReturnOrder from '../views/Admin/AdminOrder/AdminReturnOrder.vue'
 import adminProdUpdate from '../views/Admin/AdminProduct/AdminProdUpdate.vue'
+import adminOrderDetail from '../views/Admin/AdminOrder/AdminOrderDetail.vue'
 
 // 상품
 import NewProductlist from '../views/Main/NewProductListView.vue'
@@ -147,12 +148,15 @@ const routes = [
         path: 'returnList',
         component : adminReturnOrder
       },
-  
-
       {
         path: 'prodUpdate',
         component : adminProdUpdate
-      }
+      },
+      {
+        path: 'orderDetail/:no',
+        component : adminOrderDetail
+      },
+
     ]
   },
   // 마이페이지
