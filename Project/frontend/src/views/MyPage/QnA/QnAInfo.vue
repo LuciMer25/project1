@@ -12,7 +12,7 @@
               </td>
               
                 <th scope="col" class="text-center table-primary">제목</th>
-                <td scope="col" class="text-center"><input v-model = "QnAInfo.qna_title" :disabled="!isdisabled"> </td>
+                <td scope="col" class="text-center"><input v-model = "QnAInfo.qna_title" :disabled="!isdisabled" cols="170" rows="25"> </td>
               
             </tr>
           </thead>

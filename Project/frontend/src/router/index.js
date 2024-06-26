@@ -4,6 +4,8 @@ import MainLayout from '../layout/MainLayout.vue'
 import MyPageLayout from '../layout/MyPageLayout.vue'
 import AdminLayout from '../layout/AdminLayout.vue'
 import OrderView from '../views/Main/Order/OrderView.vue'
+// 마이페이지 메인
+import MyPageMain from '../views/MyPage/MyPageMain.vue'
 // 문의페이지
 import InquiryList from '../views/MyPage/Inquiry/InquiryList.vue'
 import InquiryInfo from '../views/MyPage/Inquiry/InquiryInfo.vue'
@@ -25,8 +27,22 @@ import adminQnA from '../views/Admin/AdminMember/AdminQnA.vue'
 import adminOrderList from '../views/Admin/AdminOrder/AdminOrderList.vue'
 import adminCancelOrder from '../views/Admin/AdminOrder/AdminCancelOrder.vue'
 import adminReturnOrder from '../views/Admin/AdminOrder/AdminReturnOrder.vue'
+import adminProdUpdate from '../views/Admin/AdminProduct/AdminProdUpdate.vue'
+
 // 상품
 import NewProductlist from '../views/Main/NewProductListView.vue'
+
+//로그인
+import login from '../views/Main/login/login.vue'
+import signtUp1 from '../views/Main/login/signup/signtUp1.vue'
+import singUpList from '../views/Main/login/signup/singUpList.vue'
+//회원정보수정
+import MemCheck from '../views/MyPage/EditMember/MemCheck.vue'
+import EditMembers from '../views/MyPage/EditMember/EditMembers.vue'
+
+
+//
+import CategoryView from '../views/CategoryView.vue'
 
 const routes = [
   {
@@ -39,20 +55,45 @@ const routes = [
         component: HomeView
       },
       {
-        path: 'order',
+        path: '/order',
         name: 'order',
         component: OrderView
+      },
+      // 카테고리 이름 임시 출력단
+      {
+        path: '/category',
+        name: 'category',
+        component: CategoryView
       },
       {
         path: 'newproductlist',
         name: 'NewProductlist',
         component : NewProductlist
-      }
+      },
+      //로그인
+      {
+        path: 'login',
+        name: 'login',
+        component : login
+      },
+      {
+        path: 'signtUp1',
+        name: 'signtUp1',
+        component : signtUp1
+      },
+      {
+        path: 'singUpList',
+        name: 'singUpList',
+        component : singUpList
+      },
+    
+
     ]
   },
   {
     path: '/mypage',
     component: MyPageLayout,
+    
   },
 
   
@@ -106,7 +147,12 @@ const routes = [
         path: 'returnList',
         component : adminReturnOrder
       },
-      
+  
+
+      {
+        path: 'prodUpdate',
+        component : adminProdUpdate
+      }
     ]
   },
   // 마이페이지
@@ -114,6 +160,11 @@ const routes = [
     path: '/',
     component: MainLayout,
     children: [
+      // 마이페이지 메인
+      {
+        path: '/mypagemain',
+        component: MyPageMain,
+      },
       // 문의페이지
       {
         path: '/inquiryList',
@@ -147,6 +198,15 @@ const routes = [
       {
         path: '/QnAUpdate',
         component: QnAUpdate,
+      },
+      //회원수정페이지
+      {
+        path: '/MemCheck',
+        component: MemCheck,
+      },
+      {
+        path: '/EditMembers',
+        component: EditMembers,
       },
     ]
   },

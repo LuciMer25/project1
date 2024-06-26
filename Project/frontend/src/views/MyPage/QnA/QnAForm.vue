@@ -30,7 +30,7 @@
           qna_title: '',
           qna_content: '',
           user_id: '맹',
-          post_no: '123456',
+          prod_no: '123456',
         },
       };
     },
@@ -70,6 +70,8 @@
           qna_title: this.qnaInfo.qna_title,
           qna_content: this.qnaInfo.qna_content,
           reg_date: this.qnaInfo.reg_date,
+          user_id: this.qnaInfo.user_id,
+          prod_no: this.qnaInfo.prod_no
         };
         //수정
         if (no > 0) {

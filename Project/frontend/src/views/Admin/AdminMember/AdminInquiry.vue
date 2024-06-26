@@ -46,7 +46,7 @@ export default{
         };
     },
     created(){
-        axios.get('/api/admin/inquiryAllList')
+        axios.get('/api/adminBoard/inquiryAllList')
         .then(res => {
             this.inquiryList = res.data.list
             console.log(this.inquiryList);

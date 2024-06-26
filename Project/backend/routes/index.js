@@ -7,8 +7,6 @@ const mysql = require('../mysql/index');
 //   res.render('index', { title: 'Express' });
 // });
 
-
-
 router.get("/",  async (req,res)=>{
   
   let testList = await mysql.query("testList")

@@ -7,7 +7,7 @@ module.exports = {
     qnaInsert: `INSERT INTO QnA
                 SET ?`,
     qnaUpdate: `UPDATE QnA
-                SET qna_title = ?, qna_content = ?
+                SET qna_title = ?, qna_content = ?, reg_date = CURRENT_TIMESTAMP
                 WHERE qna_no = ?`,
     qnaDelete: `DELETE
                 FROM QnA
