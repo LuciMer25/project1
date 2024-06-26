@@ -64,7 +64,7 @@ export default{
         };
     },
     created(){
-        axios.get('/api/admin/orderAllList')
+        axios.get('/api/adminOrder/orderAllList')
         .then(res => {
             this.orderAllList = res.data.list
             console.log(this.orderAllList);
@@ -83,8 +83,8 @@ export default{
                 }
             });
         },
-        openModal(orderNo) {
-            this.orderNo = orderNo;
+        openModal(order_no) {
+            this.orderNo = order_no;
             this.showModal = true;
         },
         closeModal() {

@@ -31,14 +31,14 @@
     </v-col>
   </v-row>
   <v-row v-else>
-    <v-row>
-      <v-col cols="7"><span class="text-left">보내는 분</span></v-col>
-      <v-col cols="4"><span v-text="member.name"></span></v-col>
-      <v-col cols="7"><span class="text-left">휴대전화</span></v-col>
-      <v-col cols="4"><span v-text="member.phone"></span></v-col>
+    <v-row justify="left">
+      <v-col cols="7" align="left"><span class="text-left">보내는 분</span></v-col>
+      <v-col cols="4" align="center" justify="center"><span v-text="member.name"></span></v-col>
+      <v-col cols="7" align="left"><span class="text-left">휴대전화</span></v-col>
+      <v-col cols="4" align="center" justify="center"><span v-text="member.phone"></span></v-col>
   
-      <v-col cols="7"><span class="text-left">이메일</span></v-col>
-      <v-col cols="4"><span v-text="member.email"></span></v-col>
+      <v-col cols="7" align="left"><span class="text-left">이메일</span></v-col>
+      <v-col cols="4" align="center" justify="center"><span v-text="member.email"></span></v-col>
     </v-row>
   </v-row>
     

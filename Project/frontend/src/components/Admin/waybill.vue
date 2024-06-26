@@ -1,8 +1,8 @@
 <template>
     <div class="modal-wrap" @click.self="close">
-   <div class="modal-content">
-     <h3>운송장 번호를 등록하세요</h3>
-     <input v-model="wayBill" placeholder="운송장 번호를 등록하세요" />
+      <div class="modal-content">
+      <h3>운송장 번호를 등록하세요</h3>
+      <input v-model="wayBill" placeholder="운송장 번호를 등록하세요" />
      <button @click="createWayBill">생성</button>
      <button @click="addWayBill">등록</button>
      <button @click="close">닫기</button>
@@ -10,12 +10,9 @@
  </div>
 </template>
 <script>
+import axios from "axios"
 export default {
  props: {
-   show: {
-     type: Boolean,
-     required: true
-   },
    orderNo: {
     type: Number,
     required: true
@@ -34,10 +31,19 @@ export default {
        this.wayBill = Math.random().toString().substr(2, 13);
    },
    addWayBill(){
-
-       this.$emit('close');
-   }
- }
+      console.log(this.orderNo)
+      axios.put(`/api/adminOrder/updateWayBill/${this.orderNo}`, { wayBill: this.wayBill })
+        .then(() => {
+          alert('운송장 번호가 등록되었습니다.');
+            console.log(this.orderNo, this.wayBill);
+            this.$emit('close'); 
+        })
+        .then(()=> this.$router.go(this.$router.currentRoute))
+        .catch(error => {
+            alert('운송장 번호 등록에 실패했습니다.');
+        });
+    }
+  }
 }
 </script>
 <style scoped>
