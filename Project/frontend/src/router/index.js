@@ -56,6 +56,7 @@ const routes = [
         name: 'NewProductlist',
         component : NewProductlist
       },
+      //로그인
       {
         path: 'login',
         name: 'login',

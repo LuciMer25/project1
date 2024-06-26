@@ -37,6 +37,7 @@ import "simple-datatables/dist/style.css"
 
 
 
+
 createApp(App)
 .use(router)
 .use(vuetify)
@@ -45,5 +46,6 @@ createApp(App)
 .mount('#app')
 // .use(VueSession, sessionOptions)
 
+window.Kakao.init("d4e1788ee0f9d7816eee9b5f666826e2");
 
 
