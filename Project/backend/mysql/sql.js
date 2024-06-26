@@ -8,7 +8,6 @@ const adminProduct = require('./admin/adminProduct')
 const inquirysql = require('./mypage/inquirysql')
 const qnasql = require('./mypage/qnasql');
 const mypageorder = require('./mypage/mypageorder');
-const qnasql = require('./mypage/qnasql')
 const productsql = require('./product/productSql.js')
 
 
