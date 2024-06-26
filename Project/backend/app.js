@@ -5,12 +5,25 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const session = require('express-session'); 
 const fileStore = require('session-file-store')(session);
+
+//관리자
 const adminOrderRouter = require('./routes/admin/adminOrder.js')
+const adminMemberRouter = require('./routes/admin/adminMember.js')
+const adminBoardRouter = require('./routes/admin/adminBoard.js')
+const adminProductRouter = require('./routes/admin/adminProduct.js')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const AccountRouter = require('./routes/account.js');
+// 마이페이지(맹선우)
+var inquiryRouter = require('./routes/mypage/inquiry');
+var qnaRouter = require('./routes/mypage/qna');
+
 var app = express();
+
+// 메인, 상품(김성태)
+var productRouter = require('./routes/product/product.js');
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -38,10 +51,21 @@ app.use(session({
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/api/admin', adminOrderRouter);
+//관리자
+app.use('/api/adminOrder', adminOrderRouter);
+app.use('/api/adminMember', adminMemberRouter);
+app.use('/api/adminProduct', adminProductRouter);
+app.use('/api/adminBoard', adminBoardRouter);
 
 
 app.use('/api/account',AccountRouter);
+// 마이페이지(맹선우)
+app.use('/api/inquiry', inquiryRouter)
+app.use('/api/qna', qnaRouter)
+
+// 메인, 상품(김성태)
+app.use('/api/product', productRouter)
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

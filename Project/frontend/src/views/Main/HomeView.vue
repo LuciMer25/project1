@@ -1,16 +1,21 @@
 <template>
     <div>메인시작화면</div>
   <button @click="gotoOrderPage">결제 테스트</button>
+
+
+  <div class="container">
+    <NewProductList />
+  </div>
+  
 </template>
 
 <script>
 // @ is an alias to /src
 
-
+import NewProductList from "../../components/product/NewProductList.vue";
 export default {
   name: 'HomeView',
-  components: {
-  },
+  components: {NewProductList},
   methods:{
     gotoOrderPage(){
       
