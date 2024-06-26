@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/Main/HomeView.vue'
-import MainLayout from '../layout/AdminLayout.vue'
+import MainLayout from '../layout/MainLayout.vue'
 import MyPageLayout from '../layout/MyPageLayout.vue'
 import AdminLayout from '../layout/AdminLayout.vue'
 import OrderView from '../views/Main/Order/OrderView.vue'
