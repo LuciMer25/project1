@@ -25,4 +25,6 @@ function query(alias, values) {
         } 
     }))
 }
+
 module.exports= query;
+
