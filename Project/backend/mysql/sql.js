@@ -1,4 +1,4 @@
-
+const adminOrder = require('./admin/adminOrder')
 module.exports = {
-   testList: `select * from testTable`
+    ...adminOrder
 }
