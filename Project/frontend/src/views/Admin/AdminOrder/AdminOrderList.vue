@@ -32,7 +32,10 @@
                             <td v-text="order.detail_addr"></td>
                             <td v-text="order.order_date"></td>
                             <td >
-                                <button v-if="order.order_state === '상품준비중'" @click="openModal(order.order_no)">
+                                <button v-if="order.order_state === '상품준비중'" class="modalBtn" :data-order-no="order.order_no">
+                                    {{ order.order_state }}
+                                </button>
+                                <button v-else-if="order.order_state === '배송중'" class="stateBtn" :data-order-no="order.order_no">
                                     {{ order.order_state }}
                                 </button>
                                 <span v-else>{{ order.order_state }}</span>
@@ -64,12 +67,7 @@ export default{
         };
     },
     created(){
-        axios.get('/api/adminOrder/orderAllList')
-        .then(res => {
-            this.orderAllList = res.data.list
-            console.log(this.orderAllList);
-            this.dataTable();
-        });
+        this.fetchOrderList();
     },
     methods: {
         dataTable() {
@@ -81,6 +79,21 @@ export default{
                 if (myTable && this.orderAllList.length > 0) {
                     this.dataTableInstance = new DataTable(myTable);
                 }
+            }).then(() => {
+                this.rebindEvents();
+            });
+        },
+        rebindEvents() {
+            const tableBody = this.$refs.dataTable.querySelector('tbody');
+            tableBody.addEventListener('click', (event) => {
+                const target = event.target;
+                if (target.classList.contains('modalBtn')) {
+                    const orderNo = target.dataset.orderNo;
+                    this.openModal(orderNo);
+                } else if(target.classList.contains('stateBtn')) {
+                    const orderNo = target.dataset.orderNo;
+                    this.orderStateChange(orderNo);
+                }
             });
         },
         openModal(order_no) {
@@ -90,7 +103,30 @@ export default{
         closeModal() {
             this.showModal = false;
             this.orderNo = null;
+        },
+        fetchOrderList(){
+            axios.get('/api/adminOrder/orderAllList')
+                .then(res => {
+                    this.orderAllList = res.data.list;
+                    this.dataTable();
+                })
+        },
+        refreshData(){
+            this.fetchOrderList();
+        },
+        orderStateChange(order_no){
+            this.orderNo = order_no;
+            console.log(this.orderNo)
+            axios.put(`/api/adminOrder/updateOrderState/${this.orderNo}`)
+                .then(() => {
+                    console.log("업데이트됨")
+                })
+                .then(()=> this.$router.go(this.$router.currentRoute))
+                .catch(() => {
+                 alert("업데이트실패");
+            });
         }
+
     },
 
 }
