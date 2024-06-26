@@ -1,5 +1,8 @@
-const memberSql = require('./memberSql.js');const adminOrder = require('./admin/adminOrder')
+const memberSql = require('./memberSql.js');
+const adminOrder = require('./admin/adminOrder');
+const categorySql = require('./main/categorySql.js');
 module.exports = {
-    ...adminOrder,
+   ...adminOrder,
    ...memberSql,
+   ...categorySql
 }

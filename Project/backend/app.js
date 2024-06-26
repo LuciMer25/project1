@@ -10,6 +10,7 @@ const adminOrderRouter = require('./routes/admin/adminOrder.js')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const AccountRouter = require('./routes/account.js');
+const CategoryRouter = require('./routes/main/category.js');
 var app = express();
 
 // view engine setup
@@ -42,6 +43,8 @@ app.use('/api/admin', adminOrderRouter);
 
 
 app.use('/api/account',AccountRouter);
+
+app.use('/api/category', CategoryRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

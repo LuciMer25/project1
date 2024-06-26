@@ -16,6 +16,9 @@ import adminOrderList from '../views/Admin/AdminOrder/AdminOrderList.vue'
 import adminCancelOrder from '../views/Admin/AdminOrder/AdminCancelOrder.vue'
 import adminReturnOrder from '../views/Admin/AdminOrder/AdminReturnOrder.vue'
 
+//
+import CategoryView from '../views/CategoryView.vue'
+
 const routes = [
   {
     path: '/',
@@ -27,9 +30,15 @@ const routes = [
         component: HomeView
       },
       {
-        path: 'order',
+        path: '/order',
         name: 'order',
         component: OrderView
+      },
+      // 카테고리 이름 임시 출력단
+      {
+        path: '/category',
+        name: 'category',
+        component: CategoryView
       }
     ]
   },
@@ -89,6 +98,8 @@ const routes = [
         path: 'returnList',
         component : adminReturnOrder
       },
+  
+
       
     ]
   },
