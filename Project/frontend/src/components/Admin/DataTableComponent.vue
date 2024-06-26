@@ -2,7 +2,10 @@
     <div>
         <table ref="dataTable" v-show="true">
             <thead>
-                <tr>
+                <tr v-if="data.length === 0">
+                    <th></th>
+                </tr>
+                <tr v-else>
                     <th v-for="column in columns" :key="column">{{ column }}</th>
                 </tr>
             </thead>

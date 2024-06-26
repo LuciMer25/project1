@@ -25,4 +25,4 @@ function query(alias, values) {
         } 
     }))
 }
-module.exports={query};
+module.exports= query;

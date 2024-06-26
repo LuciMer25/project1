@@ -46,7 +46,7 @@ export default{
         };
     },
     created(){
-        axios.get('/api/admin/prodList')
+        axios.get('/api/adminOrder/prodList')
         .then(res => {
             this.prodList = res.data.list
             console.log(this.prodList);

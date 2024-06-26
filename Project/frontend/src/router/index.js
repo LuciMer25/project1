@@ -15,6 +15,8 @@ import adminQnA from '../views/Admin/AdminMember/AdminQnA.vue'
 import adminOrderList from '../views/Admin/AdminOrder/AdminOrderList.vue'
 import adminCancelOrder from '../views/Admin/AdminOrder/AdminCancelOrder.vue'
 import adminReturnOrder from '../views/Admin/AdminOrder/AdminReturnOrder.vue'
+import adminProdUpdate from '../views/Admin/AdminProduct/AdminProdUpdate.vue'
+
 
 const routes = [
   {
@@ -32,6 +34,7 @@ const routes = [
   {
     path: '/mypage',
     component: MyPageLayout,
+    
   },
 
   
@@ -85,7 +88,10 @@ const routes = [
         path: 'returnList',
         component : adminReturnOrder
       },
-      
+      {
+        path: 'prodUpdate',
+        component : adminProdUpdate
+      }
     ]
   },
   
