@@ -2,7 +2,6 @@
     <div>메인시작화면</div>
   <button @click="gotoOrderPage">결제 테스트</button>
 
-
   <div class="container">
     <NewProductList />
   </div>

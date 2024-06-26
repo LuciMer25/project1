@@ -1,23 +1,21 @@
 <template>
-<hr>
-  <div>
-    <h4>신상품</h4>
+  <div class="new-product-list">
+    <h4 class="section-title">신상품</h4>
+    <div class="text-right mt-3 load-more">
+      <button class="btn btn-outline-primary" @click="loadMore">더보기</button>
+    </div>
     <div class="row">
-        <div class="text-right mt-3">
-          <button class="btn btn-outline-primary" @click="loadMore">더보기</button>
-        </div>
-        <div class="col-md-3" v-for="(product, index) in newProduct.slice(0, 4)" :key="index">
-        <div class="card">
+      <div class="col-md-3" v-for="(product, index) in newProduct.slice(0, 4)" :key="index">
+        <div class="card product-card">
           <img :src="product.prod_img" class="card-img-top" alt="Product Image">
           <div class="card-body">
             <h5 class="card-title">{{ product.prod_name }}</h5>
             <p class="card-text">{{ product.price }} 원</p>
           </div>
         </div>
+      </div>
     </div>
-    </div>
-</div>
-<hr>
+  </div>
 </template>
 
 <script>
@@ -44,29 +42,48 @@ export default {
 }
 </script>
 <style scoped>
-h4 {
+.new-product-list {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: bold;
   margin-bottom: 20px;
 }
 
-.card {
-  margin-bottom: 20px;
-  transition: transform 0.2s;
+.load-more {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
 }
 
-.card:hover {
+.product-card {
+  margin-bottom: 20px;
+  overflow: hidden;
+  border-radius: 10px;
+  transition: box-shadow 0.3s;
+}
+
+.product-card:hover .card-img-top {
   transform: scale(1.05);
 }
 
-.card img {
-  max-height: 200px;
+.card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.card-text {
+  font-size: 1rem;
+  color: #333;
+}
+
+.card-img-top {
+  transition: transform 0.3s;
+  height: 200px;
   object-fit: cover;
-}
-
-.card-body {
-  text-align: center;
-}
-
-.btn-outline-primary {
-  margin-top: 20px;
 }
 </style>

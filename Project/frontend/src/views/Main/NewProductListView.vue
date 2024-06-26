@@ -1,10 +1,15 @@
 <template>
   <div class="container">
     <h4>신상품</h4>
-    <CategoryContent :productsCount="newProduct.length" @sort="sortProducts"/>
+    <CategoryContent :productsCount="newProduct.length" :itemsPerPage="itemsPerPage" @sort="sortProducts" @update-items-per-page="updateItemsPerPage"/>
     <div class="row">
-    <ProductCard v-for="(product, index) in newProductSorted" :key="index" :product="product"/>
+    <ProductCard v-for="(product, index) in paginatedProducts" :key="index" :product="product"/>
     </div>
+    <Pagination
+      :currentPage="currentPage"
+      :totalPages="totalPages"
+      @change-page="changePage"
+    />
   </div>
 </template>
    
@@ -12,23 +17,38 @@
    import axios from 'axios';
    import CategoryContent from "../../components/product/CategoryContent.vue";
    import ProductCard from "../../components/product/ProductCard.vue";
+   import Pagination from "../../components/Pagination.vue";
 
    export default {
      components:{
        CategoryContent,
-       ProductCard
+       ProductCard,
+       Pagination
      },
      data(){
        return{
            newProduct : [],
-           newProductSorted : []
+           newProductSorted : [],
+           itemsPerPage: 8,
+           currentPage: 1
        }
      },
      created() {
        this.getNewProduct();
      },
+     computed : {
+          totalPages() {
+          return Math.ceil(this.newProductSorted.length / this.itemsPerPage);
+          },
+          paginatedProducts() {
+            const start = (this.currentPage - 1) * this.itemsPerPage;
+            const end = start + this.itemsPerPage;
+            return this.newProductSorted.slice(start, end);
+          }
+     },
      methods: {
-       async getNewProduct()   {
+        
+         async getNewProduct()   {
          try {
            let result = await axios.get(`/api/product`);
            this.newProduct = result.data;
@@ -71,7 +91,39 @@
            default:
              break;
          }
-       }
+         this.currentPage = 1;
+        },
+        updateItemsPerPage(items) {
+          this.itemsPerPage = items;
+          this.currentPage = 1; // Reset to the first page whenever items per page changes
+        },
+        changePage(page) {
+          if (page >= 1 && page <= this.totalPages) {
+            this.currentPage = page;
+          }
+        }
    }
    }
    </script>
+
+<style scoped>
+.container {
+  margin-top: 20px;
+}
+
+h4 {
+  margin-bottom: 20px;
+}
+
+.row {
+  margin-bottom: 20px;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.btn-outline-primary {
+  margin-top: 20px;
+}
+</style>
