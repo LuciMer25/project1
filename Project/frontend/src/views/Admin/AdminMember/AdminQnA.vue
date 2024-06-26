@@ -48,7 +48,7 @@ export default{
         };
     },
     created(){
-        axios.get('/api/admin/qnaAllList')
+        axios.get('/api/adminBoard/qnaAllList')
         .then(res => {
             this.qnaList = res.data.list
             console.log(this.qnaList);

@@ -25,8 +25,11 @@ import adminQnA from '../views/Admin/AdminMember/AdminQnA.vue'
 import adminOrderList from '../views/Admin/AdminOrder/AdminOrderList.vue'
 import adminCancelOrder from '../views/Admin/AdminOrder/AdminCancelOrder.vue'
 import adminReturnOrder from '../views/Admin/AdminOrder/AdminReturnOrder.vue'
+import adminProdUpdate from '../views/Admin/AdminProduct/AdminProdUpdate.vue'
+
 // 상품
 import NewProductlist from '../views/Main/NewProductListView.vue'
+
 //로그인
 import login from '../views/Main/login/login.vue'
 import signtUp1 from '../views/Main/login/signup/signtUp1.vue'
@@ -79,6 +82,7 @@ const routes = [
   {
     path: '/mypage',
     component: MyPageLayout,
+    
   },
 
   
@@ -132,7 +136,10 @@ const routes = [
         path: 'returnList',
         component : adminReturnOrder
       },
-      
+      {
+        path: 'prodUpdate',
+        component : adminProdUpdate
+      }
     ]
   },
   // 마이페이지

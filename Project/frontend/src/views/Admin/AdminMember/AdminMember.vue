@@ -57,7 +57,7 @@ export default{
     methods: {
         async fetchMemberList() {
             try {
-                const response = await axios.get('/api/admin/memberList');
+                const response = await axios.get('/api/adminMember/memberList');
                 this.member = response.data.list;
                 console.log(this.member);
                 this.dataTable();
@@ -67,7 +67,7 @@ export default{
         },
         async fetchMemberCount() {
             try {
-                const response = await axios.get('/api/admin/memberCount');
+                const response = await axios.get('/api/adminMember/memberCount');
                 this.memberCount = response.data.count;
                 console.log(this.memberCount);
             } catch (error) {
