@@ -32,13 +32,13 @@
       </v-col>
     </v-row>
     <v-row v-else>
-      <v-col cols="7"><span class="text-left">받는 분</span></v-col>
-      <v-col cols="4"><span v-text="member.name"></span></v-col>
-      <v-col cols="7"><span class="text-left">배송지</span></v-col>
-      <v-col cols="4"><span v-text="address"></span></v-col>
+      <v-col cols="7" align="left"><span class="text-left">받는 분</span></v-col>
+      <v-col cols="4" align="center"><span v-text="member.name"></span></v-col>
+      <v-col cols="7" align="left"><span class="text-left">배송지</span></v-col>
+      <v-col cols="4" align="center"><span v-text="address"></span></v-col>
   
-      <v-col cols="7"><span class="text-left">연락처</span></v-col>
-      <v-col cols="4"><span v-text="member.phone"></span></v-col>
+      <v-col cols="7" align="left"><span class="text-left">연락처</span></v-col>
+      <v-col cols="4" align="center"><span v-text="member.phone"></span></v-col>
     </v-row>
     <!-- <v-row v-else>
       <v-row>

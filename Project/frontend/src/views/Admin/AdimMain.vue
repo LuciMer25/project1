@@ -56,35 +56,20 @@
                 </div>
             </div>
         </div>
-        <div>
-            <button @click="modalOpen">모달창</button>
-        </div>
-        <div>
-            <div class="modal-wrap" v-show="modalCheck">
-                <div class="modal-content">
-                    <h3>운송장 번호를 등록하세요</h3>
-                    <input v-model="wayBill" placeholder="운송장 번호를 등록하세요" />
-                    <button @click="createWayBill">생성</button>
-                    <button @click="addWayBill">등록</button>
-                    <button @click="modalOpen">닫기</button>
-                </div>
-            </div>
-        </div>
       </main>
     </template>
+<script>
+import CardComponent from "@/components/Admin/CardComponent.vue"
+import DataTableComponent from '@/components/Admin/DataTableComponent.vue'
+import Modal from '@/components/Admin/waybill.vue'
+import axios from 'axios';
     
-    <script>
-    import CardComponent from "@/components/Admin/CardComponent.vue"
-    import DataTableComponent from '@/components/Admin/DataTableComponent.vue'
-    import Modal from '@/components/Admin/waybill.vue'
-    import axios from 'axios';
     
-    
-    export default {
-      components: {
+export default {
+    components: {
         CardComponent, DataTableComponent, Modal
-      },
-      data() {
+    },
+    data() {
         return {
             order: [],
             orderColumns :['주문번호','상품명','운송장번호','주문자ID','주소','상세주소','주문일자','주문상태'],
@@ -104,15 +89,17 @@
             modalCheck : false,
             wayBill : '',
         };
-      },
-      created() {
-        axios.get('/api/admin/orderList')
+
+        
+    },
+    created() {
+        axios.get('/api/adminOrder/orderList')
             .then(res => {
                 console.log(res.data);
                 this.order = res.data.list.map(item => ({
                     '주문번호': item.order_no,
                     '상품명': `${item.first_prod_name}(외 ${item.prod_cnt}건)`,
-                    '운송장번호': item.wayBill_no,
+                    '운송장번호': item.waybill_no,
                     '주문자ID': item.user_id,
                     '주소' : item.addr,
                     '상세주소' : item.detail_addr,
@@ -121,7 +108,7 @@
                 }));
             })
             .catch(err => console.log(err));
-        axios.get('/api/admin/cancelList')
+        axios.get('/api/adminOrder/cancelList')
             .then(res => {
                 console.log(res.data);
                 this.cancelOrder = res.data.list.map(item => ({
@@ -135,7 +122,7 @@
                 }));
             })
             .catch(err => console.log(err));
-        axios.get('/api/admin/returnList')
+        axios.get('/api/adminOrder/returnList')
             .then(res => {
                 console.log(res.data);
                 this.returnOrder = res.data.list.map(item => ({
@@ -149,7 +136,7 @@
                 }));
             })
             .catch(err => console.log(err));
-        axios.get('/api/admin/qnaList')
+        axios.get('/api/adminBoard/qnaList')
             .then(res => {
                 console.log(res.data);
                 this.qnaList = res.data.list.map(item => ({
@@ -163,7 +150,7 @@
             })
             .catch(err => console.log(err));
     
-        axios.get('/api/admin/inquiryList')
+        axios.get('/api/adminBoard/inquiryList')
             .then(res => {
                 console.log(res.data);
                 this.inquiryList = res.data.list.map(item => ({
@@ -177,40 +164,34 @@
             .catch(err => console.log(err));
     
     
-      },
-      methods: {
-        modalOpen(){
-            this.modalCheck = !this.modalCheck
-            this.wayBill = ''
-        },
-        createWayBill(){
-           this.wayBill = Math.random().toString().substr(2, 13);
-        },
-      },
-      mounted() {
-      },
-    };
-    </script>
-    <style scoped>
-    .modal-wrap {
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.4);
-    }
+    },
+    methods: {
+      
+    },
+    mounted() {
+    },
+};
+</script>
+<style scoped>
+.modal-wrap {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+}
     
-    .modal-content {
-      position: relative;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 550px;
-      background: #fff;
-      border-radius: 10px;
-      padding: 20px;
-      box-sizing: border-box;
-    }
+.modal-content {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 550px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-sizing: border-box;
+}
     
-    </style>
+</style>

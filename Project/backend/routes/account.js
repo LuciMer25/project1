@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const mysql = require('../mysql/index');
+const query = require('../mysql/index');
 router.get("/", async (req,res)=>{
   
     //if(req.cookies && req.cookies.account){
@@ -11,7 +11,7 @@ router.get("/", async (req,res)=>{
     // }
     // //}
     // else{res.send(401);}
-    let member = await mysql.query('getLoginMemberInfo','test');
+    let member = await query('getLoginMemberInfo','test');
     res.send(member);
     
   });
