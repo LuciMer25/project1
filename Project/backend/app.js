@@ -69,7 +69,7 @@ app.use('/api/mypageorder', mypageorderRouter);
 // 메인, 상품(김성태)
 app.use('/api/product', productRouter)
 
-
+// 메인, 카테고리(최석원)
 app.use('/api/category', CategoryRouter);
 
 // catch 404 and forward to error handler
