@@ -13,8 +13,12 @@
               
                 <th scope="col" class="text-center table-primary">제목</th>
                 <td scope="col" class="text-center"><input v-model = "QnAInfo.qna_title" :disabled="!isdisabled" cols="170" rows="25"> </td>
-              
+
             </tr>
+            <tr>
+            <th>첨부파일</th>
+            <td colspan="4"><img :src="`/api/upload/${QnAInfo.qna_img}`" alt="첨부파일"></td>
+          </tr>
           </thead>
           <tbody>
             <tr>
@@ -57,6 +61,7 @@
             qna_title: '',
             qna_content: '',
             reg_date: '',
+            qna_img: '',
       },
       isdisabled: false
         };
