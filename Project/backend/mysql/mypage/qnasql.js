@@ -1,7 +1,7 @@
 module.exports = {
     qnaList: `SELECT qna_no, user_id, qna_title, reg_date, qna_content, comment_state, prod_no 
               FROM QnA`,
-    qnaInfo: `SELECT qna_no, user_id, qna_title, reg_date, qna_content, comment_state, prod_no 
+    qnaInfo: `SELECT qna_no, user_id, qna_title, reg_date, qna_content, comment_state, prod_no, qna_img 
               FROM QnA
               WHERE qna_no = ? `,
     qnaInsert: `INSERT INTO QnA

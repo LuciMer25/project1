@@ -1,4 +1,4 @@
-const memberSql = require('./memberSql.js');
+const memberSql = require("./memberSql.js");
 
 const adminOrder = require('./admin/adminOrder');
 const categorySql = require('./main/categorySql.js');
@@ -13,19 +13,15 @@ const signUp =require('./main/signUp.js')
 
 
 module.exports = {
-   ...adminOrder,
-    ...adminBoard,
-    ...adminOrder,
-    ...adminMember,
-    ...adminProduct,
-    
-
-
-   ...memberSql,
-   ...inquirysql,
-   ...qnasql,
-   ...mypageorder,
-   ...productsql,
-   ...categorySql,
-   ...signUp,
-}
+  ...adminOrder,
+  ...adminBoard,
+  ...adminOrder,
+  ...adminMember,
+  ...adminProduct,
+  ...memberSql,
+  ...inquirysql,
+  ...qnasql,
+  ...mypageorder,
+  ...productsql,
+  ...categorySql,
+};
