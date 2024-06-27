@@ -38,6 +38,7 @@ import adminProdUpdate from '../views/Admin/AdminProduct/AdminProdUpdate.vue'
 import adminOrderDetail from '../views/Admin/AdminOrder/AdminOrderDetail.vue'
 import adminCancelDetail from '../views/Admin/AdminOrder/AdminCancelDetail.vue'
 import adminReturnDetail from '../views/Admin/AdminOrder/AdminReturnDetail.vue'
+import adminQnaInfo from '../views/Admin/AdminMember/AdminQnaInfo.vue'
 
 // 상품
 import NewProductlist from '../views/Main/NewProductListView.vue'
@@ -197,6 +198,10 @@ const routes = [
       {
         path: 'returnDetail/:no',
         component : adminReturnDetail
+      },
+      {
+        path: 'qnaInfo/:no',
+        component : adminQnaInfo
       },
 
     ]

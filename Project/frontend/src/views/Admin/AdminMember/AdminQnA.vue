@@ -1,9 +1,9 @@
 <template>
     <div class="container-fluid px-4">
-      <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item active"> </li>
-      </ol>
-      <div class="card mb-4">
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active"> </li>
+        </ol>
+        <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>
                 상품 Q&A 리스트
@@ -21,10 +21,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="qna in qnaList">
+                        <tr v-for="qna in qnaList" :key="qna.qna_no">
                             <td v-text="qna.qna_no"></td> 
                             <td v-text="qna.prod_name"></td>
-                            <td v-text="qna.qna_title"></td>
+                            <td >
+                                <button class="detailBtn" :data-qna-no="qna.qna_no">
+                                    {{ qna.qna_title }}
+                                </button>
+                            </td>
                             <td v-text="qna.user_id"></td>
                             <td v-text="qna.reg_date"></td>
                             <td v-text="qna.comment_state"></td>
@@ -45,6 +49,7 @@ export default{
         return {
             dataTableInstance: null,
             qnaList : [],
+            qnaNo : null
         };
     },
     created(){
@@ -53,6 +58,7 @@ export default{
             this.qnaList = res.data.list
             console.log(this.qnaList);
             this.dataTable();
+            this.rebindEvents();
         });
     },
     methods: {
@@ -67,6 +73,20 @@ export default{
                 }
             });
         },
+        rebindEvents() {
+            const tableBody = this.$refs.dataTable.querySelector('tbody');
+            tableBody.addEventListener('click', (event) => {
+                const target = event.target;
+                if (target.classList.contains('detailBtn')) {
+                    const qnaNo = target.dataset.qnaNo;
+                    this.goDetail(qnaNo);
+                } 
+            });
+        },
+        goDetail(qna_no){
+            this.qnaNo = qna_no;
+            this.$router.push(`qnaInfo/${this.qnaNo}`)
+        }
     },
 
 }

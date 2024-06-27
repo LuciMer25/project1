@@ -13,6 +13,6 @@ const query = require('../../mysql/index.js');
     res.send({ count });
   });
 
-
+ 
 
 module.exports = router;

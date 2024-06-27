@@ -22,6 +22,21 @@ const query = require('../../mysql/index.js');
     res.send({ list });
   });
 
+  router.get("/adminQnaInfo/:no", async (req, res) => {
+    const no = req.params.no
+    let list = await query("adminQnaInfo", [no]);
+    res.send({ list });
+  })
+
+  router.post("/qnaReplyInsert", async (req, res) => {
+    const { qnaNo, content} = req.body
+    let result = await query("qnaReplyInsert", [content, qnaNo]);
+    res.send(result);
+  })
+
+  router.put("/qnaStateUpdate", async (req, res) => {
+    
+  })
 
 
 module.exports = router;
