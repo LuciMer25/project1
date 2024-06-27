@@ -36,10 +36,10 @@ export default {
         .then(() => {
           alert('운송장 번호가 등록되었습니다.');
             console.log(this.orderNo, this.wayBill);
-            this.$emit('close'); 
+            this.$emit('close');
         })
         .then(()=> this.$router.go(this.$router.currentRoute))
-        .catch(error => {
+        .catch(() => {
             alert('운송장 번호 등록에 실패했습니다.');
         });
     }

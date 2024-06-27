@@ -8,7 +8,7 @@
           <label for="remember-check">
           </label>
   
-          <input type="submit" value="회원가입">
+          <input type="button" value="회원가입" @click="signUp">
         </form>
       </div>
       <hr>
@@ -73,6 +73,9 @@ export default {
         // Redirect to '/' after logout (adjust as needed)
         vm.$router.push('/');
       });
+    },
+    signUp() {
+      this.$router.push('/singUpList'); // Navigate to the /home route
     },
   },
 };
