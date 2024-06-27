@@ -24,7 +24,9 @@ const CategoryRouter = require('./routes/main/category.js');
 var app = express();
 
 // 메인, 상품(김성태)
-var productRouter = require('./routes/product/product.js');
+var productNewRouter = require('./routes/product/newproduct.js');
+var productBestRouter = require('./routes/product/bestproduct.js');
+var productThreeRouter = require('./routes/product/threeproduct.js');
 
 
 // view engine setup
@@ -66,8 +68,11 @@ app.use('/api/inquiry', inquiryRouter)
 app.use('/api/qna', qnaRouter)
 app.use('/api/mypageorder', mypageorderRouter);
 
+
 // 메인, 상품(김성태)
-app.use('/api/product', productRouter)
+app.use('/api/newproduct', productNewRouter)
+app.use('/api/bestproduct', productBestRouter)
+app.use('/api/threeproduct', productThreeRouter)
 
 
 app.use('/api/category', CategoryRouter);

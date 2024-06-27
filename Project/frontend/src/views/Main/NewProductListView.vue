@@ -50,7 +50,7 @@
         
          async getNewProduct()   {
          try {
-           let result = await axios.get(`/api/product`);
+           let result = await axios.get(`/api/newproduct`);
            this.newProduct = result.data;
            this.newProductSorted = [...this.newProduct]; // 정렬된 배열 초기화
          } catch (error) {

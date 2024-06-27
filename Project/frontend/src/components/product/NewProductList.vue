@@ -1,6 +1,6 @@
 <template>
   <div class="new-product-list">
-    <h4 class="section-title">신상품</h4>
+    <h4 class="section-title">새로움을 맛보세요</h4>
     <div class="text-right mt-3 load-more">
       <button class="btn btn-outline-primary" @click="loadMore">더보기</button>
     </div>
@@ -32,7 +32,7 @@ export default {
   },
   methods:{
     async getnewProduct() {
-      let result = await axios.get(`/api/product`);
+      let result = await axios.get(`/api/newproduct`);
       this.newProduct = result.data;
     },
     loadMore(){

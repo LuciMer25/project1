@@ -5,16 +5,28 @@
   <div class="container">
     <NewProductList />
   </div>
-  
+  <div class="container">
+    <BestSellList />
+  </div>
+  <div class="container">
+    <ThreeMinuteList />
+  </div>
 </template>
 
 <script>
 // @ is an alias to /src
 
 import NewProductList from "../../components/product/NewProductList.vue";
+import BestSellList from "../../components/product/BestSellList.vue";
+import ThreeMinuteList from "../../components/product/ThreeMinuteList.vue";
+
 export default {
   name: 'HomeView',
-  components: {NewProductList},
+  components: {
+    NewProductList,
+    BestSellList,
+    ThreeMinuteList
+  },
   methods:{
     gotoOrderPage(){
       

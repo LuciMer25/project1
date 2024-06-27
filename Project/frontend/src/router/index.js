@@ -32,6 +32,8 @@ import adminOrderDetail from '../views/Admin/AdminOrder/AdminOrderDetail.vue'
 
 // 상품
 import NewProductlist from '../views/Main/NewProductListView.vue'
+import BestProductlist from '../views/Main/BestProductListView.vue'
+import ThreeProductlist from '../views/Main/ThreeProductListView.vue'
 
 //로그인
 import login from '../views/Main/login/login.vue'
@@ -70,6 +72,16 @@ const routes = [
         path: 'newproductlist',
         name: 'NewProductlist',
         component : NewProductlist
+      },
+      {
+        path: 'bestproductlist',
+        name: 'BestProductlist',
+        component : BestProductlist
+      },
+      {
+        path: 'threeproductlist',
+        name: 'ThreeProductlist',
+        component : ThreeProductlist
       },
       //로그인
       {
