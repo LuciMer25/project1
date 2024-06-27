@@ -25,7 +25,11 @@
                     <tbody>
                         <tr v-for="order in returnList">
                             <td v-text="order.order_no"></td> 
-                            <td >{{order.first_prod_name}} (외{{order.prod_cnt}}건)</td>
+                            <td >
+                                <button class="detailBtn" :data-order-no="order.order_no">
+                                    {{order.first_prod_name}} (외{{order.prod_cnt}}건)
+                                </button>
+                            </td>
                             <td v-text="order.waybill_no"></td>
                             <td v-text="order.user_id"></td>
                             <td v-text="order.addr"></td>
@@ -93,6 +97,9 @@ export default{
                 } else if(target.classList.contains('returnReq')) {
                     const orderNo = target.dataset.orderNo;
                     this.orderStateChange(orderNo);
+                } else if (target.classList.contains('detailBtn')) {
+                    const orderNo = target.dataset.orderNo;
+                    this.goDeatil(orderNo);
                 }
             });
         },
@@ -119,12 +126,17 @@ export default{
             console.log(this.orderNo)
             axios.put(`/api/adminOrder/updateReturnState/${this.orderNo}`)
                 .then(() => {
+                    alert('반품완료 되었습니다.')
                     console.log("업데이트됨")
                 })
                 .then(()=> this.$router.go(this.$router.currentRoute))
                 .catch(() => {
                  alert("업데이트실패");
             });
+        },
+        goDeatil(order_no){
+            this.orderNo = order_no;
+            this.$router.push(`returnDetail/${this.orderNo}`)
         }
 
     },

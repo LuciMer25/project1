@@ -1,0 +1,48 @@
+<template>
+    <div class="col-md-3">
+      <div class="card">
+        <div class="position-relative">
+            <img :src="product.prod_img" class="card-img-top" alt="Product Image">
+            <span class="rank-badge">{{ rank + 1  }}</span> <!-- 순위 표시 -->
+          </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ product.prod_name }}</h5>
+          <p class="card-text">{{ product.price }} 원</p>
+          <p class="card-text">★{{ product.review_avg_score }} ({{ product.review_cnt }})</p>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <script>
+  export default {
+    props: {
+      product: {
+        type: Object,
+        required: true
+      },
+      rank : {
+        type: Number,
+        required: true
+      }
+    }
+  };
+  </script>
+  
+<style scoped>
+  .position-relative {
+  position: relative;
+  }
+  .rank-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 5px;
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: bold;
+  color:red;
+  text-decoration: underline;
+
+  }
+</style>

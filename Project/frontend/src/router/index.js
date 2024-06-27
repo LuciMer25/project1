@@ -3,7 +3,14 @@ import HomeView from '../views/Main/HomeView.vue'
 import MainLayout from '../layout/MainLayout.vue'
 import MyPageLayout from '../layout/MyPageLayout.vue'
 import AdminLayout from '../layout/AdminLayout.vue'
+
+// 결제관련(정수범)
 import OrderView from '../views/Main/Order/OrderView.vue'
+import OrderCompleteView from '../views/Main/Order/OrderComplete.vue'
+import ProductDetailView from '../views/Main/Order/ProductDetail.vue'
+
+
+
 // 마이페이지 메인
 import MyPageMain from '../views/MyPage/MyPageMain.vue'
 // 문의페이지
@@ -29,9 +36,13 @@ import adminCancelOrder from '../views/Admin/AdminOrder/AdminCancelOrder.vue'
 import adminReturnOrder from '../views/Admin/AdminOrder/AdminReturnOrder.vue'
 import adminProdUpdate from '../views/Admin/AdminProduct/AdminProdUpdate.vue'
 import adminOrderDetail from '../views/Admin/AdminOrder/AdminOrderDetail.vue'
+import adminCancelDetail from '../views/Admin/AdminOrder/AdminCancelDetail.vue'
+import adminReturnDetail from '../views/Admin/AdminOrder/AdminReturnDetail.vue'
 
 // 상품
 import NewProductlist from '../views/Main/NewProductListView.vue'
+import BestProductlist from '../views/Main/BestProductListView.vue'
+import ThreeProductlist from '../views/Main/ThreeProductListView.vue'
 
 //로그인
 import login from '../views/Main/login/login.vue'
@@ -55,10 +66,23 @@ const routes = [
         name: 'home',
         component: HomeView
       },
+      // 결제
       {
-        path: '/order',
+        path: 'order',
         name: 'order',
         component: OrderView
+      },
+      // 결제완료
+      {
+        path: 'ordercomplete/:orderNo',
+        name: 'ordercomplete',
+        component: OrderCompleteView
+      },
+      // 상품상세
+      {
+        path: 'product/:prodNo',
+        name: 'productInfo',
+        component: ProductDetailView
       },
       // 카테고리 이름 임시 출력단
       {
@@ -70,6 +94,16 @@ const routes = [
         path: 'newproductlist',
         name: 'NewProductlist',
         component : NewProductlist
+      },
+      {
+        path: 'bestproductlist',
+        name: 'BestProductlist',
+        component : BestProductlist
+      },
+      {
+        path: 'threeproductlist',
+        name: 'ThreeProductlist',
+        component : ThreeProductlist
       },
       //로그인
       {
@@ -153,8 +187,16 @@ const routes = [
         component : adminProdUpdate
       },
       {
+        path: 'cancelDetail/:no',
+        component : adminCancelDetail
+      },
+      {
         path: 'orderDetail/:no',
         component : adminOrderDetail
+      },
+      {
+        path: 'returnDetail/:no',
+        component : adminReturnDetail
       },
 
     ]

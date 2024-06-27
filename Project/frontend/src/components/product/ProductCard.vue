@@ -5,7 +5,7 @@
         <div class="card-body">
           <h5 class="card-title">{{ product.prod_name }}</h5>
           <p class="card-text">{{ product.price }} 원</p>
-          <p class="card-text">★{{ product.avg_score }} ({{ product.cnt }})</p>
+          <p class="card-text">★{{ product.review_avg_score }} ({{ product.review_cnt }})</p>
         </div>
       </div>
     </div>
@@ -22,6 +22,8 @@
   };
   </script>
   
-  <style scoped>
-  /* 여기에 필요한 스타일 추가 */
-  </style>
+
+<style scoped>
+
+
+</style>
