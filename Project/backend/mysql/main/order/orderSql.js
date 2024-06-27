@@ -7,7 +7,9 @@ module.exports = {
                     user_id = ?,
                     pay_code = ?,
                     phone_no = ?,
-                    name = ?`,
+                    name = ?,
+                    paytype = ?`,
+                    
     getOrderNum : `SELECT order_no 
                    FROM orders
                    WHERE pay_code = ?`

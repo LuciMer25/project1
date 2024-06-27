@@ -8,8 +8,9 @@ import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
-import { aliases, fa } from 'vuetify/iconsets/fa'
-import { mdi } from 'vuetify/iconsets/mdi'
+// import { aliases, fa } from 'vuetify/iconsets/fa'
+// import { mdi } from 'vuetify/iconsets/mdi'
+import '@mdi/font/css/materialdesignicons.css';
 //import VueSession from 'vue-session'
 import store from "./store"; //Vuex 저장소 추가
 // var sessionOptions = {
@@ -21,13 +22,9 @@ const vuetify = createVuetify({
   components,
   directives,
   icons: {
-    defaultSet: 'fa',
-    aliases,
-    sets: {
-      fa,
-      mdi,
+    iconfont: 'mdi',
     },
-  },
+  
 })
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"

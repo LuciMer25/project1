@@ -13,8 +13,9 @@ const adminBoardRouter = require('./routes/admin/adminBoard.js')
 const adminProductRouter = require('./routes/admin/adminProduct.js')
 
 // 주문관련(정수범)
-const AccountRouter = require('./routes/account.js');
+const AccountRouter = require('./routes/main/order/account.js');
 const CheckoutRouter = require('./routes/main/order/checkout.js');
+const ProductInfoRouter = require('./routes/main/order/productDetail.js');
 
 // 마이페이지(맹선우)
 var inquiryRouter = require('./routes/mypage/inquiry');
@@ -39,6 +40,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/upload', express.static('D:/upload'));
+app.use('/api/upload/products', express.static('D:/upload/products'));
 
 app.use(session({
   secret: 'secret key', //암호화하는 데 쓰일 키
@@ -62,6 +64,9 @@ app.use('/api/adminBoard', adminBoardRouter);
 // 주문관련(정수범)
 app.use('/api/account',AccountRouter);
 app.use('/api/checkout',CheckoutRouter);
+app.use('/api/productInfo',ProductInfoRouter);
+
+
 // 마이페이지(맹선우)
 app.use('/api/inquiry', inquiryRouter)
 app.use('/api/qna', qnaRouter)
@@ -72,6 +77,13 @@ app.use('/api/product', productRouter)
 
 
 app.use('/api/category', CategoryRouter);
+
+
+// 요청 로그
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

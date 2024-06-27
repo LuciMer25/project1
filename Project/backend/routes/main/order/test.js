@@ -26,4 +26,18 @@ function query2(sql, values) {
     });
 }
 
-module.exports= query2;
+function query3(sql, [values]) {
+    console.log('SQL query:', sql);
+    return new Promise((resolve, reject) => {
+        pool.query(sql, [values], function(err, result) {
+            if (err) {
+                console.log(err);
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+}
+
+module.exports= {query2,query3};

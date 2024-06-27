@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const query = require('../../../mysql/index.js');
-const query2 = require('./test.js');
+const mysql = require('./test.js');
 const sql = require('../../../mysql/sql.js');
 
 router.use(express.json());
@@ -21,13 +21,16 @@ router.use(express.json());
       orders.user_id,
       orders.pay_code,
       orders.phone_no,
-      orders.name
+      orders.name,
+      orders.paytype
     ];
 
     let orderNo = -1;
-    await query('insertOrder',orderValues)
-    .then(()=>query('getOrderNum', orders.pay_code)
-    .then(result=>orderNo=result.orderNo));
+    let result = (await query('insertOrder',orderValues));
+    let result2 = (await query('getOrderNum', orders.pay_code));
+    
+    //console.log(result2);
+    orderNo=result2[0].order_no;
     
     //console.log('주문번호 : '+ orderNo);
     insertDetail(orderNo,detailList,res)    
@@ -36,35 +39,28 @@ router.use(express.json());
 
   async function insertDetail(orderNum,itemList,response){
 
-        // 동적 쿼리 생성
-        let insertOrderDetail = "INSERT INTO order_detail (prod_no, prod_name, prod_cnt, price, order_amount, prod_img, order_no) VALUES ";
-
+    let insertOrderDetail = "INSERT INTO order_detail (prod_no, prod_name, prod_cnt, price, order_amount, prod_img, order_no) VALUES ?";
     let OrderDetailValues = [];
 
     itemList.forEach((item, index) => {
-    insertOrderDetail += ' (?, ?, ?, ?, ?, ?)';
-    if (index < itemList.length - 1) {
-    insertOrderDetail += ', ';
-    }
-
-    OrderDetailValues.push(
-    item.prod_no,
-    item.prod_name,
-    item.prod_cnt,
-    item.price,
-    item.order_amount,
-    item.prod_img,
-    orderNum
-    );
-    });
-
+                                        OrderDetailValues.push([
+                                        item.prod_no,
+                                        item.prod_name,
+                                        item.prod_cnt,
+                                        item.price,
+                                        item.order_amount,
+                                        item.prod_img,
+                                        orderNum
+                                        ]);
+                                      }
+                    );
 
     try {
-    const result = await query2(insertOrderDetail, OrderDetailValues);
-    response.send({ message: "Data inserted", result });
-    } catch (err) {
-    console.error(err);
-    response.status(500).send({ error: "Database insertion error" });
-    }
+      const result = await mysql.query3(insertOrderDetail, [OrderDetailValues]);
+      response.send({ message: "Data inserted", order_no:orderNum });
+      } catch (err) {
+      console.error(err);
+      response.status(500).send({ error: "Database insertion error" });
+      }
   }
 module.exports = router;

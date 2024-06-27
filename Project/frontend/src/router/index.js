@@ -3,7 +3,14 @@ import HomeView from '../views/Main/HomeView.vue'
 import MainLayout from '../layout/MainLayout.vue'
 import MyPageLayout from '../layout/MyPageLayout.vue'
 import AdminLayout from '../layout/AdminLayout.vue'
+
+// 결제관련(정수범)
 import OrderView from '../views/Main/Order/OrderView.vue'
+import OrderCompleteView from '../views/Main/Order/OrderComplete.vue'
+import ProductDetailView from '../views/Main/Order/ProductDetail.vue'
+
+
+
 // 마이페이지 메인
 import MyPageMain from '../views/MyPage/MyPageMain.vue'
 // 문의페이지
@@ -54,10 +61,23 @@ const routes = [
         name: 'home',
         component: HomeView
       },
+      // 결제
       {
         path: 'order',
         name: 'order',
         component: OrderView
+      },
+      // 결제완료
+      {
+        path: 'ordercomplete/:orderNo',
+        name: 'ordercomplete',
+        component: OrderCompleteView
+      },
+      // 상품상세
+      {
+        path: 'product/:prodNo',
+        name: 'productInfo',
+        component: ProductDetailView
       },
       // 카테고리 이름 임시 출력단
       {

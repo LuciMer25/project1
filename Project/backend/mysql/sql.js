@@ -1,6 +1,6 @@
 const memberSql = require('./memberSql.js');
 const orderSql = require('./main/order/orderSql.js')
-
+const productDetailSql = require('./main/order/productDetailSql.js');
 const adminOrder = require('./admin/adminOrder');
 const categorySql = require('./main/categorySql.js');
 const adminBoard = require('./admin/adminBoard')
@@ -25,5 +25,6 @@ module.exports = {
    ...mypageorder,
    ...productsql,
    ...categorySql,
-   ...orderSql
+   ...orderSql,
+   ...productDetailSql
 }

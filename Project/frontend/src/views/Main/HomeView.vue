@@ -1,6 +1,7 @@
 <template>
     <div>메인시작화면</div>
-  <button @click="gotoOrderPage">결제 테스트</button>
+  <v-btn @click="gotoOrderPage">결제 테스트</v-btn>
+  <v-btn @click="gotoProductPage">상품상세 테스트</v-btn>
 
   <div class="container">
     <NewProductList />
@@ -11,6 +12,7 @@
 <script>
 // @ is an alias to /src
 
+import axios from "axios";
 import NewProductList from "../../components/product/NewProductList.vue";
 export default {
   name: 'HomeView',
@@ -26,6 +28,9 @@ export default {
       ];
       this.$store.dispatch('updateItemList', array);
       this.$router.push({ name: 'order' });
+    },
+    gotoProductPage(){
+      this.$router.push(`product/1`);
     }
   }
 }

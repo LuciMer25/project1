@@ -88,8 +88,11 @@ export default {
         proceedInfo.channelKey=toss;
         this.checkout(proceedInfo);
       }
+      else{
+        alert("결제수단을 먼저 선택해주세요!");
+      }
     },
-    checkout(proceed){
+    async checkout(proceed){
       // console.log(proceed);
       // console.log(proceed.user);
       // console.log(this.$store.getters.getItemList);
@@ -104,13 +107,14 @@ export default {
                         user_id :proceed.user.user_id, 
                         pay_code : '', 
                         phone_no : proceed.user.phone,
-                        name : proceed.user.name
+                        name : proceed.user.name,
+                        paytype: this.payment
                 },
                 detailList:this.$store.getters.getItemList
               };
       console.log(data);
       
-          PortOne.requestPayment({
+         const result = (await PortOne.requestPayment({
                             storeId: "store-48e0d738-fd6d-4a46-bfb7-aedffef0b647",
                             paymentId: `payment-${crypto.randomUUID()}`,
                             orderName: proceed.itemInfo,
@@ -125,13 +129,20 @@ export default {
                               phoneNumber: proceed.user.phone,
                               email: proceed.user.email,
                             },
-                          }).then(res=>{
-                                      console.log(res);
-                                      data.orders.pay_code = res.txId;
-                                      axios.post('/api/checkout',data).then(rest=>rest);
-                                    })
-                            .catch(err=>console.log(err));
+                          }));
 
+          data.orders.pay_code = result.txId;
+          let checkoutResult = (await axios.post('/api/checkout',data));
+          //console.log(checkoutResult);
+          this.callCompletePage(checkoutResult);
+
+    },
+    callCompletePage(result){
+      if(result.data.message != ''){
+          alert('결제완료!');
+          console.log(result.data.order_no);
+          this.$router.push({name:'ordercomplete',params:{orderNo:result.data.order_no}});
+        }
     },
   },
   beforeRouteLeave(to, from, next) {
