@@ -83,6 +83,30 @@ module.exports = {
                         SET order_state = "반품완료" 
                         WHERE order_no = ?`,
 
-       
+//     orderDetail : `SELECT od.prod_name, od.prod_img, od.prod_no, od.price, o.*, od.prod_cnt, order_amount, os.order_date
+// 	            FROM order_detail od JOIN orders o
+// 				            ON o.order_no = od.order_no
+// 					     JOIN order_state os
+//                                         ON o.order_no = os.order_no
+// 	            AND o.order_no = ?`
+    orderProdDetail : `SELECT od.prod_name, od.prod_img, od.prod_no, od.price, od.prod_cnt, od.prod_img, od.order_amount
+                       FROM order_detail od JOIN orders o
+			         		  on o.order_no = od.order_no
+                       AND o.order_no = ?`,
+    
+    orderUserDetail : `SELECT o.order_no, o.order_total_amount, o.addr, o.waybill_no, o.post_no, o.detail_addr, o.name, o.phone_no, os.order_date
+                       FROM orders o JOIN order_state os
+			                ON o.order_no = os.order_no
+                       AND o.order_no = ?`,
+    
+    cancelUserDetail : `SELECT o.order_no, o.order_total_amount, o.addr, os.cancel_req_date, os.cancel_complete_date, o.post_no, o.detail_addr, o.name, o.phone_no
+                        FROM orders o JOIN order_state os
+			                 ON o.order_no = os.order_no
+                        AND o.order_no = ?`,
+
+    returnUserDetail : `SELECT o.order_no, o.order_total_amount, o.addr, os.return_req_date, os.return_complete_date, o.post_no, o.detail_addr, o.name, o.phone_no
+                        FROM orders o JOIN order_state os
+			                 ON o.order_no = os.order_no
+                        AND o.order_no =?`
 
 }

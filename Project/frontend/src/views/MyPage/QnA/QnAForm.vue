@@ -8,8 +8,8 @@
           style="height: 200px"
           v-model="qnaInfo.qna_content"
         ></textarea>
-  
-  
+        <p>첨부파일</p>
+        <input type="file" @change="onChangeFileUpload">
         <button
           type="button"
           class="btn btn-xs btn-info"
@@ -31,7 +31,11 @@
           qna_content: '',
           user_id: '맹',
           prod_no: '123456',
+          qna_img: '',
         },
+        file: null,
+            prodImgFile : null,
+            contentImgFile : null,
       };
     },
     computed: {
@@ -64,34 +68,59 @@
         let result = await axios.get(`/api/qna/${this.searchNo}`);
         this.qnaInfo = result.data[0];
       },
+      onChangeFileUpload(event) {
+            this.file = event.target.files[0];
+            console.log(event.target);
+            console.log(this.file);
+        },
       async saveBoard(no) {
         const url = "/api/qna";
-        let param = {
-          qna_title: this.qnaInfo.qna_title,
-          qna_content: this.qnaInfo.qna_content,
-          reg_date: this.qnaInfo.reg_date,
-          user_id: this.qnaInfo.user_id,
-          prod_no: this.qnaInfo.prod_no
-        };
+        // let param = {
+        //   qna_title: this.qnaInfo.qna_title,
+        //   qna_content: this.qnaInfo.qna_content,
+        //   // reg_date: this.qnaInfo.reg_date,
+        //   user_id: this.qnaInfo.user_id,
+        //   prod_no: this.qnaInfo.prod_no,
+        //   qna_img: this.file
+        // };
         //수정
-        if (no > 0) {
-          const result = (await axios.put(`${url}/${qna_no}`, param)).data;
-          if (result.affectedRows > 0) {
-            alert("정상적으로 수정되었습니다.");
-          } else {
-            alert("정상적으로 저장되지 않았습니다.");
-          }
+        
+          // const result = (await axios.put(`${url}/${qna_no}`, param)).data;
+          // if (result.affectedRows > 0) {
+          //   alert("정상적으로 수정되었습니다.");
+          // } else {
+          //   alert("정상적으로 저장되지 않았습니다.");
+          // }
           //등록
-        } else {
-          const result = (await axios.post(url, param)).data;
-          if (result.insertId > 0) {
-            alert("정상적으로 등록되었습니다.");
-            //this.boardInfo.no = result.insertId;
-            this.$router.push({ path: "/qnaList" });
-          } else {
-            alert("정상적으로 저장되지 않았습니다.");
-          }
-        }
+       
+          // const result = (await axios.post(url, param)).data;
+          const formData = new FormData();
+            formData.append('qna_title', this.qnaInfo.qna_title);
+            formData.append('qna_content', this.qnaInfo.qna_content);
+            formData.append('user_id', this.qnaInfo.user_id);
+            formData.append('prod_no', this.qnaInfo.prod_no);
+            if(this.file){
+                formData.append('avatar', this.file);
+                console.log(this.file)
+            }
+            axios.post("/api/qna", formData, {
+                headers:{
+                    'Content-Type' :'multipart/form-data'
+                }
+            })
+            .then(()=>{
+                console.log(this.board)
+                alert('등록되었습니다.')
+                this.$router.push('/qnaList')
+            })
+          // if (result.insertId > 0) {
+          //   alert("정상적으로 등록되었습니다.");
+          //   //this.boardInfo.no = result.insertId;
+          //   this.$router.push({ path: "/qnaList" });
+          // } else {
+          //   alert("정상적으로 저장되지 않았습니다.");
+          // }
+   
       },
       getToday() {
         // return this.$dateFormat("");

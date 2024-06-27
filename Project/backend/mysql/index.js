@@ -26,5 +26,23 @@ function query(alias, values) {
     }))
 }
 
+function query(alias, values ){
+    return new Promise( (resolve, reject)  => {
+      pool.getConnection((err, conn) => {
+        if (err) reject({err});
+        else {
+            conn.query(sql[alias], values, (err, result) => {
+                conn.release();
+  
+                if (err) reject({err});
+                else {
+                  resolve(result);
+                }
+            });
+        }
+      });
+    })  
+  } 
+
 module.exports= query;
 

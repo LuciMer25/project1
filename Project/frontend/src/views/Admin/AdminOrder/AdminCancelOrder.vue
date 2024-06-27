@@ -24,7 +24,11 @@
                     <tbody>
                         <tr v-for="order in cancelAllList">
                             <td v-text="order.order_no"></td> 
-                            <td >{{order.first_prod_name}} (외{{order.prod_cnt}}건)</td>
+                            <td >
+                                <button class="detailBtn" :data-order-no="order.order_no">
+                                    {{order.first_prod_name}} (외{{order.prod_cnt}}건)
+                                </button>
+                            </td>
                             <td v-text="order.user_id"></td>
                             <td v-text="order.addr"></td>
                             <td v-text="order.detail_addr"></td>
@@ -82,7 +86,10 @@ export default{
                 if (target.classList.contains('cancelBtn')) {
                     const orderNo = target.dataset.orderNo;
                     this.cancelBtn(orderNo);
-                } 
+                } else if (target.classList.contains('detailBtn')) {
+                    const orderNo = target.dataset.orderNo;
+                    this.goDeatil(orderNo);
+                }
             });
         },
         fetchCencelList(){
@@ -110,6 +117,11 @@ export default{
                 console.log("업데이트 실패", error);
                 alert("업데이트 실패");
             }
+        },
+        goDeatil(order_no){
+            this.orderNo = order_no;
+            this.$router.push(`cancelDetail/${this.orderNo}`)
+
         }
 
     },

@@ -12,9 +12,11 @@ const adminMemberRouter = require('./routes/admin/adminMember.js')
 const adminBoardRouter = require('./routes/admin/adminBoard.js')
 const adminProductRouter = require('./routes/admin/adminProduct.js')
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-const AccountRouter = require('./routes/account.js');
+// 주문관련(정수범)
+const AccountRouter = require('./routes/main/order/account.js');
+const CheckoutRouter = require('./routes/main/order/checkout.js');
+const ProductInfoRouter = require('./routes/main/order/productDetail.js');
+
 // 마이페이지(맹선우)
 var inquiryRouter = require('./routes/mypage/inquiry');
 var qnaRouter = require('./routes/mypage/qna');
@@ -28,6 +30,11 @@ var productNewRouter = require('./routes/product/newproduct.js');
 var productBestRouter = require('./routes/product/bestproduct.js');
 var productThreeRouter = require('./routes/product/threeproduct.js');
 
+//로그인 
+var signUpRouter = require('./routes/login/singUp.js');
+var loginRouter = require('./routes/login/login.js');
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -40,6 +47,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/upload', express.static('D:/upload'));
+app.use('/api/upload/products', express.static('D:/upload/products'));
 
 app.use(session({
   secret: 'secret key', //암호화하는 데 쓰일 키
@@ -53,16 +61,19 @@ app.use(session({
   store: new fileStore() // 세션 저장소로 fileStore 사용
 }));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+
 //관리자
 app.use('/api/adminOrder', adminOrderRouter);
 app.use('/api/adminMember', adminMemberRouter);
 app.use('/api/adminProduct', adminProductRouter);
 app.use('/api/adminBoard', adminBoardRouter);
 
-
+// 주문관련(정수범)
 app.use('/api/account',AccountRouter);
+app.use('/api/checkout',CheckoutRouter);
+app.use('/api/productInfo',ProductInfoRouter);
+
+
 // 마이페이지(맹선우)
 app.use('/api/inquiry', inquiryRouter)
 app.use('/api/qna', qnaRouter)
@@ -72,10 +83,21 @@ app.use('/api/mypageorder', mypageorderRouter);
 // 메인, 상품(김성태)
 app.use('/api/newproduct', productNewRouter)
 app.use('/api/bestproduct', productBestRouter)
-app.use('/api/threeproduct', productThreeRouter)
+app.use('/api/threeproduct', productThreeRouter);
+
+//로그인 회원가입(송성혁)
+app.use('/api/signUp', signUpRouter);
+app.use('/api/login', loginRouter);
 
 
 app.use('/api/category', CategoryRouter);
+
+
+// 요청 로그
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

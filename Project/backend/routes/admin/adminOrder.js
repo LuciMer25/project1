@@ -72,7 +72,28 @@ const query = require('../../mysql/index.js');
 
   })
 
+  router.get('/orderProdDetail/:no' , async(req, res) => {
+    const no = req.params.no;
+    let list = await query("orderProdDetail", [no]);
+    res.send({ list });
+  })
 
+  router.get('/orderUserDetail/:no' , async(req, res) => {
+    const no = req.params.no;
+    let list = await query("orderUserDetail", [no]);
+    res.send(list[0]);
+  })
 
+  router.get('/cancelUserDetail/:no' , async(req, res) => {
+    const no = req.params.no;
+    let list = await query("cancelUserDetail", [no]);
+    res.send(list[0]);
+  })
+
+  router.get('/returnUserDetail/:no' , async(req, res) => {
+    const no = req.params.no;
+    let list = await query("returnUserDetail", [no]);
+    res.send(list[0]);
+  })
 
 module.exports = router;
