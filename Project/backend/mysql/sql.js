@@ -9,6 +9,7 @@ const inquirysql = require('./mypage/inquirysql')
 const qnasql = require('./mypage/qnasql');
 const mypageorder = require('./mypage/mypageorder');
 const productsql = require('./product/productSql.js')
+const signUp =require('./main/signUp.js')
 
 
 module.exports = {
@@ -17,6 +18,7 @@ module.exports = {
     ...adminOrder,
     ...adminMember,
     ...adminProduct,
+    
 
 
    ...memberSql,
@@ -24,5 +26,6 @@ module.exports = {
    ...qnasql,
    ...mypageorder,
    ...productsql,
-   ...categorySql
+   ...categorySql,
+   ...signUp,
 }

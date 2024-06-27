@@ -26,6 +26,11 @@ var app = express();
 // 메인, 상품(김성태)
 var productRouter = require('./routes/product/product.js');
 
+//로그인 
+var signUpRouter = require('./routes/login/singUp.js');
+var loginRouter = require('./routes/login/login.js');
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -67,7 +72,11 @@ app.use('/api/qna', qnaRouter)
 app.use('/api/mypageorder', mypageorderRouter);
 
 // 메인, 상품(김성태)
-app.use('/api/product', productRouter)
+app.use('/api/product', productRouter);
+
+//로그인 회원가입(송성혁)
+app.use('/api/signUp', signUpRouter);
+app.use('/api/login', loginRouter);
 
 
 app.use('/api/category', CategoryRouter);

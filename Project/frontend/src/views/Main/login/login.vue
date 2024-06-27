@@ -4,9 +4,10 @@
       <hr>
       <div class="login-wrapper">
         <h2>Login</h2>
-        <form method="post" action="서버의url" id="login-form">
-          <input type="text" name="userName" placeholder="Email">
-          <input type="password" name="userPassword" placeholder="Password">
+        <form @submit.prevent="loginUser" id="login-form">
+          <input type="text" name="userName" placeholder="Email" v-model="userLogin.user_id">
+          <input type="password" name="userPassword" placeholder="Password" v-model="userLogin.userPassword">
+          <!-- userLogin.pw → userLogin.userPassword으로 수정 -->
           <label for="remember-check">
             <input type="checkbox" id="remember-check">아이디 저장하기
           </label>
@@ -28,7 +29,18 @@
 </template>
 
 <script>
+// axios를 Vue 컴포넌트에 임포트합니다.
+import axios from 'axios';
+
 export default {
+  data() {
+    return {
+      userLogin: {
+        user_id: '',
+        userPassword: '' // userLogin 객체의 pw → userPassword로 수정
+      }
+    };
+  },
   methods: {
     kakaoLogin() {
       window.Kakao.Auth.login({
@@ -37,7 +49,7 @@ export default {
       });
     },
     getKakaoAccount() {
-      const vm = this; // Store the Vue instance context
+      const vm = this; // Vue 인스턴스 컨텍스트 저장
       window.Kakao.API.request({
         url: "/v2/user/me",
         success: function(res) {
@@ -47,40 +59,48 @@ export default {
           console.log("nickname", nickname);
           console.log("email", email);
 
-          // Example of storing data in sessionStorage
+          // sessionStorage에 데이터 저장 예시
           sessionStorage.setItem('nickname', nickname);
           sessionStorage.setItem('email', email);
 
           alert("로그인 성공!");
 
-          // Redirect to BoardList.vue using Vue Router
-          vm.$router.push('/list'); // Assuming '/boardlist' is your route path
+          // Vue Router를 사용하여 BoardList.vue로 리다이렉트
+          vm.$router.push('/'); // '/boardlist'가 경로로 가정
         },
         fail: function(error) {
           console.log(error);
         },
       });
     },
-    kakaoLogout() {
-      const vm = this; // Store the Vue instance context
-      window.Kakao.Auth.logout(function() {
-        // Clear sessionStorage
-        sessionStorage.removeItem('nickname');
-        sessionStorage.removeItem('email');
-        
-        // Optional: Clear any other state or UI related to logged-in state
-        // For example, resetting the UI or redirecting to a login page
-        
-        // Redirect to '/' after logout (adjust as needed)
-        vm.$router.push('/');
-      });
-    },
     signUp() {
-      this.$router.push('/signtUp1'); // Navigate to the /home route
+      this.$router.push('/signtUp1'); // signUp1 경로로 이동
+    },
+    async loginUser() {
+      try {
+        const response = await axios.post('/api/login', this.userLogin);
+        if (response.status === 200) { // affectedRows 대신 status 검사
+          // sessionStorage에 데이터 저장 예시
+          sessionStorage.setItem('user_id', response.data.user_id);
+          sessionStorage.setItem('name', response.data.name);
+          
+          alert("로그인 성공!");
+
+          // Vue Router를 사용하여 BoardList.vue로 리다이렉트
+          this.$router.push('/'); // '/list'가 board list 경로로 가정
+        } else {
+          alert("로그인 실패: 아이디 또는 비밀번호를 확인해주세요.");
+        }
+      } catch (error) {
+        console.error("로그인 오류:", error);
+        alert("로그인 오류: 서버와의 통신에 문제가 발생했습니다.");
+      }
     },
   },
 };
 </script>
+
+
 
 <style>
 * {
