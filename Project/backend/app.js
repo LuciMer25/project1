@@ -35,7 +35,6 @@ var signUpRouter = require('./routes/login/singUp.js');
 var loginRouter = require('./routes/login/login.js');
 
 
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -67,7 +66,6 @@ app.use('/api/adminOrder', adminOrderRouter);
 app.use('/api/adminMember', adminMemberRouter);
 app.use('/api/adminProduct', adminProductRouter);
 app.use('/api/adminBoard', adminBoardRouter);
-
 // 주문관련(정수범)
 app.use('/api/account',AccountRouter);
 app.use('/api/checkout',CheckoutRouter);
