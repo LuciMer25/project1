@@ -26,4 +26,5 @@ module.exports = {
   ...categorySql,
    ...orderSql,
    ...productDetailSql,
+   ...signUp
 };
