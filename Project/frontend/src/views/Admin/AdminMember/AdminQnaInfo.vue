@@ -67,16 +67,38 @@ export default {
   },
   methods: {
     async addReply() {
-      const res = await axios.post(`/api/adminBoard/qnaReplyInsert`, {
-        qnaNo : this.qnaInfo.qna_no,
-        content : this.qnaInfo.reply_content
-      });
-      this.$router.go(this.$router.currentRoute)
-      alert("답변이 등록되었습니다.");
-      
-      
+      try{
+        let res = await axios.post(`/api/adminBoard/qnaReplyInsert`, {
+          qnaNo : this.qnaInfo.qna_no,
+          content : this.qnaInfo.reply_content
+        });
+        
+        res = await axios.put(`/api/adminBoard/qnaStateUpdate`, {
+          qnaNo : this.qnaInfo.qna_no
+        });
+        alert("답변이 등록되었습니다.");
+        this.$router.go(this.$router.currentRoute)
+
+      } catch (err) {
+        console.log(err)
+      }
+
     },
     updateReply() {
+      // try{
+        axios.put(`/api/adminBoard/qnaReplyUpdate`, {
+          qnaNo : this.qnaInfo.qna_no,
+          content : this.qnaInfo.reply_content
+        })
+        .then(()=> {
+          alert("답변이 수정되었습니다.");
+          this.$router.go(this.$router.currentRoute)
+
+        })
+
+      // } catch (err) {
+      //   console.log(err)
+      // }
       
     }
   }

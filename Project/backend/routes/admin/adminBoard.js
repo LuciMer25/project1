@@ -35,8 +35,25 @@ const query = require('../../mysql/index.js');
   })
 
   router.put("/qnaStateUpdate", async (req, res) => {
-    
+    const { qnaNo } = req.body
+    let result = await query("qnaStateUpdate", [qnaNo]);
+    res.send(result)
   })
+
+  // router.put("/qnaReplyUpdate", async (req, res) => {
+  //   const { qnaNo, content } = req.body;
+  //   let result = await query("qnaReplyUpdate", [content, qnaNo]);
+  //   res.send(result);
+  // });
+  router.put("/qnaReplyUpdate", async (req, res) => {
+    const { qnaNo, content } = req.body;
+    try {
+        let result = await query("qnaReplyUpdate", [content, qnaNo]);
+        res.send(result);
+    } catch (err) {
+        res.status(500).send({ error: err.message });
+    }
+});
 
 
 module.exports = router;
