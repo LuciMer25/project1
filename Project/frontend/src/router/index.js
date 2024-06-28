@@ -44,6 +44,8 @@ import adminQnaInfo from '../views/Admin/AdminMember/AdminQnaInfo.vue'
 import NewProductlist from '../views/Main/NewProductListView.vue'
 import BestProductlist from '../views/Main/BestProductListView.vue'
 import ThreeProductlist from '../views/Main/ThreeProductListView.vue'
+import CupbapProductlist from '../views/Main/CupbapProductListView.vue'
+
 
 //로그인
 import login from '../views/Main/login/login.vue'
@@ -105,6 +107,11 @@ const routes = [
         path: 'threeproductlist',
         name: 'ThreeProductlist',
         component : ThreeProductlist
+      },
+      {
+        path: 'cupbapproductlist',
+        name: 'CupbapProductlist',
+        component : CupbapProductlist
       },
       //로그인
       {

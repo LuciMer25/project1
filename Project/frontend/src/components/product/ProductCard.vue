@@ -1,7 +1,7 @@
 <template>
     <div class="col-md-3">
       <div class="card">
-        <img :src="product.prod_img" class="card-img-top" alt="Product Image">
+        <img :src="product.prod_img" class="card-img-top" alt="Product Image" @click="gotoDetail(product.prod_no)">
         <div class="card-body">
           <h5 class="card-title">{{ product.prod_name }}</h5>
           <p class="card-text">{{ product.price }} 원</p>
@@ -17,6 +17,11 @@
       product: {
         type: Object,
         required: true
+      }
+    },
+    methods : {
+      gotoDetail(no){
+        this.$router.push(`product/${no}`);
       }
     }
   };

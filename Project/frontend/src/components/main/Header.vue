@@ -13,7 +13,7 @@
             <li><a href="notice">공지사항</a></li>
             <li><a href="qna">QnA</a></li>
             <li><a href="inquiry">1:1문의</a></li>
-            <li><a href="best">베스트</a></li>
+            <li><a href="bestproductlist">베스트</a></li>
           </ul>
           <v-spacer></v-spacer>
           <nav class="navbar bg-body-tertiary">

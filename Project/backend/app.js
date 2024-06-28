@@ -29,7 +29,7 @@ var app = express();
 var productNewRouter = require('./routes/product/newproduct.js');
 var productBestRouter = require('./routes/product/bestproduct.js');
 var productThreeRouter = require('./routes/product/threeproduct.js');
-
+var productCupbapRouter = require('./routes/product/cupbapproduct.js')
 //로그인 
 var signUpRouter = require('./routes/login/singUp.js');
 var loginRouter = require('./routes/login/login.js');
@@ -84,7 +84,7 @@ app.use('/api/mypageorder', mypageorderRouter);
 app.use('/api/newproduct', productNewRouter)
 app.use('/api/bestproduct', productBestRouter)
 app.use('/api/threeproduct', productThreeRouter);
-
+app.use('/api/cupbapproduct', productCupbapRouter)
 //로그인 회원가입(송성혁)
 app.use('/api/signUp', signUpRouter);
 app.use('/api/login', loginRouter);

@@ -12,6 +12,9 @@
   <div class="container">
     <ThreeMinuteList />
   </div>
+  <div class="container">
+    <CupbapList />
+  </div>
 </template>
 
 <script>
@@ -21,13 +24,15 @@ import axios from "axios";
 import NewProductList from "../../components/product/NewProductList.vue";
 import BestSellList from "../../components/product/BestSellList.vue";
 import ThreeMinuteList from "../../components/product/ThreeMinuteList.vue";
+import CupbapList from "../../components/product/CupbapList.vue";
 
 export default {
   name: 'HomeView',
   components: {
     NewProductList,
     BestSellList,
-    ThreeMinuteList
+    ThreeMinuteList,
+    CupbapList
   },
   methods:{
     gotoOrderPage(){
