@@ -19,7 +19,7 @@ router.get("/prodList", async (req, res) => {
   res.send({ list });
 });
 
-router.post("/", upload.fields([
+router.post("/prodInsert", upload.fields([
   { name: 'prodImg' }, 
   { name: 'contentImg' } 
 ]), async (req, res) => {
@@ -35,6 +35,18 @@ router.post("/", upload.fields([
   let result = await query("productInsert", data);
   res.send(result);
 });
+
+router.get("/prodInfo/:no", async (req, res) => {
+  const no = req.params.no;
+  let list = await query("prodInfo", [no])
+  res.send({ list })
+
+})
+
+router.get("/categoryList", async (req, res) => {
+  let list = await query ("categoryList")
+  res.send({ list })
+})
 
 
 module.exports = router;
