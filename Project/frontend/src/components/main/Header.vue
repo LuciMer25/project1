@@ -11,8 +11,8 @@
           </div>
           <ul>
             <li><a href="notice">공지사항</a></li>
-            <li><a href="qna">QnA</a></li>
-            <li><a href="inquiry">1:1문의</a></li>
+            <li><a href="qnalist">QnA</a></li>
+            <li><a href="inquirylist">1:1문의</a></li>
             <li><a href="best">베스트</a></li>
           </ul>
           <v-spacer></v-spacer>
@@ -28,7 +28,7 @@
             <!-- <v-btn icon="mdi-magnify" variant="text"></v-btn> -->
             <p><a href="login">로그인</a></p>
             <!-- <v-btn icon="mdi-filter" variant="text"></v-btn> -->
-            <p><a href="mypage">마이페이지</a></p>
+            <p><a href="mypagemain">마이페이지</a></p>
           </template>
            <!-- <v-btn icon="mdi-dots-vertical" variant="text"></v-btn> -->
            <p><a href="cart">장바구니</a></p>

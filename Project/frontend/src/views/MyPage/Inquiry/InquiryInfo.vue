@@ -13,19 +13,29 @@
             
               <th scope="col" class="text-center table-primary">제목</th>
               <td scope="col" class="text-center"><input v-model = "InquiryInfo.inquiry_title" :disabled="!isdisabled"> </td>
-            
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td colspan="6" class="text-left" valign="top" height="600">
+            <td colspan="6" class="text-left" valign="top" height="300">
               <pre
                 style="
                   white-space: pre-wrap;
                   border: none;
                   background-color: white;
                 "
-                ><textarea v-model = "InquiryInfo.inquiry_content" :disabled="!isdisabled" cols="170" rows="25"></textarea> </pre>
+                ><textarea v-model = "InquiryInfo.inquiry_content" :disabled="!isdisabled"></textarea> </pre>
+            </td>
+          </tr>
+          <br>
+          <tr>
+            <td colspan="6" class="text-left" valign="top" height="300">
+              <pre
+                style="
+                  white-space: pre-wrap;
+                  border: none;
+                  background-color: white;
+                ">{{ InquiryReply.reply_content }} </pre>
             </td>
           </tr>
           <tr>
@@ -58,12 +68,16 @@ export	default {
       inquiry_content: '',
       reg_date: '',
     },
+    InquiryReply: {
+      reply_content: 'ㅇㅇ'
+    },
     isdisabled: false
  	 };
  	},
  	created()	{
  	 this .searchNo =	this .$route.query.inquiry_no ;
  	 this.getInquiryInfo();
+   this.getInquiryReply();
    //-------------------------------------------------------------
  	},
  	methods: {
@@ -73,6 +87,12 @@ export	default {
         this.test(result);
 
  	 },
+    async getInquiryReply()	{
+
+    const result1 = (await axios.get(`/api/inquiryreply/${this.searchNo }`)).data[0];
+        this.reply(result1);
+
+    },
     //-------------------------------------------------------------
     // async saveBoard(no) {
     //     const url = "/api/inquiry";
@@ -127,6 +147,10 @@ export	default {
  	//  },
     test(res){
       this.InquiryInfo = res;
+      console.log(res);
+    },
+    reply(res){
+      this.InquiryReply = res;
       console.log(res);
     }
  	},
