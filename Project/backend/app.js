@@ -33,8 +33,7 @@ var productThreeRouter = require('./routes/product/threeproduct.js');
 //로그인 
 var signUpRouter = require('./routes/login/singUp.js');
 var loginRouter = require('./routes/login/login.js');
-
-
+const userFindRouter = require('./routes/login/useFind.js'); 
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -88,6 +87,7 @@ app.use('/api/threeproduct', productThreeRouter);
 //로그인 회원가입(송성혁)
 app.use('/api/signUp', signUpRouter);
 app.use('/api/login', loginRouter);
+app.use('/api/userFind', userFindRouter); 
 
 // 메인, 카테고리(최석원)
 app.use('/api/category', CategoryRouter);
