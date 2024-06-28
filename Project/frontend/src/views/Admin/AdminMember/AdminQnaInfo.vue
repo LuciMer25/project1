@@ -84,9 +84,9 @@ export default {
       }
 
     },
-    updateReply() {
-      // try{
-        axios.put(`/api/adminBoard/qnaReplyUpdate`, {
+    async updateReply() {
+      try{
+        let res = axios.put(`/api/adminBoard/qnaReplyUpdate`, {
           qnaNo : this.qnaInfo.qna_no,
           content : this.qnaInfo.reply_content
         })
@@ -95,10 +95,9 @@ export default {
           this.$router.go(this.$router.currentRoute)
 
         })
-
-      // } catch (err) {
-      //   console.log(err)
-      // }
+      } catch (err) {
+        console.log(err)
+      }
       
     }
   }
