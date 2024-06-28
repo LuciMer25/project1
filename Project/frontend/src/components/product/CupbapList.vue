@@ -7,10 +7,7 @@
       <div class="row">
         <div class="col-md-3" v-for="(product, index) in bestProduct.slice(0, 4)" :key="index">
           <div class="card product-card">
-            <div class="position-relative">
-            <span class="rank-badge">{{ index + 1 }}</span> 
             <img :src="product.prod_img" class="card-img-top" alt="Product Image" @click="gotoDetail(product.prod_no)">
-          </div>
 
             <div class="card-body">
               <h5 class="card-title">{{ product.prod_name }}</h5>
@@ -108,4 +105,7 @@
     height: 200px;
     object-fit: cover;
   }
+  .card-body{
+  text-align : left;
+}
   </style>

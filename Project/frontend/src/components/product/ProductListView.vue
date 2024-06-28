@@ -84,3 +84,9 @@ export default {
 }
 }
 </script>
+
+<style>
+.card-body{
+  text-align : left;
+}
+</style>

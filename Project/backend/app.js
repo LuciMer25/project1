@@ -30,6 +30,9 @@ var productNewRouter = require('./routes/product/newproduct.js');
 var productBestRouter = require('./routes/product/bestproduct.js');
 var productThreeRouter = require('./routes/product/threeproduct.js');
 var productCupbapRouter = require('./routes/product/cupbapproduct.js')
+var bannerRouter = require('./routes/product/banner.js')
+
+
 //로그인 
 var signUpRouter = require('./routes/login/singUp.js');
 var loginRouter = require('./routes/login/login.js');
@@ -83,8 +86,10 @@ app.use('/api/mypageorder', mypageorderRouter);
 // 메인, 상품(김성태)
 app.use('/api/newproduct', productNewRouter)
 app.use('/api/bestproduct', productBestRouter)
-app.use('/api/threeproduct', productThreeRouter);
+app.use('/api/threeproduct', productThreeRouter)
 app.use('/api/cupbapproduct', productCupbapRouter)
+app.use('/api/banner',bannerRouter)
+
 //로그인 회원가입(송성혁)
 app.use('/api/signUp', signUpRouter);
 app.use('/api/login', loginRouter);

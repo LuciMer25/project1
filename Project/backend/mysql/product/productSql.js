@@ -71,5 +71,9 @@ module.exports = {
         WHERE reg_date BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) AND NOW()
         AND
         prod_name LIKE '%컵밥%'
-        ORDER BY p.reg_date desc`
+        ORDER BY p.reg_date desc`,
+    bannerList : 
+        `select b.banner_title, b.banner_img, b.prod_no, p.prod_name, p.price, p.prod_img
+        from banner b join product p
+        on b.prod_no = p.prod_no;`
 };

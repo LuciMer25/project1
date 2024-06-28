@@ -9,9 +9,8 @@
           <div class="card product-card">
             <div class="position-relative">
             <span class="rank-badge">{{ index + 1 }}</span> 
-            <img :src="product.prod_img" class="card-img-top" alt="Product Image" @click="gotoDetail(product.prod_no)">
+            <img :src="`/api/upload/${product.prod_img}`" class="card-img-top" alt="Product Image" @click="gotoDetail(product.prod_no)">
           </div>
-
             <div class="card-body">
               <h5 class="card-title">{{ product.prod_name }}</h5>
               <p class="card-text">{{ product.price }} 원</p>
@@ -49,6 +48,9 @@
   }
   </script>
   <style scoped>
+  .card-body{
+    text-align: left;
+  }
   .position-relative {
   position: relative;
   }

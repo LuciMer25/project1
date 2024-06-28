@@ -89,4 +89,7 @@
     height: 200px;
     object-fit: cover;
   }
+  .card-body{
+  text-align : left;
+}
   </style>

@@ -93,21 +93,25 @@ const routes = [
         name: 'category',
         component: CategoryView
       },
+      // 메인화면 신상품 리스트
       {
         path: 'newproductlist',
         name: 'NewProductlist',
         component : NewProductlist
       },
+      // 메인화면 BEST 상품 리스트
       {
         path: 'bestproductlist',
         name: 'BestProductlist',
         component : BestProductlist
       },
+      // 3분요리 상품 리스트
       {
         path: 'threeproductlist',
         name: 'ThreeProductlist',
         component : ThreeProductlist
       },
+      // 컵밥 상품 리스트
       {
         path: 'cupbapproductlist',
         name: 'CupbapProductlist',

@@ -3,7 +3,7 @@
       <h4>7일간 BEST</h4>
       <CategoryContent :productsCount="newProduct.length" :itemsPerPage="itemsPerPage" @sort="sortProducts" @update-items-per-page="updateItemsPerPage"/>
       <div class="row">
-      <ProductRankCard v-for="(product, index) in paginatedProducts" :key="index" :product="product" :rank="index"/>
+      <ProductCard v-for="(product, index) in paginatedProducts" :key="index" :product="product" :rank="index"/>
       </div>
       <Pagination
         :currentPage="currentPage"
@@ -16,13 +16,13 @@
      <script>
      import axios from 'axios';
      import CategoryContent from "../../components/product/CategoryContent.vue";
-     import ProductRankCard from "../../components/product/ProductRankCard.vue";
+     import ProductCard from "../../components/product/ProductCard.vue";
      import Pagination from "../../components/Pagination.vue";
   
      export default {
        components:{
          CategoryContent,
-         ProductRankCard,
+         ProductCard,
          Pagination
        },
        data(){

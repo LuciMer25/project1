@@ -15,6 +15,9 @@
   <div class="container">
     <CupbapList />
   </div>
+  <div class="container">
+    <MDsPickList />
+  </div>
 </template>
 
 <script>
@@ -25,14 +28,15 @@ import NewProductList from "../../components/product/NewProductList.vue";
 import BestSellList from "../../components/product/BestSellList.vue";
 import ThreeMinuteList from "../../components/product/ThreeMinuteList.vue";
 import CupbapList from "../../components/product/CupbapList.vue";
-
+import MDsPickList from "../../components/product/MDsPickList.vue";
 export default {
   name: 'HomeView',
   components: {
     NewProductList,
     BestSellList,
     ThreeMinuteList,
-    CupbapList
+    CupbapList,
+    MDsPickList
   },
   methods:{
     gotoOrderPage(){
