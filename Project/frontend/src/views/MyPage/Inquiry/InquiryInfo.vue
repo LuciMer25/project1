@@ -14,6 +14,10 @@
               <th scope="col" class="text-center table-primary">제목</th>
               <td scope="col" class="text-center"><input v-model = "InquiryInfo.inquiry_title" :disabled="!isdisabled"> </td>
           </tr>
+          <tr>
+            <th>첨부파일</th>
+            <td colspan="4"><img :src="`/api/upload/${InquiryInfo.inquiry_img}`" alt="첨부파일"></td>
+          </tr>
         </thead>
         <tbody>
           <tr>
@@ -30,7 +34,13 @@
           <br>
           <tr>
             <td colspan="6" class="text-left" valign="top" height="300">
-              <pre
+                <pre v-if="comment_state === '답변 대기'"
+                style="
+                  white-space: pre-wrap;
+                  border: none;
+                  background-color: white;
+                  "></pre>
+                <pre v-else
                 style="
                   white-space: pre-wrap;
                   border: none;
@@ -57,104 +67,63 @@
     </div>
   </div>
 </template>
+<!-- 되는 스크립트 -->
 <script>
 import axios from "axios";
-export	default {
- 	data ()	{
- 	 return {
- 	  searchNo:"",
- 	  InquiryInfo: {
-      inquiry_title: '',
-      inquiry_content: '',
-      reg_date: '',
+export default {
+  data() {
+    return {
+      searchNo: "",
+      InquiryInfo: {
+        inquiry_title: '',
+        inquiry_content: '',
+        reg_date: '',
+        comment_state: '',
+        inquiry_img: '',
+      },
+      InquiryReply: {
+        reply_content: '' // 기본값 설정
+      },
+      isdisabled: false
+    };
+  },
+  created() {
+    this.searchNo = this.$route.query.inquiry_no;
+    this.getInquiryInfo();
+    this.getInquiryReply();
+  },
+  methods: {
+    async getInquiryInfo() {
+      const result = (await axios.get(`/api/inquiry/${this.searchNo}`)).data[0];
+      this.InquiryInfo = result;
     },
-    InquiryReply: {
-      reply_content: 'ㅇㅇ'
+    async getInquiryReply() {
+      const result1 = (await axios.get(`/api/inquiry/reply/${this.searchNo}`)).data[0];
+      if (result1 && result1.reply_content) {
+        this.InquiryReply.reply_content = result1.reply_content;
+      } else {
+        this.InquiryReply.reply_content = '답변이 아직 없습니다.';
+      }
     },
-    isdisabled: false
- 	 };
- 	},
- 	created()	{
- 	 this .searchNo =	this .$route.query.inquiry_no ;
- 	 this.getInquiryInfo();
-   this.getInquiryReply();
-   //-------------------------------------------------------------
- 	},
- 	methods: {
- 	 async getInquiryInfo()	{
-
-    const result = (await axios.get(`/api/inquiry/${this.searchNo }`)).data[0];
-        this.test(result);
-
- 	 },
-    async getInquiryReply()	{
-
-    const result1 = (await axios.get(`/api/inquiryreply/${this.searchNo }`)).data[0];
-        this.reply(result1);
-
+    update() {
+      this.isdisabled = true;
     },
-    //-------------------------------------------------------------
-    // async saveBoard(no) {
-    //     const url = "/api/inquiry";
-    //     let param = {
-    //       inquiry_title: this.inquiryInfo.inquiry_title,
-    //       inquiry_content: this.inquiryInfo.inquiry_content,
-    //       reg_date: this.inquiryInfo.reg_date,
-    //     };
-    //     if (no > 0) {
-    //       const result = (await axios.put(`${url}/${inquiry_no}`, param)).data;
-    //       if (result.affectedRows > 0) {
-    //         alert("정상적으로 수정되었습니다.");
-    //       } else {
-    //         alert("정상적으로 저장되지 않았습니다.");
-    //       }
-    //     }
-    //   },
- 	//  getDateFormat(date )	{
- 	//   return this .$dateFormat(date );
- 	//  },
- 	//  async deleteBoard(no )	{
- 	//   let result =	(await axios .delete(`/api/inquiry/${this .searchNo }`)).data
- 	//    .affectedRows ;
- 	//   if (result ==	1 )	{
- 	//    this .$router .push({	path:"/list" });
- 	//   }	else {
- 	//    alert("정상적으로	삭제되지	않았습니다.");
- 	//   }
- 	//  },
-   update(){
-    this.isdisabled = true;
-   },
-   updatecomplete(){
-    // const inquirydata = {...this.InquiryInfo}
-    // delete inquirydata.reg_date;
-    const url = `/api/inquiry/${this.searchNo }`
-    axios.put(url, this.InquiryInfo)
-    .then(() => {
-      alert('수정되었습니다')
-      this.$router.push('/inquiryList')
-    })
-   },
-   deletebtn(){
-    axios.delete(`/api/inquiry/${this.searchNo}`)
-            .then(() => {
-              alert('삭제되었습니다')
-              this.$router.push('/inquiryList')
-            })
-   },
- 	//  goToUpdateForm(inquiry_no )	{
- 	//   this.$router.push({	path:"/inquiryUpdate",	query: {	inquiry_no:inquiry_no }	});
- 	//  },
-    test(res){
-      this.InquiryInfo = res;
-      console.log(res);
+    updatecomplete() {
+      const url = `/api/inquiry/${this.searchNo}`;
+      axios.put(url, this.InquiryInfo)
+        .then(() => {
+          alert('수정되었습니다');
+          this.$router.push('/inquiryList');
+        });
     },
-    reply(res){
-      this.InquiryReply = res;
-      console.log(res);
+    deletebtn() {
+      axios.delete(`/api/inquiry/${this.searchNo}`)
+        .then(() => {
+          alert('삭제되었습니다');
+          this.$router.push('/inquiryList');
+        });
     }
- 	},
- 	components: {
- 	},
+  },
+  components: {},
 };
 </script>

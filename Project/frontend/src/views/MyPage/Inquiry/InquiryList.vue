@@ -1,5 +1,6 @@
 <template	>
     <div class ="container">
+    <a href="inquiryform">문의등록</a>
      <table class ="table	table-hover">
       <thead	>
        <tr	>

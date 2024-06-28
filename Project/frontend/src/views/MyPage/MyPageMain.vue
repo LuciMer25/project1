@@ -102,10 +102,10 @@ export default {
                 }));
             })
             .catch(err => console.log(err));
-    axios.get('/api/maininquiryList/maininquiryList')
+    axios.get('/api/inquiry')
             .then(res => {
                 console.log(res.data);
-                this.maininquiryList = res.data.result.map(maininquiry => ({
+                this.maininquiryList = res.data.list.map(maininquiry => ({
                     '문의번호': maininquiry.inquiry_no,
                     '제목': maininquiry.inquiry_title,
                     '작성날짜': maininquiry.reg_date,

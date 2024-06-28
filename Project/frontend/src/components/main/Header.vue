@@ -12,7 +12,7 @@
           <ul>
             <li><a href="notice">공지사항</a></li>
             <li><a href="qnalist">QnA</a></li>
-            <li><a href="inquirylist">1:1문의</a></li>
+            <li><RouterLink to="inquirylist">1:1문의</RouterLink></li>
             <li><a href="best">베스트</a></li>
           </ul>
           <v-spacer></v-spacer>
@@ -52,6 +52,8 @@
   </header>
   </template>
   <script>
+import { RouterLink } from 'vue-router';
+
     export default {
       data: () => ({
         drawer: false,
