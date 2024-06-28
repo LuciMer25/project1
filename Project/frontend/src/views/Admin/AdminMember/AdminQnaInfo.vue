@@ -71,7 +71,9 @@ export default {
         qnaNo : this.qnaInfo.qna_no,
         content : this.qnaInfo.reply_content
       });
+      this.$router.go(this.$router.currentRoute)
       alert("답변이 등록되었습니다.");
+      
       
     },
     updateReply() {
