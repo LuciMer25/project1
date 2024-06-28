@@ -1,4 +1,5 @@
 <template v-for="">
+  <RouterView />
     <!-- <div class="container">
           <li
             :key="i"
@@ -118,9 +119,8 @@
         // TopCategoryList: [],
         // FirstCategory: [],
         // SecondCategory: [],
-
         // ----------------------------
-        Upcategory1: [],
+        // Upcategory1: [],
         DownCategory1: [],
       };
     },
