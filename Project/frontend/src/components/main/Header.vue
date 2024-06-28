@@ -6,8 +6,15 @@
         <v-app-bar color="primary" prominent>
           <!-- <v-app-bar-nav-icon variant="text"></v-app-bar-nav-icon> -->
           <a href="/">home</a>
+
+          <!-- 상단메뉴바만들기 -->
           <div class="ctgr">
-              <v-toolbar-title @click.stop="drawer = !drawer" ><h2 color="white">전체 카테고리</h2></v-toolbar-title>
+            <li><a href="#"><h1>전체 카테고리</h1></a></li>
+              <ul>
+                <!-- <li><a href="#">sub menu1</a></li>
+                <li><a href="#">sub menu2</a></li>
+                <li><a href="#">sub menu3</a></li> -->
+              </ul>
           </div>
           <ul>
             <li><a href="notice">공지사항</a></li>
@@ -33,19 +40,7 @@
            <!-- <v-btn icon="mdi-dots-vertical" variant="text"></v-btn> -->
            <p><a href="cart">장바구니</a></p>
         </v-app-bar>
-        
-        <v-navigation-drawer
-          v-model="drawer"
-          :location="$vuetify.display.mobile ? 'bottom' : undefined"
-          temporary
-        >   
-        
-          <v-list 
-            :items="items"
-          ></v-list>
-        </v-navigation-drawer>
-  
-        <v-main style="height: 5px;">
+        <v-main style="height: 100px;">
         </v-main>
       </v-layout>
     </v-card>
@@ -54,38 +49,14 @@
   <script>
 import { RouterLink } from 'vue-router';
 
-    export default {
-      data: () => ({
-        drawer: false,
-        group: null,
-        items: [
-          {
-            title: '라면/컵누들/곤누들',
-            value: 'foo',
-          },
-          {
-            title: '밥/죽/누룽지',
-            value: 'bar',
-          },
-          {
-            title: '카레/짜장/간편렌지',
-            value: 'fizz',
-          },
-          {
-            title: '소스/드레싱/양념',
-            value: 'buzz',
-          },
-        ],
-      }),
-  
-      watch: {
-        group () {
-          this.drawer = false
-        },
-      },
-    }
+
   </script>
 <style>
+  /* ul{
+    list-style-type: none;
+    margin:0px;
+    padding:0px;
+  }
     *{
         padding:0;
         margin:0;
@@ -121,5 +92,5 @@ import { RouterLink } from 'vue-router';
         color:white;
         text-decoration: none;
         padding:5px;
-    }
+    } */
 </style>
