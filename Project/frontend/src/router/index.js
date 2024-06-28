@@ -44,6 +44,7 @@ import EditMembers from '../views/MyPage/EditMember/EditMembers.vue'
 
 //
 import CategoryView from '../views/CategoryView.vue'
+import CategoryTest from '../views/CategoryTest.vue'
 
 const routes = [
   {
@@ -65,6 +66,10 @@ const routes = [
         path: '/category',
         name: 'category',
         component: CategoryView
+      },
+      {
+        path: '/test',
+        component: CategoryTest
       },
       {
         path: 'newproductlist',

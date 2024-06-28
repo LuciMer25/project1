@@ -26,7 +26,6 @@ var app = express();
 // 메인, 상품(김성태)
 var productRouter = require('./routes/product/product.js');
 
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -58,7 +57,6 @@ app.use('/api/adminOrder', adminOrderRouter);
 app.use('/api/adminMember', adminMemberRouter);
 app.use('/api/adminProduct', adminProductRouter);
 app.use('/api/adminBoard', adminBoardRouter);
-
 
 app.use('/api/account',AccountRouter);
 // 마이페이지(맹선우)

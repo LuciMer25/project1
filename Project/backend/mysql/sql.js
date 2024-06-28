@@ -13,11 +13,10 @@ const productsql = require('./product/productSql.js')
 
 module.exports = {
    ...adminOrder,
-    ...adminBoard,
-    ...adminOrder,
-    ...adminMember,
-    ...adminProduct,
-
+   ...adminBoard,
+   ...adminOrder,
+   ...adminMember,
+   ...adminProduct,
 
    ...memberSql,
    ...inquirysql,
