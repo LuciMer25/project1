@@ -9,7 +9,7 @@ module.exports = {
                where comment_state = "답변 대기"`,
 
     qnaAllList : `select q.qna_no, q.user_id, q.qna_title, q.reg_date, q.comment_state, q.prod_no, p.prod_name as prod_name 
-              from QnA q join product p 
+              from QnA q left join product p 
                          on p.prod_no = q.prod_no`,
 
     inquiryAllList : `select inquiry_no, inquiry_title, reg_date, comment_state, user_id 
@@ -26,6 +26,11 @@ module.exports = {
     qnaStateUpdate : `UPDATE QnA 
                       SET comment_state = "답변 완료"
                       WHERE qna_no = ? `,
+    
+    qnaReplyUpdate : `UPDATE QnAupdate QnA q LEFT JOIN QnA_reply qr
+			                                 ON q.qna_no = qr.qna_no
+                      SET q.comment_state = "답변 완료(수정)", qr.reply_content = ?, qr.reply_reg_date = CURRENT_TIMESTAMP
+                      WHERE q.qna_no = ? `,
 
                       
 }
