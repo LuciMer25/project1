@@ -39,9 +39,10 @@
         <h3 class="title-t ty5">1:1문의</h3>
         <hr />
         <div class="r-side">
+          <DataTableComponent :data="inquiryList" :columns="inquiryColumns" />
           <div class="fz-16 color-7"></div>
-          <div class="container">
-            <table class="table table-hover">
+          <!-- <div class="container">
+            <table class="table table-hover"> -->
               <!-- <thead>
                 <tr>
                   <th>문의번호</th>
@@ -51,7 +52,7 @@
                   <th></th>
                 </tr>
               </thead> -->
-              <tbody>
+              <!-- <tbody>
                 <tr
                   :key="i"
                   v-for="(inquiry, i) in inquiryList"
@@ -64,7 +65,7 @@
                 </tr>
               </tbody>
             </table>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -81,14 +82,14 @@ export default {
   data() {
     return {
       inquiryList: [],
-
+      inquiryColumns :['문의번호','제목','작성날짜','답변상태'],
       order: [],
       orderColumns :['주문번호','상품명','운송장번호','주문일자','주문상태'],
     
     };
   },
   created() {
-    this.getInquiryList();
+    // this.getInquiryList();
     axios.get('/api/mypageorder')
             .then(res => {
                 console.log(res.data);
@@ -101,13 +102,24 @@ export default {
                 }));
             })
             .catch(err => console.log(err));
+    axios.get('/api/maininquiryList/maininquiryList')
+            .then(res => {
+                console.log(res.data);
+                this.maininquiryList = res.data.result.map(maininquiry => ({
+                    '문의번호': maininquiry.inquiry_no,
+                    '제목': maininquiry.inquiry_title,
+                    '작성날짜': maininquiry.reg_date,
+                    '답변상태' : maininquiry.comment_state
+                }));
+            })
+            .catch(err => console.log(err));
 
   },
   methods: {
-    async getInquiryList() {
-      let result = await axios.get(`/api/inquiry`);
-      this.inquiryList = result.data;
-    },
+    // async getInquiryList() {
+    //   let result = await axios.get(`/api/inquiry`);
+    //   this.inquiryList = result.data;
+    // },
     goToDetail(inquiry_no) {
       this.$router.push({
         path: "/inquiryInfo",
