@@ -51,6 +51,9 @@ import CupbapProductlist from '../views/Main/CupbapProductListView.vue'
 import login from '../views/Main/login/login.vue'
 import signtUp1 from '../views/Main/login/signup/signtUp1.vue'
 import singUpList from '../views/Main/login/signup/singUpList.vue'
+//아이디 비밀번호 찾기
+import FindIdPw from '../views/Main/login/FindIdPw.vue'
+
 //회원정보수정
 import MemCheck from '../views/MyPage/EditMember/MemCheck.vue'
 import EditMembers from '../views/MyPage/EditMember/EditMembers.vue'
@@ -133,7 +136,11 @@ const routes = [
         name: 'singUpList',
         component : singUpList
       },
-    
+    {
+      path: 'FindIdPw',
+      name: 'FindIdPw',
+      component : FindIdPw
+    },
 
     ]
   },

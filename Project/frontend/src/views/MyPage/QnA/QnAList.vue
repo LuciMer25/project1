@@ -1,5 +1,6 @@
 <template	>
     <div class ="container">
+    <a href="qnaform">QnA등록</a>
      <table class ="table	table-hover">
       <thead	>
        <tr	>
