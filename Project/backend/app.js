@@ -21,6 +21,7 @@ const ProductInfoRouter = require('./routes/main/order/productDetail.js');
 var inquiryRouter = require('./routes/mypage/inquiry');
 var qnaRouter = require('./routes/mypage/qna');
 const mypageorderRouter = require('./routes/mypage/mypageorder');
+// const inquiryreplyRouter = require('./routes/mypage/inquiryreply')
 
 const CategoryRouter = require('./routes/main/category.js');
 var app = express();
@@ -66,7 +67,6 @@ app.use('/api/adminOrder', adminOrderRouter);
 app.use('/api/adminMember', adminMemberRouter);
 app.use('/api/adminProduct', adminProductRouter);
 app.use('/api/adminBoard', adminBoardRouter);
-
 // 주문관련(정수범)
 app.use('/api/account',AccountRouter);
 app.use('/api/checkout',CheckoutRouter);
@@ -75,6 +75,7 @@ app.use('/api/productInfo',ProductInfoRouter);
 
 // 마이페이지(맹선우)
 app.use('/api/inquiry', inquiryRouter)
+// app.use('/api/inquiryreply', inquiryreplyRouter)
 app.use('/api/qna', qnaRouter)
 app.use('/api/mypageorder', mypageorderRouter);
 

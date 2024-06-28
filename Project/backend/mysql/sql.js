@@ -8,6 +8,7 @@ const adminMember = require('./admin/adminMember')
 const adminProduct = require('./admin/adminProduct')
 const inquirysql = require('./mypage/inquirysql')
 const qnasql = require('./mypage/qnasql');
+const mypagemain = require('./mypage/mypagemain.js')
 const mypageorder = require('./mypage/mypageorder');
 const productsql = require('./product/productSql.js')
 const signUp =require('./main/signUp.js')
@@ -20,6 +21,7 @@ module.exports = {
   ...adminProduct,
   ...memberSql,
   ...inquirysql,
+  ...mypagemain,
   ...qnasql,
   ...mypageorder,
   ...productsql,
