@@ -21,6 +21,7 @@ const ProductInfoRouter = require('./routes/main/order/productDetail.js');
 var inquiryRouter = require('./routes/mypage/inquiry');
 var qnaRouter = require('./routes/mypage/qna');
 const mypageorderRouter = require('./routes/mypage/mypageorder');
+// const inquiryreplyRouter = require('./routes/mypage/inquiryreply')
 
 const CategoryRouter = require('./routes/main/category.js');
 var app = express();
@@ -29,12 +30,14 @@ var app = express();
 var productNewRouter = require('./routes/product/newproduct.js');
 var productBestRouter = require('./routes/product/bestproduct.js');
 var productThreeRouter = require('./routes/product/threeproduct.js');
+var productCupbapRouter = require('./routes/product/cupbapproduct.js')
+var bannerRouter = require('./routes/product/banner.js')
+
 
 //로그인 
 var signUpRouter = require('./routes/login/singUp.js');
 var loginRouter = require('./routes/login/login.js');
-
-
+const userFindRouter = require('./routes/login/useFind.js'); 
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -67,7 +70,6 @@ app.use('/api/adminOrder', adminOrderRouter);
 app.use('/api/adminMember', adminMemberRouter);
 app.use('/api/adminProduct', adminProductRouter);
 app.use('/api/adminBoard', adminBoardRouter);
-
 // 주문관련(정수범)
 app.use('/api/account',AccountRouter);
 app.use('/api/checkout',CheckoutRouter);
@@ -76,6 +78,7 @@ app.use('/api/productInfo',ProductInfoRouter);
 
 // 마이페이지(맹선우)
 app.use('/api/inquiry', inquiryRouter)
+// app.use('/api/inquiryreply', inquiryreplyRouter)
 app.use('/api/qna', qnaRouter)
 app.use('/api/mypageorder', mypageorderRouter);
 
@@ -83,11 +86,14 @@ app.use('/api/mypageorder', mypageorderRouter);
 // 메인, 상품(김성태)
 app.use('/api/newproduct', productNewRouter)
 app.use('/api/bestproduct', productBestRouter)
-app.use('/api/threeproduct', productThreeRouter);
+app.use('/api/threeproduct', productThreeRouter)
+app.use('/api/cupbapproduct', productCupbapRouter)
+app.use('/api/banner',bannerRouter)
 
 //로그인 회원가입(송성혁)
 app.use('/api/signUp', signUpRouter);
 app.use('/api/login', loginRouter);
+app.use('/api/userFind', userFindRouter); 
 
 // 메인, 카테고리(최석원)
 app.use('/api/category', CategoryRouter);

@@ -51,4 +51,9 @@ router.delete('/:qna_no',  (req, res) => {
     let result =  query("qnaDelete", req.params.qna_no);
     res.send(result);
 });
+//QnA 답변 조회
+router.get("/reply/:qna_no",	async (req ,res )	=> {
+  let result = await query("qnaReply", req.params.qna_no);
+  res.send(result);
+});
 module.exports = router;

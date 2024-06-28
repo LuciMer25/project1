@@ -1,7 +1,7 @@
 module.exports = {
     inquiryList: `SELECT inquiry_no, inquiry_title, inquiry_content, reg_date, comment_state, user_id 
                   FROM inquiry`,
-    inquiryInfo: `SELECT inquiry_no, inquiry_title, inquiry_content, reg_date, comment_state, user_id
+    inquiryInfo: `SELECT inquiry_no, inquiry_title, inquiry_content, reg_date, comment_state, user_id, inquiry_img
                   FROM inquiry
                   WHERE inquiry_no = ? `,
     inquiryInsert: `INSERT INTO inquiry 
@@ -12,5 +12,11 @@ module.exports = {
     
     inquiryDelete: `DELETE 
                     FROM inquiry 
-                    WHERE inquiry_no = ?`
+                    WHERE inquiry_no = ?`,
+    
+    inquiryReply: `SELECT ir.reply_content, i.inquiry_no 
+                   FROM inquiry_reply ir join inquiry i
+                   on ir.inquiry_no = i.inquiry_no
+                   where i.inquiry_no = ?
+                   group by ir.reply_content, i.inquiry_no`
 }
