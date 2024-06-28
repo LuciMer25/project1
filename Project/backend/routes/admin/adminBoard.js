@@ -48,12 +48,41 @@ const query = require('../../mysql/index.js');
   router.put("/qnaReplyUpdate", async (req, res) => {
     const { qnaNo, content } = req.body;
     try {
-        let result = await query("qnaReplyUpdate", [content, qnaNo]);
-        res.send(result);
+      console.log(`Updating QnA: qnaNo=${qnaNo}, content=${content}`); 
+      let result = await query("qnaReplyUpdate", [content, qnaNo]);
+      res.send(result);
     } catch (err) {
-        res.status(500).send({ error: err.message });
+      console.error(err.message); 
+      res.status(500).send({ error: err.message });
     }
-});
+  });
 
+  router.get("/adminInquiryInfo/:no", async (req, res) => {
+    const no = req.params.no
+    let list = await query("adminInquiryInfo", [no]);
+    res.send({ list });
+  })
 
+  router.post("/inquiryReplyInsert", async (req, res) => {
+    const { inquiryNo, content} = req.body
+    let result = await query("inquiryReplyInsert", [content, inquiryNo]);
+    res.send(result);
+  })
+
+  router.put("/inquiryStateUpdate", async (req, res) => {
+    const { inquiryNo } = req.body
+    let result = await query("inquiryStateUpdate", [inquiryNo]);
+    res.send(result)
+  })
+
+  router.put("/inquiryReplyUpdate", async (req, res) => {
+    const { inquiryNo, content } = req.body;
+    try { 
+      let result = await query("inquiryReplyUpdate", [content, inquiryNo]);
+      res.send(result);
+    } catch (err) {
+      console.error(err.message); 
+      res.status(500).send({ error: err.message });
+    }
+  });
 module.exports = router;

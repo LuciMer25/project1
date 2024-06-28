@@ -34,8 +34,8 @@
           qna_img: '',
         },
         file: null,
-            prodImgFile : null,
-            contentImgFile : null,
+        prodImgFile : null,
+        contentImgFile : null,
       };
     },
     computed: {

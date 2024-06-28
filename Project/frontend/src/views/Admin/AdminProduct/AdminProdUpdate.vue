@@ -1,8 +1,7 @@
 <template>
     <v-container>
         <v-tabs v-model="tab" background-color="primary" dark>
-            <v-tab>상품수정</v-tab>
-            <v-tab>상품이미지</v-tab>
+            <v-tab>상품번호 : {{ product.prod_no }}</v-tab>
         </v-tabs>
 
         <v-tabs-items v-model="tab">
@@ -17,9 +16,9 @@
                         <v-card-text>
                             <v-row>
                                 <v-col cols="12" md="6">
-                                    <v-select
-                                        v-model="mainCategory"
-                                        :items="mainCategories"
+                                    <v-select 
+                                        v-model="product.top_ctgr_name"
+                                        :items="topCategories"
                                         label="대분류"
                                         outlined
                                         dense
@@ -27,8 +26,8 @@
                                 </v-col>
                                 <v-col cols="12" md="6">
                                     <v-select
-                                        v-model="subCategory"
-                                        :items="subCategories"
+                                        v-model="product.ctgr_name"
+                                        :items="categories"
                                         label="소분류"
                                         outlined
                                         dense
@@ -37,7 +36,7 @@
                             </v-row>
 
                             <v-text-field
-                                v-model="productName"
+                                v-model="product.prod_name"
                                 label="상품명"
                                 outlined
                                 dense
@@ -45,7 +44,7 @@
                             ></v-text-field>
 
                             <v-text-field
-                                v-model="price"
+                                v-model="product.price"
                                 label="판매가"
                                 type="number"
                                 outlined
@@ -53,13 +52,7 @@
                                 class="mt-3"
                             ></v-text-field>
 
-                            <v-textarea
-                                v-model="productDescription"
-                                label="상품내용"
-                                outlined
-                                dense
-                                class="mt-3"
-                            ></v-textarea>
+                            
                         </v-card-text>
                     </v-card>
                 </v-form>
@@ -74,7 +67,7 @@
 
                     <v-card-text>
                         <v-file-input
-                            v-model="mainImage"
+                            v-model="product.prod_Img"
                             label="메인이미지 ( 썸네일 )"
                             outlined
                             prepend-icon="mdi-camera"
@@ -82,7 +75,7 @@
                         ></v-file-input>
 
                         <v-file-input
-                            v-model="contentImages"
+                            v-model="product.prod_content_img"
                             label="내용이미지"
                             multiple
                             outlined
@@ -93,40 +86,39 @@
                     </v-card-text>
                 </v-card>
 
-                <v-btn color="primary" class="mt-3" @click="submitProduct">상품등록</v-btn>
+                <v-btn color="primary" class="mt-3" @click="submitProduct">상품수정</v-btn>
             </v-tab-item>
         </v-tabs-items>
     </v-container>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     data() {
         return {
-            tab: 0,
-            mainCategory: null,
-            subCategory: null,
-            productName: '',
-            price: '',
-            productDescription: '',
-            mainImage: null,
-            contentImages: [],
-            mainCategories: ['카테고리1', '카테고리2'],
-            subCategories: ['소분류1', '소분류2'],
+            product :{},
+            topCategories: ['카테고리1', '카테고리2'],
+            categories: ['소분류1', '소분류2'],
         };
+    },
+    created(){
+        const no = this.$route.params.no;
+        console.log(no);
+        axios.get(`/api/adminProduct/prodInfo/${no}`)
+        .then(res => {
+            this.product = res.data.list[0];
+            console.log(this.product);
+        })
+        // axios.get(`/api/adminProduct/categoryList`)
+        // .then(res => {
+        //     this.topCategories = res.data.list[0];
+        //     console.log(this.topCategories)
+        // })
     },
     methods: {
         submitProduct() {
-            // 상품 등록 로직
-            console.log('상품 등록', {
-                mainCategory: this.mainCategory,
-                subCategory: this.subCategory,
-                productName: this.productName,
-                price: this.price,
-                productDescription: this.productDescription,
-                mainImage: this.mainImage,
-                contentImages: this.contentImages,
-            });
+           
         },
     },
 };

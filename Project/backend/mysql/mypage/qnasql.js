@@ -11,5 +11,11 @@ module.exports = {
                 WHERE qna_no = ?`,
     qnaDelete: `DELETE
                 FROM QnA
-                WHERE qna_no = ?`
+                WHERE qna_no = ?`,
+    
+    qnaReply: `SELECT qr.reply_content, q.qna_no 
+               FROM QnA_reply qr join QnA q
+               on qr.qna_no = q.qna_no
+               where q.qna_no = ?
+               group by qr.reply_content, q.qna_no`
 }

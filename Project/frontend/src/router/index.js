@@ -39,16 +39,22 @@ import adminOrderDetail from '../views/Admin/AdminOrder/AdminOrderDetail.vue'
 import adminCancelDetail from '../views/Admin/AdminOrder/AdminCancelDetail.vue'
 import adminReturnDetail from '../views/Admin/AdminOrder/AdminReturnDetail.vue'
 import adminQnaInfo from '../views/Admin/AdminMember/AdminQnaInfo.vue'
+import adminInquiryInfo from '../views/Admin/AdminMember/AdminInquiryInfo.vue'
 
 // 상품
 import NewProductlist from '../views/Main/NewProductListView.vue'
 import BestProductlist from '../views/Main/BestProductListView.vue'
 import ThreeProductlist from '../views/Main/ThreeProductListView.vue'
+import CupbapProductlist from '../views/Main/CupbapProductListView.vue'
+
 
 //로그인
 import login from '../views/Main/login/login.vue'
 import signtUp1 from '../views/Main/login/signup/signtUp1.vue'
 import singUpList from '../views/Main/login/signup/singUpList.vue'
+//아이디 비밀번호 찾기
+import FindIdPw from '../views/Main/login/FindIdPw.vue'
+
 //회원정보수정
 import MemCheck from '../views/MyPage/EditMember/MemCheck.vue'
 import EditMembers from '../views/MyPage/EditMember/EditMembers.vue'
@@ -91,20 +97,29 @@ const routes = [
         name: 'category',
         component: CategoryView
       },
+      // 메인화면 신상품 리스트
       {
         path: 'newproductlist',
         name: 'NewProductlist',
         component : NewProductlist
       },
+      // 메인화면 BEST 상품 리스트
       {
         path: 'bestproductlist',
         name: 'BestProductlist',
         component : BestProductlist
       },
+      // 3분요리 상품 리스트
       {
         path: 'threeproductlist',
         name: 'ThreeProductlist',
         component : ThreeProductlist
+      },
+      // 컵밥 상품 리스트
+      {
+        path: 'cupbapproductlist',
+        name: 'CupbapProductlist',
+        component : CupbapProductlist
       },
       //로그인
       {
@@ -122,7 +137,11 @@ const routes = [
         name: 'singUpList',
         component : singUpList
       },
-    
+    {
+      path: 'FindIdPw',
+      name: 'FindIdPw',
+      component : FindIdPw
+    },
 
     ]
   },
@@ -152,23 +171,23 @@ const routes = [
         component: adminProdInsert
       },
       {
-        path: 'prodInfo',
+        path: 'prodInfo/:no',
         name: 'prodInfo',
         component: adminProdInfo
       },
       {
         path: 'memberList',
-        path: 'memberList',
+        name: 'memberList',
         component: adminMember
       },
       {
         path: 'qnaList',
-        path: 'qnaList',
+        name: 'qnaList',
         component: adminQnA
       },
       {
         path: 'inquiry',
-        path: 'inquiry',
+        name: 'inquiry',
         component: adminInquiry
       },
       {
@@ -184,7 +203,7 @@ const routes = [
         component : adminReturnOrder
       },
       {
-        path: 'prodUpdate',
+        path: 'prodUpdate/:no',
         component : adminProdUpdate
       },
       {
@@ -202,6 +221,10 @@ const routes = [
       {
         path: 'qnaInfo/:no',
         component : adminQnaInfo
+      },
+      {
+        path: 'inquiryInfo/:no',
+        component : adminInquiryInfo
       },
 
     ]
