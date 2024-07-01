@@ -1,10 +1,9 @@
 <template>
  <h1>
-    <!-- <span>{{ search.result }}</span> -->
     검색결과
  </h1>    
 </template>
-<!-- <script>
+<script>
 import axios from 'axios';
 
 export default {
@@ -21,5 +20,6 @@ export default {
     }
 
 }
-</script> -->
+</script>
+
 
