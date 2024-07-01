@@ -3,6 +3,7 @@
     <RouterView></RouterView>
     <Footer></Footer>
     <FloatingMenu></FloatingMenu>
+
 </template>
 <script>
 import FloatingMenu from '@/components/main/FloatingMenu.vue'
