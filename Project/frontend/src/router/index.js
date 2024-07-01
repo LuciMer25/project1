@@ -43,7 +43,8 @@ import EditMembers from '../views/MyPage/EditMember/EditMembers.vue'
 
 
 //
-import CategoryView from '../views/CategoryView.vue'
+import CategoryView from '../views/PageMove/CategoryView.vue'
+import SearchView from '../views/PageMove/SearchView.vue'
 
 const routes = [
   {
@@ -65,6 +66,10 @@ const routes = [
         path: '/category',
         name: 'category',
         component: CategoryView
+      },
+      {
+        path: '/search',
+        component: SearchView
       },
       {
         path: 'newproductlist',

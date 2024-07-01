@@ -2,6 +2,7 @@ const memberSql = require('./memberSql.js');
 
 const adminOrder = require('./admin/adminOrder');
 const categorySql = require('./main/categorySql.js');
+const searchSql = require('./main/searchSql.js')
 const adminBoard = require('./admin/adminBoard')
 const adminMember = require('./admin/adminMember')
 const adminProduct = require('./admin/adminProduct')
@@ -23,5 +24,6 @@ module.exports = {
    ...qnasql,
    ...mypageorder,
    ...productsql,
-   ...categorySql
+   ...categorySql,
+   ...searchSql
 }

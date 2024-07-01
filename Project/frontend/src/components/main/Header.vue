@@ -1,8 +1,8 @@
+
 <template>
     <header>
-    <v-card>
+     <v-card>
       <v-layout>
-       
         <v-app-bar color="primary" prominent>
           <!-- <v-app-bar-nav-icon variant="text"></v-app-bar-nav-icon> -->
           <a href="/">home</a>
@@ -25,10 +25,15 @@
           <v-spacer></v-spacer>
           <nav class="navbar bg-body-tertiary">
           <div class="container-fluid">
-            <form class="d-flex" role="search" method="get">
-            <input  type="search" placeholder="Search" aria-label="Search" name="search">
-            <button class="btn" type="submit">Search</button>
+
+            <form action="search" method="get" class="search-form">
+	            <input type="text" class="search-bar" name="query" placeholder="검색어를 입력하세요.">
+	            <input type="submit" class="search-button" value="Search" >
             </form>
+            <!-- <form class="d-flex" role="search" method="get">
+              <input id="searchInput" placeholder="Search" aria-label="Search">
+              <button id="search" type="submit">Search</button>
+            </form> -->
           </div>
           </nav>
           <template v-if="$vuetify.display.mdAndUp">
@@ -45,12 +50,20 @@
       </v-layout>
     </v-card>
   </header>
-  </template>
-  <script>
+</template>
+<script>
+// window.onload = function(){
+//   document.querySelector('#search').addEventListener('click', search);
 
-  </script>
+//   function search(){
+//     var input = document.querySelector('#searchInput').value;
+//     window.location.replace('/search?value=' + input)
+//   }
+// }
+  
+</script>
 <style>
-  /* ul{
+  ul{
     list-style-type: none;
     margin:0px;
     padding:0px;
@@ -90,5 +103,5 @@
         color:white;
         text-decoration: none;
         padding:5px;
-    } */
+    }
 </style>
