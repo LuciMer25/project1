@@ -12,6 +12,7 @@ const mypagemain = require('./mypage/mypagemain.js')
 const mypageorder = require('./mypage/mypageorder');
 const productsql = require('./product/productSql.js')
 const signUp =require('./main/signUp.js')
+const memcheck =require('./mypage/memcheck.js')
 
 module.exports = {
   ...adminOrder,
@@ -29,4 +30,5 @@ module.exports = {
    ...orderSql,
    ...productDetailSql,
    ...signUp,
+   ...memcheck,
 };

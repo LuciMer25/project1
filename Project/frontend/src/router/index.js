@@ -58,6 +58,7 @@ import FindIdPw from '../views/Main/login/FindIdPw.vue'
 //회원정보수정
 import MemCheck from '../views/MyPage/EditMember/MemCheck.vue'
 import EditMembers from '../views/MyPage/EditMember/EditMembers.vue'
+import DeleteMem from '../views/MyPage/EditMember/DeleteMem.vue'
 
 
 //
@@ -281,6 +282,10 @@ const routes = [
       {
         path: '/EditMembers',
         component: EditMembers,
+      },
+      {
+        path: '/DeleteMem',
+        component: DeleteMem,
       },
     ]
   },
