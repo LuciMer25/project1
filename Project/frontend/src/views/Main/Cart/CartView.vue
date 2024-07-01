@@ -83,7 +83,9 @@ export default {
   },
   computed: {
     totalAmount() {
-      return this.cartItems.reduce((sum, item) => sum + item.price * item.prod_cnt, 0);
+      return this.cartItems
+      .filter(item => item.selected)
+      .reduce((sum, item) => sum + item.price * item.prod_cnt, 0);
     },
   },
   methods: {
@@ -92,8 +94,8 @@ export default {
     },
     async getCartItems() {
       try {
-        const userId = this.$store.getters.getUserInfo.userId; // 사용자 ID 가져오기
-        const response = (await axios.post('/api/cart', { userId }));
+        const user_id = this.$store.getters.getUserInfo.user_id; // 사용자 ID 가져오기
+        const response = (await axios.post('/api/cart', { user_id }));
         this.cartItems = response.data;
       } catch (error) {
         console.error(error);
@@ -154,7 +156,27 @@ export default {
     },
     async checkout() {
       await this.updateCartItems();
-      alert("Order placed for " + this.formatPrice(this.totalAmount) + "원");
+
+      const selectedItems = this.cartItems
+        .filter(item => item.selected)
+        .map(item => ({
+          prod_no: item.prod_no,
+          prod_name: item.prod_name,
+          prod_cnt: item.prod_cnt,
+          price: item.price,
+          order_amount: item.price * item.prod_cnt,
+          prod_img: item.prod_img
+        }));
+
+        if(selectedItems.length>0){
+          this.$store.dispatch('updateItemList', selectedItems);
+          this.$router.push({ name: 'order' });
+        }
+        else{
+          alert('장바구니 상품을 선택해주세요!');
+        }
+
+      // alert("Order placed for " + this.formatPrice(this.totalAmount) + "원");
     },
   },
 };

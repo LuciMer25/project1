@@ -7,9 +7,9 @@ router.use(express.json());
 
     router.post("/", async (req,res)=>{
     
-    const userId = req.body.userId; 
-    console.log(userId);
-        let cartList = (await query('cartList',userId));
+    const user_id = req.body.user_id; 
+    console.log(user_id);
+        let cartList = (await query('cartList',user_id));
         //console.log(cartList)
         res.send(cartList);
         

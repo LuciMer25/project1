@@ -9,9 +9,10 @@
           </form>
         </div>
         <div class="controlbox">
-          <a href="login"><p>로그인</p></a>
-          <a href="mypage"><p>마이페이지</p></a>
-          <a href="#"><p>장바구니</p></a>
+          <RouterLink to="/" v-if="isLoggedIn" @click.prevent="logout"><p>로그아웃</p></RouterLink>
+          <RouterLink to="/login" v-else><p>로그인</p></RouterLink>
+          <RouterLink to="/mypage"><p>마이페이지</p></RouterLink>
+          <RouterLink to="/cart"><p>장바구니</p></RouterLink>
         </div>
       </div>
       <div class="top-head2">
@@ -73,7 +74,7 @@
 </template>
 <script>
 import axios from "axios";
-
+import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -83,6 +84,9 @@ export default {
   },
   created() {
     this.getcategoryList();
+  },
+  computed: {
+    ...mapGetters(["isLoggedIn"])
   },
   methods: {
     async getcategoryList() {
@@ -99,8 +103,20 @@ export default {
       this.Upcategory5 = result.data.UpResult5;
       this.DownCategory5 = result.data.DownResult5;
 
-    } // end of getcategortList
-      
+    }, // end of getcategortList
+    ...mapActions(["logoutUser"]),
+    checkLoginStatus() {
+      return sessionStorage.getItem('user_id') != null;
+    },
+    logout() {
+      // 세션 스토리지에서 user_id 제거
+      sessionStorage.removeItem('user_id');
+      sessionStorage.removeItem('name');
+      // 로그인 상태 false로 설정
+      this.logoutUser(); // Vuex 액션 호출
+      // 로그아웃 후 원하는 경로로 리다이렉트 등의 추가 작업 수행 가능
+      // window.location.href = '/logout'; // 예시
+    }  
   }, // end of methods
   
 } // end of default

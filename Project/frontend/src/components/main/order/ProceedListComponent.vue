@@ -16,11 +16,13 @@
       <v-col>
         <v-row>
           <v-col cols="2">
-            <v-img 
-          max-height="100"
-          max-width="100"
-          :src = "`/api/upload/products/${item.prod_no}/${item.prod_img}`" contain
-          @error="onImageError"></v-img>
+            <img
+            :src="`/api/upload/products/${item.prod_no}/${item.prod_img}`"
+            :alt="item.prod_name"
+            @error="onImageError"
+            :data-fallback="fallbackImg"
+            style="max-height: 100px; max-width: 100px; object-fit: contain;"
+          />
           </v-col>
           <v-col cols="6" class="d-flex align-center">
             <div>
@@ -44,16 +46,18 @@
       data (){
         return {
           itemList:[],
-          fallbackImg: '/public/imgs/loadfail.jpg',
+          fallbackImg: '/imgs/loadfail.jpg',
         }
       },
       created(){
         this.itemList = this.$store.getters.getItemList;
         console.log(this.itemList);
       },
-      methods: {  
+      methods: {
         onImageError(event) {
-          event.target.src = this.fallbackImg;
+          if (event && event.target) {
+            event.target.src = this.fallbackImg;
+          }
         },
       },
     }

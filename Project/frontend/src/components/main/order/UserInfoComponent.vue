@@ -69,7 +69,7 @@ import axios from 'axios';
         
         //console.log(this.$store.getters.getUserInfo);
         let result = (await axios.get('/api/account',{params: {
-                                                                    user_id: this.$store.getters.getUserInfo.userId
+                                                                    user_id: this.$store.getters.getUserInfo.user_id
                                                               }
                                                       })).data[0];
         this.setMember(result)
