@@ -44,7 +44,10 @@
             <td colspan="4" class="text-center">{{ qnaInfo.reply_reg_date }}</td>
             <td class="text-center">
               <button v-if="!qnaInfo.reply_reg_date" class="btn btn-xs btn-info" @click="addReply">등록</button>
-              <button v-if="qnaInfo.reply_reg_date" class="btn btn-xs btn-info" @click="updateReply">수정</button>
+              <button v-else class="btn btn-xs btn-info" @click="updateReply">수정</button>
+            </td>
+            <td class = "text-center">
+              <button class="btn btn-xs btn-info" @click= "backBtn">뒤로가기</button>
             </td>
           </tr>
         </tbody>
@@ -57,51 +60,55 @@
 import axios from "axios";
 
 export default {
-data() {
-  return {
-    qnaInfo: {}
-  };
-},
-created() {
-  const no = this.$route.params.no;
-  console.log(no);
-    axios.get(`/api/adminBoard/adminQnaInfo/${no}`)
-    .then(res => {
-        this.qnaInfo = res.data.list[0];
-        console.log(res.data);
-    })
-},
-methods: {
-  async addReply() {
-    try{
-      let res = await axios.post(`/api/adminBoard/qnaReplyInsert`, {
-        qnaNo : this.qnaInfo.qna_no,
-        content : this.qnaInfo.reply_content
-      });
-      
-      res = await axios.put(`/api/adminBoard/qnaStateUpdate`, {
-        qnaNo : this.qnaInfo.qna_no
-      });
-      alert("답변이 등록되었습니다.");
-      this.$router.go(this.$router.currentRoute)
-
-    } catch (err) {
-      console.log(err)
-    }
-
+  data() {
+    return {
+      qnaInfo: {}
+    };
   },
-  async updateReply() {
-    try{
-      let res = await axios.put(`/api/adminBoard/qnaReplyUpdate`, {
-        qnaNo : this.qnaInfo.qna_no,
-        content : this.qnaInfo.reply_content
-      });
-      alert("답변이 수정되었습니다.");
-      this.$router.go(this.$router.currentRoute);
-    } catch (err) {
-      console.log(err)
+  created() {
+    const no = this.$route.params.no;
+    console.log(no);
+      axios.get(`/api/adminBoard/adminQnaInfo/${no}`)
+      .then(res => {
+          this.qnaInfo = res.data.list[0];
+          console.log(res.data);
+      })
+  },
+  methods: {
+    async addReply() {
+      try{
+        let res = await axios.post(`/api/adminBoard/qnaReplyInsert`, {
+          qnaNo : this.qnaInfo.qna_no,
+          content : this.qnaInfo.reply_content
+        });
+      
+        res = await axios.put(`/api/adminBoard/qnaStateUpdate`, {
+          qnaNo : this.qnaInfo.qna_no
+        });
+        this.$swal("답변이 등록되었습니다.");
+        this.$router.go(this.$router.currentRoute)
+
+      } catch (err) {
+        console.log(err)
+      }
+
+    },
+    async updateReply() {
+      try{
+        let res = await axios.put(`/api/adminBoard/qnaReplyUpdate`, {
+          qnaNo : this.qnaInfo.qna_no,
+          content : this.qnaInfo.reply_content
+        });
+        this.$swal("답변이 수정되었습니다.");
+        this.$router.go(this.$router.currentRoute);
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    backBtn(){
+      this.$router.push(`/admin/qnaList`)
     }
+
   }
-}
 };
 </script>

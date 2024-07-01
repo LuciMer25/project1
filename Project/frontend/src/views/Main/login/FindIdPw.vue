@@ -38,7 +38,7 @@
               <form @submit.prevent="findUserPassword">
                 <input type="text" name="name" placeholder="이름" v-model="userpwFind.name">
                 <hr>
-                <input type="text" name="id" placeholder="아이디" v-model="userpwFind.user_id">
+                <input type="text" name="user_id" placeholder="아이디" v-model="userpwFind.user_id">
                 <hr>
                 <input type="text" name="phone" placeholder="전화번호" v-model="userpwFind.phone">
                 <div class="modal-btn">
@@ -48,7 +48,7 @@
               </form>
               <!-- 조회된 결과 표시 -->
               <div v-if="userPasswordFound">
-                <input type="text" name="password" placeholder="변경할 비밀번호" v-model="userpwFind.pw">
+                <input type="password" name="password" placeholder="변경할 비밀번호" v-model="newPassword">
                 <button @click="changePassword">비밀번호 변경</button>
               </div>
             </div>
@@ -76,7 +76,7 @@ export default {
       userpwFind: {
         name: '',
         user_id: '',
-        phone: '',
+        phone: ''
       },
       userPasswordFound: null,
       newPassword: ''
@@ -85,10 +85,12 @@ export default {
   methods: {
     closeIdModal() {
       this.showIdModal = false;
+      this.userFind = { name: '', phone: '' }; // 입력 필드 초기화
+      this.userIdFound = null; // 조회 결과 초기화
     },
     async findUserId() {
       try {
-        const response = await axios.post('/api/userFind', {
+        const response = await axios.post('/api/userFind/idFind', {
           name: this.userFind.name,
           phone: this.userFind.phone
         });
@@ -99,10 +101,13 @@ export default {
     },
     closePasswordModal() {
       this.showPasswordModal = false;
+      this.userpwFind = { name: '', user_id: '', phone: '' }; // 입력 필드 초기화
+      this.userPasswordFound = null; // 조회 결과 초기화
+      this.newPassword = ''; // 새로운 비밀번호 초기화
     },
     async findUserPassword() {
       try {
-        const response = await axios.post('/api/userFind', {
+        const response = await axios.post('/api/userFind/pwFind', {
           name: this.userpwFind.name,
           user_id: this.userpwFind.user_id,
           phone: this.userpwFind.phone
@@ -113,16 +118,22 @@ export default {
       }
     },
     async changePassword() {
+      if (!this.newPassword) {
+        alert('새 비밀번호를 입력해주세요.');
+        return;
+      }
+
       try {
-        const response = await axios.post('/api/userFind ', {
+        const response = await axios.put('/api/changePassword', {
           user_id: this.userpwFind.user_id,
           name: this.userpwFind.name,
           phone: this.userpwFind.phone,
-          pw: this.userpwFind.pw
+          new_password: this.newPassword
         });
-        // 비밀번호 변경 성공 시 처리
-        console.log('비밀번호 변경 완료:', response.data, pw);
-        this.userpwFind.pw = ''; // 입력 필드 초기화
+        alert('비밀번호가 변경되었습니다.');
+        this.newPassword = ''; // 입력 필드 초기화
+        this.userpwFind = { name: '', user_id: '', phone: '' }; // 데이터 초기화
+        this.closePasswordModal();
       } catch (error) {
         console.error('비밀번호 변경 에러:', error);
       }

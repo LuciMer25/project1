@@ -30,6 +30,12 @@ module.exports = {
 
      prodUpdate: `UPDATE product 
                   SET prod_name = ?, price = ?, ctgr_no = ?, prod_img = ?, prod_content_img = ?, reg_date = CURRENT_TIMESTAMP
+                  WHERE prod_no = ?`,
+
+     prodInsert: `INSERT INTO product (prod_name, price, ctgr_no, prod_img, prod_content_img)
+                  VALUES (?, ?, ?, ?, ?)`,
+
+     prodDelete: `DELETE FROM product
                   WHERE prod_no = ?`
 
    };

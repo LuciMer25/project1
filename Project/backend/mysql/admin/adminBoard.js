@@ -49,7 +49,25 @@ module.exports = {
     inquiryReplyUpdate : `UPDATE inquiry i LEFT JOIN inquiry_reply ir
                                                 ON i.inquiry_no = ir.inquiry_no
                           SET i.comment_state = "답변 완료(수정)", ir.reply_content = ? , ir.reply_reg_date = CURRENT_TIMESTAMP
-                          WHERE i.inquiry_no = ?`
+                          WHERE i.inquiry_no = ?`,
 
+    notifyList : `SELECT notice_no, title, reg_date, category
+                  FROM notice
+                  ORDER BY category = '공지' DESC, notice_no
+                  LIMIT ? , ?`,
+
+    notifyCount : `SELECT count(*) AS cnt FROM notice`,
+
+    notifyImg : `SELECT table_class, path, file_name, sort, file_type
+                 FROM file
+                 WHERE board_no = ?
+                 ORDER BY sort`,
+
+    notifyInfo : `SELECT title, reg_date, content, category
+                  FROM notice
+                  WHERE notice_no = ?`
+
+
+    
                       
 }

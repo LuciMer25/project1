@@ -126,12 +126,12 @@ export default{
             console.log(this.orderNo)
             axios.put(`/api/adminOrder/updateReturnState/${this.orderNo}`)
                 .then(() => {
-                    alert('반품완료 되었습니다.')
+                    this.$swal('반품완료 되었습니다.')
                     console.log("업데이트됨")
                 })
                 .then(()=> this.$router.go(this.$router.currentRoute))
                 .catch(() => {
-                 alert("업데이트실패");
+                    this.$swal("업데이트실패");
             });
         },
         goDeatil(order_no){

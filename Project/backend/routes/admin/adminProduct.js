@@ -33,8 +33,10 @@ router.post("/prodInsert", upload.fields([
       data.contentImg = req.files.contentImg[0].filename;
     }
   }
-  let result = await query("productInsert", data);
+  const { prod_name, price, ctgr_no, prodImg, contentImg } = data;
+  let result = await query("prodInsert", [prod_name, price, ctgr_no, prodImg, contentImg]);
   res.send(result);
+
 });
 
 router.get("/prodInfo/:no", async (req, res) => {
@@ -73,7 +75,12 @@ router.put("/prodUpdate/:no", upload.fields([
     const { prod_name, price, ctgr_no, prodImg, contentImg } = data;
     let result = await query("prodUpdate", [prod_name, price, ctgr_no, prodImg, contentImg, no]);
     res.send(result);
-  
 });
+
+router.delete("/prodDelete/:no", async (req, res) => {
+  const no = req.params.no;
+  let result = await query("prodDelete", [no]);
+  res.send(result);
+})
 
 module.exports = router;

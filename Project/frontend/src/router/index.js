@@ -23,6 +23,15 @@ import QnAList from '../views/MyPage/QnA/QnAList.vue'
 import QnAInfo from '../views/MyPage/QnA/QnAInfo.vue'
 import QnAForm from '../views/MyPage/QnA/QnAForm.vue'
 import QnAUpdate from '../views/MyPage/QnA/QnAUpdate.vue'
+// 리뷰
+import ReviewList from '../views/MyPage/Review/ReviewList.vue'
+import ReviewInfo from '../views/MyPage/Review/ReviewInfo.vue'
+import ReviewForm from '../views/MyPage/Review/ReviewForm.vue'
+import ReviewUpdate from '../views/MyPage/Review/ReviewUpdate.vue'
+// 위시리스트
+import WishList from '../views/MyPage/WishList/wishList.vue'
+// 주문/배송
+import OrderList from '../views/MyPage/Order/OrderList.vue'
 //관리자
 import adminMain from '../views/Admin/AdimMain.vue'
 import adminProdList from '../views/Admin/AdminProduct/AdminProdList.vue'
@@ -40,7 +49,9 @@ import adminCancelDetail from '../views/Admin/AdminOrder/AdminCancelDetail.vue'
 import adminReturnDetail from '../views/Admin/AdminOrder/AdminReturnDetail.vue'
 import adminQnaInfo from '../views/Admin/AdminMember/AdminQnaInfo.vue'
 import adminInquiryInfo from '../views/Admin/AdminMember/AdminInquiryInfo.vue'
-
+import notifyList from '../views/Admin/AdminMember/notifyList.vue' 
+import adminNotify from '../views/Admin/AdminMember/AdminNotify.vue'
+import adminNotifyInfo from '../views/Admin/AdminMember/AdminNotifyInfo.vue'
 // 상품
 import NewProductlist from '../views/Main/NewProductListView.vue'
 import BestProductlist from '../views/Main/BestProductListView.vue'
@@ -58,10 +69,13 @@ import FindIdPw from '../views/Main/login/FindIdPw.vue'
 //회원정보수정
 import MemCheck from '../views/MyPage/EditMember/MemCheck.vue'
 import EditMembers from '../views/MyPage/EditMember/EditMembers.vue'
+import DeleteMem from '../views/MyPage/EditMember/DeleteMem.vue'
 
 
 //
-import CategoryView from '../views/CategoryView.vue'
+import CategoryView from '../views/PageMove/CategoryView.vue'
+import SearchView from '../views/PageMove/SearchView.vue'
+import AdminNotify from '@/views/Admin/AdminMember/notifyList.vue'
 
 const routes = [
   {
@@ -101,6 +115,10 @@ const routes = [
         path: '/category',
         name: 'category',
         component: CategoryView
+      },
+      {
+        path: '/search',
+        component: SearchView
       },
       // 메인화면 신상품 리스트
       {
@@ -142,11 +160,16 @@ const routes = [
         name: 'singUpList',
         component : singUpList
       },
-    {
-      path: 'FindIdPw',
-      name: 'FindIdPw',
-      component : FindIdPw
-    },
+      {
+        path: 'FindIdPw',
+        name: 'FindIdPw',
+        component : FindIdPw
+      },
+      {
+        path: 'notify',
+        name: 'notify',
+        component : notifyList
+      }
 
     ]
   },
@@ -231,6 +254,14 @@ const routes = [
         path: 'inquiryInfo/:no',
         component : adminInquiryInfo
       },
+      {
+        path: 'notify',
+        component : adminNotify
+      },
+      {
+        path: 'notifyInfo/:no',
+        component : adminNotifyInfo
+      }
 
     ]
   },
@@ -278,6 +309,33 @@ const routes = [
         path: '/QnAUpdate',
         component: QnAUpdate,
       },
+      // 리뷰
+      {
+        path: '/ReviewList',
+        component: ReviewList,
+      },
+      {
+        path: '/ReviewForm',
+        component: ReviewForm,
+      },
+      {
+        path: '/ReviewInfo',
+        component: ReviewInfo,
+      },
+      {
+        path: '/ReviewUpdate',
+        component: ReviewUpdate,
+      },
+      // 위시리스트
+      {
+        path: '/WishList',
+        component: WishList,
+      },
+      // 주문/배송 조회
+      {
+        path: '/OrderList',
+        component: OrderList,
+      },
       //회원수정페이지
       {
         path: '/MemCheck',
@@ -287,6 +345,11 @@ const routes = [
         path: '/EditMembers',
         component: EditMembers,
       },
+      {
+        path: '/DeleteMem',
+        component: DeleteMem,
+      },
+
     ]
   },
   

@@ -43,13 +43,13 @@ export default {
       axios
         .put(`/api/adminOrder/updateWayBill/${this.orderNo}`, { wayBill: this.wayBill })
         .then(() => {
-          alert('운송장 번호가 등록되었습니다.');
+          this.$swal('운송장 번호가 등록되었습니다.');
           console.log(this.orderNo, this.wayBill);
           this.close();
         })
         .then(() => this.$router.go(this.$router.currentRoute))
         .catch(() => {
-          alert('운송장 번호 등록에 실패했습니다.');
+          this.$swal('운송장 번호 등록에 실패했습니다.');
         });
     },
   },

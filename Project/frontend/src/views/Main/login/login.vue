@@ -84,6 +84,51 @@ export default {
     FindIdPw() {
       this.$router.push('/FindIdPw'); // signUp1 경로로 이동
     },
+    kakaoLogin() {
+      window.Kakao.Auth.login({
+        scope: "profile_image, account_email",
+        success: this.getKakaoAccount,
+      });
+    },
+    getKakaoAccount() {
+      const vm = this; // Store the Vue instance context
+      window.Kakao.API.request({
+        url: "/v2/user/me",
+        success: function(res) {
+          const kakao_account = res.kakao_account;
+          const nickname = kakao_account.profile.nickname;
+          const email = kakao_account.email;
+          console.log("nickname", nickname);
+          console.log("email", email);
+
+          // Example of storing data in sessionStorage
+          sessionStorage.setItem('nickname', nickname);
+          sessionStorage.setItem('email', email);
+
+          alert("로그인 성공!");
+
+          // Redirect to BoardList.vue using Vue Router
+          vm.$router.push('/list'); // Assuming '/boardlist' is your route path
+        },
+        fail: function(error) {
+          console.log(error);
+        },
+      });
+    },
+    kakaoLogout() {
+      const vm = this; // Store the Vue instance context
+      window.Kakao.Auth.logout(function() {
+        // Clear sessionStorage
+        sessionStorage.removeItem('nickname');
+        sessionStorage.removeItem('email');
+        
+        // Optional: Clear any other state or UI related to logged-in state
+        // For example, resetting the UI or redirecting to a login page
+        
+        // Redirect to '/' after logout (adjust as needed)
+        vm.$router.push('/');
+      });
+    },
   }
 };
 </script>

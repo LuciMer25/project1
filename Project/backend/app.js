@@ -23,6 +23,9 @@ var inquiryRouter = require('./routes/mypage/inquiry');
 var qnaRouter = require('./routes/mypage/qna');
 const mypageorderRouter = require('./routes/mypage/mypageorder');
 // const inquiryreplyRouter = require('./routes/mypage/inquiryreply')
+const reviewRouter = require('./routes/mypage/review');
+const wishRouter = require('./routes/mypage/wishlist');
+const orderRouter = require('./routes/mypage/order');
 
 const CategoryRouter = require('./routes/main/category.js');
 var app = express();
@@ -38,7 +41,12 @@ var bannerRouter = require('./routes/product/banner.js')
 //로그인 
 var signUpRouter = require('./routes/login/singUp.js');
 var loginRouter = require('./routes/login/login.js');
-const userFindRouter = require('./routes/login/useFind.js'); 
+const userFindRouter = require('./routes/login/useFind.js');
+const usepwFindRouter = require('./routes/login/usepwFind.js');
+
+var memcheckRoter = require('./routes/mem/memcheck.js');
+var memEditRouter = require('./routes/mem/memEdit.js');
+var memdeleteRouter = require('./routes/mem/memdelete.js');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -88,10 +96,13 @@ app.use('/api/cart',CartRouter);
 
 
 // 마이페이지(맹선우)
-app.use('/api/inquiry', inquiryRouter)
+app.use('/api/inquiry', inquiryRouter);
 // app.use('/api/inquiryreply', inquiryreplyRouter)
-app.use('/api/qna', qnaRouter)
+app.use('/api/qna', qnaRouter);
 app.use('/api/mypageorder', mypageorderRouter);
+app.use('/api/review', reviewRouter);
+app.use('/api/wishlist', wishRouter);
+app.use('/api/order', orderRouter)
 
 
 // 메인, 상품(김성태)
@@ -105,10 +116,18 @@ app.use('/api/banner',bannerRouter)
 app.use('/api/signUp', signUpRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/userFind', userFindRouter); 
+app.use('/api/usepwFind', usepwFindRouter); 
+
 
 // 메인, 카테고리(최석원)
 app.use('/api/category', CategoryRouter);
 
+app.use('/api/memcheck', memcheckRoter);
+app.use('/api/memEdit', memEditRouter);
+app.use('/api/memdelete', memdeleteRouter);
+
+
+//
 
 // 요청 로그
 app.use((req, res, next) => {

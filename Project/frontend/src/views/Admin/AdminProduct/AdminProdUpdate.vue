@@ -2,7 +2,6 @@
   <div class="container mt-5">
     <h1>상품번호 : {{ product.prod_no }}</h1>
 
-    <!-- 상품 수정 폼 -->
     <div class="card mt-4">
       <div class="card-header">
         상품 수정
@@ -34,8 +33,6 @@
         </div>
       </div>
     </div>
-
-    <!-- 상품 이미지 -->
     <div class="card mt-4">
       <div class="card-header">
         상품 이미지
@@ -117,7 +114,7 @@ export default {
         
       axios.put(`/api/adminProduct/prodUpdate/${this.product.prod_no}`, formData)
         .then(res => {
-          alert("상품이 수정되었습니다.")
+          this.$swal('상품이 수정되었습니다.');
           this.$router.push(`/admin/prodInfo/${this.product.prod_no}`)
         })
     },
