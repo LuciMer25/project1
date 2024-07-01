@@ -50,8 +50,12 @@ import adminReturnDetail from '../views/Admin/AdminOrder/AdminReturnDetail.vue'
 import adminQnaInfo from '../views/Admin/AdminMember/AdminQnaInfo.vue'
 import adminInquiryInfo from '../views/Admin/AdminMember/AdminInquiryInfo.vue'
 import notifyList from '../views/Admin/AdminMember/notifyList.vue' 
-import adminNotify from '../views/Admin/AdminMember/AdminNotify.vue'
-import adminNotifyInfo from '../views/Admin/AdminMember/AdminNotifyInfo.vue'
+import notifyInfo from '../views/Admin/AdminMember/notifyInfo.vue'
+import adminNotify from '../views/Admin/AdminBoard/AdminNotify.vue'
+import adminNotifyInfo from '../views/Admin/AdminBoard/AdminNotifyInfo.vue'
+import adminNotifyInsert from '../views/Admin/AdminBoard/AdminNotifyInsert.vue'
+
+
 // 상품
 import NewProductlist from '../views/Main/NewProductListView.vue'
 import BestProductlist from '../views/Main/BestProductListView.vue'
@@ -169,7 +173,12 @@ const routes = [
         path: 'notify',
         name: 'notify',
         component : notifyList
-      }
+      },
+      {
+        path: 'notifyInfo/:no',
+        name: 'notifyInfo',
+        component : notifyInfo
+      },
 
     ]
   },
@@ -261,7 +270,11 @@ const routes = [
       {
         path: 'notifyInfo/:no',
         component : adminNotifyInfo
-      }
+      },
+      {
+        path: 'notifyInsert',
+        component : adminNotifyInsert
+      },
 
     ]
   },
