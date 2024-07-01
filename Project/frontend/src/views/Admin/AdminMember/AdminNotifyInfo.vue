@@ -47,7 +47,7 @@
       }, 
       async notifyInfo(){
         const { data } = await axios.get(`/api/adminBoard/notifyInfo/${this.$route.params.no}`);
-        this.item = data.list;
+        this.item = data.list[0];
         this.images = data.img;
       },
       getImagePath(image) {
