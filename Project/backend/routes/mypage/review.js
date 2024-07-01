@@ -17,12 +17,12 @@ const upload = multer({ storage: storage });
 
 //목록
 router.get("/",	async(req ,	res )	=> {
-    let result = await query("inquiryList").then(res=>res);
+    let result = await query("reviewList").then(res=>res);
     res.send(result);
 });
 //단건조회
-router.get("/:inquiry_no",	async (req ,res )	=> {
-    let result = await query("inquiryInfo", req.params.inquiry_no );
+router.get("/:review_no",	async (req ,res )	=> {
+    let result = await query("reviewInfo", req.params.review_no );
     res.send(result);
 });
 //등록
@@ -30,37 +30,22 @@ router.post("/", upload.single("avatar"), async (req, res) => {
   let data = { ...req.body };
     if (req.file != null) {
       console.log('업로드된 파일이름:', req.file.filename);
-      data.inquiry_img = req.file.filename;
+      data.review_img = req.file.filename;
     }
-    let result = await query("inquiryInsert", data);
+    let result = await query("reviewInsert", data);
     res.send(result);
   });
 //수정
-router.put('/:inquiry_no',  (req, res) => {
-  const no = req.params.inquiry_no;
-  const { inquiry_title, inquiry_content } = req.body;
-  let result =  query("inquiryUpdate", [inquiry_title, inquiry_content, no]);
+router.put('/:review_no',  (req, res) => {
+  const no = req.params.review_no;
+  const { review_title, review_content, score } = req.body;
+  let result =  query("reviewUpdate", [review_title, review_content, score, no]);
   res.send(result);
 });
-
 //삭제
-router.delete('/:inquiry_no',  (req, res) => {
-    let result =  query("inquiryDelete", req.params.inquiry_no);
+router.delete('/:review_no',  (req, res) => {
+    let result =  query("reviewDelete", req.params.review_no);
     res.send(result);
 });
-
-//문의 답변 조회
-router.get("/reply/:inquiry_no",	async (req ,res )	=> {
-    let result = await query("inquiryReply", req.params.inquiry_no);
-    res.send(result);
-  });
-// router.get("reply/:no" , async (req, res) => {
-//   const no = req.params.searchNo
-//   console.log(no)
-//   let result = await query('inquiryReply', [no]);
-//   res.send(result)
-
-// })
-
 
 module.exports = router;

@@ -10,6 +10,8 @@ const inquirysql = require('./mypage/inquirysql')
 const qnasql = require('./mypage/qnasql');
 const mypagemain = require('./mypage/mypagemain.js')
 const mypageorder = require('./mypage/mypageorder');
+const reviewsql = require('./mypage/reviewsql');
+const ordersql = require('./mypage/ordersql');
 const productsql = require('./product/productSql.js')
 const signUp =require('./main/signUp.js')
 const memcheck =require('./mypage/memcheck.js')
@@ -25,10 +27,12 @@ module.exports = {
   ...mypagemain,
   ...qnasql,
   ...mypageorder,
+  ...ordersql,
   ...productsql,
   ...categorySql,
    ...orderSql,
    ...productDetailSql,
+   ...reviewsql,
    ...signUp,
    ...memcheck,
 };

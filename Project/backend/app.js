@@ -22,6 +22,9 @@ var inquiryRouter = require('./routes/mypage/inquiry');
 var qnaRouter = require('./routes/mypage/qna');
 const mypageorderRouter = require('./routes/mypage/mypageorder');
 // const inquiryreplyRouter = require('./routes/mypage/inquiryreply')
+const reviewRouter = require('./routes/mypage/review');
+const wishRouter = require('./routes/mypage/wishlist');
+const orderRouter = require('./routes/mypage/order');
 
 const CategoryRouter = require('./routes/main/category.js');
 var app = express();
@@ -82,10 +85,13 @@ app.use('/api/productInfo',ProductInfoRouter);
 
 
 // 마이페이지(맹선우)
-app.use('/api/inquiry', inquiryRouter)
+app.use('/api/inquiry', inquiryRouter);
 // app.use('/api/inquiryreply', inquiryreplyRouter)
-app.use('/api/qna', qnaRouter)
+app.use('/api/qna', qnaRouter);
 app.use('/api/mypageorder', mypageorderRouter);
+app.use('/api/review', reviewRouter);
+app.use('/api/wishlist', wishRouter);
+app.use('/api/order', orderRouter)
 
 
 // 메인, 상품(김성태)
