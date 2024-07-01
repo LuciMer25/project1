@@ -21,9 +21,15 @@
         <v-card-text>
           {{ item.content }}
         </v-card-text>
+        <v-card-actions>
+          <v-btn v-for="(file, index) in files" :key="index" :href="getFilePath(file)" download>
+            {{ file.file_name }}
+          </v-btn>
+        </v-card-actions>
       </v-card>
     </v-container>
   </template>
+  
   <script>
   import axios from 'axios';
   
@@ -32,10 +38,11 @@
       return {
         item: {},
         images: [],
+        files: [],
       };
     },
     created() {
-        this.notifyInfo();
+      this.notifyInfo();
     },
     methods: {
       formatDate(dateStr) {
@@ -43,15 +50,24 @@
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-      }, 
-      async notifyInfo(){
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      },
+      async notifyInfo() {
         const { data } = await axios.get(`/api/adminBoard/notifyInfo/${this.$route.params.no}`);
         this.item = data.list[0];
         this.images = data.img;
+        this.files = data.files;
+        console.log(this.files);
+        console.log(this.images);
       },
       getImagePath(image) {
         return `/api/upload/${image.path}/${image.file_name}`;
+      },
+      getFilePath(file) {
+        return `/api/upload/${file.path}/${file.file_name}`;
       },
     },
   };

@@ -53,7 +53,7 @@ export default {
           // 로그인 성공 알림
           alert("로그인 성공!");
 
-          let user = { userId : response.data.user_id, name : response.data.name };
+          let user = { user_id : response.data.user_id, name : response.data.name };
           this.$store.dispatch('updateLoginInfo', user);
 
           // Vue Router를 사용하여 메인 페이지로 이동

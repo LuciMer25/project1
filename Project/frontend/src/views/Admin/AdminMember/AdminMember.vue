@@ -17,7 +17,6 @@
                             <th>연락처</th>
                             <th>주소</th>
                             <th>상세주소</th>
-                            <th>이메일</th>
                             <th>생년월일</th>
                         </tr>
                     </thead>
@@ -28,7 +27,6 @@
                             <td v-text="mem.phone"></td>
                             <td v-text="mem.post_addr"></td>
                             <td v-text="mem.post_detail_list"></td>
-                            <td v-text="mem.email"></td>
                             <td v-text="mem.birth"></td>
                         </tr>
                     </tbody>

@@ -16,12 +16,16 @@ const adminProductRouter = require('./routes/admin/adminProduct.js')
 const AccountRouter = require('./routes/main/order/account.js');
 const CheckoutRouter = require('./routes/main/order/checkout.js');
 const ProductInfoRouter = require('./routes/main/order/productDetail.js');
+const CartRouter = require('./routes/main/order/cart.js');
 
 // 마이페이지(맹선우)
 var inquiryRouter = require('./routes/mypage/inquiry');
 var qnaRouter = require('./routes/mypage/qna');
 const mypageorderRouter = require('./routes/mypage/mypageorder');
 // const inquiryreplyRouter = require('./routes/mypage/inquiryreply')
+const reviewRouter = require('./routes/mypage/review');
+const wishRouter = require('./routes/mypage/wishlist');
+const orderRouter = require('./routes/mypage/order');
 
 const CategoryRouter = require('./routes/main/category.js');
 var app = express();
@@ -55,7 +59,16 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/upload', express.static('D:/upload'));
-app.use('/api/upload/products', express.static('D:/upload/products'));
+// app.use('/api/upload/products', express.static('D:/upload/products'));
+app.use('/api/upload/products', (req, res, next) => {
+  const filePath = path.join('D:/upload/products', req.path);
+  res.sendFile(filePath, (err) => {
+    if (err) {
+      // 이미지 파일이 없을 경우 대체 이미지를 제공
+      res.sendFile(path.join(__dirname, 'public/imgs/loadfail.jpg'));
+    }
+  });
+});
 
 app.use(session({
   secret: 'secret key', //암호화하는 데 쓰일 키
@@ -79,13 +92,17 @@ app.use('/api/adminBoard', adminBoardRouter);
 app.use('/api/account',AccountRouter);
 app.use('/api/checkout',CheckoutRouter);
 app.use('/api/productInfo',ProductInfoRouter);
+app.use('/api/cart',CartRouter);
 
 
 // 마이페이지(맹선우)
-app.use('/api/inquiry', inquiryRouter)
+app.use('/api/inquiry', inquiryRouter);
 // app.use('/api/inquiryreply', inquiryreplyRouter)
-app.use('/api/qna', qnaRouter)
+app.use('/api/qna', qnaRouter);
 app.use('/api/mypageorder', mypageorderRouter);
+app.use('/api/review', reviewRouter);
+app.use('/api/wishlist', wishRouter);
+app.use('/api/order', orderRouter)
 
 
 // 메인, 상품(김성태)

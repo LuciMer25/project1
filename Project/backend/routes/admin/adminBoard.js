@@ -102,12 +102,22 @@ const query = require('../../mysql/index.js');
   })
 
   router.get("/notifyInfo/:no", async (req, res) => {
-    const no = req.params.no
+    const no = req.params.no;
     let list = await query("notifyInfo", [no]);
-    let img = await query("notifyImg", [no]);
-    console.log(img)
-    res.send({ list, img })
-
-  })
+    let file = await query("notifyFile", [no]);
+  
+    let img = [];
+    let files = [];
+  
+    file.forEach(ele => {
+      if (ele.file_type === 'Image') {
+        img.push(ele);
+      } else {
+        files.push(ele);
+      }
+    });
+  
+    res.send({ list, img, files });
+  });
 
 module.exports = router;
