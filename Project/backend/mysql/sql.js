@@ -3,6 +3,7 @@ const orderSql = require('./main/order/orderSql.js')
 const productDetailSql = require('./main/order/productDetailSql.js');
 const adminOrder = require('./admin/adminOrder');
 const categorySql = require('./main/categorySql.js');
+const searchSql = require('./main/searchSql.js')
 const adminBoard = require('./admin/adminBoard')
 const adminMember = require('./admin/adminMember')
 const adminProduct = require('./admin/adminProduct')
@@ -30,6 +31,7 @@ module.exports = {
   ...ordersql,
   ...productsql,
   ...categorySql,
+   ...searchSql,
    ...orderSql,
    ...productDetailSql,
    ...reviewsql,

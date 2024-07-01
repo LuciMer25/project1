@@ -1,6 +1,7 @@
+
 <template>
   <header>
-    <v-card>
+     <v-card>
       <v-layout>
         <v-app-bar color="primary" prominent>
           <!-- <v-app-bar-nav-icon variant="text"></v-app-bar-nav-icon> -->
@@ -134,5 +135,5 @@ export default {
         color:white;
         text-decoration: none;
         padding:5px;
-    } */
+    }
 </style>

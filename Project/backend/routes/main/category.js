@@ -21,6 +21,7 @@ router.get("/", async (req, res) => {
   let DownResult4 = await query("DownCategory4")
   let UpResult5 = await query("UpCategory5");
   let DownResult5 = await query("DownCategory5")
+  
 
   res.send({
     UpResult1,

@@ -73,7 +73,8 @@ import DeleteMem from '../views/MyPage/EditMember/DeleteMem.vue'
 
 
 //
-import CategoryView from '../views/CategoryView.vue'
+import CategoryView from '../views/PageMove/CategoryView.vue'
+import SearchView from '../views/PageMove/SearchView.vue'
 import AdminNotify from '@/views/Admin/AdminMember/notifyList.vue'
 
 const routes = [
@@ -109,6 +110,10 @@ const routes = [
         path: '/category',
         name: 'category',
         component: CategoryView
+      },
+      {
+        path: '/search',
+        component: SearchView
       },
       // 메인화면 신상품 리스트
       {
