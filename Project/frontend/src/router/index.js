@@ -8,7 +8,7 @@ import AdminLayout from '../layout/AdminLayout.vue'
 import OrderView from '../views/Main/Order/OrderView.vue'
 import OrderCompleteView from '../views/Main/Order/OrderComplete.vue'
 import ProductDetailView from '../views/Main/Order/ProductDetail.vue'
-
+import CartView from '../views/Main/Cart/CartView.vue'
 
 
 // 마이페이지 메인
@@ -90,6 +90,11 @@ const routes = [
         path: 'product/:prodNo',
         name: 'productInfo',
         component: ProductDetailView
+      },
+      {
+        path: 'cart',
+        name: 'cart',
+        component: CartView
       },
       // 카테고리 이름 임시 출력단
       {

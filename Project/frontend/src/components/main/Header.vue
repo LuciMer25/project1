@@ -66,6 +66,10 @@ export default{
 
   </script>
 <style>
+ header{
+    z-index: 99;
+    position: relative;
+  }
   /* ul{
     list-style-type: none;
     margin:0px;

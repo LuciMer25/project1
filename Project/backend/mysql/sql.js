@@ -6,12 +6,14 @@ const categorySql = require('./main/categorySql.js');
 const adminBoard = require('./admin/adminBoard')
 const adminMember = require('./admin/adminMember')
 const adminProduct = require('./admin/adminProduct')
-const inquirysql = require('./mypage/inquirysql')
+const inquirysql = require('./mypage/inquirysql');
 const qnasql = require('./mypage/qnasql');
-const mypagemain = require('./mypage/mypagemain.js')
+const mypagemain = require('./mypage/mypagemain.js');
 const mypageorder = require('./mypage/mypageorder');
-const productsql = require('./product/productSql.js')
-const signUp =require('./main/signUp.js')
+const productsql = require('./product/productSql.js');
+const signUp =require('./main/signUp.js');
+const cart = require('./main/order/cartSql.js');
+const wish = require('./main/order/wishSql.js');
 
 module.exports = {
   ...adminOrder,
@@ -29,4 +31,7 @@ module.exports = {
    ...orderSql,
    ...productDetailSql,
    ...signUp,
+   ...cart,
+   ...wish,
+   batchUpdate: cart.batchUpdate,
 };

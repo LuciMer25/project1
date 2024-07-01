@@ -16,7 +16,7 @@
           <h1 class="product-title" v-text="product.prod_name"></h1>
           <v-rating value="5" dense v-model="product.avg_score" readonly></v-rating>
           <p class="reviews-count">{{ product.avg_score }} ({{ product.cnt }}건)</p>
-          <h2 class="price">{{ product.price }}원</h2>
+          <h2 class="price">{{ formatPrice(product.price) }}원</h2>
           <p class="origin">원산지: 상품정보 원산지표시 참조</p>
           <v-row class="quantity-selector" align="center" justify="center">
             <v-col cols="auto" class="text-right">
@@ -42,7 +42,7 @@
               </v-btn>
             </v-col>
           </v-row>
-          <h2 class="total-price">총금액: {{ order_amount }}원</h2>
+          <h2 class="total-price">총금액: {{ formatPrice(order_amount) }}원</h2>
           <v-row class="actions">
             <v-col>
               <v-btn outlined color="red" class="mx-2" @click="setWish">위시리스트</v-btn>
@@ -55,16 +55,36 @@
     </v-row>
     <!--모달창-->
     <v-dialog v-model="dialog" max-width="400">
-  <v-card>
-    <v-card-title class="headline text-center">로그인 필요</v-card-title>
-    <v-card-text class="text-center">로그인이 필요한 서비스입니다.</v-card-text>
-    <v-card-text class="text-center">로그인 하시겠습니까?</v-card-text>
-    <v-card-actions class="justify-center">
-      <v-btn  color="grey" text @click="dialog = false" class="flex-grow-1 bordered-button">취소</v-btn>
-      <v-btn  color="red" text @click="redirectToLogin" class="flex-grow-1 bordered-button">확인</v-btn>
-    </v-card-actions>
-  </v-card>
-</v-dialog>
+      <v-card>
+        <v-card-title class="headline text-center">로그인 필요</v-card-title>
+        <v-card-text class="text-center">로그인이 필요한 서비스입니다.</v-card-text>
+        <v-card-text class="text-center">로그인 하시겠습니까?</v-card-text>
+        <v-card-actions class="justify-center">
+          <v-btn  color="grey" text @click="dialog = false" class="flex-grow-1 bordered-button">취소</v-btn>
+          <v-btn  color="red" text @click="redirectToLogin" class="flex-grow-1 bordered-button">확인</v-btn>
+        </v-card-actions>
+      </v-card>
+  </v-dialog>
+
+  <v-dialog v-model="cartdialog" max-width="400">
+    <v-card>
+      <v-card-title class="headline text-center">장바구니 추가 완료!</v-card-title>
+      <v-card-actions class="justify-center">
+        <v-btn  color="red" text @click="redirectToCart" class="flex-grow-1 bordered-button">장바구니 보기</v-btn>
+        <v-btn  color="grey" text @click="cartdialog=false" class="flex-grow-1 bordered-button">확인</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+  
+  <v-dialog v-model="wishdialog" max-width="400">
+    <v-card>
+      <v-card-title class="headline text-center" v-text="toggleMessage"></v-card-title>
+      <v-card-actions class="justify-center">
+        <v-btn  color="red" text @click="wishdialog=false" class="flex-grow-1 bordered-button">확인</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
   </v-container>
 </template>
 
@@ -78,7 +98,10 @@ export default {
       product: {},
       titleImage: '',
       fallbackImage:'/imgs/loadfail.jpg',
-      dialog: false // 모달 창 표시 여부
+      dialog: false, // 모달 창 표시 여부
+      wishdialog:false,
+      cartdialog:false,
+      toggleMessage:''
     };
   },
   created() {
@@ -109,8 +132,9 @@ export default {
     gotoOrderPage(){
       let array = [
       ];
+      console.log(this.checkLogin());
       // 회원 주문
-      if(this.checkLogin)
+      if(this.checkLogin())
       {
         array.push(
         {
@@ -131,8 +155,19 @@ export default {
     },
     setCart(){
       // 로그인 했을시(추후 this.checkLogin앞에 ! 제거해야함.)
-      if(!this.checkLogin)
+      if(this.checkLogin())
       {
+        axios.post(`/api/productInfo/addCart`,{
+          user_id:this.$store.getters.getUserInfo.userId,
+          prod_no:this.product.prod_no,
+          prod_cnt: this.quantity
+        })
+        .then(res=>{
+          console.log(res.statusText);
+            if(res.statusText=="OK"){
+              this.cartdialog = true;
+            }
+        });
 
       }
       // 모달 창 열기
@@ -140,9 +175,23 @@ export default {
     },
     setWish(){
       // 로그인 했을시(추후 this.checkLogin앞에 ! 제거해야함.)
-      if(!this.checkLogin)
+      if(this.checkLogin())
       {
-
+        axios.post(`/api/productInfo/addWish`,{
+          user_id:this.$store.getters.getUserInfo.userId,
+          prod_no:this.product.prod_no
+        })
+        .then(res=>{
+                    if(res.data.result=='added'){
+                      this.toggleMessage='위시 추가완료'
+                      this.wishdialog=true;                   
+                    }
+                    else if(res.data.result=='removed')
+                    {
+                      this.toggleMessage='위시 삭제완료'
+                      this.wishdialog=true;
+                    }     
+        })
       }
       // 모달 창 열기
       else{this.dialog = true;}
@@ -154,7 +203,17 @@ export default {
     },
     redirectToLogin(){
       this.dialog = false;
-      this.$router.push('/login');
+      this.$router.replace('/login');
+    },
+    formatPrice(value) {
+      if (value == null || value === undefined) {
+        value = 0; 
+      }
+      return value.toLocaleString();
+    },
+    redirectToCart(){
+      this.cartdialog=false;
+      this.$router.replace('/cart');
     }
   }
 }

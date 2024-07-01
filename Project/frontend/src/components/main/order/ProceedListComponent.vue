@@ -16,7 +16,11 @@
       <v-col>
         <v-row>
           <v-col cols="2">
-            <v-img src="image-url.jpg" contain></v-img>
+            <v-img 
+          max-height="100"
+          max-width="100"
+          :src = "`/api/upload/products/${item.prod_no}/${item.prod_img}`" contain
+          @error="onImageError"></v-img>
           </v-col>
           <v-col cols="6" class="d-flex align-center">
             <div>
@@ -27,7 +31,7 @@
             <div> {{ item.prod_cnt }}개 </div>
           </v-col>
           <v-col cols="2" class="d-flex align-center text-right">
-            <div>{{ item.price }}원</div>
+            <div>{{ item.order_amount }}원</div>
           </v-col>
         </v-row>
         <v-divider></v-divider>
@@ -35,12 +39,12 @@
     </v-row>
   </template>
   <script>
-  import axios from 'axios';
   
     export default {
       data (){
         return {
           itemList:[],
+          fallbackImg: '/public/imgs/loadfail.jpg',
         }
       },
       created(){
@@ -48,7 +52,9 @@
         console.log(this.itemList);
       },
       methods: {  
- 
+        onImageError(event) {
+          event.target.src = this.fallbackImg;
+        },
       },
     }
   </script>
