@@ -58,12 +58,19 @@ import axios from 'axios';
     },
     created(){
       // this.$store.commit('user',{userId:'test'});
-      this.getMember();
+      if(this.isLogedin()){
+
+        this.getMember();
+      }
       
     },
     methods: {  
       async getMember(){
-        let result = (await axios.get('/api/account')).data[0];
+        console.log(sessionStorage.getItem('user_id'));
+        let result = (await axios.get('/api/account',{params: {
+                                                                    user_id: sessionStorage.getItem('user_id')
+                                                              }
+                                                      })).data[0];
         this.setMember(result)
         //console.log(result);
       },
@@ -75,7 +82,7 @@ import axios from 'axios';
         // console.log(this.member)
       },
       isLogedin(){
-        return this.member == null
+        return sessionStorage.getItem('user_id') != null
       },
       required (v) {
         return !!v || 'Field is required'

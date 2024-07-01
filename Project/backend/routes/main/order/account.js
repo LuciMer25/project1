@@ -2,16 +2,10 @@ const express = require('express');
 const router = express.Router();
 const query = require('../../../mysql/index');
 router.get("/", async (req,res)=>{
-  
-    //if(req.cookies && req.cookies.account){
-    // if(req.session.is_logined){
-    //   const member = JSON.parse({userid: req.session.userid});
-    //   console.log(member);
-    //   return res.send(member);
-    // }
-    // //}
-    // else{res.send(401);}
-    let member = await query('getLoginMemberInfo','test');
+  const userId = req.query.user_id;
+
+    let member = (await query('getLoginMemberInfo',userId));
+    console.log(member)
     res.send(member);
     
   });

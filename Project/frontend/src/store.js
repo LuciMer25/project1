@@ -31,6 +31,9 @@ const store = createStore({
     updateItemList({ commit }, itemList) {
       commit('setItemList', itemList);
     },
+    updateLoginInfo({ commit }, user) {
+      commit('setUser', user);
+    },
   },
   getters: {
     isLoggedIn: state => !!state.user, // 로그인 상태 확인

@@ -3,12 +3,12 @@
     <v-row>
       <v-col cols="12" md="6" class="text-center">
         <v-img 
-          :src="`/api/upload/${product.prod_img}`" 
+          :src="`${titleImage}`" 
           alt="상품 이미지" 
           @error="onImageError"
-          max-height="300"
-          max-width="300"
-          class="mx-auto"
+          max-height="400"
+          max-width="400"
+          class="mx-auto image-with-border"
         ></v-img>
       </v-col>
       <v-col cols="12" md="6">
@@ -45,14 +45,26 @@
           <h2 class="total-price">총금액: {{ order_amount }}원</h2>
           <v-row class="actions">
             <v-col>
-              <v-btn outlined color="red" class="mx-2">위시리스트</v-btn>
-              <v-btn outlined color="red" class="mx-2">장바구니</v-btn>
-              <v-btn color="red" class="mx-2">바로구매</v-btn>
+              <v-btn outlined color="red" class="mx-2" @click="setWish">위시리스트</v-btn>
+              <v-btn outlined color="red" class="mx-2" @click="setCart">장바구니</v-btn>
+              <v-btn color="red" class="mx-2" @click="gotoOrderPage">바로구매</v-btn>
             </v-col>
           </v-row>
         </div>
       </v-col>
     </v-row>
+    <!--모달창-->
+    <v-dialog v-model="dialog" max-width="400">
+  <v-card>
+    <v-card-title class="headline text-center">로그인 필요</v-card-title>
+    <v-card-text class="text-center">로그인이 필요한 서비스입니다.</v-card-text>
+    <v-card-text class="text-center">로그인 하시겠습니까?</v-card-text>
+    <v-card-actions class="justify-center">
+      <v-btn  color="grey" text @click="dialog = false" class="flex-grow-1 bordered-button">취소</v-btn>
+      <v-btn  color="red" text @click="redirectToLogin" class="flex-grow-1 bordered-button">확인</v-btn>
+    </v-card-actions>
+  </v-card>
+</v-dialog>
   </v-container>
 </template>
 
@@ -65,7 +77,8 @@ export default {
       quantity: 1,
       product: {},
       titleImage: '',
-      fallbackImage:'/imgs/loadfail.png',
+      fallbackImage:'/imgs/loadfail.jpg',
+      dialog: false // 모달 창 표시 여부
     };
   },
   created() {
@@ -87,15 +100,64 @@ export default {
     },
     async getProduct(no) {
       this.product = (await axios.get(`/api/productInfo/${no}`)).data[0];
-      this.titleImage = `/api/upload/${this.product.prod_img}`; 
+      this.titleImage = `/api/upload/products/${this.product.prod_no}/${this.product.prod_img}`; 
       console.log(this.product);
     },
     onImageError() {
-      this.imageSrc = this.fallbackImage; // 이미지 로딩 실패 시 대체 이미지로 변경
-    }
+      this.titleImage = this.fallbackImage; // 이미지 로딩 실패 시 대체 이미지로 변경
+    },
+    gotoOrderPage(){
+      let array = [
+      ];
+      // 회원 주문
+      if(this.checkLogin)
+      {
+        array.push(
+        {
+          prod_no:this.product.prod_no,
+          prod_name:this.product.prod_name,
+          prod_cnt:this.quantity,
+          price:this.product.price,
+          order_amount:this.order_amount,
+          prod_img:this.product.prod_img
+        });
 
-  },
-};
+        this.$store.dispatch('updateItemList', array);
+        this.$router.push({ name: 'order' });
+      }
+      // 비회원 주문(결제페이지 미구현으로 현재는 모달 창 열기로 대체)
+      else{this.dialog = true;}
+      
+    },
+    setCart(){
+      // 로그인 했을시(추후 this.checkLogin앞에 ! 제거해야함.)
+      if(!this.checkLogin)
+      {
+
+      }
+      // 모달 창 열기
+      else{this.dialog = true;}
+    },
+    setWish(){
+      // 로그인 했을시(추후 this.checkLogin앞에 ! 제거해야함.)
+      if(!this.checkLogin)
+      {
+
+      }
+      // 모달 창 열기
+      else{this.dialog = true;}
+    },
+    checkLogin() {
+      // 로그인 유무 체크 로직 (예시)
+      const isLoggedIn = this.$store.getters.getUserInfo != null; // 실제 로그인 여부를 확인하는 로직으로 대체
+      return isLoggedIn;
+    },
+    redirectToLogin(){
+      this.dialog = false;
+      this.$router.push('/login');
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -146,5 +208,18 @@ export default {
   margin-left: auto;
   margin-right: auto;
   display: block; /* 중앙 정렬을 위해 블록으로 설정 */
+}
+.image-with-border {
+  border: 1.5px solid #CCC; /* 검정색 테두리 */
+  border-radius: 8px; /* 둥근 모서리 */
+  padding: 4px; /* 테두리와 이미지 간의 간격 */
+}
+.flex-grow-1 {
+  flex-grow: 1;
+  margin: 0 4px;
+}
+.bordered-button {
+  border: 1px solid #ccc; /* 테두리 추가 */
+  border-radius: 4px; /* 테두리 모서리 둥글게 */
 }
 </style>

@@ -4,7 +4,7 @@
         <div class="text-h5">배송지 정보</div>
       <v-divider></v-divider>
     </v-row>
-    <v-row v-if="!isLogedin">
+    <v-row v-if="isLogedin">
       <v-col cols="12" >
         <v-form
           v-model="form"
@@ -77,8 +77,8 @@
       created(){
         // this.$store.commit('user',{userId:'test'});
         //this.getMember();
-        console.log('배송지 컴포넌트');
-        console.log(this.$store.getters.getUserInfo);
+        //console.log('배송지 컴포넌트');
+        //console.log(this.$store.getters.getUserInfo);
         //this.member = this.$store.getters.getUserInfo;
       },
       computed: {
@@ -97,7 +97,7 @@
       methods: {  
         
         isLogedin(){
-          return this.member == null
+          return sessionStorage.getItem('user_id') == null
         },
         required (v) {
           return !!v || 'Field is required'

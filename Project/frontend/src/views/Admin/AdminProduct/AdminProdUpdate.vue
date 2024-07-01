@@ -1,157 +1,143 @@
 <template>
-    <v-container>
-        <v-tabs v-model="tab" background-color="primary" dark>
-            <v-tab>상품수정</v-tab>
-            <v-tab>상품이미지</v-tab>
-        </v-tabs>
+  <div class="container mt-5">
+    <h1>상품번호 : {{ product.prod_no }}</h1>
 
-        <v-tabs-items v-model="tab">
-            <!-- 상품등록 -->
-            <v-tab-item>
-                <v-form>
-                    <v-card class="pa-5">
-                        <v-card-title>
-                            <span class="headline">상품 수정</span>
-                        </v-card-title>
+    <!-- 상품 수정 폼 -->
+    <div class="card mt-4">
+      <div class="card-header">
+        상품 수정
+      </div>
+      <div class="card-body">
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="topCategory" class="form-label">대분류</label>
+            <select id="topCategory" class="form-select" v-model="product.top_ctgr_no" @change="onTopCategoryChange">
+              <option v-for="category in topCategories" :key="category.ctgr_no" :value="category.ctgr_no">{{ category.ctgr_name }}</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="subCategory" class="form-label">소분류</label>
+            <select id="subCategory" class="form-select" v-model="product.ctgr_no">
+              <option v-for="category in filteredCategories" :key="category.ctgr_no" :value="category.ctgr_no">{{ category.ctgr_name }}</option>
+            </select>
+          </div>
+        </div>
 
-                        <v-card-text>
-                            <v-row>
-                                <v-col cols="12" md="6">
-                                    <v-select
-                                        v-model="mainCategory"
-                                        :items="mainCategories"
-                                        label="대분류"
-                                        outlined
-                                        dense
-                                    ></v-select>
-                                </v-col>
-                                <v-col cols="12" md="6">
-                                    <v-select
-                                        v-model="subCategory"
-                                        :items="subCategories"
-                                        label="소분류"
-                                        outlined
-                                        dense
-                                    ></v-select>
-                                </v-col>
-                            </v-row>
+        <div class="mb-3">
+          <label for="prodName" class="form-label">상품명</label>
+          <input type="text" class="form-control" id="prodName" v-model="product.prod_name">
+        </div>
 
-                            <v-text-field
-                                v-model="productName"
-                                label="상품명"
-                                outlined
-                                dense
-                                class="mt-3"
-                            ></v-text-field>
+        <div class="mb-3">
+          <label for="price" class="form-label">판매가</label>
+          <input type="number" class="form-control" id="price" v-model="product.price">
+        </div>
+      </div>
+    </div>
 
-                            <v-text-field
-                                v-model="price"
-                                label="판매가"
-                                type="number"
-                                outlined
-                                dense
-                                class="mt-3"
-                            ></v-text-field>
+    <!-- 상품 이미지 -->
+    <div class="card mt-4">
+      <div class="card-header">
+        상품 이미지
+      </div>
+      <div class="card-body">
+        <div class="mb-3">
+          <label for="prodImg" class="form-label">메인이미지 ( 썸네일 )</label>
+          <input type="file" class="form-control" id="prodImg" @change="file1">
+        </div>
 
-                            <v-textarea
-                                v-model="productDescription"
-                                label="상품내용"
-                                outlined
-                                dense
-                                class="mt-3"
-                            ></v-textarea>
-                        </v-card-text>
-                    </v-card>
-                </v-form>
-            </v-tab-item>
+        <div class="mb-3">
+          <label for="contentImg" class="form-label">내용이미지</label>
+          <input type="file" class="form-control" id="contentImg" @change="file2">
+        </div>
+      </div>
+    </div>
 
-            <!-- 상품이미지 -->
-            <v-tab-item>
-                <v-card class="pa-5">
-                    <v-card-title>
-                        <span class="headline">상품 이미지</span>
-                    </v-card-title>
-
-                    <v-card-text>
-                        <v-file-input
-                            v-model="mainImage"
-                            label="메인이미지 ( 썸네일 )"
-                            outlined
-                            prepend-icon="mdi-camera"
-                            dense
-                        ></v-file-input>
-
-                        <v-file-input
-                            v-model="contentImages"
-                            label="내용이미지"
-                            multiple
-                            outlined
-                            prepend-icon="mdi-camera"
-                            dense
-                            class="mt-3"
-                        ></v-file-input>
-                    </v-card-text>
-                </v-card>
-
-                <v-btn color="primary" class="mt-3" @click="submitProduct">상품등록</v-btn>
-            </v-tab-item>
-        </v-tabs-items>
-    </v-container>
+    <button class="btn btn-primary mt-4 me-3" @click="submitProduct(product.prod_no)">상품수정</button>
+    <button class="btn btn-secondary mt-4" @click="cancelBtn">뒤로가기</button>
+  </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
-    data() {
-        return {
-            tab: 0,
-            mainCategory: null,
-            subCategory: null,
-            productName: '',
-            price: '',
-            productDescription: '',
-            mainImage: null,
-            contentImages: [],
-            mainCategories: ['카테고리1', '카테고리2'],
-            subCategories: ['소분류1', '소분류2'],
-        };
+  data() {
+    return {
+      product: {},
+      topCategories: [],
+      categories: [],
+      filteredCategories: [],
+      prodNo : null
+    };
+  },
+  created() {
+    const no = this.$route.params.no;
+    axios.get(`/api/adminProduct/prodInfo/${no}`)
+      .then(res => {
+        this.product = res.data.list[0];
+        this.onTopCategoryChange();
+      })
+    axios.get('/api/adminProduct/categoryList')
+      .then(res => {
+        this.topCategories = res.data.topCategories;
+        this.categories = res.data.categories;
+      })
+  },
+  methods: {
+    onTopCategoryChange() {
+      const selectCategory = this.product.top_ctgr_no;
+      if (selectCategory) {
+        axios.get(`/api/adminProduct/subCategory/${selectCategory}`)
+          .then(res => {
+            this.filteredCategories = res.data.list;
+          })
+
+      } else {
+        this.filteredCategories = [];
+      }
     },
-    methods: {
-        submitProduct() {
-            // 상품 등록 로직
-            console.log('상품 등록', {
-                mainCategory: this.mainCategory,
-                subCategory: this.subCategory,
-                productName: this.productName,
-                price: this.price,
-                productDescription: this.productDescription,
-                mainImage: this.mainImage,
-                contentImages: this.contentImages,
-            });
-        },
+    file1(event) {
+      this.product.prod_img = event.target.files[0];
     },
+    file2(event) {
+      this.product.prod_content_img = event.target.files[0];
+    },
+    submitProduct() {
+        const formData = new FormData();
+        formData.append('prod_name', this.product.prod_name);
+        formData.append('price', this.product.price);
+        formData.append('ctgr_no', this.product.ctgr_no);
+        if (this.product.prod_img) {
+            formData.append('prodImg', this.product.prod_img);
+        }
+        if (this.product.prod_content_img) {
+          formData.append('contentImg', this.product.prod_content_img);
+        }
+        
+      axios.put(`/api/adminProduct/prodUpdate/${this.product.prod_no}`, formData)
+        .then(res => {
+          alert("상품이 수정되었습니다.")
+          this.$router.push(`/admin/prodInfo/${this.product.prod_no}`)
+        })
+    },
+    cancelBtn(){
+        this.$router.push(`/admin/prodInfo/${this.product.prod_no}`)
+    }
+  }
 };
 </script>
 
 <style scoped>
 .container {
-    max-width: 800px;
-    margin: auto;
-    padding: 20px;
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
 }
-.pa-5 {
-    padding: 20px !important;
+.mt-4 {
+  margin-top: 20px !important;
 }
-.mt-3 {
-    margin-top: 20px !important;
-}
-.v-card-title {
-    color: #3f51b5;
-    font-weight: bold;
-    font-size: 24px;
-}
-.v-btn {
-    width: 100%;
-    padding: 15px;
-    font-size: 18px;
+.me-3 {
+  margin-right: 1rem !important;
 }
 </style>
