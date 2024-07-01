@@ -23,6 +23,15 @@ import QnAList from '../views/MyPage/QnA/QnAList.vue'
 import QnAInfo from '../views/MyPage/QnA/QnAInfo.vue'
 import QnAForm from '../views/MyPage/QnA/QnAForm.vue'
 import QnAUpdate from '../views/MyPage/QnA/QnAUpdate.vue'
+// 리뷰
+import ReviewList from '../views/MyPage/Review/ReviewList.vue'
+import ReviewInfo from '../views/MyPage/Review/ReviewInfo.vue'
+import ReviewForm from '../views/MyPage/Review/ReviewForm.vue'
+import ReviewUpdate from '../views/MyPage/Review/ReviewUpdate.vue'
+// 위시리스트
+import WishList from '../views/MyPage/WishList/wishList.vue'
+// 주문/배송
+import OrderList from '../views/MyPage/Order/OrderList.vue'
 //관리자
 import adminMain from '../views/Admin/AdimMain.vue'
 import adminProdList from '../views/Admin/AdminProduct/AdminProdList.vue'
@@ -250,6 +259,33 @@ const routes = [
         path: '/QnAUpdate',
         component: QnAUpdate,
       },
+      // 리뷰
+      {
+        path: '/ReviewList',
+        component: ReviewList,
+      },
+      {
+        path: '/ReviewForm',
+        component: ReviewForm,
+      },
+      {
+        path: '/ReviewInfo',
+        component: ReviewInfo,
+      },
+      {
+        path: '/ReviewUpdate',
+        component: ReviewUpdate,
+      },
+      // 위시리스트
+      {
+        path: '/WishList',
+        component: WishList,
+      },
+      // 주문/배송 조회
+      {
+        path: '/OrderList',
+        component: OrderList,
+      },
       //회원수정페이지
       {
         path: '/MemCheck',
@@ -259,6 +295,7 @@ const routes = [
         path: '/EditMembers',
         component: EditMembers,
       },
+
     ]
   },
   
