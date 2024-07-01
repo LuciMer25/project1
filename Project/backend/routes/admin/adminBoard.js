@@ -85,4 +85,29 @@ const query = require('../../mysql/index.js');
       res.status(500).send({ error: err.message });
     }
   });
+
+  router.get("/notifyList", async (req, res) => {
+    let page = Number(req.query.page);
+    let pageUnit = Number(req.query.pageUnit);
+
+    if(!page) {page = 1;}
+    if(!pageUnit) {pageUnit = 10;}
+
+    let offset = (page-1)*pageUnit;
+    
+    let list = await query("notifyList", [offset, pageUnit]);
+    let count = await query("notifyCount");
+    count = count[0].cnt;
+    res.send({ list, count })
+  })
+
+  router.get("/notifyInfo/:no", async (req, res) => {
+    const no = req.params.no
+    let list = await query("notifyInfo", [no]);
+    let img = await query("notifyImg", [no]);
+    console.log(img)
+    res.send({ list, img })
+
+  })
+
 module.exports = router;

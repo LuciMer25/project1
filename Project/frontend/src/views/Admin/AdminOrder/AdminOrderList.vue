@@ -127,11 +127,11 @@ export default{
             axios.put(`/api/adminOrder/updateOrderState/${this.orderNo}`)
                 .then(() => {
                     console.log("업데이트됨")
-                    alert("배송완료 되었습니다.")
+                    this.$swal("배송완료 되었습니다.")
                 })
                 .then(()=> this.$router.go(this.$router.currentRoute))
                 .catch(() => {
-                 alert("업데이트실패");
+                    this.$swal("업데이트실패");
             });
         },
         goDeatil(order_no){

@@ -16,7 +16,7 @@
               </ul>
           </div>
           <ul>
-            <li><a href="notice">공지사항</a></li>
+            <li><RouterLink to ="notify">공지사항</RouterLink></li>
             <li><a href="qnalist">QnA</a></li>
             <li><RouterLink to="inquirylist">1:1문의</RouterLink></li>
             <li><a href="bestproductlist">베스트</a></li>

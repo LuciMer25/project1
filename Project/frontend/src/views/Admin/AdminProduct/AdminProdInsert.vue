@@ -1,8 +1,5 @@
 <template>
   <div class="container mt-5">
-    <h1>상품번호 : {{ product.prod_no }}</h1>
-
-    <!-- 상품 수정 폼 -->
     <div class="card mt-4">
       <div class="card-header">
         상품 수정
@@ -34,8 +31,6 @@
         </div>
       </div>
     </div>
-
-    <!-- 상품 이미지 -->
     <div class="card mt-4">
       <div class="card-header">
         상품 이미지
@@ -53,8 +48,8 @@
       </div>
     </div>
 
-    <button class="btn btn-primary mt-4 me-3" @click="submitProduct(product.prod_no)">상품수정</button>
-    <button class="btn btn-secondary mt-4" @click="cancelBtn">뒤로가기</button>
+    <button class="btn btn-primary mt-4 me-3" @click="submitProduct(product.prod_no)">상품등록</button>
+    
   </div>
 </template>
 
@@ -68,16 +63,9 @@ export default {
       topCategories: [],
       categories: [],
       filteredCategories: [],
-      prodNo : null
     };
   },
   created() {
-    const no = this.$route.params.no;
-    axios.get(`/api/adminProduct/prodInfo/${no}`)
-      .then(res => {
-        this.product = res.data.list[0];
-        this.onTopCategoryChange();
-      })
     axios.get('/api/adminProduct/categoryList')
       .then(res => {
         this.topCategories = res.data.topCategories;
@@ -115,15 +103,13 @@ export default {
           formData.append('contentImg', this.product.prod_content_img);
         }
         
-      axios.put(`/api/adminProduct/prodUpdate/${this.product.prod_no}`, formData)
+      axios.post(`/api/adminProduct/prodInsert`, formData)
         .then(res => {
-          alert("상품이 수정되었습니다.")
-          this.$router.push(`/admin/prodInfo/${this.product.prod_no}`)
+          this.$swal("상품이 등록되었습니다.")
+          this.$router.push(`/admin/prodList`)
         })
     },
-    cancelBtn(){
-        this.$router.push(`/admin/prodInfo/${this.product.prod_no}`)
-    }
+   
   }
 };
 </script>

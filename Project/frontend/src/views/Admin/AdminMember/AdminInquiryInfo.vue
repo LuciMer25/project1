@@ -76,7 +76,7 @@ methods: {
       res = await axios.put(`/api/adminBoard/inquiryStateUpdate`, {
         inquiryNo : this.inquiryInfo.inquiry_no
       });
-      alert("답변이 등록되었습니다.");
+      this.$swal("답변이 등록되었습니다.");
       this.$router.go(this.$router.currentRoute)
 
     } catch (err) {
@@ -90,7 +90,7 @@ methods: {
         inquiryNo : this.inquiryInfo.inquiry_no,
         content : this.inquiryInfo.reply_content
       });
-      alert("답변이 수정되었습니다.");
+      this.$swal("답변이 수정되었습니다.");
       this.$router.go(this.$router.currentRoute);
     } catch (err) {
       console.log(err)

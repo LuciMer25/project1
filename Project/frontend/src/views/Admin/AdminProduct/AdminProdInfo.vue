@@ -30,7 +30,7 @@
             <v-row class="actions">
               <v-col>
                 <v-btn outlined color="red" class="mx-2" @click="goUpdateForm(product.prod_no)">수정</v-btn>
-                <v-btn outlined color="red" class="mx-2"@click="deleteBtn">삭제</v-btn>
+                <v-btn outlined color="red" class="mx-2"@click="deleteBtn(product.prod_no)">삭제</v-btn>
               </v-col>
             </v-row>
           </div>
@@ -66,6 +66,14 @@
       goUpdateForm(prod_no) {
         console.log(this.prod_no)
         this.$router.push(`/admin/prodUpdate/${prod_no}`)
+      },
+      deleteBtn(prod_no){
+        console.log(prod_no)
+        axios.delete(`/api/adminProduct/prodDelete/${prod_no}`)
+        .then(() => {
+          this.$swal("상품이 삭제되었습니다.")
+          this.$router.push(`/admin/prodList`)
+        })
       }
 
     },

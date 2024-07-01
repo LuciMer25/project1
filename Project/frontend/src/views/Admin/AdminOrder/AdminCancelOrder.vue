@@ -109,13 +109,13 @@ export default{
                 await axios.put(`/api/adminOrder/updateCancelState/${this.orderNo}`)
                 await axios.put(`/api/adminOrder/updateCancelComplete/${this.orderNo}`)
                     .then(()=> {
-                        alert("취소완료 되었습니다.")
+                        this.$swal("취소완료 되었습니다.")
                         this.$router.go(this.$router.currentRoute)
                     })
                     
             } catch (error) {
                 console.log("업데이트 실패", error);
-                alert("업데이트 실패");
+                this.$swal("업데이트 실패");
             }
         },
         goDeatil(order_no){

@@ -40,7 +40,9 @@ import adminCancelDetail from '../views/Admin/AdminOrder/AdminCancelDetail.vue'
 import adminReturnDetail from '../views/Admin/AdminOrder/AdminReturnDetail.vue'
 import adminQnaInfo from '../views/Admin/AdminMember/AdminQnaInfo.vue'
 import adminInquiryInfo from '../views/Admin/AdminMember/AdminInquiryInfo.vue'
-
+import notifyList from '../views/Admin/AdminMember/notifyList.vue' 
+import adminNotify from '../views/Admin/AdminMember/AdminNotify.vue'
+import adminNotifyInfo from '../views/Admin/AdminMember/AdminNotifyInfo.vue'
 // 상품
 import NewProductlist from '../views/Main/NewProductListView.vue'
 import BestProductlist from '../views/Main/BestProductListView.vue'
@@ -62,6 +64,7 @@ import EditMembers from '../views/MyPage/EditMember/EditMembers.vue'
 
 //
 import CategoryView from '../views/CategoryView.vue'
+import AdminNotify from '@/views/Admin/AdminMember/notifyList.vue'
 
 const routes = [
   {
@@ -137,11 +140,16 @@ const routes = [
         name: 'singUpList',
         component : singUpList
       },
-    {
-      path: 'FindIdPw',
-      name: 'FindIdPw',
-      component : FindIdPw
-    },
+      {
+        path: 'FindIdPw',
+        name: 'FindIdPw',
+        component : FindIdPw
+      },
+      {
+        path: 'notify',
+        name: 'notify',
+        component : notifyList
+      }
 
     ]
   },
@@ -226,6 +234,14 @@ const routes = [
         path: 'inquiryInfo/:no',
         component : adminInquiryInfo
       },
+      {
+        path: 'notify',
+        component : adminNotify
+      },
+      {
+        path: 'notifyInfo/:no',
+        component : adminNotifyInfo
+      }
 
     ]
   },
