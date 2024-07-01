@@ -139,5 +139,5 @@ export default {
         color:white;
         text-decoration: none;
         padding:5px;
-    }
+    }*/
 </style>

@@ -33,14 +33,13 @@
           @input="goPage">
         </v-pagination>
         <div class="button-container">
-            <v-btn color="primary" dark>등록</v-btn>
+            <v-btn color="primary" dark @click="goForm">등록</v-btn>
         </div>
       </v-card>
     </v-container>
   </template>
   
   <script>
-import router from '@/router';
 import axios from 'axios';
 
   export default {
@@ -90,8 +89,19 @@ import axios from 'axios';
             this.$router.push(`/admin/notifyInfo/${notice_no}`)
 
         },
-
-
+        formatDate(dateStr) {
+          const date = new Date(dateStr);
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const day = String(date.getDate()).padStart(2, '0');
+          const hours = String(date.getHours()).padStart(2, '0');
+          const minutes = String(date.getMinutes()).padStart(2, '0');
+          const seconds = String(date.getSeconds()).padStart(2, '0');
+          return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        },
+        goForm(){
+          this.$router.push('/admin/notifyInsert')
+        }
 
     },
   }

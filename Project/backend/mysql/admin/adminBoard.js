@@ -58,7 +58,7 @@ module.exports = {
 
     notifyCount : `SELECT count(*) AS cnt FROM notice`,
 
-    notifyImg : `SELECT table_class, path, file_name, sort, file_type
+    notifyFile : `SELECT table_class, path, file_name, sort, file_type
                  FROM file
                  WHERE board_no = ?
                  ORDER BY sort`,
