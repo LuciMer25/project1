@@ -75,5 +75,51 @@ module.exports = {
     bannerList : 
         `select b.banner_title, b.banner_img, b.prod_no, p.prod_name, p.price, p.prod_img
         from banner b join product p
-        on b.prod_no = p.prod_no;`
+        on b.prod_no = p.prod_no;`,
+    categoryTopList : 
+        `SELECT r.*
+        FROM (SELECT  p.prod_no,
+                p.prod_name,
+                p.price, 
+                p.reg_date, 
+                p.prod_img, 
+                coalesce(round(r.avg_score,1),0) as review_avg_score, 
+                coalesce(r.cnt,0) as review_cnt,
+                c.ctgr_name,
+                (SELECT ctgr_name from category where ctgr_no = c.top_ctgr_no) as top_ctgr_name,
+                c.top_ctgr_no, 
+                c.ctgr_no
+        FROM product p
+        JOIN category c
+        ON p.ctgr_no = c.ctgr_no
+        LEFT JOIN (
+                    SELECT prod_no, AVG(score) AS avg_score, count(*) as cnt
+                    FROM review
+                    GROUP BY prod_no
+                ) AS r 
+        ON p.prod_no = r.prod_no) r
+        WHERE r.top_ctgr_no = ?
+        `,
+    categoryBotList :
+        `SELECT r.* FROM (SELECT  p.prod_no,
+                p.prod_name,
+                p.price, 
+                p.reg_date, 
+                p.prod_img, 
+                coalesce(round(r.avg_score,1),0) as review_avg_score, 
+                coalesce(r.cnt,0) as review_cnt,
+                c.ctgr_name,
+                (SELECT ctgr_name from category where ctgr_no = c.top_ctgr_no) as top_ctgr_name,
+                c.top_ctgr_no, 
+                c.ctgr_no
+                FROM product p
+                JOIN category c
+                ON p.ctgr_no = c.ctgr_no
+                LEFT JOIN (
+                            SELECT prod_no, AVG(score) AS avg_score, count(*) as cnt
+                            FROM review
+                            GROUP BY prod_no
+                        ) AS r 
+                ON p.prod_no = r.prod_no) r
+                WHERE r.top_ctgr_no = ? AND r.ctgr_no = ?`
 };
