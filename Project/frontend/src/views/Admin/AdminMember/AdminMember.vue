@@ -31,7 +31,7 @@
                             <td v-text="mem.post_detail_list"></td>
                             <td v-text="mem.birth"></td>
                             <td v-text="mem.user_resp"></td>
-                            <td v-text="mem.access_date"></td>                            
+                            <td>{{ formatDate(mem.access_date) }}</td>                            
                         </tr>
                     </tbody>
                 </table>
@@ -80,6 +80,16 @@ export default{
                     this.dataTableInstance = new DataTable(myTable);
                 }
             });
+        },
+        formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
         },
     },
 }
