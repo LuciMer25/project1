@@ -15,7 +15,7 @@
           </tr>
           <tr>
             <th class="text-center table-primary">첨부파일</th>
-            <td colspan="8"><img :src="`/api/upload/${inquiryInfo.inquiry_img}`" alt="첨부파일"></td>
+            <td colspan="8"><img :src="`/api/upload/inquiry/${inquiryInfo.inquiry_img}`" alt="첨부파일"></td>
           </tr>
         </thead>
         <tbody>

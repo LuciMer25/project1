@@ -1,9 +1,12 @@
 <template>
     <div class="new-product-list">
-      <h4 class="section-title">증량되어 돌아온 컵밥!</h4>
-      <div class="text-right mt-3 load-more">
-        <button class="btn btn-outline-primary" @click="loadMore">더보기</button>
+      <div class="section-header">
+        <h4 class="section-title">증량되어 돌아온 컵밥!</h4>
+        <div class="text-right mt-3 load-more">
+          <button class="btn btn-outline-primary" @click="loadMore">더보기</button>
+        </div>
       </div>
+
       <div class="row">
         <div class="col-md-3" v-for="(product, index) in bestProduct.slice(0, 4)" :key="index">
           <div class="card product-card">
@@ -45,11 +48,42 @@
     },
   }
   </script>
-  <style scoped>
-  .position-relative {
+<style scoped>
+.new-product-list {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+.section-header {
+  display: flex;
+  justify-content: space-between; /* h4와 버튼을 같은 라인에 배치 */
+  align-items: center;
+  margin-bottom: 10px;
+}
+.section-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  white-space: nowrap; /* 줄바꿈 방지 */
+}
+.load-more {
+  margin-top: 0; /* 기본적인 margin-top 제거 */
+}
+.product-card {
+  margin-bottom: 20px;
+  overflow: hidden;
+  border-radius: 10px;
+  transition: box-shadow 0.3s;
+}
+.product-card:hover .card-img-top {
+  transform: scale(1.05);
+}
+.card-body {
+  text-align: left;
+}
+.position-relative {
   position: relative;
-  }
-  .rank-badge {
+}
+.rank-badge {
   position: absolute;
   top: 10px;
   left: 10px;
@@ -57,55 +91,20 @@
   border-radius: 50%;
   font-size: 20px;
   font-weight: bold;
-  color:red;
+  color: red;
   text-decoration: underline;
-
-  }
-  .new-product-list {
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-  }
-  
-  .section-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  
-  .load-more {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-  }
-  
-  .product-card {
-    margin-bottom: 20px;
-    overflow: hidden;
-    border-radius: 10px;
-    transition: box-shadow 0.3s;
-  }
-  
-  .product-card:hover .card-img-top {
-    transform: scale(1.05);
-  }
-  
-  .card-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-  }
-  
-  .card-text {
-    font-size: 1rem;
-    color: #333;
-  }
-  
-  .card-img-top {
-    transition: transform 0.3s;
-    height: 200px;
-    object-fit: cover;
-  }
-  .card-body{
-  text-align : left;
 }
-  </style>
+.card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.card-text {
+  font-size: 1rem;
+  color: #333;
+}
+.card-img-top {
+  transition: transform 0.3s;
+  height: 200px;
+  object-fit: cover;
+}
+</style>

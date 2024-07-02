@@ -13,11 +13,13 @@ import CartView from '../views/Main/Cart/CartView.vue'
 
 // 마이페이지 메인
 import MyPageMain from '../views/MyPage/MyPageMain.vue'
+
 // 문의페이지
 import InquiryList from '../views/MyPage/Inquiry/InquiryList.vue'
 import InquiryInfo from '../views/MyPage/Inquiry/InquiryInfo.vue'
 import InquiryForm from '../views/MyPage/Inquiry/InquiryForm.vue'
 import InquiryUpdate from '../views/MyPage/Inquiry/InquiryUpdate.vue'
+
 // QnA페이지
 import QnAList from '../views/MyPage/QnA/QnAList.vue'
 import QnAInfo from '../views/MyPage/QnA/QnAInfo.vue'
@@ -61,12 +63,15 @@ import NewProductlist from '../views/Main/NewProductListView.vue'
 import BestProductlist from '../views/Main/BestProductListView.vue'
 import ThreeProductlist from '../views/Main/ThreeProductListView.vue'
 import CupbapProductlist from '../views/Main/CupbapProductListView.vue'
+import CategoryToplist from '../views/Main/CategoryTopProductList.vue'
+import CategoryBotList from '../views/Main/CategoryBotProductList.vue'
 
 
 //로그인
 import login from '../views/Main/login/login.vue'
 import signtUp1 from '../views/Main/login/signup/signtUp1.vue'
 import singUpList from '../views/Main/login/signup/singUpList.vue'
+import kakaosingUp from '../views/Main/login/signup/kakaosingUp.vue'
 //아이디 비밀번호 찾기
 import FindIdPw from '../views/Main/login/FindIdPw.vue'
 
@@ -123,6 +128,18 @@ const routes = [
         path: 'search/:keyword',
         component: SearchView
       },
+      {
+        path: '/categorylist/:top_ctgr_no',
+        name: 'CategoryList',
+        component: CategoryToplist,
+        props:true
+      },
+      {
+        path: '/categorylist/:top_ctgr_no/:ctgr_no',
+        name: 'CategoryDetailList',
+        component: CategoryBotList,
+        props:true
+      },
       // 메인화면 신상품 리스트
       {
         path: 'newproductlist',
@@ -159,9 +176,23 @@ const routes = [
         component : signtUp1
       },
       {
+        path: 'kakaosingUp',
+        name: 'kakaosingUp',
+        component : kakaosingUp
+      },
+      {
         path: 'singUpList',
         name: 'singUpList',
         component : singUpList
+      },
+      {
+        path: '/DeleteMem',
+        component: DeleteMem,
+      },
+      {
+        path: 'FindIdPw',
+        name: 'FindIdPw',
+        component : FindIdPw
       },
       {
         path: 'FindIdPw',
@@ -361,6 +392,11 @@ const routes = [
         path: '/DeleteMem',
         component: DeleteMem,
       },
+      {
+        path: '/DeleteMem',
+        component: DeleteMem,
+      },
+      
 
     ]
   },
