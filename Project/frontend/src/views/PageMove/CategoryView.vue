@@ -33,77 +33,47 @@
       </ul>
     </li> -->
     <ul>
-      <a href="#"
-      :key="i"
-       v-for="(category, i) in Upcategory1"
-      >
-        {{ category.ctgr_name }}
+      <a :key="i" v-for="(category, i) in Upcategory1" @click="gotoCtgrlist(category.ctgr_no)">
+        {{ category.ctgr_name }} {{ category.ctgr_no }}
       </a>
-      <li
-      :key="i"
-       v-for="(category, i) in DownCategory1"
-      >
-        {{ category.ctgr_name }}
+      <li :key="i" v-for="(category, i) in DownCategory1" @click="gotoCtgrDetailList(category.top_ctgr_no,category.ctgr_no)">
+        {{ category.ctgr_no }} {{ category.ctgr_name }}  {{ category.top_ctgr_no }}
         </li>
     </ul>
     
     <ul>
-      <a href="#"
-      :key="i"
-       v-for="(category, i) in Upcategory2"
-      >
-        {{ category.ctgr_name }}
+      <a :key="i" v-for="(category, i) in Upcategory2"  @click="gotoCtgrlist(category.ctgr_no)">
+        {{ category.ctgr_no }} {{ category.ctgr_name }} 
       </a>
-      <li
-      :key="i"
-       v-for="(category, i) in DownCategory2"
-      >
-        {{ category.ctgr_name }}
+      <li :key="i" v-for="(category, i) in DownCategory2" @click="gotoCtgrDetailList(category.top_ctgr_no,category.ctgr_no)">
+        {{ category.ctgr_no }} {{ category.ctgr_name }} {{ category.top_ctgr_no }}
       </li>
     </ul>
     
     <ul>
-      <a href="#"
-      :key="i"
-       v-for="(category, i) in Upcategory3"
-      >
-        {{ category.ctgr_name }}
+      <a :key="i" v-for="(category, i) in Upcategory3" @click="gotoCtgrlist(category.ctgr_no)">
+        {{ category.ctgr_name }} {{ category.ctgr_no }}
       </a>
-      <li
-      :key="i"
-       v-for="(category, i) in DownCategory3"
-      >
-        {{ category.ctgr_name }}
+      <li :key="i" v-for="(category, i) in DownCategory3" @click="gotoCtgrDetailList(category.top_ctgr_no,category.ctgr_no)">
+        {{ category.ctgr_no }} {{ category.ctgr_name }} {{ category.top_ctgr_no }}
       </li>
     </ul>
    
     <ul>
-      <a href="#"
-      :key="i"
-       v-for="(category, i) in Upcategory4"
-      >
-        {{ category.ctgr_name }}
+      <a :key="i" v-for="(category, i) in Upcategory4" @click="gotoCtgrlist(category.ctgr_no)">
+        {{ category.ctgr_name }} {{ category.ctgr_no }}
       </a>
-      <li
-      :key="i"
-       v-for="(category, i) in DownCategory4"
-      >
-        {{ category.ctgr_name }}
+      <li :key="i" v-for="(category, i) in DownCategory4" @click="gotoCtgrDetailList(category.top_ctgr_no,category.ctgr_no)">
+        {{ category.ctgr_no }}   {{ category.ctgr_name }} {{ category.top_ctgr_no }}
       </li>
     </ul>
     
     <ul>
-      <a href="#"
-      :key="i"
-       v-for="(category, i) in Upcategory5"
-      >
-        {{ category.ctgr_name }}
+      <a :key="i" v-for="(category, i) in Upcategory5" @click="gotoCtgrlist(category.ctgr_no)">
+        {{ category.ctgr_name }} {{ category.ctgr_no }}
       </a>
-      <li
-      :key="i"
-       v-for="(category, i) in DownCategory5"
-      >
-        {{ category.ctgr_name }}
+      <li :key="i" v-for="(category, i) in DownCategory5" @click="gotoCtgrDetailList(category.top_ctgr_no,category.ctgr_no)">
+        {{ category.ctgr_no }}  {{ category.ctgr_name }} {{ category.top_ctgr_no }}
     </li>
     </ul>
     
@@ -198,8 +168,13 @@
 
         // this.BotCategoryList = result.data.result2;
 
-      } // end of getcategortList
-        
+      }, // end of getcategortList
+      gotoCtgrlist(ctgr_no){
+        this.$router.push({ name: 'CategoryList', params: { top_ctgr_no : ctgr_no } });
+      },
+      gotoCtgrDetailList(top_ctgr_no, ctgr_no){
+        this.$router.push({ name: 'CategoryDetailList', params: { top_ctgr_no : top_ctgr_no, ctgr_no : ctgr_no }});
+      }
     }, // end of methods
     
   } // end of default

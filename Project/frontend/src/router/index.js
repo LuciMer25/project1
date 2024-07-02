@@ -13,12 +13,13 @@ import CartView from '../views/Main/Cart/CartView.vue'
 
 // 마이페이지 메인(맹)
 import MyPageMain from '../views/MyPage/MyPageMain.vue'
-// 문의페이지(맹)
+
+// 문의페이지
 import InquiryList from '../views/MyPage/Inquiry/InquiryList.vue'
 import InquiryInfo from '../views/MyPage/Inquiry/InquiryInfo.vue'
 import InquiryForm from '../views/MyPage/Inquiry/InquiryForm.vue'
 import InquiryUpdate from '../views/MyPage/Inquiry/InquiryUpdate.vue'
-// QnA페이지(맹)
+// QnA페이지
 import QnAList from '../views/MyPage/QnA/QnAList.vue'
 import QnAInfo from '../views/MyPage/QnA/QnAInfo.vue'
 import QnAForm from '../views/MyPage/QnA/QnAForm.vue'
@@ -65,6 +66,8 @@ import NewProductlist from '../views/Main/NewProductListView.vue'
 import BestProductlist from '../views/Main/BestProductListView.vue'
 import ThreeProductlist from '../views/Main/ThreeProductListView.vue'
 import CupbapProductlist from '../views/Main/CupbapProductListView.vue'
+import CategoryToplist from '../views/Main/CategoryTopProductList.vue'
+import CategoryBotList from '../views/Main/CategoryBotProductList.vue'
 
 
 //로그인
@@ -78,7 +81,6 @@ import FindIdPw from '../views/Main/login/FindIdPw.vue'
 import MemCheck from '../views/MyPage/EditMember/MemCheck.vue'
 import EditMembers from '../views/MyPage/EditMember/EditMembers.vue'
 import DeleteMem from '../views/MyPage/EditMember/DeleteMem.vue'
-
 
 //
 import CategoryView from '../views/PageMove/CategoryView.vue'
@@ -125,8 +127,20 @@ const routes = [
         component: CategoryView
       },
       {
-        path: '/search',
+        path: '/search:keyword',
         component: SearchView
+      },
+      {
+        path: '/categorylist/:top_ctgr_no',
+        name: 'CategoryList',
+        component: CategoryToplist,
+        props:true
+      },
+      {
+        path: '/categorylist/:top_ctgr_no/:ctgr_no',
+        name: 'CategoryDetailList',
+        component: CategoryBotList,
+        props:true
       },
       // 메인화면 신상품 리스트
       {
@@ -167,6 +181,11 @@ const routes = [
         path: 'singUpList',
         name: 'singUpList',
         component : singUpList
+      },
+      {
+        path: 'FindIdPw',
+        name: 'FindIdPw',
+        component : FindIdPw
       },
       {
         path: 'FindIdPw',

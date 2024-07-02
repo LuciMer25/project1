@@ -1,11 +1,11 @@
 <template>
     <header>
       <div class="top-head1">
-        <a href="/">HOME</a>
+        <RouterLink to="/">HOME</RouterLink>
         <div class="searchBox">
-          <form>
-            <input type="text" placeholder="Search">
-            <button type="button">검색</button>
+          <form action="search" method="get" class="search-form">
+	          <input v-model="keyword" type="text" class="search-bar" name="product" placeholder="검색어를 입력하세요.">
+	          <input type="submit" class="search-button" value="Search" >
           </form>
         </div>
         <div class="controlbox">
@@ -20,66 +20,133 @@
         <div class="dropdown">
           <span class="dropbtn">전체 카테고리</span>
           <div class="dropdown-content">
-            <a href="#"
+            <!-- v-bind:to="`/category/${category.ctgr_no}`" -->
+            <RouterLink v-bind:to="`/category/${category.ctgr_no}`"
               :key="i"
                v-for="(category, i) in Upcategory1"
             >
               {{ category.ctgr_name }}
-            </a>
+            </RouterLink>
             <div class="dropdown2">
               <div class="dropdown-content2">
                 <li
                   :key="i"
                   v-for="(category, i) in DownCategory1"
                 >
-                  {{ category.ctgr_name }}
+                  <RouterLink to="/#">
+                    {{ category.ctgr_name }}
+                  </RouterLink>
                 </li>
               </div> 
             </div>
-            <a href="#"
+
+             <RouterLink to="/#"
               :key="i"
                v-for="(category, i) in Upcategory2"
             >
               {{ category.ctgr_name }}
-            </a>
-            <a href="#"
+            </RouterLink>
+            <div class="dropdown2">
+              <div class="dropdown-content2">
+                <li
+                  :key="i"
+                  v-for="(category, i) in DownCategory2"
+                >
+                  <RouterLink to="/#">
+                    {{ category.ctgr_name }}
+                  </RouterLink>
+                </li>
+              </div> 
+            </div>
+
+             <RouterLink to="/#"
               :key="i"
                v-for="(category, i) in Upcategory3"
             >
               {{ category.ctgr_name }}
-            </a>
-            <a href="#"
+            </RouterLink>
+            <div class="dropdown2">
+              <div class="dropdown-content2">
+                <li
+                  :key="i"
+                  v-for="(category, i) in DownCategory3"
+                >
+                  <RouterLink to="/#">
+                    {{ category.ctgr_name }}
+                  </RouterLink>
+                </li>
+              </div> 
+            </div>
+
+            <RouterLink to="/#"
               :key="i"
                v-for="(category, i) in Upcategory4"
             >
               {{ category.ctgr_name }}
-            </a>
-            <a href="#"
+            </RouterLink>
+            <div class="dropdown2">
+              <div class="dropdown-content2">
+                <li
+                  :key="i"
+                  v-for="(category, i) in DownCategory4"
+                >
+                  <RouterLink to="/#">
+                    {{ category.ctgr_name }}
+                  </RouterLink>
+                </li>
+              </div> 
+            </div>
+            
+            <RouterLink to="/"
               :key="i"
                v-for="(category, i) in Upcategory5"
             >
               {{ category.ctgr_name }}
-            </a>
+            </RouterLink>
+            <div class="dropdown2">
+              <div class="dropdown-content2">
+                <li
+                  :key="i"
+                  v-for="(category, i) in DownCategory5"
+                >
+                  <RouterLink to="/#">
+                    {{ category.ctgr_name }}
+                  </RouterLink>
+                </li>
+              </div> 
+            </div>
+
           </div>
         </div> 
         <ul class="menu">
-          <li><RouterLink to="/notify">공지사항</RouterLink>></li>
-          <li><RouterLink to="/QnAList">QnA</RouterLink>></li>
-          <li><RouterLink to="/inquiryList">1:1문의</RouterLink>></li>
-          <li><RouterLink to="">베스트</RouterLink>></li>
+          <li><RouterLink to="/notify">공지사항</RouterLink></li>
+          <li><RouterLink to="/QnAList">QnA</RouterLink></li>
+          <li><RouterLink to="/inquiryList">1:1문의</RouterLink></li>
+          <li><RouterLink to="">베스트</RouterLink></li>
         </ul>
       </div>  
     </header>
     <div class="endOfHeader"></div>
 </template>
 <script>
+
 import axios from "axios";
+import { RouterLink } from "vue-router";
 import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
       Upcategory1: [],
       DownCategory1: [],
+      Upcategory2: [],
+      DownCategory2: [],
+      Upcategory3: [],
+      DownCategory3: [],
+      Upcategory4: [],
+      DownCategory4: [],
+      Upcategory5: [],
+      DownCategory5: [],
+      keyword: ''
     };
   },
   created() {
@@ -120,6 +187,7 @@ export default {
   }, // end of methods
   
 } // end of default
+
 </script>
 <style>
   header{
@@ -151,29 +219,24 @@ export default {
     /* background-color: aqua; */
   }
 
+  /* 전체 카테고리 */
   .dropdown{
   position : relative;
   display : inline-block;
   margin-right: 50px;
   }
 
-  .dropdown2{
-    /* background-color: pink; */
-    width:400px;
-    position : absolute;
-    display : inline-block;
-    margin-right: 400px;
-    
-  }
+  /* 상위 카테고리 */
   .dropdown-content{
     display : none;
     position : absolute;
     padding:10px;
     width:200px;
-    z-index : 1; /*다른 요소들보다 앞에 배치*/
-    background-color: white;
+    z-index : 1; 
+    background-color:white;
     border:1px solid black;
   }
+
   .dropdown-content a{
     display : block;
     text-decoration: none;
@@ -186,13 +249,50 @@ export default {
     display: block;
   }
 
-  .searchBox{
-    /* border:2px solid black; */
+  /* 하위 카테고리 */
+  .dropdown2{
+    width:250px;
+    left: 199px;
+    top: -1px;
+    position : absolute;
+    padding:10px;
+    display:none;
+    background-color: white;
+    border:1px solid black;
+  }
+
+  .dropdown-content a:nth-child(1):hover + 
+  .dropdown2 {
+    display:block;
+  }
+
+  .dropdown-content a:nth-child(3):focus +
+  .dropdown2 {
+    display:block;
+  }
+
+  .dropdown-content a:nth-child(5):focus +
+  .dropdown2 {
+    display:block;
+  }
+
+  .dropdown-content a:nth-child(7):focus +
+  .dropdown2 {
+    display:block;
+  }
+
+  .dropdown-content a:nth-child(9):focus   +
+  .dropdown2 {
+    display:block;
+  }
+
+  .dropdown-content2 a{
+    display:block;
   }
 
   .controlbox{
     display:flex;
-    
+    /* padding:30px; */
   }
 
   .controlbox a{
