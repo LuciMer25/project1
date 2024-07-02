@@ -71,6 +71,7 @@ import CategoryBotList from '../views/Main/CategoryBotProductList.vue'
 import login from '../views/Main/login/login.vue'
 import signtUp1 from '../views/Main/login/signup/signtUp1.vue'
 import singUpList from '../views/Main/login/signup/singUpList.vue'
+import kakaosingUp from '../views/Main/login/signup/kakaosingUp.vue'
 //아이디 비밀번호 찾기
 import FindIdPw from '../views/Main/login/FindIdPw.vue'
 
@@ -175,9 +176,18 @@ const routes = [
         component : signtUp1
       },
       {
+        path: 'kakaosingUp',
+        name: 'kakaosingUp',
+        component : kakaosingUp
+      },
+      {
         path: 'singUpList',
         name: 'singUpList',
         component : singUpList
+      },
+      {
+        path: '/DeleteMem',
+        component: DeleteMem,
       },
       {
         path: 'FindIdPw',
@@ -382,6 +392,11 @@ const routes = [
         path: '/DeleteMem',
         component: DeleteMem,
       },
+      {
+        path: '/DeleteMem',
+        component: DeleteMem,
+      },
+      
 
     ]
   },
