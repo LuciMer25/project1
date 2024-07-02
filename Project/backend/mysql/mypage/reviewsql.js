@@ -19,5 +19,14 @@ module.exports = {
                    SET ?`,
     reviewDelete: `DELETE
                    FROM review
-                   WHERE review_no = ?`
+                   WHERE review_no = ?`,
+    productReviews: `SELECT score,
+                            review_title, 
+                            review_content, 
+                            user_id, 
+                            review_img,
+                            reg_date
+                     FROM review
+                     WHERE prod_no=?
+                     ORDER BY reg_date desc`
 }

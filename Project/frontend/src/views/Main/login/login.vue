@@ -6,7 +6,7 @@
         <h2>Login</h2>
         <form @submit.prevent="loginUser" id="login-form">
           <input type="text" name="userName" placeholder="Email" v-model="userLogin.user_id">
-          <input type="password" name="userPassword" placeholder="Password" v-model="userLogin.userPassword">
+          <input type="password" name="userPassword" placeholder="Password" v-model="userLogin.pw">
           <label for="remember-check">
             <input type="checkbox" id="remember-check">아이디 저장하기
           </label>
@@ -37,11 +37,12 @@ export default {
     return {
       userLogin: {
         user_id: '',
-        userPassword: ''
+        pw: ''
       }
     };
   },
   methods: {
+    ...mapActions(['loginUser', 'updateLoginInfo']),
     async loginUser() {
       try {
         const response = await axios.post('/api/login', this.userLogin);
@@ -91,24 +92,22 @@ export default {
       });
     },
     getKakaoAccount() {
-      const vm = this; // Store the Vue instance context
+      const vm = this; // Vue 인스턴스 컨텍스트 저장
       window.Kakao.API.request({
         url: "/v2/user/me",
         success: function(res) {
           const kakao_account = res.kakao_account;
-          const nickname = kakao_account.profile.nickname;
-          const email = kakao_account.email;
-          console.log("nickname", nickname);
-          console.log("email", email);
+          const user_id = res.id.toString(); // Kakao에서 제공하는 고유 user_id
 
-          // Example of storing data in sessionStorage
-          sessionStorage.setItem('nickname', nickname);
-          sessionStorage.setItem('email', email);
-
-          alert("로그인 성공!");
-
-          // Redirect to BoardList.vue using Vue Router
-          vm.$router.push('/list'); // Assuming '/boardlist' is your route path
+          // user_id를 sessionStorage에 저장
+          sessionStorage.setItem('user_id', user_id);
+          
+          // Vuex 스토어에 사용자 정보 저장
+          vm.updateLoginInfo({ user_id : user_id})
+          //this.$store.dispatch('updateLoginInfo', user);
+          
+          // // user_id를 서버로 전송하여 존재 여부 확인
+          // vm.checkUserExistence(user_id);
         },
         fail: function(error) {
           console.log(error);

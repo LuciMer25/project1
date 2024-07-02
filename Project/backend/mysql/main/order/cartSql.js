@@ -15,6 +15,9 @@ module.exports = {
     deleteItem:`DELETE 
                 FROM cart 
                 WHERE cart_no = ?`,    
+    deleteItems: `DELETE 
+                  FROM cart 
+                  WHERE cart_no IN (?)`, // 다건 삭제 쿼리 추가
     batchUpdate: (items) => {
         return items.map(item => 
             `UPDATE cart SET prod_cnt = ${item.prod_cnt} WHERE cart_no = ${item.cart_no};`

@@ -11,7 +11,7 @@ router.post("/", async (req, res) => {
   try {
     let result = await query("userLogin", [userid, userpw]);
     // res.send(result);
-    let user = result.find(m => m.user_id === userid && m.user_pw === userpw); // 사용자 찾기
+    let user = result.find(m => m.user_id === userid && m.pw === userpw); // 사용자 찾기
     console.log('user:', user);
     if (user) {
       req.session.user_id = userid; // 세션에 사용자 이메일 정보 저장

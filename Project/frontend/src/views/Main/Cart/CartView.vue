@@ -75,6 +75,7 @@ export default {
     };
   },
   created(){
+
     this.getCartItems();
     window.addEventListener('beforeunload', this.updateCartItems);
   },
@@ -94,9 +95,16 @@ export default {
     },
     async getCartItems() {
       try {
-        const user_id = this.$store.getters.getUserInfo.user_id; // 사용자 ID 가져오기
-        const response = (await axios.post('/api/cart', { user_id }));
-        this.cartItems = response.data;
+        const user = this.$store.getters.getUserInfo; // 사용자 ID 가져오기
+        console.log('유저정보'+user);
+        if(user){
+          const response = (await axios.post('/api/cart', { user_id:user.user_id }));
+          this.cartItems = response.data;
+        }
+        else{
+          alert('접근 권한 없음. 로그인 페이지로 이동합니다.');
+          this.$router.push({ name: 'login' });
+        }
       } catch (error) {
         console.error(error);
       }
@@ -165,7 +173,8 @@ export default {
           prod_cnt: item.prod_cnt,
           price: item.price,
           order_amount: item.price * item.prod_cnt,
-          prod_img: item.prod_img
+          prod_img: item.prod_img,
+          cart_no: item.cart_no
         }));
 
         if(selectedItems.length>0){

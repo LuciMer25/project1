@@ -17,6 +17,7 @@ const AccountRouter = require('./routes/main/order/account.js');
 const CheckoutRouter = require('./routes/main/order/checkout.js');
 const ProductInfoRouter = require('./routes/main/order/productDetail.js');
 const CartRouter = require('./routes/main/order/cart.js');
+const ProductReviewRouter = require('./routes/main/order/productreview.js');
 
 // 마이페이지(맹선우)
 var inquiryRouter = require('./routes/mypage/inquiry');
@@ -61,7 +62,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/upload', express.static('D:/project1/Project/backend/upload'));
 // app.use('/api/upload/products', express.static('D:/upload/products'));
 app.use('/api/upload/products', (req, res, next) => {
-  const filePath = path.join('D:/upload/products', req.path);
+  const filePath = path.join('D:project1/Project/backend/upload/products', req.path);
   res.sendFile(filePath, (err) => {
     if (err) {
       // 이미지 파일이 없을 경우 대체 이미지를 제공
@@ -69,6 +70,26 @@ app.use('/api/upload/products', (req, res, next) => {
     }
   });
 });
+
+// app.use('/api/upload/products', (req, res, next) => {
+//   const filePath = path.join('D:project1/Project/backend/upload/products', decodeURIComponent(req.path));
+
+//   // 파일이 존재하는지 확인
+//   fs.access(filePath, fs.constants.F_OK, (err) => {
+//     if (err) {
+//       // 파일이 없으면 404 에러를 반환하고 대체 이미지를 제공
+//       res.status(404).sendFile('D:project1/Project/backend/upload/products/loadfail.jpg');
+//     } else {
+//       // 파일이 있으면 해당 파일을 반환
+//       res.sendFile(filePath, (err) => {
+//         if (err) {
+//           // 파일 전송 중 에러가 발생하면 500 에러 반환
+//           res.status(500).send('Internal Server Error');
+//         }
+//       });
+//     }
+//   });
+// });
 
 app.use(session({
   secret: 'secret key', //암호화하는 데 쓰일 키
@@ -93,6 +114,7 @@ app.use('/api/account',AccountRouter);
 app.use('/api/checkout',CheckoutRouter);
 app.use('/api/productInfo',ProductInfoRouter);
 app.use('/api/cart',CartRouter);
+app.use('/api/productreviews',ProductReviewRouter);
 
 
 // 마이페이지(맹선우)

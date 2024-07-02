@@ -84,15 +84,18 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
-  <ContentsImg :img="`/api/upload/products/${this.product.prod_no}/${product.prod_content_img}`"/>
+  <ContentsImg :img="`/api/upload/products/${product.prod_no}/${product.prod_content_img}`"/>
+
+  <ReviewComponent :prodNo="product.prod_no"></ReviewComponent>
   </v-container>
 </template>
 
 <script>
 import axios from 'axios';
-import ContentsImg from '@/components/main/productdetail/ContentImg.vue'
+import ContentsImg from '@/components/main/productdetail/ContentImg.vue';
+import ReviewComponent from '@/components/main/productdetail/ReviewComponent.vue';
 export default {
-  components:{ContentsImg},
+  components:{ContentsImg, ReviewComponent},
   data() {
     return {
       quantity: 1,

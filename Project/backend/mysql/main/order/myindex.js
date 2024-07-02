@@ -16,6 +16,7 @@ const pool = mysql.createPool(conn);
 function query(alias, values) {
     console.log('SQL alias:', alias)
     console.log('SQL query:', sql[alias])
+    console.log('Values:', values); // 추가된 로그
     return new Promise( (resolve, reject) => pool.query(sql[alias],values, function(err, result) {
         if(err) {
             console.log(err)
@@ -26,6 +27,33 @@ function query(alias, values) {
         } 
     }))
 }
+
+
+function multiquery(alias, values) {
+  console.log('SQL alias:', alias);
+  console.log('SQL query:', sql[alias]);
+  console.log('Values:', values); // 추가된 로그
+  return new Promise((resolve, reject) => {
+      pool.getConnection((err, conn) => {
+          if (err) {
+              reject(err);
+          } else {
+              // 배열의 요소를 각각 쿼리의 인자로 전달
+              const sqlQuery = sql[alias].replace('(?)', `(${values.map(() => '?').join(', ')})`);
+              conn.query(sqlQuery, values, (err, result) => {
+                  conn.release();
+                  if (err) {
+                      console.error("Error executing multiquery:", err);
+                      reject(err);
+                  } else {
+                      resolve(result);
+                  }
+              });
+          }
+      });
+  });
+}
+
 
 function cartQuery(queryString) {
     return new Promise((resolve, reject) => pool.query(queryString, function (err, result) {
@@ -39,4 +67,4 @@ function cartQuery(queryString) {
     }))
 }
 
-module.exports = {query,cartQuery};
+module.exports = {query,multiquery,cartQuery};

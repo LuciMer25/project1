@@ -137,12 +137,30 @@ export default {
           this.callCompletePage(checkoutResult);
 
     },
-    callCompletePage(result){
+    async  callCompletePage(result){
       if(result.data.message != ''){
+          // 장바구니 항목 삭제를 위한 필터링
+          const cartItemsToDelete = this.itemList
+                                                .filter(item => item.cart_no)
+                                                .map(item => item.cart_no);
+
+          if (cartItemsToDelete.length > 0) {
+            console.log("Deleting cart items:", cartItemsToDelete);
+            await axios.post('/api/cart/batchDelete', {
+                cartNos: cartItemsToDelete
+            }).catch(err => {
+                console.error('Error in axios.post:', err);
+                console.error('Error response:', err.response);
+                console.error('Request data:', { cartNos: cartItemsToDelete });
+            });
+          } 
+
           alert('결제완료!');
           console.log(result.data.order_no);
+
           this.$router.push({name:'ordercomplete',params:{orderNo:result.data.order_no}});
         }
+
     },
     formatPrice(value) {
       return value.toLocaleString();

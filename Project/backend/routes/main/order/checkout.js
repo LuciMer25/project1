@@ -9,8 +9,8 @@ router.use(express.json());
   router.post("/", async (req, res) => {
     const orders = req.body.orders; // 요청 바디에서 데이터 배열 가져오기
     const detailList = req.body.detailList;
-    console.log(orders);
-    console.log(detailList);
+    //console.log(orders);
+    //console.log(detailList);
     
     
     let orderValues = [
