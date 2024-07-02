@@ -120,7 +120,7 @@ const routes = [
         component: CategoryView
       },
       {
-        path: '/search:keyword',
+        path: 'search/:keyword',
         component: SearchView
       },
       // 메인화면 신상품 리스트
