@@ -84,7 +84,9 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
-  <ContentsImg :img="`/api/upload/products/${this.product.prod_no}/${product.prod_content_img}`"/>
+  <ContentsImg :img="`/api/upload/products/${product.prod_no}/${product.prod_content_img}`"/>
+
+  <ReviewComponent :prodNo="this.$route.params.prodNo"></ReviewComponent>
   </v-container>
 </template>
 
