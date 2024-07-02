@@ -47,7 +47,6 @@
             }
        },
        methods: {
-          
            async getNewProduct()   {
            try {
              let result = await axios.get(`/api/bestproduct`);

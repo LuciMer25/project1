@@ -13,11 +13,13 @@ import CartView from '../views/Main/Cart/CartView.vue'
 
 // 마이페이지 메인
 import MyPageMain from '../views/MyPage/MyPageMain.vue'
+
 // 문의페이지
 import InquiryList from '../views/MyPage/Inquiry/InquiryList.vue'
 import InquiryInfo from '../views/MyPage/Inquiry/InquiryInfo.vue'
 import InquiryForm from '../views/MyPage/Inquiry/InquiryForm.vue'
 import InquiryUpdate from '../views/MyPage/Inquiry/InquiryUpdate.vue'
+
 // QnA페이지
 import QnAList from '../views/MyPage/QnA/QnAList.vue'
 import QnAInfo from '../views/MyPage/QnA/QnAInfo.vue'
@@ -61,6 +63,8 @@ import NewProductlist from '../views/Main/NewProductListView.vue'
 import BestProductlist from '../views/Main/BestProductListView.vue'
 import ThreeProductlist from '../views/Main/ThreeProductListView.vue'
 import CupbapProductlist from '../views/Main/CupbapProductListView.vue'
+import CategoryToplist from '../views/Main/CategoryTopProductList.vue'
+import CategoryBotList from '../views/Main/CategoryBotProductList.vue'
 
 
 //로그인
@@ -123,6 +127,18 @@ const routes = [
         path: '/search:keyword',
         component: SearchView
       },
+      {
+        path: '/categorylist/:top_ctgr_no',
+        name: 'CategoryList',
+        component: CategoryToplist,
+        props:true
+      },
+      {
+        path: '/categorylist/:top_ctgr_no/:ctgr_no',
+        name: 'CategoryDetailList',
+        component: CategoryBotList,
+        props:true
+      },
       // 메인화면 신상품 리스트
       {
         path: 'newproductlist',
@@ -162,6 +178,11 @@ const routes = [
         path: 'singUpList',
         name: 'singUpList',
         component : singUpList
+      },
+      {
+        path: 'FindIdPw',
+        name: 'FindIdPw',
+        component : FindIdPw
       },
       {
         path: 'FindIdPw',

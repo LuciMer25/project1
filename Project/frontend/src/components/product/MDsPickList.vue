@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h2>MD가 엄선한 상품입니다</h2>
+  <div class="banner">
+    <h2 class="container">MD가 엄선한 상품입니다</h2>
     <!-- 타이틀 나열 -->
     <ul class="title-list">
       <li 
@@ -14,9 +14,15 @@
     </ul>
     <!-- Swiper 슬라이드 -->
     <swiper :slides-per-view="1" pagination loop>
-      <swiper-slide>
-        <h3 class="banner-title">{{ selectedProduct.banner_title }}</h3>
-        <img :src="`/api/upload/${selectedProduct.banner_img}`" class="banner-img" alt="Product Image">
+      <swiper-slide v-for="(product, index) in filteredProducts" :key="index">
+        <div class="product-card">
+          <img :src="`/api/upload/${product.banner_img}`" class="banner-img" alt="Product Image">
+          <div class="card-content">
+            <h3 @click="gotoDetail(product.prod_no)"><a>상세보기</a></h3>
+            <h5 class="card-title">{{ product.prod_name }}</h5>
+            <p class="card-text">{{ product.price }} 원</p>
+          </div>
+        </div>
       </swiper-slide>
     </swiper>
   </div>
@@ -58,46 +64,79 @@ export default {
     gotoDetail(no) {
       this.$router.push(`/product/${no}`);
     }
+  },
+  computed: {
+    filteredProducts() {
+      return this.MDsPickProduct.filter(product => product === this.selectedProduct);
+    }
   }
 };
 </script>
 
 <style scoped>
+.banner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
 .banner-title {
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   text-align: center;
 }
 
+.product-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
 .banner-img {
-  width: 800px;
+  width: 100%;
   height: auto;
-  cursor: pointer;
   display: block;
-  margin: 0 auto;
+  border-radius: 10px;
+}
+
+.card-content {
+  position: absolute;
+  top: 50%;
+  left: 80%;
+  transform: translate(-50%, -50%);
+  color: black;
+  text-align: center;
 }
 
 .title-list {
   list-style-type: none;
   padding: 0;
-  display: flex; /* 가로로 배치하기 위해 flex 사용 */
-  overflow-x: auto; /* 가로 스크롤 가능하도록 설정 */
-  white-space: nowrap; /* 텍스트가 줄 바꿈되지 않도록 설정 */
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  margin-bottom: 20px;
 }
 
 .title-list li {
   cursor: pointer;
-  padding: 10px 20px; /* 가로로 padding을 추가하여 공간 확보 */
-  margin-right: 5px;
+  padding: 15px 25px;
+  margin-right: 10px;
   text-align: center;
-  white-space: nowrap; /* 텍스트가 줄 바꿈되지 않도록 설정 */
-  transition: background-color 0.3s, font-weight 0.3s; /* 스타일 변경 시 애니메이션 추가 */
+  white-space: nowrap;
+  transition: background-color 0.3s, font-weight 0.3s;
 }
 
-
 .title-list li.active {
-  font-weight: bold; /* 글씨 굵게 */
-  text-decoration : underline;
+  font-weight: bold;
+  text-decoration: underline;
 }
 </style>
