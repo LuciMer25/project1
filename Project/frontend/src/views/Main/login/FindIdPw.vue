@@ -124,12 +124,14 @@ export default {
       }
 
       try {
-        const response = await axios.put('/api/changePassword', {
+        const response = await axios.put('/api/userFind/updatepw', {
           user_id: this.userpwFind.user_id,
           name: this.userpwFind.name,
           phone: this.userpwFind.phone,
-          new_password: this.newPassword
+          pw: this.newPassword
         });
+        this.userPasswordFound = response.data;
+        this.newPassword =response.data;
         alert('비밀번호가 변경되었습니다.');
         this.newPassword = ''; // 입력 필드 초기화
         this.userpwFind = { name: '', user_id: '', phone: '' }; // 데이터 초기화

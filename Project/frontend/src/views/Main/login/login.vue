@@ -88,52 +88,58 @@ export default {
       window.Kakao.Auth.login({
         scope: "profile_image, account_email",
         success: this.getKakaoAccount,
+        fail: function(error) {
+          console.log(error);
+          alert("카카오 로그인에 실패했습니다.");
+        },
       });
     },
     getKakaoAccount() {
-      const vm = this; // Store the Vue instance context
+      const vm = this; // Vue 인스턴스 컨텍스트 저장
       window.Kakao.API.request({
         url: "/v2/user/me",
         success: function(res) {
           const kakao_account = res.kakao_account;
-          const nickname = kakao_account.profile.nickname;
-          const email = kakao_account.email;
-          console.log("nickname", nickname);
-          console.log("email", email);
+          const user_id = res.id.toString(); // Kakao에서 제공하는 고유 user_id
 
-          // Example of storing data in sessionStorage
-          sessionStorage.setItem('nickname', nickname);
-          sessionStorage.setItem('email', email);
+          // user_id를 sessionStorage에 저장
+          sessionStorage.setItem('user_id', user_id);
 
-          alert("로그인 성공!");
+          let user = { user_id : user_id};
+          this.$store.dispatch('updateLoginInfo', user);
 
-          // Redirect to BoardList.vue using Vue Router
-          vm.$router.push('/list'); // Assuming '/boardlist' is your route path
+          // user_id를 서버로 전송하여 존재 여부 확인
+          vm.checkUserExistence(user_id);
         },
         fail: function(error) {
           console.log(error);
         },
       });
     },
-    kakaoLogout() {
-      const vm = this; // Store the Vue instance context
-      window.Kakao.Auth.logout(function() {
-        // Clear sessionStorage
-        sessionStorage.removeItem('nickname');
-        sessionStorage.removeItem('email');
-        
-        // Optional: Clear any other state or UI related to logged-in state
-        // For example, resetting the UI or redirecting to a login page
-        
-        // Redirect to '/' after logout (adjust as needed)
-        vm.$router.push('/');
-      });
+    checkUserExistence(user_id) {
+      // 서버로 user_id를 전송하여 사용자 존재 여부 확인
+      fetch(`/api/kakaologin?user_id=${user_id}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.exists) {
+            // 사용자가 존재하는 경우 메인 화면으로 리다이렉트
+            this.$router.push('/');
+          } else {
+            // 사용자가 존재하지 않는 경우 회원가입 페이지로 리다이렉트
+            this.$router.push('/kakaosingUp');
+          }
+        })
+        .catch(error => {
+          console.error("서버 요청 오류:", error);
+        });
     },
-  }
+    signUp() {
+      this.$router.push('/signtUp1'); // 회원가입 창으로 이동
+    },
+  },
 };
+
 </script>
-
-
 
 
 <style>

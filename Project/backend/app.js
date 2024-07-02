@@ -41,12 +41,14 @@ var bannerRouter = require('./routes/product/banner.js')
 //로그인 
 var signUpRouter = require('./routes/login/singUp.js');
 var loginRouter = require('./routes/login/login.js');
+var kakaologinRouter = require('./routes/login/kakaologin.js');
 const userFindRouter = require('./routes/login/useFind.js');
-const usepwFindRouter = require('./routes/login/usepwFind.js');
 
 var memcheckRoter = require('./routes/mem/memcheck.js');
 var memEditRouter = require('./routes/mem/memEdit.js');
 var memdeleteRouter = require('./routes/mem/memdelete.js');
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -116,7 +118,8 @@ app.use('/api/banner',bannerRouter)
 app.use('/api/signUp', signUpRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/userFind', userFindRouter); 
-app.use('/api/usepwFind', usepwFindRouter); 
+app.use('/api/kakaologin', kakaologinRouter); 
+
 
 
 // 메인, 카테고리(최석원)
