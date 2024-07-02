@@ -7,11 +7,11 @@
         <v-form>
           <v-row>
             <v-col cols="12" md="6">
-              <v-text-field v-model="title" label="제목" outlined></v-text-field>
+              <v-text-field v-model="notify.title" label="제목" outlined></v-text-field>
             </v-col>
             <v-col cols="12" md="6">
               <v-select
-                v-model="selectedCategory"
+                v-model="notify.category"
                 :items="categories"
                 label="카테고리"
                 outlined
@@ -19,7 +19,7 @@
             </v-col>
             <v-col cols="12">
               <v-textarea
-                v-model="content"
+                v-model="notify.content"
                 label="내용 입력 부분"
                 rows="10"
                 outlined
@@ -38,8 +38,8 @@
                 <v-expansion-panel v-for="(file, index) in files" :key="index">
                   <v-expansion-panel-header>
                     {{ file.name }}
-                    <v-btn icon small @click.stop="removeFile(index)">
-                      <v-icon x-small>mdi-close</v-icon>
+                    <v-btn icon size ="x-small" @click.stop="removeFile(index)">
+                      <v-icon size ="x-small">mdi-close</v-icon>
                     </v-btn>
                   </v-expansion-panel-header>
                   <v-expansion-panel-content>
@@ -62,7 +62,7 @@
                       </v-col>
                       <v-col cols="12" md="4">
                         <v-text-field
-                          v-model="file.order"
+                          v-model="file.sort"
                           type="number"
                           label="순번"
                           outlined
@@ -89,8 +89,11 @@
   export default {
     data() {
       return {
-        title: '',
-        content: '',
+        notify :{
+          title: '',
+          content: '',
+          category: ''
+        },
         categories: ['공지', '일반'],
         selectedCategory: '',
         files: [],
@@ -104,45 +107,48 @@
           file,
           name: file.name,
           fileType: '',
-          order: this.files.length + index + 1,
+          sort: this.files.length + index + 1,
         }));
         this.files = [...this.files, ...newFiles];
       },
       removeFile(index) {
         this.files.splice(index, 1);
-        // Update the order of remaining files
         this.files.forEach((file, idx) => {
-          file.order = idx + 1;
-        });
-      },
-      addNotice() {
-        const formData = new FormData();
-        formData.append('title', this.title);
-        formData.append('content', this.content);
-        formData.append('category', this.selectedCategory);
-  
-        this.files.forEach((fileWrapper, index) => {
-          formData.append(`files[${index}][file]`, fileWrapper.file);
-          formData.append(`files[${index}][name]`, fileWrapper.name);
-          formData.append(`files[${index}][fileType]`, fileWrapper.fileType);
-          formData.append(`files[${index}][order]`, fileWrapper.order);
-        });
-  
-        // Replace the URL with your actual endpoint
-        axios.post('/api/notice', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }).then(response => {
-          console.log('Notice added successfully:', response.data);
-        }).catch(error => {
-          console.error('Error adding notice:', error);
+          file.sort = idx + 1;
         });
       },
       backBtn() {
-        // 뒤로가기 로직을 추가하세요
-        console.log('뒤로가기');
+        this.$router.push("/admin/notify")
       },
+      async addNotice(){
+        try{
+          const result = await axios.post('/api/adminBoard/notifyInsert', {
+            title: this.notify.title,
+            content: this.notify.content,
+            category: this.notify.category
+          });
+  
+          const noticeNo = result.data.insertId;
+          console.log(noticeNo)
+          const formData = new FormData();
+          this.files.forEach((file, index) => {
+            formData.append('files', file.file);
+            formData.append(`fileType_${index}`, file.fileType);
+            formData.append(`fileOrder_${index}`, file.sort);
+          });
+  
+          await axios.post(`/api/adminBoard/fileInsert1/${noticeNo}`, formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          });
+          this.$swal("공지사항이 등록되었습니다.");
+          this.$router.push("/admin/notify");
+        } catch (err) {
+          console.log(err)
+        }
+      }
+       
     },
   };
   </script>
