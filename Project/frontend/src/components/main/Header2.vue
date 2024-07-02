@@ -302,12 +302,14 @@ export default {
   .menu ul{
     padding:0;
     margin:0;
+ 
   }
 
   .menu li{
     padding:0;
     margin:0;
     padding-right: 80px;
+    float:left;
   }
 
   .menu a{
