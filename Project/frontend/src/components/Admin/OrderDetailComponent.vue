@@ -2,7 +2,7 @@
   <div class="container">
     <div class="order-details-wrapper">
       <h2 class="section-title">주문상세</h2>
-      <span>주문날짜: {{ data.user.order_date }}</span><br />
+      <span>주문날짜: {{ formatDate(data.user.order_date) }}</span><br />
       <span>운송장번호: {{ data.user.waybill_no }}</span>
 
       <div class="orderBox" v-for="order in data.product" :key="order.id">
@@ -11,9 +11,9 @@
             <img class="prodImage" :src="`/api/upload/${order.prod_img}`" alt="상품 이미지">
             <div class="product-info">
               <div class="info">
-                <a href="#" target="_blank">상품명: {{ order.prod_name }}</a>
-                <span>{{ order.price }} 원 · {{ order.prod_cnt }} 개</span>
-                <span>상품 총 가격: {{ order.order_amount }} 원 </span>
+                <RouterLink :to="{ name: 'prodInfo', params: { no: order.prod_no } }" target="_blank">상품명 : {{ order.prod_name }}</RouterLink>
+                <span>{{ formatCurrency(order.price) }} 원 · {{ order.prod_cnt }} 개</span>
+                <span>상품 총 가격: {{ formatCurrency(order.order_amount) }} 원 </span>
               </div>
             </div>
           </div>
@@ -49,7 +49,7 @@
             <td>
               <div class="total-amount">
                 <strong>총 결제금액</strong>
-                <strong>{{ data.user.order_total_amount }}원</strong>
+                <strong>{{ formatCurrency(data.user.order_total_amount) }}원</strong>
               </div>
             </td>
           </tr>
@@ -84,6 +84,21 @@ export default {
           detail_addr: ''
         }
       })
+    }
+  },
+  methods:{
+    formatDate(dateStr) {
+        const date = new Date(dateStr);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    },
+    formatCurrency(amount) {
+      return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
   }
 }
@@ -144,6 +159,8 @@ export default {
 
 .product-info .info span {
   color: #555;
+  display: block; 
+  margin-bottom: 5px; 
 }
 
 .info-table {

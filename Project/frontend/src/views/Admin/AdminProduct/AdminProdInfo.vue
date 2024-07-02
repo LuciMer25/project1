@@ -16,7 +16,7 @@
             <h1 class="product-title">상품명 : {{ product.prod_name }}</h1>
             <v-rating value="5" dense v-model="product.avg_score" readonly></v-rating>
             <p class="reviews-count">{{ product.avg_score }} ({{ product.cnt }}건)</p>
-            <h2 class="price">{{ product.price }}원</h2>
+            <h2 class="price">{{ formatCurrency(product.price) }}원</h2>
             <p class="origin">원산지: 상품정보 원산지표시 참조</p>
             <p class="origin">대분류: {{ product.top_ctgr_name }}</p>
             <p class="origin">소분류: {{ product.ctgr_name }}</p>
@@ -85,6 +85,12 @@
         const seconds = String(date.getSeconds()).padStart(2, '0');
         return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
       },
+        formatCurrency(amount) {
+          if (amount === undefined || amount === null) {
+            return '0';
+          }
+          return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
 
     },
   };
@@ -102,7 +108,7 @@
   .product-title {
     font-size: 1.5rem;
     margin-bottom: 10px;
-    word-break: break-word; /* 긴 텍스트 줄바꿈 */
+    word-break: break-word; 
   }
   
   .reviews-count {
@@ -137,7 +143,7 @@
   .mx-auto {
     margin-left: auto;
     margin-right: auto;
-    display: block; /* 중앙 정렬을 위해 블록으로 설정 */
+    display: block; 
   }
   </style>
   

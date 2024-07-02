@@ -18,6 +18,8 @@
                             <th>주소</th>
                             <th>상세주소</th>
                             <th>생년월일</th>
+                            <th>회원등급</th>
+                            <th>최근 접속일</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -28,6 +30,8 @@
                             <td v-text="mem.post_addr"></td>
                             <td v-text="mem.post_detail_list"></td>
                             <td v-text="mem.birth"></td>
+                            <td v-text="mem.user_resp"></td>
+                            <td v-text="mem.access_date"></td>                            
                         </tr>
                     </tbody>
                 </table>
@@ -54,26 +58,20 @@ export default{
     },
     methods: {
         async fetchMemberList() {
-            try {
-                const response = await axios.get('/api/adminMember/memberList');
-                this.member = response.data.list;
-                console.log(this.member);
-                this.dataTable();
-            } catch (error) {
-                console.error('Error fetching members:', error);
-            }
+            const response = await axios.get('/api/adminMember/memberList');
+            this.member = response.data.list;
+            console.log(this.member);
+            this.dataTable();
+           
         },
         async fetchMemberCount() {
-            try {
-                const response = await axios.get('/api/adminMember/memberCount');
-                this.memberCount = response.data.count;
-                console.log(this.memberCount);
-            } catch (error) {
-                console.error('Error fetching member count:', error);
-            }
+            const response = await axios.get('/api/adminMember/memberCount');
+            this.memberCount = response.data.count;
+            console.log(this.memberCount);
+    
         },
         dataTable() {
-            this.$nextTick(() => {
+            nextTick(() => {
                 if (this.dataTableInstance) {
                     this.dataTableInstance.destroy();
                 }

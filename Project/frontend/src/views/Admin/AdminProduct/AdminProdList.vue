@@ -27,7 +27,7 @@
                                     {{ prod.prod_name }}
                                 </button>
                             </td>
-                            <td v-text="prod.price"></td>
+                            <td >{{ formatCurrency(prod.price) }}원</td>
                             <td>{{ formatDate(prod.reg_date) }}</td>
                             <td v-text="prod.ctgr_name"></td>
                         </tr>
@@ -98,6 +98,9 @@ export default{
             const seconds = String(date.getSeconds()).padStart(2, '0');
             return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
         },
+        formatCurrency(amount) {
+            return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
     },
 
 }

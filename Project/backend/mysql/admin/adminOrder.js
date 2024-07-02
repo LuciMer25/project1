@@ -83,12 +83,16 @@ module.exports = {
                         SET order_state = "반품완료" 
                         WHERE order_no = ?`,
 
+    updateReturnComplete : `UPDATE order_state
+                            SET return_complete_date = CURRENT_TIMESTAMP
+                            WHERE order_no = ?`,
 //     orderDetail : `SELECT od.prod_name, od.prod_img, od.prod_no, od.price, o.*, od.prod_cnt, order_amount, os.order_date
 // 	            FROM order_detail od JOIN orders o
 // 				            ON o.order_no = od.order_no
 // 					     JOIN order_state os
 //                                         ON o.order_no = os.order_no
 // 	            AND o.order_no = ?`
+
     orderProdDetail : `SELECT od.prod_name, od.prod_img, od.prod_no, od.price, od.prod_cnt, od.prod_img, od.order_amount
                        FROM order_detail od JOIN orders o
 			         		  on o.order_no = od.order_no

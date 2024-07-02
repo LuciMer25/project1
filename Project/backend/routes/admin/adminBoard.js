@@ -14,13 +14,13 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-  router.get("/qnaList", async (req, res) => {
-    let list = await query("qnaList");
+  router.get("/amdinQnaList", async (req, res) => {
+    let list = await query("adminQnaList");
     res.send({ list });
   });
   
-  router.get("/inquiryList", async (req, res) => {
-    let list = await query("inquiryList");
+  router.get("/adminInquiryList", async (req, res) => {
+    let list = await query("adminInquiryList");
     res.send({ list });
   });
 
