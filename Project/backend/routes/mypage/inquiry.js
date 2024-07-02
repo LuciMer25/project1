@@ -42,10 +42,7 @@ router.put('/:inquiry_no',  (req, res) => {
   let result =  query("inquiryUpdate", [inquiry_title, inquiry_content, no]);
   res.send(result);
 });
-// router.put("/:inquiry_no", async (req, res) => {
-//     let result = await mysql.query("inquiryUpdate", [req.body, req.params.inquiry_no]);
-//     res.send(result);
-//   });
+
 //삭제
 router.delete('/:inquiry_no',  (req, res) => {
     let result =  query("inquiryDelete", req.params.inquiry_no);

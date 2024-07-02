@@ -31,7 +31,8 @@ import "bootstrap"
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import "startbootstrap-sb-admin/dist/css/styles.css"
 import "simple-datatables/dist/style.css"
-
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 
 
@@ -40,6 +41,7 @@ createApp(App)
 .use(vuetify)
 .use(store)
 .use(VueDaumPostcode)
+.use(VueSweetalert2)
 .mount('#app')
 // .use(VueSession, sessionOptions)
 

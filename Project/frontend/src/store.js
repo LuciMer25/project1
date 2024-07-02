@@ -39,7 +39,6 @@ const store = createStore({
     isLoggedIn: state => !!state.user, // 로그인 상태 확인
     getUserInfo: state => state.user, // 사용자 정보 가져오기
     getItemList: state => state.itemList,
-    getUserInfo: state => state.user,
   },
   plugins: [persistedstate({ paths: ["user"] })],
 });

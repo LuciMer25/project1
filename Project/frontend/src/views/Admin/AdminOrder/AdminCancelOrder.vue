@@ -32,7 +32,7 @@
                             <td v-text="order.user_id"></td>
                             <td v-text="order.addr"></td>
                             <td v-text="order.detail_addr"></td>
-                            <td v-text="order.cancel_req_date"></td>
+                            <td >{{ formatDate(order.cancel_req_date) }}</td>
                             <td >
                                 <button v-if="order.order_state === '취소요청'" class="cancelBtn" :data-order-no="order.order_no">
                                     {{ order.order_state }}
@@ -109,20 +109,30 @@ export default{
                 await axios.put(`/api/adminOrder/updateCancelState/${this.orderNo}`)
                 await axios.put(`/api/adminOrder/updateCancelComplete/${this.orderNo}`)
                     .then(()=> {
-                        alert("취소완료 되었습니다.")
+                        this.$swal("취소완료 되었습니다.")
                         this.$router.go(this.$router.currentRoute)
                     })
                     
             } catch (error) {
                 console.log("업데이트 실패", error);
-                alert("업데이트 실패");
+                this.$swal("업데이트 실패");
             }
         },
         goDeatil(order_no){
             this.orderNo = order_no;
             this.$router.push(`cancelDetail/${this.orderNo}`)
 
-        }
+        },
+        formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        },
 
     },
 

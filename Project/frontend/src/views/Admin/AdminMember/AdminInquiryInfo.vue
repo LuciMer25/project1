@@ -9,7 +9,7 @@
             <th scope="col" class="text-center table-primary">제목</th>
             <td scope="col" class="text-center"><input v-model="inquiryInfo.inquiry_title" disabled cols="170" rows="25"></td>
             <th scope="col" class="text-center table-primary">작성일자</th>
-            <td scope="col" class="text-center">{{ inquiryInfo.reg_date }}</td>
+            <td scope="col" class="text-center">{{ formatDate(inquiryInfo.reg_date) }}</td>
             <th scope="col" class="text-center table-primary">작성자</th>
             <td scope="col" class="text-center">{{ inquiryInfo.user_id }}</td>
           </tr>
@@ -76,7 +76,7 @@ methods: {
       res = await axios.put(`/api/adminBoard/inquiryStateUpdate`, {
         inquiryNo : this.inquiryInfo.inquiry_no
       });
-      alert("답변이 등록되었습니다.");
+      this.$swal("답변이 등록되었습니다.");
       this.$router.go(this.$router.currentRoute)
 
     } catch (err) {
@@ -90,12 +90,22 @@ methods: {
         inquiryNo : this.inquiryInfo.inquiry_no,
         content : this.inquiryInfo.reply_content
       });
-      alert("답변이 수정되었습니다.");
+      this.$swal("답변이 수정되었습니다.");
       this.$router.go(this.$router.currentRoute);
     } catch (err) {
       console.log(err)
     }
+  },
+  formatDate(dateStr) {
+        const date = new Date(dateStr);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    },
   }
-}
 };
 </script>
