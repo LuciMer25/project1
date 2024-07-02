@@ -1,6 +1,6 @@
-const express =	require("express");
-const router =	express.Router();
-const query =	require("../../mysql");
+const express = require("express");
+const router = express.Router();
+const query = require("../../mysql/index.js");
 const multer = require('multer');
 
 // Multer 설정
@@ -13,10 +13,12 @@ const storage = multer.diskStorage({
       cb(null, Date.now() + '-' + originalname);
     }
   });
-// 위시리스트 목록
-router.get("/",	async(req ,	res )	=> {
-    let list = await query("wishList");
-    res.send({list});
-});
+  const upload = multer({ storage: storage });
+
+//목록
+router.get("/", async (req, res) => {
+    let result = await query("cancelList").then((res) => res);
+    res.send(result);
+  });
 
 module.exports = router;

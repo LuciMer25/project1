@@ -13,6 +13,8 @@ const mypagemain = require('./mypage/mypagemain.js');
 const mypageorder = require('./mypage/mypageorder');
 const reviewsql = require('./mypage/reviewsql');
 const ordersql = require('./mypage/ordersql');
+const cancelsql = require('./mypage/cancelsql')
+const wishlistsql = require('./mypage/wishlist')
 const productsql = require('./product/productSql.js');
 const signUp =require('./main/signUp.js');
 const cart = require('./main/order/cartSql.js');
@@ -31,10 +33,12 @@ module.exports = {
   ...qnasql,
   ...mypageorder,
   ...ordersql,
+  ...cancelsql,
   ...productsql,
   ...categorySql,
    ...searchSql,
    ...orderSql,
+   ...wishlistsql,
    ...productDetailSql,
    ...reviewsql,
    ...signUp,

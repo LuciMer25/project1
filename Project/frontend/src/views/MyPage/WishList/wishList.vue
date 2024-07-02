@@ -10,12 +10,11 @@
       <tbody>
         <tr
           :key="i"
-          v-for="(wish, i) in wishList"
-          @click="goToDetail(product.prod_no)">
+          v-for="(wish, i) in wishlist">
           <td>{{ wish.wish_no }}</td>
-          <td>{{ prod.prod_img }}</td>
-          <td>{{ prod.prod_name }}</td>
-          <td>{{ prod.price }}</td>
+          <td>{{ wish.wish_img }}</td>
+          <td>{{ wish.wish_name }}</td>
+          <td>{{ wish.wish_price }}</td>
         </tr>
       </tbody>
     </table>
@@ -26,21 +25,19 @@ import axios from "axios";
 export	default {
     data ()	{
      return {
-      wishList: [],
-      product: [],
+      wishlist: [],
      };
     },
     created()	{
      this.getWishList();
     },
     methods: {
-     async getWishList()	{
-      let result =	await axios.get(`/api/wishlist`);
-      this.wishList = result.data ;
-     },
-     goToDetail(inquiry_no )	{
-      this.$router.push({	path:"/inquiryInfo",	query: {inquiry_no:inquiry_no }	});
-     },
+     async getWishList(){
+            axios.get('/api/wishlist')
+                .then(res => {
+                    this.wishList = res.data.list;
+                })
+        },
      getDateFormat(date )	{
       return this.$dateFormat(date );
      },

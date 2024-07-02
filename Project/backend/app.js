@@ -26,6 +26,7 @@ const mypageorderRouter = require('./routes/mypage/mypageorder');
 const reviewRouter = require('./routes/mypage/review');
 const wishRouter = require('./routes/mypage/wishlist');
 const orderRouter = require('./routes/mypage/order');
+const cancelRouter = require('./routes/mypage/cancel');
 
 const CategoryRouter = require('./routes/main/category.js');
 var app = express();
@@ -36,7 +37,6 @@ var productBestRouter = require('./routes/product/bestproduct.js');
 var productThreeRouter = require('./routes/product/threeproduct.js');
 var productCupbapRouter = require('./routes/product/cupbapproduct.js')
 var bannerRouter = require('./routes/product/banner.js')
-
 
 //로그인 
 var signUpRouter = require('./routes/login/singUp.js');
@@ -102,7 +102,8 @@ app.use('/api/qna', qnaRouter);
 app.use('/api/mypageorder', mypageorderRouter);
 app.use('/api/review', reviewRouter);
 app.use('/api/wishlist', wishRouter);
-app.use('/api/order', orderRouter)
+app.use('/api/order', orderRouter);
+app.use('/api/cancel', cancelRouter);
 
 
 // 메인, 상품(김성태)

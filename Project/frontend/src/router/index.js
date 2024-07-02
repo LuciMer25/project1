@@ -11,27 +11,31 @@ import ProductDetailView from '../views/Main/Order/ProductDetail.vue'
 import CartView from '../views/Main/Cart/CartView.vue'
 
 
-// 마이페이지 메인
+// 마이페이지 메인(맹)
 import MyPageMain from '../views/MyPage/MyPageMain.vue'
-// 문의페이지
+// 문의페이지(맹)
 import InquiryList from '../views/MyPage/Inquiry/InquiryList.vue'
 import InquiryInfo from '../views/MyPage/Inquiry/InquiryInfo.vue'
 import InquiryForm from '../views/MyPage/Inquiry/InquiryForm.vue'
 import InquiryUpdate from '../views/MyPage/Inquiry/InquiryUpdate.vue'
-// QnA페이지
+// QnA페이지(맹)
 import QnAList from '../views/MyPage/QnA/QnAList.vue'
 import QnAInfo from '../views/MyPage/QnA/QnAInfo.vue'
 import QnAForm from '../views/MyPage/QnA/QnAForm.vue'
 import QnAUpdate from '../views/MyPage/QnA/QnAUpdate.vue'
-// 리뷰
+// 리뷰(맹)
 import ReviewList from '../views/MyPage/Review/ReviewList.vue'
 import ReviewInfo from '../views/MyPage/Review/ReviewInfo.vue'
 import ReviewForm from '../views/MyPage/Review/ReviewForm.vue'
 import ReviewUpdate from '../views/MyPage/Review/ReviewUpdate.vue'
-// 위시리스트
+// 위시리스트(맹)
 import WishList from '../views/MyPage/WishList/wishList.vue'
-// 주문/배송
+// 주문/배송(맹)
 import OrderList from '../views/MyPage/Order/OrderList.vue'
+// 취소/반품(맹)
+import CancelList from '../views/MyPage/Cancel/CancelList.vue'
+// 마이페이지 사이드바(삭제 예정)
+import SideBar from '../views/MyPage/SideBar.vue'
 //관리자
 import adminMain from '../views/Admin/AdimMain.vue'
 import adminProdList from '../views/Admin/AdminProduct/AdminProdList.vue'
@@ -182,10 +186,101 @@ const routes = [
 
     ]
   },
+  // 마이페이지
   {
     path: '/mypage',
     component: MyPageLayout,
-    
+    children: [
+      // 마이페이지 메인
+      {
+        path: '/mypagemain',
+        component: MyPageMain,
+      },
+      // 문의페이지
+      {
+        path: '/inquiryList',
+        component: InquiryList,
+      },
+      {
+        path: '/inquiryInfo',
+        component: InquiryInfo,
+      },
+      {
+        path: '/inquiryForm',
+        component: InquiryForm,
+      },
+      {
+        path: '/inquiryUpdate',
+        component: InquiryUpdate,
+      },
+      // QnA
+      {
+        path: '/QnAList',
+        component: QnAList,
+      },
+      {
+        path: '/QnAInfo',
+        component: QnAInfo,
+      },
+      {
+        path: '/QnAForm',
+        component: QnAForm,
+      },
+      {
+        path: '/QnAUpdate',
+        component: QnAUpdate,
+      },
+      // 리뷰
+      {
+        path: '/ReviewList',
+        component: ReviewList,
+      },
+      {
+        path: '/ReviewForm',
+        component: ReviewForm,
+      },
+      {
+        path: '/ReviewInfo',
+        component: ReviewInfo,
+      },
+      {
+        path: '/ReviewUpdate',
+        component: ReviewUpdate,
+      },
+      // 위시리스트
+      {
+        path: '/WishList',
+        component: WishList,
+      },
+      // 주문/배송 조회
+      {
+        path: '/OrderList',
+        component: OrderList,
+      },
+      // 취소/반품 조회
+      {
+        path: '/CancelList',
+        component: CancelList,
+      },
+      // 마이페이지 사이드바테스트(삭제 예정)
+      {
+        path: '/SideBar',
+        component: SideBar,
+      },
+      //회원수정페이지
+      {
+        path: '/MemCheck',
+        component: MemCheck,
+      },
+      {
+        path: '/EditMembers',
+        component: EditMembers,
+      },
+      {
+        path: '/DeleteMem',
+        component: DeleteMem,
+      },
+    ]
   },
 
   
@@ -283,85 +378,7 @@ const routes = [
     path: '/',
     component: MainLayout,
     children: [
-      // 마이페이지 메인
-      {
-        path: '/mypagemain',
-        component: MyPageMain,
-      },
-      // 문의페이지
-      {
-        path: '/inquiryList',
-        component: InquiryList,
-      },
-      {
-        path: '/inquiryInfo',
-        component: InquiryInfo,
-      },
-      {
-        path: '/inquiryForm',
-        component: InquiryForm,
-      },
-      {
-        path: '/inquiryUpdate',
-        component: InquiryUpdate,
-      },
-      // QnA
-      {
-        path: '/QnAList',
-        component: QnAList,
-      },
-      {
-        path: '/QnAInfo',
-        component: QnAInfo,
-      },
-      {
-        path: '/QnAForm',
-        component: QnAForm,
-      },
-      {
-        path: '/QnAUpdate',
-        component: QnAUpdate,
-      },
-      // 리뷰
-      {
-        path: '/ReviewList',
-        component: ReviewList,
-      },
-      {
-        path: '/ReviewForm',
-        component: ReviewForm,
-      },
-      {
-        path: '/ReviewInfo',
-        component: ReviewInfo,
-      },
-      {
-        path: '/ReviewUpdate',
-        component: ReviewUpdate,
-      },
-      // 위시리스트
-      {
-        path: '/WishList',
-        component: WishList,
-      },
-      // 주문/배송 조회
-      {
-        path: '/OrderList',
-        component: OrderList,
-      },
-      //회원수정페이지
-      {
-        path: '/MemCheck',
-        component: MemCheck,
-      },
-      {
-        path: '/EditMembers',
-        component: EditMembers,
-      },
-      {
-        path: '/DeleteMem',
-        component: DeleteMem,
-      },
+      
 
     ]
   },
