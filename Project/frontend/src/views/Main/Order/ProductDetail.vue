@@ -86,16 +86,15 @@
   </v-dialog>
   <ContentsImg :img="`/api/upload/products/${product.prod_no}/${product.prod_content_img}`"/>
 
-  <ReviewComponent :prodNo="product.prod_no"></ReviewComponent>
+  <ReviewComponent :prodNo="this.$route.params.prodNo"></ReviewComponent>
   </v-container>
 </template>
 
 <script>
 import axios from 'axios';
-import ContentsImg from '@/components/main/productdetail/ContentImg.vue';
-import ReviewComponent from '@/components/main/productdetail/ReviewComponent.vue';
+import ContentsImg from '@/components/main/productdetail/ContentImg.vue'
 export default {
-  components:{ContentsImg, ReviewComponent},
+  components:{ContentsImg},
   data() {
     return {
       quantity: 1,
