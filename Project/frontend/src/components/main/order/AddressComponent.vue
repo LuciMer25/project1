@@ -4,7 +4,7 @@
         <div class="text-h5">배송지 정보</div>
       <v-divider></v-divider>
     </v-row>
-    <v-row v-if="isLogedin">
+    <v-row v-if="!isLogedin">
       <v-col cols="12" >
         <v-form
           v-model="form"
@@ -97,7 +97,7 @@
       methods: {  
         
         isLogedin(){
-          return sessionStorage.getItem('user_id') == null
+          return this.$store.getters.getUserInfo != null
         },
         required (v) {
           return !!v || 'Field is required'

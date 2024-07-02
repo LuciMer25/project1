@@ -66,9 +66,10 @@ import axios from 'axios';
     },
     methods: {  
       async getMember(){
-        console.log(sessionStorage.getItem('user_id'));
+        
+        //console.log(this.$store.getters.getUserInfo);
         let result = (await axios.get('/api/account',{params: {
-                                                                    user_id: sessionStorage.getItem('user_id')
+                                                                    user_id: this.$store.getters.getUserInfo.user_id
                                                               }
                                                       })).data[0];
         this.setMember(result)
@@ -82,7 +83,7 @@ import axios from 'axios';
         // console.log(this.member)
       },
       isLogedin(){
-        return sessionStorage.getItem('user_id') != null
+        return this.$store.getters.getUserInfo != null
       },
       required (v) {
         return !!v || 'Field is required'

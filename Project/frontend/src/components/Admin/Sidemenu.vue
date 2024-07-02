@@ -75,11 +75,11 @@
 							<i class="fas fa-chart-area"></i>
 						</div> 판매차트
 					</a>
-					 <a class="nav-link" href="adminNotice.do">
+					 <RouterLink to="/admin/notify" class="nav-link" >
 						<div class="sb-nav-link-icon">
 							<i class="fas fa-table"></i>
-						</div> 공지사항등록
-					</a>
+						</div> 공지사항
+					 </RouterLink>
 				</div>
 			</div>
 			<div class="sb-sidenav-footer">

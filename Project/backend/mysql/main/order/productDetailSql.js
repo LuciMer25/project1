@@ -3,6 +3,7 @@ module.exports = {
                              p.prod_name, 
                              p.price,
                              p.prod_img, 
+                             p.prod_content_img,
                              coalesce(round(r.avg_score,1),0) as avg_score,
                              coalesce(r.cnt,0) as cnt
                       FROM product p

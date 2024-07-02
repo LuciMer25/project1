@@ -13,15 +13,18 @@ module.exports = {
     select user_id,name ,phone
      from user
      where phone = ?
-     or name = ?
+     and name = ?
     `,
     userpwFind: `
-    UPDATE user
+     select *
+     from user
+     where user_id = ?
+     and name = ?
+     and phone =?
+       `,
+
+    userpw:`
+   UPDATE user
     SET pw = ?
-    WHERE user_id = ?
-    And phone = ?
-     And name = ?
-    `
-    
-    
+    WHERE user_id = ? AND name = ? AND phone = ?`
 };

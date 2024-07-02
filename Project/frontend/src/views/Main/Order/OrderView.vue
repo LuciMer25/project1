@@ -26,7 +26,7 @@
     
     <v-row align="center" justify="center">
       <v-col cols="auto">
-        <v-btn @click="proceed()" color="#D3233A" size="large"class="flex-grow-1" variant="flat">{{ totalprice }}원 주문하기</v-btn>
+        <v-btn @click="proceed()" color="#D3233A" size="large"class="flex-grow-1" variant="flat">{{ formatPrice(totalprice) }}원 주문하기</v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -144,6 +144,9 @@ export default {
           this.$router.push({name:'ordercomplete',params:{orderNo:result.data.order_no}});
         }
     },
+    formatPrice(value) {
+      return value.toLocaleString();
+  },
   },
   beforeRouteLeave(to, from, next) {
     const answer = window.confirm('진행중인 내용이 저장되지 않을 수 있습니다.');
@@ -153,6 +156,7 @@ export default {
     } else {
       next(false);
     }
-  }
+  },
+  
 }
 </script>

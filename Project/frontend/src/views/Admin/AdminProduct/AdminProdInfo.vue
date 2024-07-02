@@ -20,7 +20,7 @@
             <p class="origin">원산지: 상품정보 원산지표시 참조</p>
             <p class="origin">대분류: {{ product.top_ctgr_name }}</p>
             <p class="origin">소분류: {{ product.ctgr_name }}</p>
-            <p class="origin">등록일: {{ product.reg_date }}</p>
+            <p class="origin">등록일: {{ formatDate(product.reg_date) }}</p>
             <v-row class="quantity-selector" align="center" justify="center">
               <v-col cols="auto" class="text-right">
                
@@ -30,7 +30,7 @@
             <v-row class="actions">
               <v-col>
                 <v-btn outlined color="red" class="mx-2" @click="goUpdateForm(product.prod_no)">수정</v-btn>
-                <v-btn outlined color="red" class="mx-2"@click="deleteBtn">삭제</v-btn>
+                <v-btn outlined color="red" class="mx-2"@click="deleteBtn(product.prod_no)">삭제</v-btn>
               </v-col>
             </v-row>
           </div>
@@ -66,7 +66,25 @@
       goUpdateForm(prod_no) {
         console.log(this.prod_no)
         this.$router.push(`/admin/prodUpdate/${prod_no}`)
-      }
+      },
+      deleteBtn(prod_no){
+        console.log(prod_no)
+        axios.delete(`/api/adminProduct/prodDelete/${prod_no}`)
+        .then(() => {
+          this.$swal("상품이 삭제되었습니다.")
+          this.$router.push(`/admin/prodList`)
+        })
+      },
+      formatDate(dateStr) {
+        const date = new Date(dateStr);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      },
 
     },
   };
