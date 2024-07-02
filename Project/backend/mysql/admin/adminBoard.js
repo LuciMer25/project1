@@ -58,14 +58,40 @@ module.exports = {
 
     notifyCount : `SELECT count(*) AS cnt FROM notice`,
 
-    notifyFile : `SELECT table_class, path, file_name, sort, file_type
+    notifyFile : `SELECT file_no, table_class, path, file_name, sort, file_type
                  FROM file
                  WHERE board_no = ?
                  ORDER BY sort`,
 
     notifyInfo : `SELECT title, reg_date, content, category
                   FROM notice
-                  WHERE notice_no = ?`
+                  WHERE notice_no = ?`,
+
+    fileInsert : `INSERT INTO file(table_class, board_no, path, file_name, sort, file_type)
+                  VALUES ('notice', ? , 'notify', ? , ? , ?)`,
+
+    notifyInsert : `INSERT INTO notice(title, content, category)
+                    VALUES(? , ? , ?)`,
+
+    fileUpdate : `UPDATE file
+                  SET file_name = ?, file_type = ? , sort = ?
+                  WHERE file_no = ?`,
+
+    fileDelete : `DELETE
+                  FROM file
+                  WHERE file_no = ?`,
+
+    notifyUpdate : `UPDATE notice
+                    SET title = ?, content =?, category =?, reg_date = CURRENT_TIMESTAMP
+                    WHERE notice_no = ?`,
+
+    notifyDelete : `DELETE
+                    FROM notice
+                    WHERE notice_no = ?`,
+
+    fileDeleteAll : `DELETE
+                     FROM file
+                     WHERE board_no = ?`
 
 
     

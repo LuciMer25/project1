@@ -15,7 +15,7 @@
   <div class="container">
     <CupbapList />
   </div>
-  <div class="container">
+  <div class="banner">
     <MDsPickList />
   </div>
 </template>
@@ -56,3 +56,10 @@ export default {
   }
 }
 </script>
+
+<style>
+.banner {
+  background-color : rgb(255, 255, 122);
+}
+</style>
+

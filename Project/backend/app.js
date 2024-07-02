@@ -36,7 +36,7 @@ var productBestRouter = require('./routes/product/bestproduct.js');
 var productThreeRouter = require('./routes/product/threeproduct.js');
 var productCupbapRouter = require('./routes/product/cupbapproduct.js')
 var bannerRouter = require('./routes/product/banner.js')
-
+var CategoryListRouter = require('./routes/product/category.js')
 
 //로그인 
 var signUpRouter = require('./routes/login/singUp.js');
@@ -58,7 +58,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api/upload', express.static('D:/project1/Project/backend/upload'));
+app.use('/api/upload', express.static('D:/project1/project/backend/upload'));
 // app.use('/api/upload/products', express.static('D:/upload/products'));
 app.use('/api/upload/products', (req, res, next) => {
   const filePath = path.join('D:/upload/products', req.path);
@@ -111,6 +111,7 @@ app.use('/api/bestproduct', productBestRouter)
 app.use('/api/threeproduct', productThreeRouter)
 app.use('/api/cupbapproduct', productCupbapRouter)
 app.use('/api/banner',bannerRouter)
+app.use('/api/categorylist', CategoryListRouter)
 
 //로그인 회원가입(송성혁)
 app.use('/api/signUp', signUpRouter);
