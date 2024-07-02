@@ -86,7 +86,7 @@
   </v-dialog>
   <ContentsImg :img="`/api/upload/products/${product.prod_no}/${product.prod_content_img}`"/>
 
-  <ReviewComponent :prodNo="product.prod_no"></ReviewComponent>
+  <ReviewComponent :prodNo="this.$route.params.prodNo"></ReviewComponent>
   </v-container>
 </template>
 
