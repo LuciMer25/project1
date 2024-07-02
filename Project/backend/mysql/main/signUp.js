@@ -7,7 +7,7 @@ module.exports = {
         SELECT * 
         from user
         where user_id = ? 
-        or pw = ?
+        and pw = ?
     `,
     userFind: `
     select user_id,name ,phone

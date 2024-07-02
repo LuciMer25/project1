@@ -6,8 +6,9 @@ const query = require("../../mysql");
 router.post("/", async (req, res) => {
   const userid = req.body.user_id;
   const userpw = req.body.pw; // Vue 컴포넌트에서 v-model이 userLogin.pw으로 설정되어 있으므로 수정
-  console.log(userid);
-  console.log(userpw);
+
+  console.log(userid+"ㅂㅈㄷㅂㅈㄷ");
+  console.log(userpw+"ㄴㅇㄹㄴㅇ");
   try {
     let result = await query("userLogin", [userid, userpw]);
     // res.send(result);
@@ -26,6 +27,7 @@ router.post("/", async (req, res) => {
   } catch (error) {
     console.error("로그인 오류:", error);
     res.sendStatus(500); // 서버 오류
+
   }
 });
 

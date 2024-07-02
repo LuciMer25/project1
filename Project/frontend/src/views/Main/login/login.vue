@@ -6,7 +6,7 @@
         <h2>Login</h2>
         <form @submit.prevent="loginUser" id="login-form">
           <input type="text" name="userName" placeholder="Email" v-model="userLogin.user_id">
-          <input type="password" name="userPassword" placeholder="Password" v-model="userLogin.userPassword">
+          <input type="password" name="userPassword" placeholder="Password" v-model="userLogin.pw">
           <label for="remember-check">
             <input type="checkbox" id="remember-check">아이디 저장하기
           </label>
@@ -37,7 +37,7 @@ export default {
     return {
       userLogin: {
         user_id: '',
-        userPassword: ''
+        pw: ''
       }
     };
   },
