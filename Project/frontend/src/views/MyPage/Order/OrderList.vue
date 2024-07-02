@@ -38,21 +38,8 @@ import axios from "axios";
 export default {
   data() {
     return {
-        orderNo: '',
+        searchNo: '',
         orders: [],
-    //   orders: {order_no: '',
-    //             order_total_amount: '',
-    //             addr: '',
-    //             order_state: '',
-    //             waybill_no: '',
-    //             post_no: '',
-    //             detail_addr: '',
-    //             user_id: '',
-    //             pay_code: '',
-    //             phone_no: '',
-    //             name: '',
-    //             paytype: '',
-    //   },
     };
   },
   created() {
@@ -65,10 +52,10 @@ export default {
       this.orders = result.data;
     },
     async cancelorder() {
-      this.orderNo = this.$route.query.order_no;
-      console.log(this.orderNo);
+      // this.orderNo = this.$route.query.order_no;
+      console.log(this.searchNo);
       try {
-        await axios.put(`/api/order/${this.orderNo}`).then(() => {
+        await axios.put(`/api/order/${this.searchNo}`).then(() => {
           alert("취소요청 되었습니다");
           this.$router.go(this.$router.currentRoute)
         });
