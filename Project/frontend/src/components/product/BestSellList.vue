@@ -3,7 +3,7 @@
     <div class="section-header">
       <h4 class="section-title">최근 7일간 BEST</h4>
       <div class="load-more">
-        <button class="btn btn-outline-primary" @click="loadMore">더보기</button>
+        <v-btn @click="loadMore">더보기</v-btn>
       </div>
     </div>
     <div class="row">
@@ -53,7 +53,6 @@ export default {
 <style scoped>
 .new-product-list {
   padding: 20px;
-  background-color: #f9f9f9;
   border-radius: 10px;
 }
 .section-header {

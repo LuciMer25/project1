@@ -23,7 +23,7 @@
             <!-- v-bind:to="`/category/${category.ctgr_no}`" -->
             <RouterLink v-bind:to="`/category/${category.ctgr_no}`"
               :key="i"
-               v-for="(category, i) in Upcategory1"
+              v-for="(category, i) in Upcategory1"
             >
               {{ category.ctgr_name }}
             </RouterLink>

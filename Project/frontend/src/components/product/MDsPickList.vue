@@ -1,6 +1,6 @@
 <template>
   <div class="banner">
-    <h2 class="container">MD가 엄선한 상품입니다</h2>
+    <h1 class="container">MD가 엄선한 상품입니다</h1>
     <!-- 타이틀 나열 -->
     <ul class="title-list">
       <li 
@@ -74,6 +74,9 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  text-align: left;
+}
 .banner {
   max-width: 1200px;
   margin: 0 auto;

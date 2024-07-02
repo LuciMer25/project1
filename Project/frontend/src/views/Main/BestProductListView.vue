@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-      <h4>7일간 BEST</h4>
+      <h2>BEST</h2>
       <CategoryContent :productsCount="newProduct.length" :itemsPerPage="itemsPerPage" @sort="sortProducts" @update-items-per-page="updateItemsPerPage"/>
       <div class="row">
       <ProductRankCard v-for="(product, index) in paginatedProducts" :key="index" :product="product" :rank="index"/>
@@ -110,8 +110,10 @@
     margin-top: 20px;
   }
   
-  h4 {
+  h2 {
+    text-align: left;
     margin-bottom: 20px;
+    font-weight: bold;
   }
   
   .row {

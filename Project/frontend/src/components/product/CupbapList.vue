@@ -3,7 +3,7 @@
       <div class="section-header">
         <h4 class="section-title">증량되어 돌아온 컵밥!</h4>
         <div class="text-right mt-3 load-more">
-          <button class="btn btn-outline-primary" @click="loadMore">더보기</button>
+          <v-btn @click="loadMore">더보기</v-btn>
         </div>
       </div>
 
@@ -51,7 +51,6 @@
 <style scoped>
 .new-product-list {
   padding: 20px;
-  background-color: #f9f9f9;
   border-radius: 10px;
 }
 .section-header {

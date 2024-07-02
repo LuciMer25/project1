@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-      <h4>신상품</h4>
+      <h2>3분요리</h2>
       <CategoryContent :productsCount="newProduct.length" :itemsPerPage="itemsPerPage" @sort="sortProducts" @update-items-per-page="updateItemsPerPage"/>
       <div class="row">
       <ProductCard v-for="(product, index) in paginatedProducts" :key="index" :product="product"/>
@@ -111,8 +111,10 @@
     margin-top: 20px;
   }
   
-  h4 {
+  h2 {
+    text-align: left;
     margin-bottom: 20px;
+    font-weight: bold;
   }
   
   .row {

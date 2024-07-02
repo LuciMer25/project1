@@ -132,7 +132,7 @@ const routes = [
         component: SearchView
       },
       {
-        path: '/categorylist/:top_ctgr_no',
+        path: '/category/:top_ctgr_no',
         name: 'CategoryList',
         component: CategoryToplist,
         props:true
