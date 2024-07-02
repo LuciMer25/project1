@@ -7,7 +7,12 @@ module.exports = {
         SELECT * 
         from user
         where user_id = ? 
-        or pw = ?
+        and pw = ?
+    `,
+    kakao:`
+    SELECT * 
+        from user
+        where user_id = ?
     `,
     userFind: `
     select user_id,name ,phone
@@ -23,7 +28,7 @@ module.exports = {
      and phone =?
        `,
 
-    userpw:`
+    userupdatepw:`
    UPDATE user
     SET pw = ?
     WHERE user_id = ? AND name = ? AND phone = ?`

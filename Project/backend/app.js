@@ -42,12 +42,14 @@ var CategoryListRouter = require('./routes/product/category.js')
 //로그인 
 var signUpRouter = require('./routes/login/singUp.js');
 var loginRouter = require('./routes/login/login.js');
+var kakaologinRouter = require('./routes/login/kakaologin.js');
 const userFindRouter = require('./routes/login/useFind.js');
-const usepwFindRouter = require('./routes/login/usepwFind.js');
 
 var memcheckRoter = require('./routes/mem/memcheck.js');
 var memEditRouter = require('./routes/mem/memEdit.js');
 var memdeleteRouter = require('./routes/mem/memdelete.js');
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -59,7 +61,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api/upload', express.static('D:/project1/Project/backend/upload'));
+app.use('/api/upload', express.static('D:/project1/project/backend/upload'));
 // app.use('/api/upload/products', express.static('D:/upload/products'));
 app.use('/api/upload/products', (req, res, next) => {
   const filePath = path.join('D:/upload/products', req.path);
@@ -119,7 +121,8 @@ app.use('/api/categorylist', CategoryListRouter)
 app.use('/api/signUp', signUpRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/userFind', userFindRouter); 
-app.use('/api/usepwFind', usepwFindRouter); 
+app.use('/api/kakaologin', kakaologinRouter); 
+
 
 
 // 메인, 카테고리(최석원)
