@@ -22,9 +22,13 @@
                     <tbody>
                         <tr v-for="inquiry in inquiryList">
                             <td v-text="inquiry.inquiry_no"></td> 
-                            <td v-text="inquiry.inquiry_title"></td>
+                            <td >
+                                <button class="detailBtn" :data-inquriy-no="inquiry.inquiry_no">
+                                    {{ inquiry.inquiry_title }}
+                                </button>
+                            </td>
                             <td v-text="inquiry.user_id"></td>
-                            <td v-text="inquiry.reg_date"></td>
+                            <td>{{  formatDate(inquiry.reg_date) }}</td>
                             <td v-text="inquiry.comment_state"></td>
                         </tr>
                     </tbody>
@@ -43,6 +47,7 @@ export default{
         return {
             dataTableInstance: null,
             inquiryList : [],
+            inquiryNo : null
         };
     },
     created(){
@@ -51,6 +56,7 @@ export default{
             this.inquiryList = res.data.list
             console.log(this.inquiryList);
             this.dataTable();
+            this.rebindEvents();
         });
     },
     methods: {
@@ -64,6 +70,30 @@ export default{
                     this.dataTableInstance = new DataTable(myTable);
                 }
             });
+        },
+        rebindEvents() {
+            const tableBody = this.$refs.dataTable.querySelector('tbody');
+            tableBody.addEventListener('click', (event) => {
+                const target = event.target;
+                if (target.classList.contains('detailBtn')) {
+                    const inquriyNo = target.dataset.inquriyNo;
+                    this.goDetail(inquriyNo);
+                } 
+            });
+        },
+        goDetail(inquiry_no){
+            this.inquriyNo = inquiry_no;
+            this.$router.push(`inquiryInfo/${this.inquriyNo}`)
+        },
+        formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
         },
     },
 

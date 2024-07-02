@@ -30,7 +30,7 @@
                                 </button>
                             </td>
                             <td v-text="qna.user_id"></td>
-                            <td v-text="qna.reg_date"></td>
+                            <td>{{ formatDate(qna.reg_date) }}</td>
                             <td v-text="qna.comment_state"></td>
                         </tr>
                     </tbody>
@@ -86,7 +86,17 @@ export default{
         goDetail(qna_no){
             this.qnaNo = qna_no;
             this.$router.push(`qnaInfo/${this.qnaNo}`)
-        }
+        },
+        formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        },
     },
 
 }

@@ -77,8 +77,8 @@
       created(){
         // this.$store.commit('user',{userId:'test'});
         //this.getMember();
-        console.log('배송지 컴포넌트');
-        console.log(this.$store.getters.getUserInfo);
+        //console.log('배송지 컴포넌트');
+        //console.log(this.$store.getters.getUserInfo);
         //this.member = this.$store.getters.getUserInfo;
       },
       computed: {
@@ -97,7 +97,7 @@
       methods: {  
         
         isLogedin(){
-          return this.member == null
+          return this.$store.getters.getUserInfo != null
         },
         required (v) {
           return !!v || 'Field is required'

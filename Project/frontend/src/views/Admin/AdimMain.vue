@@ -85,147 +85,148 @@ export default {
     
             inquiryList : [],
             inquiryColumns :['게시글번호', '문의제목', '회원ID', '작성일', '답변상태'],
-    
+            
+            
         };
 
         
     },
-    created() {
-        axios.get('/api/adminOrder/orderList')
-            .then(res => {
-                console.log(res.data);
-                this.order = res.data.list.map(item => ({
-                    '주문번호': item.order_no,
-                    '상품명': `${item.first_prod_name}(외 ${item.prod_cnt}건)`,
-                    '운송장번호': item.waybill_no,
-                    '주문자ID': item.user_id,
-                    '주소' : item.addr,
-                    '상세주소' : item.detail_addr,
-                    '주문일자' : item.order_date,
-                    '주문상태' : item.order_state
-                }));
-            })
-            .catch(err => console.log(err));
-        axios.get('/api/adminOrder/cancelList')
-            .then(res => {
-                console.log(res.data);
-                this.cancelOrder = res.data.list.map(item => ({
-                    '주문번호': item.order_no,
-                    '상품명': `${item.first_prod_name}(외 ${item.prod_cnt}건)`,
-                    '주문자ID': item.user_id,
-                    '주소' : item.addr,
-                    '상세주소' : item.detail_addr,
-                    '취소요청일자' : item.cancel_req_date,
-                    '주문상태' : item.order_state
-                }));
-            })
-            .catch(err => console.log(err));
-        axios.get('/api/adminOrder/returnList')
-            .then(res => {
-                console.log(res.data);
-                this.returnOrder = res.data.list.map(item => ({
-                    '주문번호': item.order_no,
-                    '상품명': `${item.first_prod_name}(외 ${item.prod_cnt}건)`,
-                    '주문자ID': item.user_id,
-                    '주소' : item.addr,
-                    '상세주소' : item.detail_addr,
-                    '반품요청일자' : item.return_req_date,
-                    '주문상태' : item.order_state
-                }));
-            })
-            .catch(err => console.log(err));
-        axios.get('/api/adminBoard/qnaList')
-            .then(res => {
-                console.log(res.data);
-                this.qnaList = res.data.list.map(item => ({
-                    '게시글번호': item.qna_no,
-                    '상품명': item.prod_name,
-                    'Q&A제목' : item.qna_title,
-                    '회원ID' : item.user_id,
-                    '작성일' : item.reg_date,
-                    '답변상태' : item.comment_state
-                }));
-            })
-            .catch(err => console.log(err));
+    // created() {
+    //     axios.get('/api/adminOrder/orderList')
+    //         .then(res => {
+    //             console.log(res.data);
+    //             this.order = res.data.list.map(item => ({
+    //                 '주문번호': item.order_no,
+    //                 '상품명': `${item.first_prod_name}(외 ${item.prod_cnt}건)`,
+    //                 '운송장번호': item.waybill_no,
+    //                 '주문자ID': item.user_id,
+    //                 '주소' : item.addr,
+    //                 '상세주소' : item.detail_addr,
+    //                 '주문일자' : item.order_date,
+    //                 '주문상태' : item.order_state
+    //             }));
+    //         })
+    //         .catch(err => console.log(err));
+    //     axios.get('/api/adminOrder/cancelList')
+    //         .then(res => {
+    //             console.log(res.data);
+    //             this.cancelOrder = res.data.list.map(item => ({
+    //                 '주문번호': item.order_no,
+    //                 '상품명': `${item.first_prod_name}(외 ${item.prod_cnt}건)`,
+    //                 '주문자ID': item.user_id,
+    //                 '주소' : item.addr,
+    //                 '상세주소' : item.detail_addr,
+    //                 '취소요청일자' : item.cancel_req_date,
+    //                 '주문상태' : item.order_state
+    //             }));
+    //         })
+    //         .catch(err => console.log(err));
+    //     axios.get('/api/adminOrder/returnList')
+    //         .then(res => {
+    //             console.log(res.data);
+    //             this.returnOrder = res.data.list.map(item => ({
+    //                 '주문번호': item.order_no,
+    //                 '상품명': `${item.first_prod_name}(외 ${item.prod_cnt}건)`,
+    //                 '주문자ID': item.user_id,
+    //                 '주소' : item.addr,
+    //                 '상세주소' : item.detail_addr,
+    //                 '반품요청일자' : item.return_req_date,
+    //                 '주문상태' : item.order_state
+    //             }));
+    //         })
+    //         .catch(err => console.log(err));
+    //     axios.get('/api/adminBoard/qnaList')
+    //         .then(res => {
+    //             console.log(res.data);
+    //             this.qnaList = res.data.list.map(item => ({
+    //                 '게시글번호': item.qna_no,
+    //                 '상품명': item.prod_name,
+    //                 'Q&A제목' : item.qna_title,
+    //                 '회원ID' : item.user_id,
+    //                 '작성일' : item.reg_date,
+    //                 '답변상태' : item.comment_state
+    //             }));
+    //         })
+    //         .catch(err => console.log(err));
     
-        axios.get('/api/adminBoard/inquiryList')
-            .then(res => {
-                console.log(res.data);
-                this.inquiryList = res.data.list.map(item => ({
-                    '게시글번호': item.inquiry_no,
-                    '문의제목' : item.inquiry_title,
-                    '회원ID' : item.user_id,
-                    '작성일' : item.reg_date,
-                    '답변상태' : item.comment_state
-                }));
-            })
-            .catch(err => console.log(err));
+    //     axios.get('/api/adminBoard/inquiryList')
+    //         .then(res => {
+    //             console.log(res.data);
+    //             this.inquiryList = res.data.list.map(item => ({
+    //                 '게시글번호': item.inquiry_no,
+    //                 '문의제목' : item.inquiry_title,
+    //                 '회원ID' : item.user_id,
+    //                 '작성일' : item.reg_date,
+    //                 '답변상태' : item.comment_state
+    //             }));
+    //         })
+    //         .catch(err => console.log(err));
     
     
-    },
-    // async created() {
-    //     try {
-    //         let res = await axios.get('/api/adminOrder/orderList');
-    //         console.log(res.data);
-    //         this.order = res.data.list.map(item => ({
-    //             '주문번호': item.order_no,
-    //             '상품명': `${item.first_prod_name}(외 ${item.prod_cnt}건)`,
-    //             '운송장번호': item.waybill_no,
-    //             '주문자ID': item.user_id,
-    //             '주소' : item.addr,
-    //             '상세주소' : item.detail_addr,
-    //             '주문일자' : item.order_date,
-    //             '주문상태' : item.order_state
-    //         }));
-
-    //         res = await axios.get('/api/adminOrder/cancelList');
-    //         console.log(res.data);
-    //         this.cancelOrder = res.data.list.map(item => ({
-    //             '주문번호': item.order_no,
-    //             '상품명': `${item.first_prod_name}(외 ${item.prod_cnt}건)`,
-    //             '주문자ID': item.user_id,
-    //             '주소' : item.addr,
-    //             '상세주소' : item.detail_addr,
-    //             '취소요청일자' : item.cancel_req_date,
-    //             '주문상태' : item.order_state
-    //         }));
-
-    //         res = await axios.get('/api/adminOrder/returnList');
-    //         console.log(res.data);
-    //         this.returnOrder = res.data.list.map(item => ({
-    //             '주문번호': item.order_no,
-    //             '상품명': `${item.first_prod_name}(외 ${item.prod_cnt}건)`,
-    //             '주문자ID': item.user_id,
-    //             '주소' : item.addr,
-    //             '상세주소' : item.detail_addr,
-    //             '반품요청일자' : item.return_req_date,
-    //             '주문상태' : item.order_state
-    //         }));
-
-    //         res = await axios.get('/api/adminBoard/qnaList');
-    //         console.log(res.data);
-    //         this.qnaList = res.data.list.map(item => ({
-    //             '게시글번호': item.qna_no,
-    //             '상품명': item.prod_name,
-    //             'Q&A제목' : item.qna_title,
-    //             '회원ID' : item.user_id,
-    //             '작성일' : item.reg_date,
-    //             '답변상태' : item.comment_state
-    //         }));
-
-    //         res = await axios.get('/api/adminBoard/inquiryList');
-    //         console.log(res.data);
-    //         this.inquiryList = res.data.list.map(item => ({
-    //             '게시글번호': item.inquiry_no,
-    //             '문의제목' : item.inquiry_title,
-    //             '회원ID' : item.user_id,
-    //             '작성일' : item.reg_date,
-    //             '답변상태' : item.comment_state
-    //         }));
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
     // },
+    async created() {
+        try {
+            let res = await axios.get('/api/adminOrder/orderList');
+            console.log(res.data);
+            this.order = res.data.list.map(item => ({
+                '주문번호': item.order_no,
+                '상품명': `${item.first_prod_name}(외 ${item.prod_cnt}건)`,
+                '운송장번호': item.waybill_no,
+                '주문자ID': item.user_id,
+                '주소' : item.addr,
+                '상세주소' : item.detail_addr,
+                '주문일자' : item.order_date,
+                '주문상태' : item.order_state
+            }));
+
+            res = await axios.get('/api/adminOrder/cancelList');
+            console.log(res.data);
+            this.cancelOrder = res.data.list.map(item => ({
+                '주문번호': item.order_no,
+                '상품명': `${item.first_prod_name}(외 ${item.prod_cnt}건)`,
+                '주문자ID': item.user_id,
+                '주소' : item.addr,
+                '상세주소' : item.detail_addr,
+                '취소요청일자' : item.cancel_req_date,
+                '주문상태' : item.order_state
+            }));
+
+            res = await axios.get('/api/adminOrder/returnList');
+            console.log(res.data);
+            this.returnOrder = res.data.list.map(item => ({
+                '주문번호': item.order_no,
+                '상품명': `${item.first_prod_name}(외 ${item.prod_cnt}건)`,
+                '주문자ID': item.user_id,
+                '주소' : item.addr,
+                '상세주소' : item.detail_addr,
+                '반품요청일자' : item.return_req_date,
+                '주문상태' : item.order_state
+            }));
+
+            res = await axios.get('/api/adminBoard/qnaList');
+            console.log(res.data);
+            this.qnaList = res.data.list.map(item => ({
+                '게시글번호': item.qna_no,
+                '상품명': item.prod_name,
+                'Q&A제목' : item.qna_title,
+                '회원ID' : item.user_id,
+                '작성일' : item.reg_date,
+                '답변상태' : item.comment_state
+            }));
+
+            res = await axios.get('/api/adminBoard/inquiryList');
+            console.log(res.data);
+            this.inquiryList = res.data.list.map(item => ({
+                '게시글번호': item.inquiry_no,
+                '문의제목' : item.inquiry_title,
+                '회원ID' : item.user_id,
+                '작성일' : item.reg_date,
+                '답변상태' : item.comment_state
+            }));
+        } catch (err) {
+            console.log(err);
+        }
+    },
     methods: {
         formatDate(dateString) {
             const date = new Date(dateString);

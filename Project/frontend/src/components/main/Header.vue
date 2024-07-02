@@ -1,91 +1,109 @@
+
 <template>
-    <header>
-    <v-card>
+  <header>
+     <v-card>
       <v-layout>
-       
         <v-app-bar color="primary" prominent>
           <!-- <v-app-bar-nav-icon variant="text"></v-app-bar-nav-icon> -->
-          <a href="/">home</a>
+          <a href="/">홈</a>
+
+          <!-- 상단메뉴바만들기 -->
           <div class="ctgr">
-              <v-toolbar-title @click.stop="drawer = !drawer" ><h2 color="white">전체 카테고리</h2></v-toolbar-title>
+            <li><a href="#"><h1>전체 카테고리</h1></a></li>
+              <ul>
+                <!-- <li><a href="#">sub menu1</a></li>
+                <li><a href="#">sub menu2</a></li>
+                <li><a href="#">sub menu3</a></li> -->
+              </ul>
           </div>
           <ul>
-            <li><a href="notice">공지사항</a></li>
+            <li><RouterLink to ="notify">공지사항</RouterLink></li>
             <li><a href="qnalist">QnA</a></li>
             <li><RouterLink to="inquirylist">1:1문의</RouterLink></li>
-            <li><a href="best">베스트</a></li>
+            <li><a href="bestproductlist">베스트</a></li>
           </ul>
           <v-spacer></v-spacer>
           <nav class="navbar bg-body-tertiary">
-          <div class="container-fluid">
-            <form class="d-flex" role="search" method="get">
-            <input  type="search" placeholder="Search" aria-label="Search" name="search">
-            <button class="btn" type="submit">Search</button>
-            </form>
-          </div>
+            <div class="container-fluid">
+              <form class="d-flex" role="search" method="get">
+                <input type="search" placeholder="검색" aria-label="검색" name="search">
+                <button class="btn" type="submit">검색</button>
+              </form>
+            </div>
           </nav>
+
           <template v-if="$vuetify.display.mdAndUp">
-            <!-- <v-btn icon="mdi-magnify" variant="text"></v-btn> -->
-            <p><a href="login">로그인</a></p>
-            <!-- <v-btn icon="mdi-filter" variant="text"></v-btn> -->
-            <p><a href="mypagemain">마이페이지</a></p>
+            <p>
+              <a v-if="isLoggedIn" @click.prevent="logout">로그아웃</a>
+              <a v-else href="login">로그인</a>
+            </p>
           </template>
-           <!-- <v-btn icon="mdi-dots-vertical" variant="text"></v-btn> -->
-           <p><a href="cart">장바구니</a></p>
+
+          <p><a href="cart">장바구니</a></p>
+          <p><a v-if="isLoggedIn" href="mypage">마이페이지</a></p>
         </v-app-bar>
-        
+
         <v-navigation-drawer
           v-model="drawer"
           :location="$vuetify.display.mobile ? 'bottom' : undefined"
           temporary
         >   
-        
           <v-list 
             :items="items"
           ></v-list>
         </v-navigation-drawer>
-  
+
         <v-main style="height: 5px;">
         </v-main>
       </v-layout>
     </v-card>
   </header>
-  </template>
-  <script>
+</template>
+
+<script>
 import { RouterLink } from 'vue-router';
 
-    export default {
-      data: () => ({
-        drawer: false,
-        group: null,
-        items: [
-          {
-            title: '라면/컵누들/곤누들',
-            value: 'foo',
-          },
-          {
-            title: '밥/죽/누룽지',
-            value: 'bar',
-          },
-          {
-            title: '카레/짜장/간편렌지',
-            value: 'fizz',
-          },
-          {
-            title: '소스/드레싱/양념',
-            value: 'buzz',
-          },
-        ],
-      }),
-  
-      watch: {
-        group () {
-          this.drawer = false
-        },
-      },
+export default {
+  data() {
+    return {
+      drawer: false, // 네비게이션 드로어 상태 관리
+      isLoggedIn: false // 로그인 상태 관리
+    };
+  },
+  methods: {
+    logout() {
+      // 세션 스토리지에서 user_id 제거
+      sessionStorage.removeItem('user_id');
+      // 로그인 상태 false로 설정
+      this.isLoggedIn = false;
+      // 로그아웃 후 원하는 경로로 리다이렉트 등의 추가 작업 수행 가능
+      // window.location.href = '/logout'; // 예시
     }
-  </script>
-<style>
+  },
+  mounted() {
+    // 마운트 시 세션 스토리지에서 user_id 가져와 로그인 상태 업데이트
+    const userId = sessionStorage.getItem('user_id');
+    if (userId) {
+      this.isLoggedIn = true;
+    }
+  },
+  components: {
+    RouterLink
+  }
+};
+</script>
+
+<style scoped>
+/* 추가적인 스타일링 */
+ header{
+    z-index: 99;
+    position: relative;
+  }
+/* ul{
+    list-style-type: none;
+    margin:0px;
+    padding:0px;
+  }
     *{
         padding:0;
         margin:0;
@@ -121,5 +139,5 @@ import { RouterLink } from 'vue-router';
         color:white;
         text-decoration: none;
         padding:5px;
-    }
+    }*/
 </style>

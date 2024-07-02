@@ -7,7 +7,7 @@
     <div class="row">
       <div class="col-md-3" v-for="(product, index) in newProduct.slice(0, 4)" :key="index">
         <div class="card product-card">
-          <img :src="product.prod_img" class="card-img-top" alt="Product Image">
+          <img :src="`/api/upload/${product.prod_img}`" class="card-img-top" alt="Product Image" @click="gotoDetail(product.prod_no)">
           <div class="card-body">
             <h5 class="card-title">{{ product.prod_name }}</h5>
             <p class="card-text">{{ product.price }} 원</p>
@@ -37,7 +37,10 @@ export default {
     },
     loadMore(){
       this.$router.push({ path: "/newproductlist" });
-    }
+    },
+    gotoDetail(no){
+        this.$router.push(`product/${no}`);
+      }
   },
 }
 </script>
@@ -85,5 +88,8 @@ export default {
   transition: transform 0.3s;
   height: 200px;
   object-fit: cover;
+}
+.card-body{
+  text-align : left;
 }
 </style>

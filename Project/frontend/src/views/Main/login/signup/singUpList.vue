@@ -14,9 +14,6 @@
       <input name="name" type="text" class="name" placeholder="이름" v-model="userInsert.name">
     </div>
     <div class="textForm">
-      <input name="email" type="text" class="email" placeholder="이메일" v-model="userInsert.email">
-    </div>
-    <div class="textForm">
       <input name="birth" type="text" class="birthdate" placeholder="생년월일" v-model="userInsert.birth">
     </div>
     <div class="textForm">
@@ -56,8 +53,6 @@ export default {
         post_detail_list: "",
         post_no: "",
         birth: "",
-        email: "",
-       
       },
     };
   },

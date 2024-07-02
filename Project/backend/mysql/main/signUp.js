@@ -9,4 +9,22 @@ module.exports = {
         where user_id = ? 
         or pw = ?
     `,
+    userFind: `
+    select user_id,name ,phone
+     from user
+     where phone = ?
+     and name = ?
+    `,
+    userpwFind: `
+     select *
+     from user
+     where user_id = ?
+     and name = ?
+     and phone =?
+       `,
+
+    userpw:`
+   UPDATE user
+    SET pw = ?
+    WHERE user_id = ? AND name = ? AND phone = ?`
 };

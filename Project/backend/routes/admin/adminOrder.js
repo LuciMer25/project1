@@ -30,7 +30,7 @@ const query = require('../../mysql/index.js');
     let result = await query("updateWayBill",[waybill, no]);
     res.send(result);
 
-    schedule.scheduleJob(new Date(Date.now() + 5000), async () => {
+    schedule.scheduleJob(new Date(Date.now() + 10000), async () => {
       console.log(`주문번호 : ${no}`);
       try {
         await query("updateStateSchedule", [no]);
