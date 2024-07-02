@@ -67,7 +67,7 @@ const routes = [
         component: CategoryView
       },
       {
-        path: '/search:keyword',
+        path: 'search/:keyword',
         component: SearchView
       },
       {

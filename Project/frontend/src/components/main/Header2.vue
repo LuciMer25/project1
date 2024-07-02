@@ -166,7 +166,10 @@ export default {
       this.Upcategory5 = result.data.UpResult5;
       this.DownCategory5 = result.data.DownResult5;
 
-    } // end of getcategortList
+    }, // end of getcategortList
+    submit(){
+      this.$router.push(`/search/${keyword}`)
+    },
       
   }, // end of methods
   
