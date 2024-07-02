@@ -2,12 +2,11 @@ const express = require('express');
 const router = express.Router();
 const query = require('../../mysql/index.js');
 
-router.get("/",  async (req, res) => {
-    var query = sanitize(url.parse(request.url, true).query.query);
-    // let result = await query("SearchResult");
+router.get("/:product",  async (req, res) => {
+    let result = await query("SearchResult").then(res=>res);
     console.log(req.query);
     console.log(res);
+    res.send(result);
 });
-
 
 module.exports = router;

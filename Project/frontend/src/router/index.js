@@ -75,7 +75,6 @@ import MemCheck from '../views/MyPage/EditMember/MemCheck.vue'
 import EditMembers from '../views/MyPage/EditMember/EditMembers.vue'
 import DeleteMem from '../views/MyPage/EditMember/DeleteMem.vue'
 
-
 //
 import CategoryView from '../views/PageMove/CategoryView.vue'
 import SearchView from '../views/PageMove/SearchView.vue'
@@ -121,7 +120,7 @@ const routes = [
         component: CategoryView
       },
       {
-        path: '/search',
+        path: '/search:keyword',
         component: SearchView
       },
       // 메인화면 신상품 리스트
