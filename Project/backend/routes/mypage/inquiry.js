@@ -6,7 +6,7 @@ const multer = require('multer');
 // Multer 설정
 const storage = multer.diskStorage({
   destination: function (req, file, cb) { //파일이 저장 될 위치 지정
-    cb(null, 'D:/upload'); 
+    cb(null, 'D:/project1/Project/backend/upload/inquiry'); 
   },
   filename: function (req, file, cb) {
     const originalname = Buffer.from(file.originalname, 'latin1').toString('utf8'); // 파일 utf-8로 변환
