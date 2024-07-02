@@ -42,6 +42,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['loginUser', 'updateLoginInfo']),
     async loginUser() {
       try {
         const response = await axios.post('/api/login', this.userLogin);
@@ -104,12 +105,13 @@ export default {
 
           // user_id를 sessionStorage에 저장
           sessionStorage.setItem('user_id', user_id);
-
-          let user = { user_id : user_id};
-          this.$store.dispatch('updateLoginInfo', user);
-
-          // user_id를 서버로 전송하여 존재 여부 확인
-          vm.checkUserExistence(user_id);
+          
+          // Vuex 스토어에 사용자 정보 저장
+          vm.updateLoginInfo({ user_id : user_id})
+          //this.$store.dispatch('updateLoginInfo', user);
+          
+          // // user_id를 서버로 전송하여 존재 여부 확인
+          // vm.checkUserExistence(user_id);
         },
         fail: function(error) {
           console.log(error);
