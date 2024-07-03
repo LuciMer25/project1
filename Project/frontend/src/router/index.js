@@ -10,7 +10,6 @@ import OrderCompleteView from '../views/Main/Order/OrderComplete.vue'
 import ProductDetailView from '../views/Main/Order/ProductDetail.vue'
 import CartView from '../views/Main/Cart/CartView.vue'
 
-
 // 마이페이지 메인
 import MyPageMain from '../views/MyPage/MyPageMain.vue'
 
@@ -83,7 +82,6 @@ import DeleteMem from '../views/MyPage/EditMember/DeleteMem.vue'
 //
 import CategoryView from '../views/PageMove/CategoryView.vue'
 import SearchView from '../views/PageMove/SearchView.vue'
-import AdminNotify from '@/views/Admin/AdminMember/notifyList.vue'
 
 const routes = [
   {
@@ -125,7 +123,7 @@ const routes = [
         component: CategoryView
       },
       {
-        path: 'search/:keyword',
+        path: '/search',
         component: SearchView
       },
       {
