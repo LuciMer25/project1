@@ -1,20 +1,20 @@
 <template>
     <div class="pagination-container">
-      <button
+      <v-btn
         class="btn btn-outline-primary"
         @click="$emit('change-page', currentPage - 1)"
         :disabled="currentPage === 1"
       >
         이전
-      </button>
+      </v-btn>
       <span>{{ currentPage }} / {{ totalPages }}</span>
-      <button
+      <v-btn
         class="btn btn-outline-primary"
         @click="$emit('change-page', currentPage + 1)"
         :disabled="currentPage === totalPages"
       >
         다음
-      </button>
+      </v-btn>
     </div>
   </template>
   

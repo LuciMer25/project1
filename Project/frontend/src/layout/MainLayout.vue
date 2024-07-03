@@ -1,7 +1,7 @@
 <template>
     <!-- <Header></Header> -->
-     <Header2/>
-    <RouterView></RouterView>
+    <Header2/>
+    <RouterView :key="$route.fullPath"></RouterView>
     <Footer></Footer>
     <FloatingMenu></FloatingMenu>
 

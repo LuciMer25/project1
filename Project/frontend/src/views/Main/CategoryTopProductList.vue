@@ -1,9 +1,6 @@
 <template>
   <div class="container">
-    <CategoryMenu 
-        :topCtgrNo="top_ctgr_no"
-        @subcategory-selected="handleSubCategorySelected">
-    </CategoryMenu>
+    <h1>{{ paginatedProducts[0]?.top_ctgr_name }}</h1>
     <CategoryContent 
         :productsCount="newProduct.length" 
         :itemsPerPage="itemsPerPage" 
@@ -123,7 +120,11 @@ export default {
 .container {
   margin-top: 20px;
 }
-
+h1 {
+  text-align: left;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
 h4 {
   margin-bottom: 20px;
 }
