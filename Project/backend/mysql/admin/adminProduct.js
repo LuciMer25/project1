@@ -3,7 +3,7 @@ module.exports = {
                 FROM product p JOIN category c 
                 ON p.ctgr_no = c.ctgr_no`,
      
-     prodInfo: `SELECT p.prod_no, p.prod_name, p.price, p.prod_img, p.reg_date, p.ctgr_no, 
+     prodInfo: `SELECT p.prod_no, p.prod_name, p.price, p.prod_img, p.reg_date, p.ctgr_no, p.prod_content_img,
                        c.ctgr_name AS ctgr_name,
                        tc.ctgr_name AS top_ctgr_name,
                        COALESCE(ROUND(r.avg_score, 1), 0) AS avg_score,

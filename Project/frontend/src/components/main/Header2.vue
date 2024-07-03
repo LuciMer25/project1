@@ -27,7 +27,7 @@
               </RouterLink>
               <div class="dropdown2" v-bind:class="{'mover' : top.isSelected}">
                 <div class="dropdown-content2">
-                  <RouterLink v-bind:to="`/category/${category.ctgr_no}`"
+                  <RouterLink v-bind:to="`/category/${top.parent.ctgr_no}/${category.ctgr_no}`"
                     :key="i"
                     v-for="(category, i) in top.childList"
                   >
