@@ -7,7 +7,7 @@
     <v-divider></v-divider>
     <OrderList></OrderList>
     <UserInfo></UserInfo>
-    <AddressComp></AddressComp>
+    <AddressComp @save-receiver-info="handleReceiverInfo"></AddressComp>
 
     <v-row>
       <v-divider></v-divider>
@@ -48,7 +48,8 @@ export default {
     return {
       itemList: [],
       payment: '',
-      totalprice:0
+      totalprice:0,
+      receiverInfo: {}
     };
   },
   created() { 
@@ -71,7 +72,7 @@ export default {
       this.payment = pay;
     },
     proceed(){
-      let proceedInfo={user:{},itemInfo:'',channelKey:''};
+      let proceedInfo={user:{},receiver:{},itemInfo:'',channelKey:''};
       if(this.itemList.length>1){
         proceedInfo.itemInfo = `${this.itemList[0].prod_name}외 ${this.itemList.length-1}건`
       }
@@ -79,7 +80,7 @@ export default {
         proceedInfo.itemInfo = this.itemList[0].prod_name
       }
       proceedInfo.user = this.$store.getters.getUserInfo;
-
+      proceedInfo.receiver = this.receiverInfo;
       if(this.payment == 'kakao'){
         proceedInfo.channelKey=kakao;
         this.checkout(proceedInfo);
@@ -101,13 +102,13 @@ export default {
       let data = {
                 orders:{
                         order_total_amount : this.totalprice, 
-                        addr : proceed.user.post_addr, 
-                        detail_addr : proceed.user.post_detail_list, 
-                        post_no : proceed.user.post_no, 
+                        addr: proceed.receiver.address,
+                        detail_addr: proceed.receiver.detailAddress,
+                        post_no: proceed.receiver.postalCode,
                         user_id :proceed.user.user_id, 
                         pay_code : '', 
-                        phone_no : proceed.user.phone,
-                        name : proceed.user.name,
+                        phone_no: proceed.receiver.phone,
+                        name: proceed.receiver.name,
                         paytype: this.payment
                 },
                 detailList:this.$store.getters.getItemList
@@ -170,6 +171,9 @@ export default {
     formatPrice(value) {
       return value.toLocaleString();
     },
+    handleReceiverInfo(receiverInfo) {
+      this.receiverInfo = receiverInfo;
+    }
   },
   beforeRouteLeave(to, from, next) {
     const answer = window.confirm('진행중인 내용이 저장되지 않을 수 있습니다.');

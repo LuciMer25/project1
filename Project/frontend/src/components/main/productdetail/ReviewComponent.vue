@@ -66,7 +66,7 @@ export default {
       averageScore: 0,
       totalReviews: 0,
       page: 1,
-      itemsPerPage: 10
+      itemsPerPage: 5
     };
   },
   computed: {
