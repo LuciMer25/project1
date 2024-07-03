@@ -19,7 +19,8 @@ const productsql = require('./product/productSql.js');
 const signUp =require('./main/signUp.js');
 const cart = require('./main/order/cartSql.js');
 const wish = require('./main/order/wishSql.js');
-const memcheck =require('./mypage/memcheck.js')
+const memcheck =require('./mypage/memcheck.js');
+const adminChart = require('./admin/adminChart.js');
 
 module.exports = {
   ...adminOrder,
@@ -46,4 +47,5 @@ module.exports = {
    ...wish,
    batchUpdate: cart.batchUpdate,
    ...memcheck,
+   ...adminChart,
 };

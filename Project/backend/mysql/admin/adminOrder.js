@@ -113,13 +113,44 @@ module.exports = {
 			                 ON o.order_no = os.order_no
                         AND o.order_no =?`,
 
-    todayTotalAmount : `SELECT DATE(ods.order_date) AS chart_date,
+    todayTotalAmount : `SELECT DATE(ods.buy_complete_date) AS chart_date,
                                SUM(o.order_total_amount) AS chart_value
                         FROM orders o JOIN order_state ods 
-			                 ON o.order_no = ods.order_no
-                        WHERE DATE(ods.order_date) = CURRENT_DATE
-                        AND o.order_state = '구매확정'
-                        GROUP BY DATE(ods.order_date)
-                        ORDER BY DATE(ods.order_date)`
+                                      ON o.order_no = ods.order_no
+                        WHERE DATE(ods.buy_complete_date) = CURRENT_DATE
+                        GROUP BY DATE(ods.buy_complete_date)
+                        ORDER BY DATE(ods.buy_complete_date)`,
+
+    weekTotalAmount : `SELECT week_of_month, chart_value
+                       FROM (
+                            SELECT 
+                                   CONCAT(MONTH(ods.buy_complete_date), '월 ', 
+                                   WEEK(ods.buy_complete_date, 1) - WEEK(DATE_SUB(ods.buy_complete_date, INTERVAL DAYOFMONTH(ods.buy_complete_date) - 1 DAY), 1) + 1, '주차') AS week_of_month,
+                                   SUM(o.order_total_amount) AS chart_value,
+                                   WEEK(ods.buy_complete_date, 1) - WEEK(DATE_SUB(ods.buy_complete_date, INTERVAL DAYOFMONTH(ods.buy_complete_date) - 1 DAY), 1) + 1 AS week_number
+                            FROM orders o JOIN order_state ods 
+                                          ON o.order_no = ods.order_no
+                            WHERE ods.buy_complete_date >= DATE_SUB(CURRENT_DATE, INTERVAL DAYOFMONTH(CURRENT_DATE) - 1 DAY)
+                       GROUP BY week_of_month, week_number
+                       ORDER BY week_number DESC
+                       ) latest_week
+                       LIMIT 1`,
+
+    categoryBest : `SELECT c2.ctgr_name AS "chart_name",
+                           SUM(o.order_total_amount) AS "chart_value"
+                    FROM orders o JOIN order_detail d 
+                                  ON o.order_no = d.order_no
+                                  JOIN order_state ods 
+                                  ON o.order_no = ods.order_no
+                                  JOIN product p 
+                                  ON p.prod_no = d.prod_no
+                                  JOIN category c 
+                                  ON c.ctgr_no = p.ctgr_no
+                                  LEFT JOIN category c2 
+                                  ON c.top_ctgr_no = c2.ctgr_no
+                    WHERE ods.buy_complete_date >= DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY)
+                    GROUP BY c2.ctgr_name
+                    ORDER BY chart_value DESC
+                    LIMIT 1`,
 
 }
