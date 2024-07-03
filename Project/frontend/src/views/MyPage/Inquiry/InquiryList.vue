@@ -1,10 +1,5 @@
 <template>
-  <div class="container-fluid">
-    <div class="row">
-      <!-- 왼쪽 사이드바 -->
-      <div class="col-md-3">
-        <MyPageSideBar />
-      </div>
+
 
       <!-- 오른쪽 문의목록 -->
       <div class="col-md-9">
@@ -53,8 +48,7 @@
           </li>
         </ul>
       </div>
-    </div>
-  </div>
+ 
 </template>
 <script>
 import MyPageSideBar from "@/components/mypage/MyPageSideBar.vue";
@@ -76,8 +70,18 @@ export default {
   },
   methods: {
     async getInquiryList() {
-      let result = await axios.get(`/api/inquiry`);
-      this.inquiryList = result.data;
+      try {
+        const user = this.$store.getters.getUserInfo;
+        console.log('유저정보:', user);
+        const response = await axios.get(`/api/inquiry`, {
+          params: {
+            user_id: user.user_id
+          }
+        });
+        this.inquiryList = response.data;
+      } catch (error) {
+        console.error('Error fetching inquiry list:', error);
+      }
     },
     goToDetail(inquiry_no) {
       this.$router.push({

@@ -1,10 +1,6 @@
 <template>
-  <div class="container-fluid">
-    <div class="row">
+
       <!-- 왼쪽 사이드바 -->
-      <div class="col-md-3">
-        <MyPageSideBar />
-      </div>
 
       <!-- 오른쪽 리뷰목록 -->
       <div class="col-md-9">
@@ -47,8 +43,7 @@
           </li>
         </ul>
       </div>
-    </div>
-  </div>
+
 </template>
 
 <script>
@@ -72,8 +67,18 @@ export default {
   },
   methods: {
     async getReviewList() {
-      let response = await axios.get("/api/review");
-      this.reviewList = response.data;
+      try {
+        const user = this.$store.getters.getUserInfo;
+        console.log('유저정보:', user);
+        const response = await axios.get(`/api/review`, {
+          params: {
+            user_id: user.user_id
+          }
+        });
+        this.reviewList = response.data;
+      } catch (error) {
+        console.error('Error fetching review list:', error);
+      }
     },
     goToDetail(review_no) {
       this.$router.push({ path: "/reviewInfo", query: { review_no: review_no } });

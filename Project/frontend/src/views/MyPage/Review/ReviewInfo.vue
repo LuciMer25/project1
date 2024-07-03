@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="col-md-9">
       <div class="row">
         <table class="table table-bordered">
           <thead>
@@ -43,8 +43,7 @@
                 <button class="btn btn-xs btn-info"
                 v-else @click = "updatecomplete" > 
                   수정완료
-                </button>
-                
+                </button>             
                 <button @click = "deletebtn">삭제</button>
               </td>
             </tr>

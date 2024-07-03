@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="col-md-9">
       <table class="table table-hover">
         <thead>
           <tr>
@@ -37,8 +37,18 @@
     },
     methods: {
       async getcancelList() {
-        let result = await axios.get("/api/cancel");
-        this.orders = result.data;
+        try {
+        const user = this.$store.getters.getUserInfo;
+        console.log('유저정보:', user);
+        const response = await axios.get(`/api/cancel`, {
+          params: {
+            user_id: user.user_id
+          }
+        });
+        this.orders = response.data;
+      } catch (error) {
+        console.error('Error fetching cancel list:', error);
+      }
       },
     },
   };

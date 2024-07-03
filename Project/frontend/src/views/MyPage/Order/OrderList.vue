@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="col-md-9">
     <table class="table table-hover">
       <thead>
         <tr>
@@ -7,7 +7,6 @@
           <th>상품이미지</th>
           <th>상품명</th>
           <th>가격</th>
-          <!-- <th>주문자ID</th> -->
           <th>주소</th>
           <th>상세주소</th>
           <th>주문일자</th>
@@ -21,7 +20,6 @@
           <td>{{ order.first_prod_img }}</td>
           <td>{{ order.first_prod_name }}</td>
           <td>{{ order.price }}</td>
-          <!-- <td>{{ order.user_id }}</td> -->
           <td>{{ order.addr }}</td>
           <td>{{ order.detail_addr }}</td>
           <td>{{ order.order_date }}</td>
@@ -62,8 +60,18 @@ export default {
   },
   methods: {
     async getorderList() {
-      let result = await axios.get("/api/order");
-      this.orders = result.data;
+      try {
+        const user = this.$store.getters.getUserInfo;
+        console.log('유저정보:', user);
+        const response = await axios.get(`/api/order`, {
+          params: {
+            user_id: user.user_id
+          }
+        });
+        this.orders = response.data;
+      } catch (error) {
+        console.error('Error fetching order list:', error);
+      }
     },
     async cancelorder(order_no) {
       this.searchNo = order_no;
