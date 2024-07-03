@@ -1,8 +1,9 @@
 <template>
   <div class="category-selector">
     <h1>{{ selectedTopCategory || '카테고리 이름' }}</h1>
-    <h4 v-if="selectedSubCategory">{{ selectedSubCategory.ctgr_name }}</h4>
+      <h4 v-if="selectedSubCategory">{{ selectedSubCategory.ctgr_name }}</h4>
     <ul class="sub-category-list">
+      <li class="subcategory-item" @click="handleTotal">전체</li>
       <li v-for="(subcategory, index) in subCategories"
           :key="index"
           @click="handleSubCategoryClick(subcategory)"
@@ -22,6 +23,10 @@ export default {
     topCtgrNo: {
       type: Number,
       required: true
+    },
+    ctgrNo : {
+      type: Number,
+      required: true
     }
   },
   data() {
@@ -32,10 +37,10 @@ export default {
     };
   },
   created() {
-    this.getCategories(this.topCtgrNo);
+    this.getCategories(this.topCtgrNo,this.ctgrNo);
   },
   methods: {
-    async getCategories(topCtgrNo) {
+    async getCategories(topCtgrNo,ctgrNo) {
       try {
         let result = await axios.get(`/api/categorylist/${topCtgrNo}`);
         if (result.data.length > 0) {
@@ -49,22 +54,23 @@ export default {
             top_ctgr_no: result.data[0].top_ctgr_no,
             ctgr_no: result.data.find(item => item.ctgr_name === category).ctgr_no 
           }));
-
-          // 초기 선택: 첫 번째 하위 카테고리 선택
-          if (this.subCategories.length > 0) {
-            this.selectedSubCategory = this.subCategories[0];
-            this.handleSubCategoryClick(this.selectedSubCategory); // 선택된 하위 카테고리 초기 설정
-          }
         }
       } catch (error) {
         console.error('하위 카테고리 목록을 가져오는 중 오류 발생:', error);
       }
     },
-    handleSubCategoryClick(subcategory) {
-      // 하위 카테고리가 클릭되었을 때 실행되는 로직
+    async handleSubCategoryClick(subcategory) {
       this.selectedSubCategory = subcategory;
       this.$emit('subcategory-selected', subcategory); // 이벤트 발생
-    }
+    },
+    async handleTotal() {
+      this.selectedSubCategory = null; // 선택된 하위 카테고리 초기화
+      this.$emit('subcategory-selected', null); // 이벤트 발생
+      await this.getCategories(this.topCtgrNo, 0); // 전체 하위 카테고리 보여주기
+    }    
+  },
+  mounted(){
+
   }
 };
 </script>
@@ -72,6 +78,9 @@ export default {
 <style scoped>
 .category-selector {
   margin-top: 20px;
+}
+li{
+  font-size : 15px;
 }
 
 h1 {
@@ -98,13 +107,12 @@ h4 {
   margin-right: 10px;
   margin-bottom: 10px;
   border-radius: 4px;
-  background-color: #f0f0f0;
   transition: background-color 0.3s ease;
 }
 
 .subcategory-item.active {
-  background-color: #007bff;
-  color: #fff;
+  color:red;
+  font-weight: bold;
 }
 
 .subcategory-item:hover {

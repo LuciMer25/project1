@@ -36,6 +36,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 
 
+
 createApp(App)
 .use(router)
 .use(vuetify)
@@ -44,6 +45,8 @@ createApp(App)
 .use(VueSweetalert2)
 .mount('#app')
 // .use(VueSession, sessionOptions)
+
+
 
 window.Kakao.init("d4e1788ee0f9d7816eee9b5f666826e2");
 
