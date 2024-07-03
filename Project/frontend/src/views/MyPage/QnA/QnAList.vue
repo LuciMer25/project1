@@ -1,10 +1,4 @@
 <template>
-  <div class="container-fluid">
-    <div class="row">
-      <!-- 왼쪽 사이드바 -->
-      <div class="col-md-3">
-        <MyPageSideBar />
-      </div>
 
       <!-- 오른쪽 QnA목록 -->
       <div class="col-md-9">
@@ -53,8 +47,6 @@
           </li>
         </ul>
       </div>
-    </div>
-  </div>
 </template>
 <script>
 import MyPageSideBar from "@/components/mypage/MyPageSideBar.vue";
@@ -76,8 +68,18 @@ export default {
   },
   methods: {
     async getqnaList() {
-      let result = await axios.get(`/api/qna`);
-      this.qnaList = result.data;
+      try {
+        const user = this.$store.getters.getUserInfo;
+        console.log('유저정보:', user);
+        const response = await axios.get(`/api/qna`, {
+          params: {
+            user_id: user.user_id
+          }
+        });
+        this.qnaList = response.data;
+      } catch (error) {
+        console.error('Error fetching qna list:', error);
+      }
     },
     goToDetail(qna_no) {
       this.$router.push({ path: "/qnaInfo", query: { qna_no: qna_no } });

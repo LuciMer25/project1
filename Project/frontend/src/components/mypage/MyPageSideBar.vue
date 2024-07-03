@@ -8,7 +8,7 @@
                     <dd><RouterLink to = "cancellist">취소/반품조회</RouterLink></dd>
                     <dt class="title-t ty7">쇼핑활동</dt>
                     <dd><RouterLink to = "reviewlist">상품후기</RouterLink></dd>
-                    <dd><RouterLink to = "wishlist">위시리스트(아직 미완성 드가면 백엔드 재시작 해야댐)</RouterLink></dd>
+                    <dd><RouterLink to = "wishlist">위시리스트(미완성)</RouterLink></dd>
                     <dt class="title-t ty7">회원정보</dt>
                     <dd><RouterLink to = "EditMembers">회원정보수정</RouterLink></dd>
                     <dt class="title-t ty7">문의</dt>

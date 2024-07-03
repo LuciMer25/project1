@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="col-md-9">
       <form @submit.prevent>
         <label for="name">QnA</label>
         <input type="text" id="qna_title" v-model="qnaInfo.qna_title" />
