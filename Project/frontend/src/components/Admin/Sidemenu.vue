@@ -73,7 +73,7 @@
 					<a class="nav-link" href="adminChartControl.do">
 						<div class="sb-nav-link-icon">
 							<i class="fas fa-chart-area"></i>
-						</div> 판매차트
+						</div> 매출차트
 					</a>
 					 <RouterLink to="/admin/notify" class="nav-link" >
 						<div class="sb-nav-link-icon">

@@ -17,7 +17,7 @@
           <span v-else>{{ item.category }}</span>
         </template>
         <template v-slot:item.title="{ item }">
-          <v-btn @click="goInfo(item.notice_no)"text>{{ item.title }}</v-btn>
+          <span @click="goInfo(item.notice_no)" class="title-link">{{ item.title }}</span>
         </template>
         <template v-slot:item.reg_date="{ item }">
           {{ formatDate(item.reg_date) }}

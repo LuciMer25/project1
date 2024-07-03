@@ -50,6 +50,14 @@
           <tr>
             <td>
               <div class="total-amount">
+                <strong>결제 방법</strong>
+                <strong>{{ data.user.paytype }}</strong>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="total-amount">
                 <strong>총 결제금액 </strong>
                 <strong>{{ formatCurrency(data.user.order_total_amount) }} 원</strong>
               </div>
@@ -83,7 +91,8 @@ export default {
           phone_no: '',
           post_no: '',
           addr: '',
-          detail_addr: ''
+          detail_addr: '',
+          paytype: ''
         }
       })
     }

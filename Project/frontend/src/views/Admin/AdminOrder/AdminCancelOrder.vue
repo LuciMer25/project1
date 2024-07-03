@@ -110,7 +110,7 @@ export default{
                 await axios.put(`/api/adminOrder/updateCancelComplete/${this.orderNo}`)
                     .then(()=> {
                         this.$swal("취소완료 되었습니다.")
-                        this.$router.go(this.$router.currentRoute)
+                        this.fetchCencelList();
                     })
                     
             } catch (error) {

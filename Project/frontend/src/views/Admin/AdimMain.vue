@@ -88,6 +88,7 @@ export default {
             
             memberCount : 1,
             memberCard : '총 회원 수'
+
         };
 
         

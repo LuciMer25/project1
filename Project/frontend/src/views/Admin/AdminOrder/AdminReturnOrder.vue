@@ -39,9 +39,9 @@
                                 <button v-if="order.order_state === '반품요청'" class="returnReq" :data-order-no="order.order_no">
                                     {{ order.order_state }}
                                 </button>
-                                <button v-else-if="order.order_state === '반품완료'" class="ReqComplete" :data-order-no="order.order_no">
+                                <span v-else-if="order.order_state === '반품완료'" >
                                     {{ order.order_state }}
-                                </button>
+                                </span>
                                 <span v-else>{{ order.order_state }}</span>
                             </td>
                         </tr>
@@ -49,18 +49,15 @@
                 </table>
             </div>
         </div>
-        <Modal v-if="showModal" :orderNo="orderNo" @close="closeModal" />
     </div>
 </template>
 <script>
 import { DataTable } from "simple-datatables";
 import { nextTick } from 'vue';
-import Modal from '@/components/Admin/waybill.vue'
 import axios from 'axios'
 
 export default{
     components: {
-        Modal
     },
     data() {
         return {
@@ -91,10 +88,7 @@ export default{
             const tableBody = this.$refs.dataTable.querySelector('tbody');
             tableBody.addEventListener('click', (event) => {
                 const target = event.target;
-                if (target.classList.contains('ReqComplete')) {
-                    const orderNo = target.dataset.orderNo;
-                    this.openModal(orderNo);
-                } else if(target.classList.contains('returnReq')) {
+                if(target.classList.contains('returnReq')) {
                     const orderNo = target.dataset.orderNo;
                     this.orderStateChange(orderNo);
                 } else if (target.classList.contains('detailBtn')) {
@@ -102,14 +96,6 @@ export default{
                     this.goDeatil(orderNo);
                 }
             });
-        },
-        openModal(order_no) {
-            this.orderNo = order_no;
-            this.showModal = true;
-        },
-        closeModal() {
-            this.showModal = false;
-            this.orderNo = null;
         },
         fetchOrderList(){
             axios.get('/api/adminOrder/returnList')
@@ -127,9 +113,10 @@ export default{
             axios.put(`/api/adminOrder/updateReturnState/${this.orderNo}`)
                 .then(() => {
                     this.$swal('반품완료 되었습니다.')
+                    this.refreshData();
                     console.log("업데이트됨")
                 })
-                .then(()=> this.$router.go(this.$router.currentRoute))
+                // .then(()=> this.$router.go(this.$router.currentRoute))
                 .catch(() => {
                     this.$swal("업데이트실패");
             });
