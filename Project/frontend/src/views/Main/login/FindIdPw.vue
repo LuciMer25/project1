@@ -3,7 +3,7 @@
     <div class="login-box">
       <div class="login-wrapper">
         <h2>회원가입</h2>
-        <input type="button" value="아이디찾기" @click="showIdModal = true">
+        <input type="button" value="아이디찾기" @click="showIdModal = true">  /
         <input type="button" value="비밀번호찾기" @click="showPasswordModal = true">
 
         <!-- 아이디 찾기 모달 -->
