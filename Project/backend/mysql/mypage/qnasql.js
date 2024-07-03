@@ -17,5 +17,24 @@ module.exports = {
                FROM QnA_reply qr join QnA q
                on qr.qna_no = q.qna_no
                where q.qna_no = ?
-               group by qr.reply_content, q.qna_no`
+               group by qr.reply_content, q.qna_no`,
+    
+    getProductQna : `SELECT q.prod_no, 
+                            q.qna_no, 
+                            q.qna_title, 
+                            q.qna_content, 
+                            q.user_id, 
+                            q.reg_date, 
+                            qr.reply_content
+                     FROM QnA_reply qr JOIN QnA q
+                                       ON qr.qna_no = q.qna_no
+                     WHERE q.prod_no = ?
+                     GROUP BY qr.reply_content, 
+                             q.qna_no, 
+                             q.qna_title,
+                             q.qna_content,
+                             q.user_id,
+                             q.reg_date,
+                             q.prod_no
+                     ORDER BY q.reg_date DESC`
 }

@@ -7,5 +7,9 @@ module.exports = {
     `,
     startTransaction: 'START TRANSACTION',
     commit: 'COMMIT',
-    rollback: 'ROLLBACK'
+    rollback: 'ROLLBACK',
+    iswished: `SELECT wish_no, user_id, prod_no 
+               FROM wishlist
+               WHERE user_id = ?
+               AND prod_no = ?`
 }
