@@ -324,4 +324,9 @@ export default {
   .endOfHeader{
     border: 1px solid black;
   }
+
+  li{
+    list-style:none;
+    float:left;
+  }
 </style>
