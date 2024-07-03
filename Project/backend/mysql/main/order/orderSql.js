@@ -12,6 +12,7 @@ module.exports = {
                     
     getOrderNum : `SELECT order_no 
                    FROM orders
-                   WHERE pay_code = ?`
-    
+                   WHERE pay_code = ?`,
+    insertOrderState : `INSERT INTO order_state(order_no)
+                        VALUES(?)`
 }

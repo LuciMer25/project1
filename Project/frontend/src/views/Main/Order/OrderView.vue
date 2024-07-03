@@ -156,15 +156,20 @@ export default {
           } 
 
           alert('결제완료!');
+          this.CreateOrderState(result.data.order_no);
           console.log(result.data.order_no);
 
           this.$router.push({name:'ordercomplete',params:{orderNo:result.data.order_no}});
         }
 
     },
+    async CreateOrderState(order_no){
+      let result = (await axios.post('/api/insertorderstate/', {order_no : order_no}));
+      console.log(result);
+    },
     formatPrice(value) {
       return value.toLocaleString();
-  },
+    },
   },
   beforeRouteLeave(to, from, next) {
     const answer = window.confirm('진행중인 내용이 저장되지 않을 수 있습니다.');

@@ -93,7 +93,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<!-- <style scoped>
 /* 추가적인 스타일링 */
  header{
     z-index: 99;
@@ -140,4 +140,5 @@ export default {
         text-decoration: none;
         padding:5px;
     }*/
-</style>
+</style> -->
+  

@@ -97,7 +97,7 @@ export default {
       try {
         const user = this.$store.getters.getUserInfo; // 사용자 ID 가져오기
         console.log('유저정보'+user);
-        if(user){
+        if(user != null){
           const response = (await axios.post('/api/cart', { user_id:user.user_id }));
           this.cartItems = response.data;
         }

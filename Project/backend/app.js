@@ -18,6 +18,7 @@ const CheckoutRouter = require('./routes/main/order/checkout.js');
 const ProductInfoRouter = require('./routes/main/order/productDetail.js');
 const CartRouter = require('./routes/main/order/cart.js');
 const ProductReviewRouter = require('./routes/main/order/productreview.js');
+const OrderStateRouter = require('./routes/main/order/orderstate.js');
 
 // 마이페이지(맹선우)
 var inquiryRouter = require('./routes/mypage/inquiry');
@@ -69,7 +70,17 @@ app.use('/api/upload/products', (req, res, next) => {
   res.sendFile(filePath, (err) => {
     if (err) {
       // 이미지 파일이 없을 경우 대체 이미지를 제공
-      res.sendFile(path.join(__dirname, 'public/imgs/loadfail.jpg'));
+      res.sendFile(path.join('D:project1/Project/frontend/', 'public/imgs/loadfail.jpg'));
+    }
+  });
+});
+
+app.use('/api/upload/review', (req, res, next) => {
+  const filePath = path.join('D:project1/Project/backend/upload/review', req.path);
+  res.sendFile(filePath, (err) => {
+    if (err) {
+      // 이미지 파일이 없을 경우 대체 이미지를 제공
+      res.sendFile(path.join('D:project1/Project/frontend/', 'public/imgs/loadfail.jpg'));
     }
   });
 });
@@ -118,6 +129,7 @@ app.use('/api/checkout',CheckoutRouter);
 app.use('/api/productInfo',ProductInfoRouter);
 app.use('/api/cart',CartRouter);
 app.use('/api/productreviews',ProductReviewRouter);
+app.use('/api/insertorderstate',OrderStateRouter);
 
 
 // 마이페이지(맹선우)

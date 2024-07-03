@@ -1,20 +1,20 @@
 <template>
   <v-container class="product-detail">
-    <v-row>
-      <v-col cols="12" md="6" class="text-center">
+    <v-row justify="center">
+      <v-col cols="10" md="5" class="text-center">
         <v-img 
           :src="`${titleImage}`" 
           alt="상품 이미지" 
           @error="onImageError"
-          max-height="400"
-          max-width="400"
+          height="450"
+          width="450"
           class="mx-auto image-with-border"
         ></v-img>
       </v-col>
-      <v-col cols="12" md="6">
+      <v-col cols="10" md="5">
         <div class="product-info">
           <h1 class="product-title" v-text="product.prod_name"></h1>
-          <v-rating value="5" dense v-model="product.avg_score" readonly></v-rating>
+          <v-rating value="5" dense v-model="product.avg_score" readonly half-increments></v-rating>
           <p class="reviews-count">{{ product.avg_score }} ({{ product.cnt }}건)</p>
           <h2 class="price">{{ formatPrice(product.price) }}원</h2>
           <p class="origin">원산지: 상품정보 원산지표시 참조</p>
@@ -84,17 +84,43 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
-  <ContentsImg :img="`/api/upload/products/${product.prod_no}/${product.prod_content_img}`"/>
-
-  <ReviewComponent :prodNo="this.$route.params.prodNo"></ReviewComponent>
+ <!-- 메뉴바 -->
+ <v-row class="menu-bar" justify="center">
+  <v-col cols="auto" class="menu-button">
+    <button text class="w-100" @click="scrollTo('detail')">
+      <span>상세정보</span>
+    </button>
+  </v-col>
+  <v-col cols="auto" class="menu-button">
+    <button text class="w-100" @click="scrollTo('reviews')">
+      <span>상품후기 {{ product.cnt }}</span>
+    </button>
+  </v-col>
+  <v-col cols="auto" class="menu-button">
+    <button text class="w-100" @click="scrollTo('inquiries')">
+      <span>상품문의 6</span>
+    </button>
+  </v-col>
+</v-row>
+  <div id="detail">
+      <ContentsImg :img="`/api/upload/products/${product.prod_no}/${product.prod_content_img}`"/>
+    </div>
+    <div id="reviews">
+      <ReviewComponent :prodNo="this.$route.params.prodNo"></ReviewComponent>
+    </div>
+    <div id="inquiries">
+      <!-- 문의사항 컴포넌트 여기에 추가 -->
+    </div>
   </v-container>
 </template>
 
 <script>
 import axios from 'axios';
-import ContentsImg from '@/components/main/productdetail/ContentImg.vue'
+import ContentsImg from '@/components/main/productdetail/ContentImg.vue';
+import ReviewComponent from '@/components/main/productdetail/ReviewComponent.vue';
+
 export default {
-  components:{ContentsImg},
+  components:{ContentsImg,ReviewComponent},
   data() {
     return {
       quantity: 1,
@@ -116,6 +142,12 @@ export default {
     },
   },
   methods: {
+    scrollTo(sectionId) {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    },
     decreaseQuantity() {
       if (this.quantity > 1) {
         this.quantity--;
@@ -181,7 +213,7 @@ export default {
       if(this.checkLogin())
       {
         axios.post(`/api/productInfo/addWish`,{
-          user_id:this.$store.getters.getUserInfo.userId,
+          user_id:this.$store.getters.getUserInfo.user_id,
           prod_no:this.product.prod_no
         })
         .then(res=>{
@@ -239,6 +271,34 @@ export default {
 
 .reviews-count {
   margin: 10px 0;
+}
+
+.menu-bar {
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  padding: 0; /* padding 제거 */
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.menu-button {
+  padding: 0; /* padding 제거 */
+}
+
+
+
+.w-100 {
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 5px;
+  margin-right: 5px;
+  border: none; /* 경계선 제거 */
+}
+
+.menu-button:hover {
+  background-color: #e0e0e0; /* hover 시 회색 배경 */
 }
 
 .price {

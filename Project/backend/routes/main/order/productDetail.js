@@ -5,6 +5,7 @@ router.get("/:no", async (req,res)=>{
     const no = req.params.no;
     console.log('상품번호 : '+no);
     let product = (await mysql.query('getProductInfo',no));
+    //let iswished = (await mysql.query('iswished'));
     res.send(product);
   });
 router.post("/:action", async(req,res)=>{
@@ -39,11 +40,11 @@ const toggleWishlist = async (userId, prodNo) => {
     try {
         await mysql.query('startTransaction');
 
-        const deleteResult = await query('deleteWish', [userId, prodNo]);
+        const deleteResult = await mysql.query('deleteWish', [userId, prodNo]);
         
         let result = 'removed';
         if (deleteResult.affectedRows === 0) {
-            await query('insertWish', [userId, prodNo]);
+            await mysql.query('insertWish', [userId, prodNo]);
             result = 'added';
         }
         
