@@ -21,45 +21,42 @@
           <span class="dropbtn">전체 카테고리</span>
           <div class="dropdown-content">
             <!-- v-bind:to="`/category/${category.ctgr_no}`" -->
-            <RouterLink v-bind:to="`/category/${category.ctgr_no}`"
+            <RouterLink v-bind:to="`/category/${category.ctgr_no}/0`"
               :key="i"
               v-for="(category, i) in Upcategory1"
             >
               {{ category.ctgr_name }}
             </RouterLink>
-            <div class="dropdown2">
+              <div class="dropdown2">
               <div class="dropdown-content2">
-                <li
-                  :key="i"
-                  v-for="(category, i) in DownCategory1"
-                >
-                  <RouterLink to="/#">
+                <RouterLink 
+                v-bind:to="`/category/${category.top_ctgr_no}/${category.ctgr_no}`"
+                :key="i" v-for="(category, i) in DownCategory1">
                     {{ category.ctgr_name }}
                   </RouterLink>
-                </li>
               </div> 
             </div>
 
-             <RouterLink to="/#"
+             <RouterLink v-bind:to="`/category/${category.ctgr_no}/0`"
               :key="i"
                v-for="(category, i) in Upcategory2"
             >
               {{ category.ctgr_name }}
             </RouterLink>
+
             <div class="dropdown2">
               <div class="dropdown-content2">
-                <li
-                  :key="i"
-                  v-for="(category, i) in DownCategory2"
-                >
-                  <RouterLink to="/#">
+                <RouterLink 
+                v-bind:to="`/category/${category.top_ctgr_no}/${category.ctgr_no}`"
+                :key="i" v-for="(category, i) in DownCategory2">
                     {{ category.ctgr_name }}
                   </RouterLink>
-                </li>
               </div> 
             </div>
 
-             <RouterLink to="/#"
+
+
+             <RouterLink v-bind:to="`/category/${category.ctgr_no}/0`"
               :key="i"
                v-for="(category, i) in Upcategory3"
             >
@@ -71,14 +68,14 @@
                   :key="i"
                   v-for="(category, i) in DownCategory3"
                 >
-                  <RouterLink to="/#">
+                  <RouterLink v-bind:to="`/category/${category.top_ctgr_no}/${category.ctgr_no}`">
                     {{ category.ctgr_name }}
                   </RouterLink>
                 </li>
               </div> 
             </div>
 
-            <RouterLink to="/#"
+            <RouterLink v-bind:to="`/category/${category.ctgr_no}/0`"
               :key="i"
                v-for="(category, i) in Upcategory4"
             >
@@ -90,14 +87,14 @@
                   :key="i"
                   v-for="(category, i) in DownCategory4"
                 >
-                  <RouterLink to="/#">
+                  <RouterLink v-bind:to="`/category/${category.top_ctgr_no}/${category.ctgr_no}`">
                     {{ category.ctgr_name }}
                   </RouterLink>
                 </li>
               </div> 
             </div>
             
-            <RouterLink to="/"
+            <RouterLink v-bind:to="`/category/${category.ctgr_no}/0`"
               :key="i"
                v-for="(category, i) in Upcategory5"
             >
@@ -109,7 +106,7 @@
                   :key="i"
                   v-for="(category, i) in DownCategory5"
                 >
-                  <RouterLink to="/#">
+                  <RouterLink v-bind:to="`/category/${category.top_ctgr_no}/${category.ctgr_no}`">
                     {{ category.ctgr_name }}
                   </RouterLink>
                 </li>

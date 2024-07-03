@@ -161,7 +161,7 @@ export default {
       if(this.checkLogin())
       {
         axios.post(`/api/productInfo/addCart`,{
-          user_id:this.$store.getters.getUserInfo.userId,
+          user_id:this.$store.getters.getUserInfo.user_id,
           prod_no:this.product.prod_no,
           prod_cnt: this.quantity
         })

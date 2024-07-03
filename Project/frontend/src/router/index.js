@@ -134,11 +134,11 @@ const routes = [
       {
         path: '/category/:top_ctgr_no',
         name: 'CategoryList',
-        component: CategoryToplist,
+        component: CategoryBotList,
         props:true
       },
       {
-        path: '/categorylist/:top_ctgr_no/:ctgr_no',
+        path: '/category/:top_ctgr_no/:ctgr_no',
         name: 'CategoryDetailList',
         component: CategoryBotList,
         props:true

@@ -37,7 +37,7 @@ router.post("/:action", async(req,res)=>{
 
 const toggleWishlist = async (userId, prodNo) => {
     try {
-        await query('startTransaction');
+        await mysql.query('startTransaction');
 
         const deleteResult = await query('deleteWish', [userId, prodNo]);
         
@@ -47,10 +47,10 @@ const toggleWishlist = async (userId, prodNo) => {
             result = 'added';
         }
         
-        await query('commit');
+        await mysql.query('commit');
         return { result };
     } catch (err) {
-        await query('rollback');
+        await mysql.query('rollback');
         console.error('Transaction error:', err);
         throw err;
     }

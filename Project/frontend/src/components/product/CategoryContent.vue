@@ -1,15 +1,15 @@
 <template>
     <div class="content-header">
       <div class="total-products">
-        <p>총 {{ totalProducts }}개의 상품이 있습니다.</p>
+        <p>전체 {{ totalProducts }}개의 상품이 있습니다.</p>
       </div>
       <div class="sort-options">
         <div class="sort-buttons">
-          <button type="button" class="btn btn-secondary" @click="sortByPopularity">인기 순</button>
-          <button type="button" class="btn btn-secondary" @click="sortByNew">신제품 순</button>
-          <button type="button" class="btn btn-secondary" @click="sortByOld">오래된 순</button>
-          <button type="button" class="btn btn-secondary" @click="sortByLowPrice">낮은 가격 순</button>
-          <button type="button" class="btn btn-secondary" @click="sortByHighPrice">높은 가격 순</button>
+          <v-btn @click="sortByPopularity">인기 순</v-btn>
+          <v-btn @click="sortByNew">신제품 순</v-btn>
+          <v-btn @click="sortByOld">오래된 순</v-btn>
+          <v-btn @click="sortByLowPrice">낮은 가격 순</v-btn>
+          <v-btn @click="sortByHighPrice">높은 가격 순</v-btn>
         </div>
         <div class="items-per-page">
           <select v-model="selectedItemsPerPage" @change="updateItemsPerPage" class="form-select">
@@ -66,6 +66,10 @@ export default{
 }
 </script>
 <style scoped>
+
+p{
+  text-align: left;
+}
 .content-header {
   display: flex;
   justify-content: space-between;
@@ -82,11 +86,6 @@ export default{
   flex-wrap: wrap;
   justify-content: flex-end;
   align-items: center;
-  gap: 0.5rem;
-}
-
-.sort-buttons {
-  display: flex;
   gap: 0.5rem;
 }
 
