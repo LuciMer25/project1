@@ -1,13 +1,15 @@
 <template>
   <div class="category-selector">
     <h1>{{ selectedTopCategory || '카테고리 이름' }}</h1>
-      <h4 v-if="selectedSubCategory">{{ selectedSubCategory.ctgr_name }}</h4>
+    <h4 v-if="selectedSubCategory">{{ selectedSubCategory.ctgr_name }}</h4>
     <ul class="sub-category-list">
-      <li class="subcategory-item" @click="handleTotal">전체</li>
+      <li class="subcategory-item" 
+          @click="handleTotal"
+          :class="{ active: selectedSubCategory === null }">전체</li>
       <li v-for="(subcategory, index) in subCategories"
           :key="index"
           @click="handleSubCategoryClick(subcategory)"
-          :class="{ active: subcategory === selectedSubCategory }"
+          :class="{ active: subcategory.ctgr_no === selectedSubCategory?.ctgr_no }"
           class="subcategory-item">
         {{ subcategory.ctgr_name }}
       </li>
@@ -24,9 +26,9 @@ export default {
       type: Number,
       required: true
     },
-    ctgrNo : {
+    ctgrNo: {
       type: Number,
-      required: true
+      required: false // ctgrNo는 선택적으로 받을 수 있도록 변경
     }
   },
   data() {
@@ -37,10 +39,18 @@ export default {
     };
   },
   created() {
-    this.getCategories(this.topCtgrNo,this.ctgrNo);
+    this.getCategories(this.topCtgrNo, this.ctgrNo);
+  },
+  watch: {
+    '$route.params': {
+      handler(newParams) {
+        this.getCategories(newParams.top_ctgr_no, newParams.ctgr_no);
+      },
+      immediate: true
+    }
   },
   methods: {
-    async getCategories(topCtgrNo,ctgrNo) {
+    async getCategories(topCtgrNo, ctgrNo) {
       try {
         let result = await axios.get(`/api/categorylist/${topCtgrNo}`);
         if (result.data.length > 0) {
@@ -54,23 +64,24 @@ export default {
             top_ctgr_no: result.data[0].top_ctgr_no,
             ctgr_no: result.data.find(item => item.ctgr_name === category).ctgr_no 
           }));
+
+          // 전달받은 ctgrNo에 해당하는 하위 카테고리를 selectedSubCategory로 설정
+          this.selectedSubCategory = this.subCategories.find(sub => sub.ctgr_no === Number(ctgrNo)) || null;
         }
       } catch (error) {
         console.error('하위 카테고리 목록을 가져오는 중 오류 발생:', error);
       }
     },
-    async handleSubCategoryClick(subcategory) {
+    handleSubCategoryClick(subcategory) {
       this.selectedSubCategory = subcategory;
       this.$emit('subcategory-selected', subcategory); // 이벤트 발생
+      this.$router.push(`/category/${this.topCtgrNo}/${subcategory.ctgr_no}`);
     },
-    async handleTotal() {
+    handleTotal() {
       this.selectedSubCategory = null; // 선택된 하위 카테고리 초기화
       this.$emit('subcategory-selected', null); // 이벤트 발생
-      await this.getCategories(this.topCtgrNo, 0); // 전체 하위 카테고리 보여주기
-    }    
-  },
-  mounted(){
-
+      this.$router.push(`/category/${this.topCtgrNo}`);
+    }
   }
 };
 </script>
@@ -79,8 +90,8 @@ export default {
 .category-selector {
   margin-top: 20px;
 }
-li{
-  font-size : 15px;
+li {
+  font-size: 15px;
 }
 
 h1 {
@@ -111,7 +122,7 @@ h4 {
 }
 
 .subcategory-item.active {
-  color:red;
+  color: red;
   font-weight: bold;
 }
 
