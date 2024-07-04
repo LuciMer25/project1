@@ -1,37 +1,39 @@
 <template>
   <form action="doJoin" method="POST" class="joinForm" @submit.prevent="saveUser">
     <h2>회원가입</h2>
-    <div class="textForm">
+    <div class="textForm">아이디
       <input name="user_id" type="text" class="id" placeholder="아이디" v-model="userInsert.user_id">
     </div>
-    <div class="textForm">
+    <div class="textForm">비밀번호
       <input name="pw" type="password" class="pw" placeholder="비밀번호" v-model="userInsert.pw">
     </div>
-    <div class="textForm">
+    <div class="textForm">비밀번호 확인
       <input type="password" class="pw" placeholder="비밀번호 확인" v-model="passwordConfirm">
       <button type="button" @click="checkPasswordMatch">비밀번호 확인</button>
     </div>
-    <div class="textForm">
+    <div class="textForm">이름
       <input name="name" type="text" class="name" placeholder="이름" v-model="userInsert.name">
     </div>
-    <div class="textForm">
+    <div class="textForm">생년월일
       <input type="date" class="birthdate" placeholder="생년월일" v-model="userInsert.birth">
     </div>
-    <input name="phone" type="text" class="phone" placeholder="전화번호" v-model="userInsert.phone">
+    <div>
+    <input name="phone" type="text" class="phone" placeholder="전화번호" v-model="userInsert.phone">전화번호
     <button type="button" @click="checkUserphone">전화번호 중복체크</button>
+    </div>
     <div class="textForm">
       <button type="button" @click="sample6_execDaumPostcode">우편번호찾기</button>
     </div>
-    <div class="textForm">
+    <div class="textForm">우편번호
       <input type="text" id="sample6_postcode" placeholder="우편번호" v-model="userInsert.post_no">
     </div>
-    <div class="textForm">
-      <input type="text" id="sample6_address" placeholder="주소" v-model="userInsert.post_addr"><br>
+    <div class="textForm">주소
+      <input type="text" id="sample6_address" placeholder="주소" v-model="userInsert.post_addr">
     </div>
-    <div class="textForm">
+    <div class="textForm">상세주소
       <input type="text" id="sample6_detailAddress" placeholder="상세주소" v-model="userInsert.post_detail_list">
     </div>
-    <div class="textForm">
+    <div class="textForm">참고항목
       <input type="text" id="sample6_extraAddress" placeholder="참고항목">
     </div>
     <input type="submit" class="btn" value="가입하기"/>
@@ -54,6 +56,7 @@ export default {
         post_no: "",
         birth: "",
       },
+      passwordConfirm: "", // 비밀번호 확인을 위한 변수 추가
     };
   },
   methods: {
@@ -69,7 +72,7 @@ export default {
           alert("회원가입에 실패하였습니다.");
         }
       } catch (error) {
-        console.error("Error saving user info:", error);
+        console.error("사용자 정보 저장 중 오류:", error);
       }
     },
     checkPasswordMatch() {  // 추가: 비밀번호 일치 여부 확인
@@ -88,7 +91,7 @@ export default {
           alert("사용 가능한 전화번호입니다.");
         }
       } catch (error) {
-        console.error("Error checking user phone:", error);
+        console.error("전화번호 중복 체크 중 오류:", error);
       }
     },
     sample6_execDaumPostcode() {
@@ -162,54 +165,65 @@ body {
 
 .joinForm {
   position: relative;
-   width: 300px;
+  width: 500px;
   height: 1000px;
-  left:50%;
-  right:50%;
   background-color: #FFFFFF;
   text-align: center;
- 
   border-radius: 15px;
+  margin: 0 auto; /* 수평 가운데 정렬 */
 }
 
 .joinForm h2 {
   text-align: center;
-  margin: 30px 0;
+  margin: 20px 0 30px;
+  font-size: 24px;
 }
 
 .textForm {
-  margin: 20px 0;
-  padding: 10px 0;
-  border-bottom: 2px solid #adadad;
+  margin-bottom: 20px;
+  padding: 0 20px;
 }
 
 .textForm input {
-  width: 100%;
-  border: none;
-  outline: none;
-  color: #636e72;
+  width: calc(100% - 40px);
+  height: 40px;
+  margin-top: 10px;
+  padding: 0 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
   font-size: 16px;
-  height: 25px;
-  background: none;
+  box-sizing: border-box;
+}
+
+.textForm button {
+  width: 30%;
+  height: 40px;
+  margin-left: 10px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.textForm button:hover {
+  background-color: #2980b9;
 }
 
 .btn {
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  margin-top: 20px;
-  width: 80%;
+  width: calc(100% - 40px);
   height: 40px;
-  background: linear-gradient(125deg, #81ecec, #6c5ce7, #81ecec);
-  background-size: 200%;
+  background: #2ecc71;
   color: white;
-  font-weight: bold;
   border: none;
+  border-radius: 5px;
+  font-size: 16px;
   cursor: pointer;
-  transition: 0.4s;
+  margin-top: 20px;
 }
 
 .btn:hover {
-  background-position: right;
+  background: #27ae60;
 }
 </style>

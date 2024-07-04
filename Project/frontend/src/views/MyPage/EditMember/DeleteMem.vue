@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="col-md-9">
     <h1>회원탈퇴 페이지</h1>
     <hr>
     <p>
@@ -17,18 +17,19 @@
     </ul>
     
     <!-- 체크박스 -->
-    <input type="checkbox" id="agreeCheckbox" v-model="isChecked"> <label for="agreeCheckbox">동의합니다.</label>
+    <input type="checkbox" id="agreeCheckbox" v-model="isChecked"> <label for="agreeCheckbox">동의합니다.</label><br>
     
     <!-- 회원탈퇴 버튼 -->
-    <button class="btn btn-xs btn-warning" @click="deleteUser" :disabled="!isChecked">회원탈퇴</button>
+    <button class="btn btn-warning" @click="deleteUser" :disabled="!isChecked">회원탈퇴</button>
     
     <!-- 취소 버튼 -->
-    <button @click="cancel">취소</button>
+    <button class="btn btn-secondary" @click="cancel">취소</button>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import { mapActions } from "vuex";
 
 export default {
   data() {
@@ -38,29 +39,25 @@ export default {
     };
   },
   methods: {
-    
+    ...mapActions(["logoutUser"]),
     async deleteUser() {
       if (!this.isChecked) {
         alert("회원탈퇴를 위해서는 반드시 동의해야 합니다.");
         return;
-      }
-      
+      } 
       if (!this.user_id) {
         alert("로그인이 필요합니다.");
         return;
       }
-
       try {
         const response = await axios.delete(`/api/memdelete/${this.user_id}`);
+        
         if (response.data.success) {
           alert("회원 탈퇴가 정상적으로 처리되었습니다.");
           sessionStorage.removeItem('user_id'); // 세션에서 사용자 ID를 제거합니다.
-          sessionStorage.removeItem('user_resp'); // 세션에서 사용자 ID를 제거합니다.
           sessionStorage.removeItem('name');
-
-           window.location.href = '/';
-
-          this.$router.push({ path: "/" }); // 메인 페이지로 이동합니다.
+          this.logoutUser();
+          this.$router.push('/login'); // 로그인 페이지로 이동합니다.
         } else {
           alert("회원 탈퇴가 정상적으로 처리되지 않았습니다.");
         }
@@ -69,39 +66,89 @@ export default {
         alert("회원 탈퇴 중 오류가 발생했습니다.");
       }
     },
+    
     cancel() {
       this.$router.back(); // 이전 페이지로 돌아갑니다.
-    },
-    logout() {
-      const { Kakao } = window;
-
-      // Kakao SDK에서 로그아웃 처리
-      Kakao.Auth.logout(function() {
-        console.log('카카오 로그아웃 성공');
-        
-        // 세션 스토리지 및 Vuex 스토어에서 사용자 정보 삭제
-        sessionStorage.removeItem('user_id');
-        this.updateLoginInfo({ user_id: '' }); // Vuex 스토어 업데이트 예시
-
-        // 로그아웃 후 필요한 추가 처리 (예: 홈 화면으로 이동)
-        this.$router.push('/');
-      }.bind(this));
     }
   }
 };
- 
 </script>
 
 <style scoped>
+.col-md-9 {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+ul {
+  margin-bottom: 20px;
+  padding-left: 20px;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+input[type="checkbox"] {
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+label {
+  vertical-align: middle;
+}
+
 .btn {
-  margin: 10px;
-  padding: 10px;
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-warning {
   background-color: #ff9800;
   color: white;
   border: none;
-  cursor: pointer;
 }
-.btn:hover {
+
+.btn-warning:hover {
   background-color: #e68900;
+}
+
+.btn-secondary {
+  background-color: #ccc;
+  color: #333;
+  border: none;
+}
+
+.btn-secondary:hover {
+  background-color: #bbb;
 }
 </style>
