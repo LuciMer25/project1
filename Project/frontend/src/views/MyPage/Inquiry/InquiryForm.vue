@@ -79,7 +79,7 @@ export default {
         const formData = new FormData();
         formData.append('inquiry_title', this.inquiryInfo.inquiry_title);
         formData.append('inquiry_content', this.inquiryInfo.inquiry_content);
-        formData.append('user_id', this.user.user_id);
+        formData.append('user_id', user.user_id);
         // const response = (await axios.post('/api/inquiry', { user_id:user.user_id }));
         // this.inquiryInfo = response.data;
             if(this.file){

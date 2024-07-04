@@ -34,6 +34,11 @@ const store = createStore({
     logoutUser({ commit }) {
       // 로그아웃 액션
       commit('clearUser');
+      sessionStorage.removeItem('user_id');
+      sessionStorage.removeItem('name');
+      sessionStorage.removeItem('user_resp');
+      // localStorage.removeItem('user');
+
     },
     updateItemList({ commit }, itemList) {
       commit('setItemList', itemList);

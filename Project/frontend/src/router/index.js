@@ -221,7 +221,7 @@ const routes = [
     children: [
       // 마이페이지 메인
       {
-        path: '/mypagemain',
+        path: '',
         component: MyPageMain,
       },
       // 문의페이지

@@ -11,7 +11,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                        <li><RouterLink to="/" class="dropdown-item" @click.prevent="logout">Logout</RouterLink></li>
                     </ul>
                 </li>
             </ul>
@@ -19,6 +19,19 @@
 
 </template>
 <script>
+import { mapActions } from 'vuex';
+import { RouterLink } from 'vue-router';
+export default {
+    data(){
+
+    },
+    methods: {
+        ...mapActions(['logoutUser']),
+        logout() {
+            this.logoutUser();
+        }  
+    }
+}
 
 </script>
 <style>

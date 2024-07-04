@@ -70,6 +70,7 @@ export default{
             nextTick(() => {
                 if (this.dataTableInstance) {
                     this.dataTableInstance.destroy();
+                    
                 }
                 const myTable = this.$refs.dataTable;
                 if (myTable && this.cancelAllList.length > 0) {
@@ -110,7 +111,10 @@ export default{
                 await axios.put(`/api/adminOrder/updateCancelComplete/${this.orderNo}`)
                     .then(()=> {
                         this.$swal("취소완료 되었습니다.")
-                        this.fetchCencelList();
+                        // this.fetchCencelList();
+                        this.$router.go(this.$router.currentRoute)
+                        // this.refreshData();
+                        
                     })
                     
             } catch (error) {
