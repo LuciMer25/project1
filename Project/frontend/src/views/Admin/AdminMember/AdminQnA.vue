@@ -1,114 +1,145 @@
 <template>
-    <div class="container-fluid px-4">
-        <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item active"> </li>
-        </ol>
-        <div class="card mb-4">
-            <div class="card-header">
-                <i class="fas fa-table me-1"></i>
-                상품 Q&A 리스트
-            </div>
-            <div class="card-body">
-                <table ref="dataTable">
-                    <thead>
-                        <tr>
-                            <th>게시글 번호</th>
-                            <th>상품명</th>
-                            <th>Q&A 제목</th>
-                            <th>회원ID</th>
-                            <th>작성일</th>
-                            <th>답변상태</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="qna in qnaList" :key="qna.qna_no">
-                            <td v-text="qna.qna_no"></td> 
-                            <td >
-                                <button class="infoBtn" :data-prod-no="qna.prod_no">
-                                    {{ qna.prod_name }}
-                                </button>
-                            </td>
-                            <td >
-                                <button class="detailBtn" :data-qna-no="qna.qna_no">
-                                    {{ qna.qna_title }}
-                                </button>
-                            </td>
-                            <td v-text="qna.user_id"></td>
-                            <td>{{ formatDate(qna.reg_date) }}</td>
-                            <td v-text="qna.comment_state"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</template>
-<script>
-import { DataTable } from "simple-datatables";
-import { nextTick } from 'vue';
-import axios from 'axios'
-
-export default{
+    <v-container fluid>
+      <v-breadcrumbs class="mb-4">
+        <v-breadcrumbs-item>상품 Q&A 리스트</v-breadcrumbs-item>
+      </v-breadcrumbs>
+      <v-card class="mb-4">
+        <v-card-title>
+          <v-icon left>mdi-table</v-icon>
+          상품 Q&A 리스트
+        </v-card-title>
+        <v-card-text>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+          ></v-text-field>
+          <v-data-table
+            :headers="headers"
+            :items="filteredQnA"
+            item-key="qna_no"
+            class="elevation-1"
+          >
+            <template v-slot:header.qna_no>
+              <th class="text-left">게시글 번호</th>
+            </template>
+            <template v-slot:header.prod_name>
+              <th class="text-left">상품명</th>
+            </template>
+            <template v-slot:header.qna_title>
+              <th class="text-left">Q&A 제목</th>
+            </template>
+            <template v-slot:header.user_id>
+              <th class="text-left">회원ID</th>
+            </template>
+            <template v-slot:header.reg_date>
+              <th class="text-left">작성일</th>
+            </template>
+            <template v-slot:header.comment_state>
+              <th class="text-left">답변상태</th>
+            </template>
+            <template v-slot:[`item.prod_name`]="{ item }">
+              <span class="infoSpan" @click="goInfo(item.prod_no)">
+                {{ item.prod_name }}
+              </span>
+            </template>
+            <template v-slot:[`item.qna_title`]="{ item }">
+              <span class="detailSpan" @click="goDetail(item.qna_no)">
+                {{ item.qna_title }}
+              </span>
+            </template>
+            <template v-slot:[`item.reg_date`]="{ item }">
+              {{ formatDate(item.reg_date) }}
+            </template>
+          </v-data-table>
+        </v-card-text>
+      </v-card>
+    </v-container>
+  </template>
+  
+  <script>
+  import axios from 'axios';
+  
+  export default {
     data() {
-        return {
-            dataTableInstance: null,
-            qnaList : [],
-            qnaNo : null
-        };
+      return {
+        search: '',
+        qnaList: [],
+        headers: [
+          { text: 'qna_no', value: 'qna_no' },
+          { text: 'prod_name', value: 'prod_name' },
+          { text: 'qna_title', value: 'qna_title' },
+          { text: 'user_id', value: 'user_id' },
+          { text: 'reg_date', value: 'reg_date' },
+          { text: 'comment_state', value: 'comment_state' },
+        ],
+      };
     },
-    created(){
-        axios.get('/api/adminBoard/qnaAllList')
-        .then(res => {
-            this.qnaList = res.data.list
-            console.log(this.qnaList);
-            this.dataTable();
-            this.rebindEvents();
+    created() {
+      this.fetchQnAList();
+    },
+    computed: {
+      filteredQnA() {
+        const searchTerm = this.search.toLowerCase();
+        return this.qnaList.filter((qna) => {
+          const qnaTitle = qna.qna_title ? qna.qna_title.toLowerCase() : '';
+          const prodName = qna.prod_name ? qna.prod_name.toLowerCase() : '';
+          const userId = qna.user_id ? qna.user_id.toLowerCase() : '';
+          const regDate = qna.reg_date ? this.formatDate(qna.reg_date).toLowerCase() : '';
+          const commentState = qna.comment_state ? qna.comment_state.toLowerCase() : '';
+          
+          return (
+            qnaTitle.includes(searchTerm) ||
+            prodName.includes(searchTerm) ||
+            userId.includes(searchTerm) ||
+            regDate.includes(searchTerm) ||
+            commentState.includes(searchTerm)
+          );
         });
+      },
     },
     methods: {
-        dataTable() {
-            nextTick(() => {
-                if (this.dataTableInstance) {
-                    this.dataTableInstance.destroy();
-                }
-                const myTable = this.$refs.dataTable;
-                if (myTable && this.qnaList.length > 0) {
-                    this.dataTableInstance = new DataTable(myTable);
-                }
-            });
-        },
-        rebindEvents() {
-            const tableBody = this.$refs.dataTable.querySelector('tbody');
-            tableBody.addEventListener('click', (event) => {
-                const target = event.target;
-                if (target.classList.contains('detailBtn')) {
-                    const qnaNo = target.dataset.qnaNo;
-                    this.goDetail(qnaNo);
-                } else if (target.classList.contains('infoBtn')) {
-                    const prodNo = target.dataset.prodNo;
-                    this.goInfo(prodNo);
-                }
-            });
-        },
-        goDetail(qna_no){
-            this.qnaNo = qna_no;
-            this.$router.push(`qnaInfo/${this.qnaNo}`)
-        },
-        goInfo(prod_no){
-            this.prodNo = prod_no;
-            this.$router.push(`prodInfo/${this.prodNo}`)
-        },
-        formatDate(dateStr) {
-            const date = new Date(dateStr);
-            const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const day = String(date.getDate()).padStart(2, '0');
-            const hours = String(date.getHours()).padStart(2, '0');
-            const minutes = String(date.getMinutes()).padStart(2, '0');
-            const seconds = String(date.getSeconds()).padStart(2, '0');
-            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-        },
+      async fetchQnAList() {
+        try {
+          const res = await axios.get('/api/adminBoard/qnaAllList');
+          this.qnaList = res.data.list;
+        } catch (error) {
+          console.error('Error fetching Q&A list', error);
+        }
+      },
+      goDetail(qna_no) {
+        this.$router.push(`qnaInfo/${qna_no}`);
+      },
+      goInfo(prod_no) {
+        this.$router.push(`prodInfo/${prod_no}`);
+      },
+      formatDate(dateStr) {
+        const date = new Date(dateStr);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      },
     },
-
-}
-</script>
+  };
+  </script>
+  
+  <style scoped>
+  .container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .infoSpan,
+  .detailSpan {
+    cursor: pointer;
+  }
+  .infoSpan:hover,
+  .detailSpan:hover {
+    text-decoration: underline;
+  }
+  </style>

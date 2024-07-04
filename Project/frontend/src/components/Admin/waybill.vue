@@ -47,7 +47,6 @@ export default {
           console.log(this.orderNo, this.wayBill);
           this.close();
         })
-        .then(() => this.$router.go(this.$router.currentRoute))
         .catch(() => {
           this.$swal('운송장 번호 등록에 실패했습니다.');
         });

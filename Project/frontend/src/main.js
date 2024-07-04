@@ -5,6 +5,7 @@ import router from './router';
 
 // Vuetify
 import 'vuetify/styles';
+
 import { createVuetify } from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
@@ -19,6 +20,7 @@ import store from "./store"; //Vuex 저장소 추가
 import VueDaumPostcode from 'vue-daum-postcode';
 import Pagination from 'vue-pagination-2';
 
+
 const vuetify = createVuetify({
   components,
   directives,
@@ -30,7 +32,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import "startbootstrap-sb-admin/dist/css/styles.css";
-import "simple-datatables/dist/style.css";
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
