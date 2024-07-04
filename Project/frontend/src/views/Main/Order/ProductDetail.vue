@@ -107,6 +107,42 @@
     </button>
   </v-col>
 </v-row>
+<v-col cols="12" md="3" class="right-case">
+  <div class="product-info center-content">
+    <h1 class="product-title" v-text="product.prod_name"></h1>
+    <h2 class="price">{{ formatPrice(product.price) }}원</h2>
+    <p class="origin">원산지: 상품정보 원산지표시 참조</p>
+    <v-row class="quantity-selector" align="center" justify="center">
+      <v-col cols="auto" class="text-right">
+        <span>수량선택</span>
+      </v-col>
+      <v-col cols="auto">
+        <button @click="decreaseQuantity" class="quantity-btn">-</button>
+      </v-col>
+      <v-col cols="auto">
+        <input
+          v-model="quantity"
+          type="number"
+          min="1"
+          readonly
+          class="quantity-input"
+        />
+      </v-col>
+      <v-col cols="auto">
+        <button @click="increaseQuantity" class="quantity-btn">+</button>
+      </v-col>
+    </v-row>
+    <h2 class="total-price">총금액: {{ formatPrice(order_amount) }}원</h2>
+    <div class="actions">
+  <v-col cols="auto">
+    <v-btn outlined color="red" class="mx-2 inline-btn" @click="setCart">장바구니</v-btn>
+  </v-col>
+  <v-col cols="auto">
+    <v-btn color="red" class="mx-2 inline-btn" @click="gotoOrderPage">바로구매</v-btn>
+  </v-col>
+</div>
+  </div>
+</v-col>
   <div id="detail">
       <ContentsImg :img="`/api/upload/products/${product.prod_no}/${product.prod_content_img}`"/>
     </div>
@@ -306,7 +342,19 @@ export default {
   padding: 0; /* padding 제거 */
 }
 
-
+.right-case {
+  position: sticky;
+  top: 20px; /* 필요에 따라 조정 */
+  align-self: flex-start;
+  height: fit-content;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  max-width: 300px; /* 원하는 최대 너비로 조정 */
+  margin-left: auto; /* 우측 정렬 */
+  z-index: 1000;
+}
 
 .w-100 {
   width: 100%;
@@ -343,7 +391,15 @@ export default {
 
 .actions {
   display: flex;
+  flex-direction: column;
+  align-items: center; /* 중앙 정렬 */
   gap: 10px;
+}
+
+.inline-btn {
+  display: block;
+  width: 100%;
+  max-width: 200px; /* 버튼의 최대 너비를 설정 */
 }
 
 .mx-auto {
@@ -363,5 +419,31 @@ export default {
 .bordered-button {
   border: 1px solid #ccc; /* 테두리 추가 */
   border-radius: 4px; /* 테두리 모서리 둥글게 */
+}
+
+.center-content {
+  text-align: center;
+}
+
+.quantity-btn {
+  width: 25px;
+  height: 32px;
+  line-height: 32px;
+  padding: 0;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.quantity-input {
+  width: 30px;
+  height: 32px;
+  font-size: 1.2rem;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0;
 }
 </style>
