@@ -36,21 +36,48 @@
     </v-row>
     <v-row class="menu-bar" justify="center">
       <v-col cols="auto" class="menu-button">
-        <button class="w-100" @click="showSection('detail')">
+        <button class="w-100" @click="scrollTo('detail')">
           <span>상세정보</span>
         </button>
       </v-col>
       <v-col cols="auto" class="menu-button">
-        <button class="w-100" @click="showSection('reviews')">
+        <button class="w-100"  @click="scrollTo('reviews')">
           <span>상품후기 {{ product.cnt }}</span>
         </button>
       </v-col>
       <v-col cols="auto" class="menu-button">
-        <button class="w-100" @click="showSection('inquiries')">
+        <button class="w-100" @click="scrollTo('inquiries')">
           <span>상품문의 6</span>
         </button>
       </v-col>
     </v-row>
+    <v-col cols="12" md="3" class="right-case">
+    <div class="product-info center-content">
+      <h1 class="product-title" v-text="product.prod_name"></h1>
+      
+        <p class="origin">원산지: 상품정보 원산지표시 참조</p>
+        <v-row class="quantity-selector" align="center" justify="center">
+          <v-col cols="auto" class="text-right">
+          </v-col>
+          <v-col cols="auto">
+           
+          </v-col>
+          <v-col cols="auto">
+            
+          </v-col>
+          <v-col cols="auto">
+          </v-col>
+        </v-row>
+        <div class="actions">
+          <v-col cols="auto">
+           
+          </v-col>
+          <v-col cols="auto">
+            
+          </v-col>
+        </div>
+      </div>
+    </v-col>
     <div id="detail" v-if="activeSection === 'detail'">
       <ContentsImg :img="`/api/upload/products/${product.prod_no}/${product.prod_content_img}`"/>
     </div>
@@ -88,8 +115,14 @@ export default {
       });
   },
   methods: {
-    showSection(section) {
-      this.activeSection = section;
+    // showSection(section) {
+    //   this.activeSection = section;
+    // },
+    scrollTo(sectionId) {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     },
     goUpdateForm(prod_no) {
       this.$router.push(`/admin/prodUpdate/${prod_no}`);
@@ -192,5 +225,19 @@ export default {
 
 .menu-button:hover {
   background-color: #e0e0e0;
+}
+
+.right-case {
+  position: sticky;
+  top: 20px; /* 필요에 따라 조정 */
+  align-self: flex-start;
+  height: fit-content;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  max-width: 300px; /* 원하는 최대 너비로 조정 */
+  margin-left: auto; /* 우측 정렬 */
+  z-index: 1000;
 }
 </style>
