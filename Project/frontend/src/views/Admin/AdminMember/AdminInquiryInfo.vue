@@ -35,10 +35,13 @@
           </tr>
           <tr>
             <th scope="col" class="text-center table-primary">답변 작성일</th>
-            <td colspan="4" class="text-center">{{ inquiryInfo.reply_reg_date }}</td>
+            <td colspan="4" class="text-center">{{ formatDate(inquiryInfo.reply_reg_date) }}</td>
             <td class="text-center">
               <button v-if="!inquiryInfo.reply_reg_date" class="btn btn-xs btn-info" @click="addReply">등록</button>
               <button v-if="inquiryInfo.reply_reg_date" class="btn btn-xs btn-info" @click="updateReply">수정</button>
+            </td>
+            <td class = "text-center">
+              <button class="btn btn-xs btn-info" @click= "backBtn">뒤로가기</button>
             </td>
           </tr>
         </tbody>
@@ -105,7 +108,10 @@ methods: {
         const minutes = String(date.getMinutes()).padStart(2, '0');
         const seconds = String(date.getSeconds()).padStart(2, '0');
         return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-    },
-  }
+  },
+  backBtn(){
+    this.$router.push(`/admin/qnaList`)
+  },
+}
 };
 </script>
