@@ -3,9 +3,10 @@
     <div class="login-box">
       <div class="login-wrapper">
         <h2>회원가입</h2>
+        <hr>
         <input type="button" value="아이디찾기" @click="showIdModal = true">  /
         <input type="button" value="비밀번호찾기" @click="showPasswordModal = true">
-
+       
         <!-- 아이디 찾기 모달 -->
         <div class="modal-wrap" v-show="showIdModal">
           <div class="modal-container">
@@ -16,7 +17,7 @@
                 <hr>
                 <input type="text" name="phone" placeholder="전화번호" v-model="userFind.phone">
                 <div class="modal-btn">
-                  <button type="button" @click="closeIdModal">닫기</button>
+                  <button type="button" @click="closeIdModal">닫기</button> /
                   <button type="submit">확인</button>
                 </div>
               </form>
@@ -42,7 +43,7 @@
                 <hr>
                 <input type="text" name="phone" placeholder="전화번호" v-model="userpwFind.phone">
                 <div class="modal-btn">
-                  <button type="button" @click="closePasswordModal">닫기</button>
+                  <button type="button" @click="closePasswordModal">닫기</button>  /
                   <button type="submit">확인</button>
                 </div>
               </form>
