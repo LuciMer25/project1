@@ -1,12 +1,21 @@
 <template>
   <div class="col-md-9">
     <form @submit.prevent>
-      <label for="name">리뷰등록</label>
-      <input
-        type="text"
-        id="score"
-        v-model="reviewInfo.score"
-        placeholder="1~5점까지 입력해주세요"/>
+      <label for="name">리뷰등록</label><br>
+        <div>
+        <label>평점</label><br>
+        <input type="radio" id="score1" value="1" v-model="reviewInfo.score" />
+        <label for="score1">1</label>
+        <input type="radio" id="score2" value="2" v-model="reviewInfo.score" />
+        <label for="score2">2</label>
+        <input type="radio" id="score3" value="3" v-model="reviewInfo.score" />
+        <label for="score3">3</label>
+        <input type="radio" id="score4" value="4" v-model="reviewInfo.score" />
+        <label for="score4">4</label>
+        <input type="radio" id="score5" value="5" v-model="reviewInfo.score" />
+        <label for="score5">5</label>
+      </div>
+        
       <input type="text" id="review_title" v-model="reviewInfo.review_title" />
       <textarea
         id="review_content"
@@ -35,9 +44,9 @@ export default {
         score: '',
         review_title: '',
         review_content: '',
-        user_id: '맹선우',
+        user_id: '',
         review_img: '',
-        order_no: '1',
+        order_no: 1,
         prod_no: 1,
       },
       file: null,
@@ -81,21 +90,20 @@ export default {
       console.log(this.file);
     },
     async saveBoard() {
-      const url = "/api/review";
-      // const result = (await axios.post(url, param)).data;
+      const user = sessionStorage.getItem('user_id');//this.$store.getters.getUserInfo;
+      console.log('유저정보'+user);
       const formData = new FormData();
       formData.append("score", this.reviewInfo.score);
       formData.append("review_title", this.reviewInfo.review_title);
       formData.append("review_content", this.reviewInfo.review_content);
-      formData.append("user_id", this.reviewInfo.user_id);
+      formData.append("user_id", user);
       formData.append("order_no", this.reviewInfo.order_no);
       formData.append("prod_no", this.reviewInfo.prod_no);
       if (this.file) {
         formData.append("avatar", this.file);
         console.log(this.file);
       }
-      axios
-        .post("/api/review", formData, {
+      axios.post("/api/review", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },

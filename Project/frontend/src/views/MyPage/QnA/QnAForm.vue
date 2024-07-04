@@ -29,8 +29,8 @@
         qnaInfo: {
           qna_title: '',
           qna_content: '',
-          user_id: '맹',
-          prod_no: '123456',
+          user_id: '',
+          prod_no: 2,
           qna_img: '',
         },
         file: null,
@@ -74,30 +74,12 @@
             console.log(this.file);
         },
       async saveBoard(no) {
-        const url = "/api/qna";
-        // let param = {
-        //   qna_title: this.qnaInfo.qna_title,
-        //   qna_content: this.qnaInfo.qna_content,
-        //   // reg_date: this.qnaInfo.reg_date,
-        //   user_id: this.qnaInfo.user_id,
-        //   prod_no: this.qnaInfo.prod_no,
-        //   qna_img: this.file
-        // };
-        //수정
-        
-          // const result = (await axios.put(`${url}/${qna_no}`, param)).data;
-          // if (result.affectedRows > 0) {
-          //   alert("정상적으로 수정되었습니다.");
-          // } else {
-          //   alert("정상적으로 저장되지 않았습니다.");
-          // }
-          //등록
-       
-          // const result = (await axios.post(url, param)).data;
+        const user = sessionStorage.getItem('user_id');
+        console.log('유저정보'+user);
           const formData = new FormData();
             formData.append('qna_title', this.qnaInfo.qna_title);
             formData.append('qna_content', this.qnaInfo.qna_content);
-            formData.append('user_id', this.qnaInfo.user_id);
+            formData.append('user_id', user);
             formData.append('prod_no', this.qnaInfo.prod_no);
             if(this.file){
                 formData.append('avatar', this.file);
@@ -113,14 +95,6 @@
                 alert('등록되었습니다.')
                 this.$router.push('/qnaList')
             })
-          // if (result.insertId > 0) {
-          //   alert("정상적으로 등록되었습니다.");
-          //   //this.boardInfo.no = result.insertId;
-          //   this.$router.push({ path: "/qnaList" });
-          // } else {
-          //   alert("정상적으로 저장되지 않았습니다.");
-          // }
-   
       },
       getToday() {
         // return this.$dateFormat("");

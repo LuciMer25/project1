@@ -5,8 +5,8 @@ module.exports = {
     qnaInfo: `SELECT qna_no, user_id, qna_title, reg_date, qna_content, comment_state, prod_no, qna_img 
               FROM QnA
               WHERE qna_no = ? `,
-    qnaInsert: `INSERT INTO QnA
-                SET ?`,
+    qnaInsert: `INSERT INTO QnA(qna_title, qna_content, user_id, qna_img, prod_no)
+                VALUES(?,?,?,?,?)`,
     qnaUpdate: `UPDATE QnA
                 SET qna_title = ?, qna_content = ?, reg_date = CURRENT_TIMESTAMP
                 WHERE qna_no = ?`,

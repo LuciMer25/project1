@@ -39,7 +39,7 @@
     <input type="submit" class="btn" value="수정하기"/>
     <button type="button" class="btn btn-danger" @click="goToDeletePage">회원탈퇴</button>
   </form>
-</div>
+  </div>
 </template>
 
 <script>

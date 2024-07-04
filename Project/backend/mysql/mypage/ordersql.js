@@ -22,12 +22,21 @@ module.exports = {
     orderConfirm: `UPDATE orders
                    SET order_state = '구매확정' 
                    WHERE order_no = ?`,
+    updateConfirmState: `UPDATE order_state
+                         SET buy_complete_date = CURRENT_TIMESTAMP
+                         WHERE order_no = ?`,
     cancelRevoke: `UPDATE orders
                    SET order_state = '상품준비중'
                    WHERE order_no = ?
                    AND order_state = '취소요청'`,
+    updateCancelState: `UPDATE order_state
+                   SET cancel_req_date = CURRENT_TIMESTAMP
+                   WHERE order_no = ?`,
     returnCancel: `UPDATE orders
                    SET order_state = '배송완료'
                    WHERE order_no = ?
-                   AND order_state = '반품요청'`
+                   AND order_state = '반품요청'`,
+    updateReturnState: `UPDATE order_state
+                   SET return_req_date = CURRENT_TIMESTAMP
+                   WHERE order_no = ?`,
 }
