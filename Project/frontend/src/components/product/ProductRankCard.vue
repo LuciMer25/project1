@@ -2,7 +2,7 @@
   <div class="col-md-3">
     <div class="card">
       <div class="position-relative">
-          <img :src="`/api/upload/products/${product.prod_no}/${product.prod_img}`" class="card-img-top" alt="Product Image" @click="gotoDetail(product.prod_no)">
+          <img :src="`/api/upload/products/${product.prod_img}`" class="card-img-top" alt="Product Image" @click="gotoDetail(product.prod_no)">
           <span class="rank-badge">{{ rank + 1  }}</span> <!-- 순위 표시 -->
         </div>
       <div class="card-body">

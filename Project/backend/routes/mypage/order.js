@@ -65,4 +65,19 @@ router.put("/returnOrder/:order_no", async (req, res) => {
   res.send({ result, result1 });
 });
 
+// 주문상세
+router.get('/myPageOrderProdDetail/:no' , async(req, res) => {
+  const no = req.params.no;
+  const user_id = req.query.user_id;
+  let list = await query("myPageOrderProdDetail", [user_id , no]);
+  res.send({ list });
+})
+router.get('/myPageOrderUserDetail/:no', async (req, res) => {
+  const no = req.params.no;
+  const user_id = req.query.user_id;
+  let list = await query("myPageOrderUserDetail", [user_id , no]);
+  res.send( list[0] )
+})
+
+
 module.exports = router;

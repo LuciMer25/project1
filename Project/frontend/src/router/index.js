@@ -32,6 +32,7 @@ import ReviewUpdate from '../views/MyPage/Review/ReviewUpdate.vue'
 import WishList from '../views/MyPage/WishList/wishList.vue'
 // 주문/배송(맹)
 import OrderList from '../views/MyPage/Order/OrderList.vue'
+import OrderDetail from '../views/MyPage/Order/OrderDetail.vue'
 // 취소/반품(맹)
 import CancelList from '../views/MyPage/Cancel/CancelList.vue'
 // 마이페이지 사이드바(삭제 예정)
@@ -310,6 +311,10 @@ const routes = [
         path: '/DeleteMem',
         component: DeleteMem,
       },
+      {
+        path: '/OrderDetail/:no',
+        component: OrderDetail
+      }
     ]
   },
 

@@ -16,7 +16,7 @@
                       <v-checkbox v-model="item.selected"></v-checkbox>
                     </v-col>
                     <v-col cols="2">
-                      <v-img :src="`/api/upload/products/${item.prod_no}/${item.prod_img}`" contain height="50"></v-img>
+                      <v-img :src="`/api/upload/products/${item.prod_img}`" contain height="50"></v-img>
                     </v-col>
                     <v-col cols="4">
                       <span>{{ item.prod_name }}</span>
@@ -66,6 +66,8 @@
 
 <script>
 import axios from 'axios';
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 export default {
   data() {
     return {
@@ -100,9 +102,21 @@ export default {
           const response = (await axios.post('/api/cart', { user_id:user.user_id }));
           this.cartItems = response.data;
         }
-        else{
-          alert('접근 권한 없음. 로그인 페이지로 이동합니다.');
-          this.$router.push({ name: 'login' });
+        else{ // 여기가 접근 제한
+        
+            this.$swal.fire({
+            title: '잘못된 접근',
+            text: '로그인 페이지로 이동합니다.',
+            icon: 'warning',
+            confirmButtonColor: '#d33',
+            confirmButtonText: '확인',
+          })
+            .then((result) => {
+            if (result.isConfirmed) {
+              this.$router.replace('/login');
+            }
+          });
+         
         }
       } catch (error) {
         console.error(error);
@@ -180,8 +194,14 @@ export default {
           this.$store.dispatch('updateItemList', selectedItems);
           this.$router.push({ name: 'order' });
         }
-        else{
-          alert('장바구니 상품을 선택해주세요!');
+        else{ // 여기가 주문 예외 확인
+          this.$swal.fire({
+          title: '주문 오류!',
+          text: '장바구니 상품을 선택해주세요!',
+          icon: 'warning',
+          confirmButtonColor: '#d33',
+          confirmButtonText: '확인',
+         })
         }
 
       // alert("Order placed for " + this.formatPrice(this.totalAmount) + "원");

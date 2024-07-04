@@ -68,12 +68,12 @@
   </v-col>
   <v-col cols="auto" class="menu-button">
     <button text class="w-100" @click="scrollTo('reviews')">
-      <span>상품후기 {{ product.cnt }}</span>
+      <span>상품후기({{ product.cnt }}건)</span>
     </button>
   </v-col>
   <v-col cols="auto" class="menu-button">
     <button text class="w-100" @click="scrollTo('inquiries')">
-      <span>상품문의</span>
+      <span>상품문의({{ qnaCount }}건)</span>
     </button>
   </v-col>
 </v-row>
@@ -114,7 +114,7 @@
   </div>
 </v-col>
   <div id="detail">
-      <ContentsImg :img="`/api/upload/products/${product.prod_no}/${product.prod_content_img}`"/>
+      <ContentsImg :img="`/api/upload/products/${product.prod_content_img}`"/>
     </div>
     <div id="reviews">
       <ReviewComponent :prodNo="this.$route.params.prodNo"></ReviewComponent>
@@ -143,10 +143,12 @@ export default {
       fallbackImage:'/imgs/loadfail.jpg',
       toggleMessage:'',
       iswished:false,
-      modalMessage:''
+      modalMessage:'',
+      qnaCount:0,
     };
   },
   created() {
+    this.fetchQnaCount();
     this.getProduct(this.$route.params.prodNo);
   },
   computed: {
@@ -155,6 +157,12 @@ export default {
     },
   },
   methods: {
+    async fetchQnaCount(){
+      const prodNo = this.$route.params.prodNo;
+      const res = await axios.get(`/api/adminBoard/qnaCount/${prodNo}`)
+      this.qnaCount = res.data.count;
+      console.log(this.qnaCount)
+    },
     scrollTo(sectionId) {
       const element = document.getElementById(sectionId);
       if (element) {
@@ -176,7 +184,7 @@ export default {
         console.log(user);
         let result =(await axios.post(`/api/productInfo/withWish/`,{no:no,user_id:user.user_id}));
         this.product = result.data.product[0];
-        //this.titleImage = `/api/upload/products/${this.product.prod_no}/${this.product.prod_img}`; 
+        
         this.iswished = typeof result.data.iswished[0] !== 'undefined';
         //console.log(this.iswished);
       }
@@ -184,7 +192,7 @@ export default {
         this.product = (await axios.get(`/api/productInfo/${no}`)).data[0]
         //console.log('user정보 없음');
       }
-      
+      this.titleImage = `/api/upload/products/${this.product.prod_img}`; 
     },
     onImageError() {
       this.titleImage = this.fallbackImage; // 이미지 로딩 실패 시 대체 이미지로 변경
