@@ -114,7 +114,7 @@
   </div>
 </v-col>
   <div id="detail">
-      <ContentsImg :img="`/api/upload/products/${product.prod_no}/${product.prod_content_img}`"/>
+      <ContentsImg :img="`/api/upload/products/${product.prod_content_img}`"/>
     </div>
     <div id="reviews">
       <ReviewComponent :prodNo="this.$route.params.prodNo"></ReviewComponent>
@@ -184,7 +184,7 @@ export default {
         console.log(user);
         let result =(await axios.post(`/api/productInfo/withWish/`,{no:no,user_id:user.user_id}));
         this.product = result.data.product[0];
-        //this.titleImage = `/api/upload/products/${this.product.prod_no}/${this.product.prod_img}`; 
+        
         this.iswished = typeof result.data.iswished[0] !== 'undefined';
         //console.log(this.iswished);
       }
@@ -192,7 +192,7 @@ export default {
         this.product = (await axios.get(`/api/productInfo/${no}`)).data[0]
         //console.log('user정보 없음');
       }
-      
+      this.titleImage = `/api/upload/products/${this.product.prod_img}`; 
     },
     onImageError() {
       this.titleImage = this.fallbackImage; // 이미지 로딩 실패 시 대체 이미지로 변경

@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="12" md="6" class="text-center">
         <v-img 
-          :src="`/api/upload/products/${this.product.prod_no}/${this.product.prod_img}`" 
+          :src="`/api/upload/products/${this.product.prod_img}`" 
           alt="상품 이미지" 
           max-height="300"
           max-width="300"
