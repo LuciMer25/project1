@@ -69,7 +69,7 @@
         font-weight: bold;
     }
 
-    .footer-bottom{
+    .footer-bottom p{
         width:70%;
         margin:auto;
     }

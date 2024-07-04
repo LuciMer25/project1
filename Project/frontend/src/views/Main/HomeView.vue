@@ -1,7 +1,9 @@
 <template>
-    <div>메인시작화면</div>
-  <v-btn @click="gotoOrderPage">결제 테스트</v-btn>
-  <v-btn @click="gotoProductPage">상품상세 테스트</v-btn>
+    <div class="mainstart">
+      <div>메인시작화면</div>
+    <v-btn @click="gotoOrderPage">결제 테스트</v-btn>
+    <v-btn @click="gotoProductPage">상품상세 테스트</v-btn>
+    </div>
 
   <div class="container">
     <NewProductList />
@@ -60,6 +62,9 @@ export default {
 <style>
 .banner {
   background-color : rgb(255, 255, 122);
+}
+.mainstart {
+  text-align: center;
 }
 </style>
 

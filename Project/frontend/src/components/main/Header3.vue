@@ -3,15 +3,15 @@
       <div class="top-head1">
         <RouterLink to="/">HOME</RouterLink>
         <div class="searchBox">
-          <form action="search" method="get" class="search-form">
+          <form @submit.prevent="handleSubmit" action="search" method="get" class="search-form">
             <input v-model="keyword" type="text" class="search-bar" name="product" placeholder="검색어를 입력하세요.">
             <input type="submit" class="search-button" value="Search" >
           </form>
         </div>
         <div class="controlbox">
-          <RouterLink to="/" v-if="isLoggedIn" @click.prevent="logout"><p>로그아웃</p></RouterLink>
+          <RouterLink to="/" v-if="isLoggedIn" @click.prevent="logout"><p>로그아웃 |</p></RouterLink>
           <RouterLink to="/login" v-else><p>로그인 |</p></RouterLink>
-          <RouterLink to="/mypagemain"><p>마이페이지 |</p></RouterLink>
+          <RouterLink to="/mypage/mypagemain"><p>마이페이지 |</p></RouterLink>
           <RouterLink to="/cart"><p>장바구니</p></RouterLink>
         </div>
       </div>
@@ -23,14 +23,14 @@
             <RouterLink v-bind:to="`/category/${category.ctgr_no}`"
               :key="i"
               v-for="(category, i) in Upcategory1"
-              onmouse
             >
               {{ category.ctgr_name }}
             </RouterLink>
             <div class="dropdown2">
-                <RouterLink v-bind:to="`/category/${category.ctgr_no}`"
+                <RouterLink v-bind:to="`/category/1/${category.ctgr_no}`"
                   :key="i"
                   v-for="(category, i) in DownCategory1"
+                 
                 >
                     {{ category.ctgr_name }}
                   </RouterLink>
@@ -43,14 +43,12 @@
               {{ category.ctgr_name }}
             </RouterLink>
             <div class="dropdown2">
-              <div class="dropdown-content2">
-                <RouterLink v-bind:to="`/category/${category.ctgr_no}`"
+                <RouterLink v-bind:to="`/category/2/${category.ctgr_no}`"
                   :key="i"
                   v-for="(category, i) in DownCategory2"
                 >
                     {{ category.ctgr_name }}
                   </RouterLink>
-              </div> 
             </div>
   
             <RouterLink v-bind:to="`/category/${category.ctgr_no}`"
@@ -60,14 +58,12 @@
               {{ category.ctgr_name }}
             </RouterLink>
             <div class="dropdown2">
-                <div class="dropdown-content2">
-                  <RouterLink v-bind:to="`/category/${category.ctgr_no}`"
+                  <RouterLink v-bind:to="`/category/3/${category.ctgr_no}`"
                   :key="i"
                   v-for="(category, i) in DownCategory3"
                   >
                     {{ category.ctgr_name }}
                   </RouterLink>
-              </div> 
             </div>
   
             <RouterLink v-bind:to="`/category/${category.ctgr_no}`"
@@ -77,14 +73,12 @@
               {{ category.ctgr_name }}
             </RouterLink>
             <div class="dropdown2">
-                <div class="dropdown-content2">
-                  <RouterLink v-bind:to="`/category/${category.ctgr_no}`"
+                  <RouterLink v-bind:to="`/category/4/${category.ctgr_no}`"
                   :key="i"
                   v-for="(category, i) in DownCategory4"
                   >
                     {{ category.ctgr_name }}
                   </RouterLink>
-              </div> 
             </div>
             
             <RouterLink v-bind:to="`/category/${category.ctgr_no}`"
@@ -94,14 +88,12 @@
               {{ category.ctgr_name }}
             </RouterLink>
             <div class="dropdown2">
-                <div class="dropdown-content2">
-                  <RouterLink v-bind:to="`/category/${category.ctgr_no}`"
+                  <RouterLink v-bind:to="`/category/5/${category.ctgr_no}`"
                   :key="i"
                   v-for="(category, i) in DownCategory5"
                   >
                     {{ category.ctgr_name }}
                   </RouterLink>
-              </div> 
             </div>
   
           </div>
@@ -118,7 +110,8 @@
   </template>
   <script>
   
-  import axios from "axios";
+  import router from "@/router";
+import axios from "axios";
   import { RouterLink } from "vue-router";
   import { mapActions, mapGetters } from "vuex";
   export default {
@@ -139,15 +132,24 @@
   },
   created() {
     this.getcategoryList();
-    this.keyword = this.$route.query.keyword;
+    
+    // this.keyword = this.$route.query.product;
+    console.log(this.$route.query.product);
   },
   computed: {
     ...mapGetters(["isLoggedIn"])
   },
   methods: {
+    async handleSubmit(){
+      this.$router.push({ name: 'search', params: { keyword: this.keyword } })
+    },
     async getcategoryList() {
       let result = await axios.get(`/api/category`);
-  
+      // let result2 = await axios.get('/api/search/product', { 
+      //   params: { 
+      //       product: this.$route.query.product 
+      //   } 
+      // });
       this.Upcategory1 = result.data.UpResult1;
       this.DownCategory1 = result.data.DownResult1;
       this.Upcategory2 = result.data.UpResult2;
@@ -254,11 +256,11 @@
     position : absolute;
     padding:10px;
     width:200px;
-    z-index : 1; 
+    z-index : 1001; 
     background-color:white;
     border:1px solid black;
   }
-  
+
   .dropdown-content a{
     display : block;
     text-decoration: none;
@@ -269,44 +271,19 @@
     display: block;
   }
   
+
   /* 하위 카테고리 */
   .dropdown2{
-    width:250px;
-    left: 199px;
-    top: -1px;
-    position : absolute;
+    width:300px;
+    position : relative;
+    left:-10px;
     padding:10px;
     display:none;
     background-color: white;
     border:1px solid black;
+    z-index: 1002;
   }
 
-  .dropdown-content:hover .dropdown2:nth-child(2){
-    display:block;
-  }
-  
-  /* 탕/국/찌개/간편요리 하위 카테고리 */
-  
-  /* .dropdown2:nth-child(2){
-    display:block;
-  } */
-  
-  /* .dropdown-content a:nth-child(2):hover .dropdown2:nth-child(4) {
-    display:block;
-  } */
-  
-  /* .dropdown-content:hover .dropdown2:nth-child(6) {
-    display:block;
-  }
-  
-  .dropdown-content:hover .dropdown2:nth-child(8) {
-    display:block;
-  }
-  
-  .dropdown-content:hover .dropdown2:nth-child(10) {
-    display:block;
-  }  */
-  
   .controlbox{
     display:flex;
     /* padding:30px; */
@@ -362,5 +339,14 @@
   .dropdown-content a:hover{ 
     color:red;
   }
+
+  .dropdown-content a:hover{
+    color:blue;
+  }
+
+  .dropdown-content:hover .dropdown2{
+    display:block;
+  }
+
   </style>
   
