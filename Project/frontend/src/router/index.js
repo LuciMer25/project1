@@ -223,7 +223,7 @@ const routes = [
     children: [
       // 마이페이지 메인
       {
-        path: 'mypagemain',
+        path: '/mypagemain',
         component: MyPageMain,
       },
       // 문의페이지

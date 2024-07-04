@@ -3,18 +3,19 @@
         <table class="table table-hover">
           <thead>
             <tr>
+              <th>상품번호</th>
               <th>상품이미지</th>
               <th>상품명</th>
               <th>가격</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="wish in wishList">
-            <td>{{ wish.p.prod_no }}</td>
-            <td><img :src="`/api/upload/products/${wish.p.prod_no}/${wish.p.prod_img}`" alt="상품 이미지" width="50" height="50"></td>
-            <td>{{ wish.p.prod_name }}</td>
-            <td>{{ wish.p.price }}</td>
-          </tr>
+            <tr v-for="wish in wishList" :key="wish.wish_no">
+          <td>{{ wish.p.prod_no }}</td>
+          <td><img :src="`/api/upload/products/${wish.p.prod_no}/${wish.p.prod_img}`" alt="상품 이미지" width="50" height="50"></td>
+          <td>{{ wish.p.prod_name }}</td>
+          <td>{{ wish.p.price }}</td>
+        </tr>
           </tbody>
         </table>
       </div>
@@ -33,7 +34,7 @@
   methods: {
     async getWishList() {
         const user = sessionStorage.getItem("user_id");
-        console.log('유저정보:', user);
+        console.log('프런트 유저정보:', user);
         const response = await axios.get(`/api/wishlist/wish/${user}`);
         this.wishList = response.data.list;
         console.log(this.wishList);

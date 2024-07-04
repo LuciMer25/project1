@@ -91,7 +91,7 @@ export default {
       try {
         await axios.put(`/api/Order/cancelOrder/${order_no}`);
         alert("취소요청 되었습니다");
-        this.refreshPage();
+        this.getOrderList(); // 목록 다시 불러오기
       } catch (error) {
         console.error("Failed to cancel order:", error);
         alert("취소요청 실패");
@@ -101,7 +101,7 @@ export default {
       try {
         await axios.put(`/api/Order/returnOrder/${order_no}`);
         alert("반품요청 되었습니다");
-        this.refreshPage();
+        this.getOrderList(); // 목록 다시 불러오기
       } catch (error) {
         console.error("Failed to request return:", error);
         alert("반품요청 실패");
@@ -111,7 +111,7 @@ export default {
       try {
         await axios.put(`/api/Order/orderConfirm/${order_no}`);
         alert("구매확정 되었습니다");
-        this.refreshPage();
+        this.getOrderList(); // 목록 다시 불러오기
       } catch (error) {
         console.error("Failed to confirm order:", error);
         alert("구매확정 실패");
@@ -121,7 +121,7 @@ export default {
       try {
         await axios.put(`/api/Order/cancelRevoke/${order_no}`);
         alert("요청이 취소되었습니다");
-        this.refreshPage();
+        this.getOrderList(); // 목록 다시 불러오기
       } catch (error) {
         console.error("Failed to revoke cancellation:", error);
         alert("취소요청 취소 실패");
@@ -131,7 +131,7 @@ export default {
       try {
         await axios.put(`/api/Order/returnCancel/${order_no}`);
         alert("요청이 취소되었습니다");
-        this.refreshPage();
+        this.getOrderList(); // 목록 다시 불러오기
       } catch (error) {
         console.error("Failed to cancel return request:", error);
         alert("반품요청 취소 실패");
@@ -158,9 +158,6 @@ export default {
       if (page < 1) page = 1;
       if (page > this.totalPages) page = this.totalPages;
       this.currentPage = page;
-    },
-    refreshPage() {
-      this.getOrderList(); // 페이지 새로고침
     }
   },
   computed: {

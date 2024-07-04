@@ -1,6 +1,16 @@
 <template>
   <div class="col-md-9">
-    <h3 class="title1">주문/배송조회</h3>
+    <section class="mp-info-wrap">
+      <div class="mp-info" style="background-color: #f7f7f7;">
+        <a href="https://www.ottogimall.co.kr/front/help/benefit" class="left">
+          <img src="https://ottogi-mall-s3.s3.ap-northeast-2.amazonaws.com/data/grade/BfBuiDx2hDjqgQXGoaL.vbhdy7iolzdt.png" alt="블루">
+        </a>
+        <p class="right">
+          <span class="name">{{ userId }}</span>님, 반갑습니다<br> 즐거운 쇼핑하세요!
+        </p>
+      </div>
+    </section>
+    <h3 class="title1">주문/배송조회</h3><hr>
     <div>
       <table class="table table-hover">
         <thead>
@@ -29,42 +39,59 @@
         </tbody>
       </table>
     </div>
-    <h3 class="title2">상품후기</h3>
+    <h3 class="title2">상품후기</h3><hr>
     <div>
       <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>리뷰번호</th>
-              <th>평점</th>
-              <th>제목</th>
-              <th>등록날짜</th>
-              <th>아이디</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              :key="review.review_no"
-              v-for="review in reviewList"
-              @click="goToDetail(review.review_no)"
-            >
-              <td>{{ review.review_no }}</td>
-              <td>{{ review.score }}</td>
-              <td>{{ review.review_title }}</td>
-              <td>{{ formatDate(review.reg_date) }}</td>
-              <td>{{ review.user_id }}</td>
-            </tr>
-          </tbody>
-        </table>
+        <thead>
+          <tr>
+            <th>리뷰번호</th>
+            <th>평점</th>
+            <th>제목</th>
+            <th>등록날짜</th>
+            <th>아이디</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr :key="review.review_no" v-for="(review, index) in limitedReviews" @click="goToDetail(review.review_no)">
+            <td>{{ review.review_no }}</td>
+            <td>{{ review.score }}</td>
+            <td>{{ review.review_title }}</td>
+            <td>{{ formatDate(review.reg_date) }}</td>
+            <td>{{ review.user_id }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <h3 class="title3">위시리스트</h3>
+    <h3 class="title3">위시리스트</h3><hr>
+    <!-- 위시리스트 컴포넌트 추가 -->
     <div>
-
+      <ul>
+        <li v-for="(wish, index) in limitedWishList" :key="index">
+          {{ wish }}
+        </li>
+      </ul>
     </div>
-    <h3 class="title4">1:1문의</h3>
+    <h3 class="title4">1:1문의</h3><hr>
     <div>
-
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>문의번호</th>
+            <th>제목</th>
+            <th>작성일자</th>
+            <th>답변상태</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr :key="inquiry.inquiry_no" v-for="(inquiry, index) in limitedInquiryList" @click="goToDetail(inquiry.inquiry_no)">
+            <td>{{ inquiry.inquiry_no }}</td>
+            <td>{{ inquiry.inquiry_title }}</td>
+            <td>{{ formatDate(inquiry.reg_date) }}</td>
+            <td>{{ inquiry.comment_state }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    
   </div>
 </template>
 
@@ -74,13 +101,17 @@ import axios from "axios";
 export default {
   data() {
     return {
+      userId: "",
       orders: [],
       reviewList: [],
+      inquiryList: [],
     };
   },
   created() {
+    this.userId = sessionStorage.getItem("user_id");
     this.getOrderList();
     this.getReviewList();
+    this.getInquiryList();
   },
   methods: {
     async getOrderList() {
@@ -111,6 +142,20 @@ export default {
         console.error('Error fetching review list:', error);
       }
     },
+    async getInquiryList() {
+      try {
+        const user = this.$store.getters.getUserInfo;
+        console.log('유저정보:', user);
+        const response = await axios.get(`/api/inquiry`, {
+          params: {
+            user_id: user.user_id
+          }
+        });
+        this.inquiryList = response.data;
+      } catch (error) {
+        console.error('Error fetching inquiry list:', error);
+      }
+    },
     formatDate(dateStr) {
       const date = new Date(dateStr);
       const year = date.getFullYear();
@@ -133,6 +178,16 @@ export default {
     limitedOrders() {
       return this.orders.slice(0, 3);
     },
+    limitedReviews() {
+      return this.reviewList.slice(0, 3);
+    },
+    limitedInquiryList() {
+      return this.inquiryList.slice(0, 3);
+    },
+    limitedWishList() {
+      // 위시리스트는 데이터가 없는 상태로 예시만 제공되었기 때문에 실제 데이터에 맞게 수정이 필요합니다.
+      return []; // 현재는 빈 배열을 반환하고 있습니다.
+    },
   },
 };
 </script>
@@ -140,5 +195,28 @@ export default {
 <style scoped>
 table * {
   text-align: center;
+}
+.mp-info-wrap {
+  margin-bottom: 20px;
+}
+
+.mp-info {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+
+.mp-info a.left {
+  flex: 1;
+  text-align: center;
+  padding-left: 120px;
+}
+
+.mp-info p.right {
+  flex: 3;
+  text-align: left;
+  padding-left: 200px;
+  font-size: 16px;
+  line-height: 24px;
 }
 </style>

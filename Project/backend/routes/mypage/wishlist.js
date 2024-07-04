@@ -1,15 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const query = require("../../mysql");
-router.use(express.json());
-
-// 로그 미들웨어 추가
-router.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
-  console.log("Request Headers:", req.headers);
-  console.log("Request Body:", req.body);
-  next();
-});
 
 router.get("/wish/:id", async(req, res) => {
   const userId = req.params.id;

@@ -11,7 +11,7 @@
         <div class="controlbox">
           <RouterLink to="/" v-if="isLoggedIn" @click.prevent="logout"><p>로그아웃 |</p></RouterLink>
           <RouterLink to="/login" v-else><p>로그인 |</p></RouterLink>
-          <RouterLink to="/mypage/mypage"><p>마이페이지 |</p></RouterLink>
+          <RouterLink to="/mypagemain"><p>마이페이지 |</p></RouterLink>
           <RouterLink to="/cart"><p>장바구니</p></RouterLink>
         </div>
       </div>
@@ -183,8 +183,8 @@ import axios from "axios";
   } // end of default
   
   </script>
-  <!-- <style>
-  /* header{
+ <style>
+   header{
     margin-top: 20px;
   }
   .top-head1{
@@ -349,4 +349,4 @@ import axios from "axios";
   }
 
   </style>
-   */ -->
+   
