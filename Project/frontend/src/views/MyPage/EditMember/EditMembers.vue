@@ -1,4 +1,5 @@
 <template>
+  <div class="col-md-9">
   <form action="doJoin" method="POST" class="joinForm" @submit.prevent="updateUser">
     <h2>회원수정</h2>
     <div class="textForm">
@@ -29,6 +30,7 @@
     <input type="submit" class="btn" value="수정하기"/>
     <button type="button" class="btn btn-danger" @click="goToDeletePage">회원탈퇴</button>
   </form>
+  </div>
 </template>
 
 <script>

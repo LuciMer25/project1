@@ -16,8 +16,8 @@ module.exports = {
     reviewUpdate: `UPDATE review
                    SET  review_title = ?, review_content = ?, score = ?, reg_date = CURRENT_TIMESTAMP
                    WHERE review_no = ?`,
-    reviewInsert: `INSERT INTO review
-                   SET ?`,
+    reviewInsert: `INSERT INTO review(score, review_title, review_content, user_id, review_img, order_no, prod_no)
+                   VALUES (?,?,?,?,?,?,?)`,
     reviewDelete: `DELETE
                    FROM review
                    WHERE review_no = ?`,

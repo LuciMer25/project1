@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="col-md-9">
     <h1>회원탈퇴 페이지</h1>
     <hr>
     <p>

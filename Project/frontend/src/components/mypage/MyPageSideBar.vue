@@ -10,7 +10,7 @@
                     <dd><RouterLink to = "reviewlist">상품후기</RouterLink></dd>
                     <dd><RouterLink to = "wishlist">위시리스트(미완성)</RouterLink></dd>
                     <dt class="title-t ty7">회원정보</dt>
-                    <dd><RouterLink to = "EditMembers">회원정보수정</RouterLink></dd>
+                    <dd><RouterLink to = "MemCheck">회원정보수정</RouterLink></dd>
                     <dt class="title-t ty7">문의</dt>
                     <dd><RouterLink to = "qnalist">QnA</RouterLink></dd>
                     <dd><RouterLink to = "inquirylist">1:1문의</RouterLink></dd>

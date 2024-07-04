@@ -8,7 +8,7 @@ module.exports = {
     inquiryInsert: `INSERT INTO inquiry(inquiry_title, inquiry_content, user_id, inquiry_img)
                     VALUES(?,?,?,?)`,
     inquiryUpdate: `UPDATE inquiry 
-                    SET inquiry_title = ?, inquiry_content = ?, reg_date = CURRENT_TIMESTAMP
+                    SET inquiry_title = ?, inquiry_content = ?, reg_date = CURRENT_TIMESTAMP, inquiry_img
                     WHERE inquiry_no = ?`,
     
     inquiryDelete: `DELETE 

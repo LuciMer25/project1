@@ -75,13 +75,10 @@ export default {
     async saveBoard(no) {
       const user = sessionStorage.getItem('user_id');//this.$store.getters.getUserInfo;
         console.log('유저정보'+user);
-        console.log(this.user.user_id)
         const formData = new FormData();
         formData.append('inquiry_title', this.inquiryInfo.inquiry_title);
         formData.append('inquiry_content', this.inquiryInfo.inquiry_content);
-        formData.append('user_id', this.user.user_id);
-        // const response = (await axios.post('/api/inquiry', { user_id:user.user_id }));
-        // this.inquiryInfo = response.data;
+        formData.append('user_id', user);
             if(this.file){
                 formData.append('avatar', this.file);
                 console.log(this.file)
