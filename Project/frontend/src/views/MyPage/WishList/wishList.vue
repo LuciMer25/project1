@@ -11,7 +11,7 @@
           <tbody>
             <tr v-for="wish in wishList">
             <td>{{ wish.p.prod_no }}</td>
-            <td><img :src="`/api/upload/products/${wish.p.prod_no}/${wish.p.prod_img}`" alt="상품 이미지" width="50" height="50"></td>
+            <td><img :src="`/api/upload/products/${wish.p.prod_img}`" alt="상품 이미지" width="50" height="50"></td>
             <td>{{ wish.p.prod_name }}</td>
             <td>{{ wish.p.price }}</td>
           </tr>
