@@ -17,7 +17,7 @@
 
 <script>
 import axios from 'axios';
-import CategoryContent from "../components/CategoryContent.vue";
+import CategoryContent from "../../components/product/CategoryContent.vue";
 
 export default {
   components:{
