@@ -4,15 +4,15 @@
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Dongle&display=swap');
-#app {
+/* #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
+} */
 
-* {
+/* * {
   font-family: "Dongle", sans-serif;
   font-weight: 400;
   font-style: normal;
@@ -30,5 +30,5 @@ nav a {
 
 nav a.router-link-exact-active {
   color: #42b983;
-}
+} */
 </style>

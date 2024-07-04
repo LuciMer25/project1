@@ -2,6 +2,15 @@ const express = require("express");
 const router = express.Router();
 const query = require("../../mysql/index.js");
 const multer = require('multer');
+router.use(express.json());
+
+// 로그 미들웨어 추가
+router.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  console.log('Request Headers:', req.headers);
+  console.log('Request Body:', req.body);
+  next();
+});
 
 // Multer 설정
 const storage = multer.diskStorage({
@@ -17,7 +26,9 @@ const storage = multer.diskStorage({
 
 //목록
 router.get("/", async (req, res) => {
-    let result = await query("cancelList").then((res) => res);
+  const user_id = req.query.user_id;
+  console.log(user_id);
+    let result = await query("cancelList", user_id).then((res) => res);
     res.send(result);
   });
 

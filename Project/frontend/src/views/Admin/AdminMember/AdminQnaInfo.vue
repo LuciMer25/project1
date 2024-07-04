@@ -9,7 +9,7 @@
             <th scope="col" class="text-center table-primary">제목</th>
             <td scope="col" class="text-center"><input v-model="qnaInfo.qna_title" disabled cols="170" rows="25"></td>
             <th scope="col" class="text-center table-primary">작성일자</th>
-            <td scope="col" class="text-center">{{ qnaInfo.reg_date }}</td>
+            <td scope="col" class="text-center">{{ formatDate(qnaInfo.reg_date) }}</td>
             <th scope="col" class="text-center table-primary">작성자</th>
             <td scope="col" class="text-center">{{ qnaInfo.user_id }}</td>
           </tr>

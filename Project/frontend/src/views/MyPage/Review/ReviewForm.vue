@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="col-md-9">
     <form @submit.prevent>
       <label for="name">리뷰등록</label>
       <input

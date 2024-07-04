@@ -75,7 +75,6 @@ export default {
     };
   },
   created(){
-
     this.getCartItems();
     window.addEventListener('beforeunload', this.updateCartItems);
   },

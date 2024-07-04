@@ -13,8 +13,14 @@
       </v-col>
       <v-col cols="10" md="5">
         <div class="product-info">
+          <v-row justify="end" class="mb-2">
+            <v-btn icon @click="setWish">
+              <v-icon v-if="iswished">mdi-heart</v-icon>
+              <v-icon v-else>mdi-heart-outline</v-icon>
+            </v-btn>
+          </v-row>
           <h1 class="product-title" v-text="product.prod_name"></h1>
-          <v-rating value="5" dense v-model="product.avg_score" readonly half-increments></v-rating>
+          <v-rating  dense v-model="product.avg_score" readonly half-increments></v-rating>
           <p class="reviews-count">{{ product.avg_score }} ({{ product.cnt }}건)</p>
           <h2 class="price">{{ formatPrice(product.price) }}원</h2>
           <p class="origin">원산지: 상품정보 원산지표시 참조</p>
@@ -45,7 +51,6 @@
           <h2 class="total-price">총금액: {{ formatPrice(order_amount) }}원</h2>
           <v-row class="actions">
             <v-col>
-              <v-btn outlined color="red" class="mx-2" @click="setWish">위시리스트</v-btn>
               <v-btn outlined color="red" class="mx-2" @click="setCart">장바구니</v-btn>
               <v-btn color="red" class="mx-2" @click="gotoOrderPage">바로구매</v-btn>
             </v-col>
@@ -130,7 +135,8 @@ export default {
       dialog: false, // 모달 창 표시 여부
       wishdialog:false,
       cartdialog:false,
-      toggleMessage:''
+      toggleMessage:'',
+      iswished:false
     };
   },
   created() {
@@ -157,9 +163,21 @@ export default {
       this.quantity++;
     },
     async getProduct(no) {
-      this.product = (await axios.get(`/api/productInfo/${no}`)).data[0];
-      this.titleImage = `/api/upload/products/${this.product.prod_no}/${this.product.prod_img}`; 
-      console.log(this.product);
+      let user = this.$store.getters.getUserInfo;
+      
+      if(user != null){
+        console.log(user);
+        let result =(await axios.post(`/api/productInfo/withWish/`,{no:no,user_id:user.user_id}));
+        this.product = result.data.product[0];
+        //this.titleImage = `/api/upload/products/${this.product.prod_no}/${this.product.prod_img}`; 
+        this.iswished = typeof result.data.iswished[0] !== 'undefined';
+        //console.log(this.iswished);
+      }
+      else{
+        this.product = (await axios.get(`/api/productInfo/${no}`)).data[0]
+        //console.log('user정보 없음');
+      }
+      
     },
     onImageError() {
       this.titleImage = this.fallbackImage; // 이미지 로딩 실패 시 대체 이미지로 변경
@@ -219,11 +237,13 @@ export default {
         .then(res=>{
                     if(res.data.result=='added'){
                       this.toggleMessage='위시 추가완료'
+                      this.iswished = true;
                       this.wishdialog=true;                   
                     }
                     else if(res.data.result=='removed')
                     {
                       this.toggleMessage='위시 삭제완료'
+                      this.iswished = false;
                       this.wishdialog=true;
                     }     
         })

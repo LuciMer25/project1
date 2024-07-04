@@ -2,6 +2,8 @@ const express =	require("express");
 const router =	express.Router();
 const query =	require("../../mysql");
 const multer = require('multer');
+router.use(express.json());
+
 
 // Multer 설정
 const storage = multer.diskStorage({
@@ -15,9 +17,21 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+// 로그 미들웨어 추가
+router.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  console.log('Request Headers:', req.headers);
+  console.log('Request Body:', req.body);
+  next();
+});
+
+
+
 //목록
 router.get("/",	async(req ,	res )	=> {
-    let result = await query("inquiryList").then(res=>res);
+  const user_id = req.query.user_id;
+  console.log(user_id);
+    let result = (await query("inquiryList", user_id))
     res.send(result);
 });
 //단건조회
@@ -27,14 +41,18 @@ router.get("/:inquiry_no",	async (req ,res )	=> {
 });
 //등록
 router.post("/", upload.single("avatar"), async (req, res) => {
-  let data = { ...req.body };
-    if (req.file != null) {
-      console.log('업로드된 파일이름:', req.file.filename);
-      data.inquiry_img = req.file.filename;
-    }
-    let result = await query("inquiryInsert", data);
-    res.send(result);
-  });
+  const user_id = req.body.user_id;
+  const inquiry_title = req.body.inquiry_title;
+  const inquiry_content = req.body.inquiry_content;
+  console.log('유저:' + user_id);
+  // let data = { ...req.body };
+  if (req.file != null) {
+    console.log('업로드된 파일이름:', req.file.filename);
+    data.inquiry_img = req.file.filename;
+  }
+  let result = await query("inquiryInsert", [inquiry_title, inquiry_content, user_id, data.inquiry_img]);
+  res.send(result);
+});
 //수정
 router.put('/:inquiry_no',  (req, res) => {
   const no = req.params.inquiry_no;

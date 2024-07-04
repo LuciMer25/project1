@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="col-md-9">
     <div class="row">
       <table class="table table-bordered">
         <thead>
@@ -17,7 +17,9 @@
           </tr>
           <tr>
           <th>첨부파일</th>
-          <td colspan="4"><img :src="`/api/upload/${QnAInfo.qna_img}`" alt="첨부파일"></td>
+          <td colspan="4"><img :src="`/api/upload/qna/${QnAInfo.qna_img}`" alt="첨부파일" width="100px" height="100px"></td>
+          <th scope="col" class="text-center table-primary">답변상태</th>
+          <td scope="col" class="text-center">{{QnAInfo.comment_state}}</td>
         </tr>
         </thead>
         <tbody>

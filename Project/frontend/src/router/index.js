@@ -58,6 +58,7 @@ import notifyInfo from '../views/Admin/AdminMember/notifyInfo.vue'
 import adminNotify from '../views/Admin/AdminBoard/AdminNotify.vue'
 import adminNotifyInfo from '../views/Admin/AdminBoard/AdminNotifyInfo.vue'
 import adminNotifyInsert from '../views/Admin/AdminBoard/AdminNotifyInsert.vue'
+import adminChart from '../views/Admin/AdminChart/AdminChart.vue'
 
 
 // 상품
@@ -396,6 +397,10 @@ const routes = [
       {
         path: 'notifyInsert',
         component : adminNotifyInsert
+      },
+      {
+        path: 'adminChart',
+        component : adminChart
       },
 
     ]

@@ -7,7 +7,8 @@ module.exports = {
                                   on o.order_no = od.order_no 
                                   join order_state ods 
                                   on o.order_no = ods.order_no 
-                    where o.order_state = "취소완료" or o.order_state = "반품완료"
+                    where (o.order_state = "취소완료" or o.order_state = "반품완료")
+                           and user_id = ?
                     group by o.order_no, o.order_state, ods.order_date, od.price
                     order by o.order_no desc`
 }

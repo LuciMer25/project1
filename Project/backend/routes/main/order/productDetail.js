@@ -8,6 +8,16 @@ router.get("/:no", async (req,res)=>{
     //let iswished = (await mysql.query('iswished'));
     res.send(product);
   });
+
+  router.post("/withWish/", async (req,res)=>{
+    const no = req.body.no;
+    const user_id = req.body.user_id;
+    console.log('상품번호 : '+no);
+    let product = (await mysql.query('getProductInfo',no));
+    let iswished = (await mysql.query('iswished',[user_id,no]));
+    res.send({product,iswished});
+  });
+
 router.post("/:action", async(req,res)=>{
   const { action } = req.params;
   const { user_id, prod_no } = req.body;

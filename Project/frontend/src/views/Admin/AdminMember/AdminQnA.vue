@@ -23,7 +23,11 @@
                     <tbody>
                         <tr v-for="qna in qnaList" :key="qna.qna_no">
                             <td v-text="qna.qna_no"></td> 
-                            <td v-text="qna.prod_name"></td>
+                            <td >
+                                <button class="infoBtn" :data-prod-no="qna.prod_no">
+                                    {{ qna.prod_name }}
+                                </button>
+                            </td>
                             <td >
                                 <button class="detailBtn" :data-qna-no="qna.qna_no">
                                     {{ qna.qna_title }}
@@ -80,12 +84,19 @@ export default{
                 if (target.classList.contains('detailBtn')) {
                     const qnaNo = target.dataset.qnaNo;
                     this.goDetail(qnaNo);
-                } 
+                } else if (target.classList.contains('infoBtn')) {
+                    const prodNo = target.dataset.prodNo;
+                    this.goInfo(prodNo);
+                }
             });
         },
         goDetail(qna_no){
             this.qnaNo = qna_no;
             this.$router.push(`qnaInfo/${this.qnaNo}`)
+        },
+        goInfo(prod_no){
+            this.prodNo = prod_no;
+            this.$router.push(`prodInfo/${this.prodNo}`)
         },
         formatDate(dateStr) {
             const date = new Date(dateStr);

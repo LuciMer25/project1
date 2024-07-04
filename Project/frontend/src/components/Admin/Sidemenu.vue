@@ -70,11 +70,11 @@
 						</nav>
 					</div>
 					<div class="sb-sidenav-menu-heading"> </div>
-					<a class="nav-link" href="adminChartControl.do">
+					<RouterLink to="/admin/adminChart" class="nav-link">
 						<div class="sb-nav-link-icon">
 							<i class="fas fa-chart-area"></i>
-						</div> 판매차트
-					</a>
+						</div> 매출차트
+					</RouterLink>
 					 <RouterLink to="/admin/notify" class="nav-link" >
 						<div class="sb-nav-link-icon">
 							<i class="fas fa-table"></i>

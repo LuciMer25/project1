@@ -3,6 +3,7 @@
     <div class="card text-white mb-4" :class="bgColor">
       <div class="card-body d-flex align-items-center justify-content-between">
         <div>
+          <div class="card-subtitle2" v-if="showSubtitle">현재</div>
           <div class="card-title">{{ column }}</div>
           <div class="card-value">{{ data }}명</div>
         </div>
@@ -34,7 +35,11 @@ export default {
     icon: {
       type: String,
       default: 'fas fa-users'
-    }
+    },
+    showSubtitle: {
+      type: Boolean,
+      default: false
+    },
   }
 }
 </script>

@@ -97,4 +97,19 @@ const query = require('../../mysql/index.js');
     res.send(list[0]);
   })
 
+  router.get('/todayTotalAmount', async(req, res) => {
+    let list = await query("todayTotalAmount")
+    res.send({ list })
+  })
+
+  router.get('/weekTotalAmount', async(req, res) => {
+    let list = await query("weekTotalAmount")
+    res.send({ list })
+  })
+
+  router.get('/categoryBest', async(req, res) => {
+    let list = await query("categoryBest")
+    res.send({ list })
+  })
+  
 module.exports = router;

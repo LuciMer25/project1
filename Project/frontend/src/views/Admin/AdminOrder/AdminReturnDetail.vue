@@ -24,7 +24,8 @@
 			phone_no: '',
 			post_no: '',
 			addr: '',
-			detail_addr: ''
+			detail_addr: '',
+			paytype: '',
 		  }
 		},
 	  }

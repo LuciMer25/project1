@@ -4,6 +4,7 @@ module.exports = {
                  on r.prod_no = p.prod_no
                  join orders o
                  on r.order_no = o.order_no
+                 where r.user_id = ?
                  group by r.review_no, r.score, r.review_title, r.review_content, r.reg_date, r.user_id, o.order_no, r.review_img, p.prod_no`,
     reviewInfo: `select r.review_no, r.score, r.review_title, r.review_content, r.reg_date, r.user_id, o.order_no, r.review_img, p.prod_no
                  from review r join product p
@@ -20,13 +21,15 @@ module.exports = {
     reviewDelete: `DELETE
                    FROM review
                    WHERE review_no = ?`,
-    productReviews: `SELECT score,
-                            review_title, 
-                            review_content, 
-                            user_id, 
-                            review_img,
-                            reg_date
-                     FROM review
-                     WHERE prod_no=?
-                     ORDER BY reg_date desc`
+    productReviews: `SELECT r.score,
+                            r.review_title, 
+                            r.review_content, 
+                            r.user_id, 
+                            r.review_img,
+                            r.reg_date,
+                            p.prod_name
+                     FROM review r JOIN product p
+                                   ON r.prod_no = p.prod_no
+                     WHERE r.prod_no=?
+                     ORDER BY r.reg_date desc`
 }

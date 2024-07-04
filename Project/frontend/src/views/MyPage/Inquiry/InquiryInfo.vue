@@ -1,11 +1,11 @@
 <template>
-  <div class="container">
+  <div class="col-md-9">
     <div class="row">
       <table class="table table-bordered">
         <thead>
           <tr>
             <th scope="col" class="text-center table-primary">문의번호</th>
-            <td scope="col" class="text-center" >{{InquiryInfo.inquiry_no}}</td>
+            <td scope="col" class="text-center">{{InquiryInfo.inquiry_no}}</td>
             <th scope="col" class="text-center table-primary">작성일자</th>
             <td scope="col" class="text-center">
               {{InquiryInfo.reg_date }}
@@ -17,6 +17,8 @@
           <tr>
             <th>첨부파일</th>
             <td colspan="4"><img :src="`/api/upload/inquiry/${InquiryInfo.inquiry_img}`" alt="첨부파일"></td>
+            <th scope="col" class="text-center table-primary">답변상태</th>
+            <td scope="col" class="text-center">{{InquiryInfo.comment_state}}</td>
           </tr>
         </thead>
         <tbody>

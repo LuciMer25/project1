@@ -30,7 +30,7 @@
 
 <script>
 import axios from 'axios';
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
 
 export default {
   data() {
@@ -50,15 +50,20 @@ export default {
           // 세션 및 sessionStorage에 사용자 정보 저장
           sessionStorage.setItem('user_id', response.data.user_id);
           sessionStorage.setItem('name', response.data.name);
+          sessionStorage.setItem('user_resp', response.data.user_resp); // 사용자 역할 저장
 
           // 로그인 성공 알림
           alert("로그인 성공!");
 
-          let user = { user_id : response.data.user_id, name : response.data.name };
+          let user = { user_id: response.data.user_id, name: response.data.name, user_resp: response.data.user_resp };
           this.$store.dispatch('updateLoginInfo', user);
 
-          // Vue Router를 사용하여 메인 페이지로 이동
-          this.$router.push('/'); // 메인 페이지 경로로 변경 필요
+          // 사용자 권한에 따라 페이지 이동
+          if (response.data.user_resp === 'admin') {
+            this.$router.push('/admin'); // 관리자 페이지 경로로 변경 필요
+          } else {
+            this.$router.push('/'); // 메인 페이지 경로로 변경 필요
+          }
 
           // 사용자 정보 확인
           this.checkSessionStorage();
@@ -74,28 +79,31 @@ export default {
       // sessionStorage에 저장된 데이터 확인
       const userId = sessionStorage.getItem('user_id');
       const name = sessionStorage.getItem('name');
+      const user_resp = sessionStorage.getItem('user_resp');
 
       console.log('사용자 ID:', userId);
       console.log('사용자 이름:', name);
+      console.log('사용자 역할:', user_resp);
     },
-    // 나머지 메서드는 이하 생략
     signUp() {
       this.$router.push('/signtUp1'); // signUp1 경로로 이동
     },
     FindIdPw() {
-      this.$router.push('/FindIdPw'); // signUp1 경로로 이동
+      this.$router.push('/FindIdPw'); // FindIdPw 경로로 이동
     },
     kakaoLogin() {
+      const vm = this; // Vue 인스턴스 컨텍스트 저장
       window.Kakao.Auth.login({
         scope: "profile_image, account_email",
-        success: this.getKakaoAccount,
+        success: vm.getKakaoAccount,
         fail: function(error) {
           console.log(error);
           alert("카카오 로그인에 실패했습니다.");
         },
+        
       });
     },
-    getKakaoAccount() {
+    getKakaoAccount(authObj) {
       const vm = this; // Vue 인스턴스 컨텍스트 저장
       window.Kakao.API.request({
         url: "/v2/user/me",
@@ -107,22 +115,21 @@ export default {
           sessionStorage.setItem('user_id', user_id);
           
           // Vuex 스토어에 사용자 정보 저장
-          vm.updateLoginInfo({ user_id : user_id})
-          //this.$store.dispatch('updateLoginInfo', user);
-          
-          // // user_id를 서버로 전송하여 존재 여부 확인
-          // vm.checkUserExistence(user_id);
+          vm.updateLoginInfo({ user_id: user_id });
+
+          // user_id를 서버로 전송하여 존재 여부 확인
+          vm.checkUserExistence(user_id);
         },
         fail: function(error) {
-          console.log(error);
+          console.error("Kakao API 요청 실패:", error);
         },
       });
     },
     checkUserExistence(user_id) {
       // 서버로 user_id를 전송하여 사용자 존재 여부 확인
-      fetch(`/api/kakaologin?user_id=${user_id}`)
-        .then(response => response.json())
-        .then(data => {
+      axios.get(`/api/kakaologin?user_id=${user_id}`)
+        .then(response => {
+          const data = response.data;
           if (data.exists) {
             // 사용자가 존재하는 경우 메인 화면으로 리다이렉트
             this.$router.push('/');
@@ -136,12 +143,12 @@ export default {
         });
     },
     signUp() {
-      this.$router.push('/signtUp1'); // 회원가입 창으로 이동
+      this.$router.push('/singUpList'); // 회원가입 창으로 이동
     },
   },
 };
-
 </script>
+
 
 
 <style>

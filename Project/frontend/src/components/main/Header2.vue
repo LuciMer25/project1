@@ -16,7 +16,6 @@
       </div>
     </div>
     <div class="top-head2">
-
       <div class="dropdown">
         <span class="dropbtn">전체 카테고리</span>
         <div class="dropdown-content">
@@ -28,7 +27,7 @@
               </RouterLink>
               <div class="dropdown2" v-bind:class="{'mover' : top.isSelected}">
                 <div class="dropdown-content2">
-                  <RouterLink v-bind:to="`/category/${category.ctgr_no}`"
+                  <RouterLink v-bind:to="`/category/${top.parent.ctgr_no}/${category.ctgr_no}`"
                     :key="i"
                     v-for="(category, i) in top.childList"
                   >
@@ -96,6 +95,7 @@ methods: {
     // 세션 스토리지에서 user_id 제거
     sessionStorage.removeItem('user_id');
     sessionStorage.removeItem('name');
+      sessionStorage.removeItem('user_resp');
     // 로그인 상태 false로 설정
     this.logoutUser(); // Vuex 액션 호출
     // 로그아웃 후 원하는 경로로 리다이렉트 등의 추가 작업 수행 가능

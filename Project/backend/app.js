@@ -11,6 +11,7 @@ const adminOrderRouter = require('./routes/admin/adminOrder.js')
 const adminMemberRouter = require('./routes/admin/adminMember.js')
 const adminBoardRouter = require('./routes/admin/adminBoard.js')
 const adminProductRouter = require('./routes/admin/adminProduct.js')
+const adminChartRouter = require('./routes/admin/adminChart.js')
 
 // 주문관련(정수범)
 const AccountRouter = require('./routes/main/order/account.js');
@@ -123,6 +124,7 @@ app.use('/api/adminOrder', adminOrderRouter);
 app.use('/api/adminMember', adminMemberRouter);
 app.use('/api/adminProduct', adminProductRouter);
 app.use('/api/adminBoard', adminBoardRouter);
+app.use('/api/adminChart', adminChartRouter);
 // 주문관련(정수범)
 app.use('/api/account',AccountRouter);
 app.use('/api/checkout',CheckoutRouter);

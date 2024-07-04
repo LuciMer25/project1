@@ -14,11 +14,14 @@
       이름<input name="name" type="text" class="name" v-model="user.name" placeholder="이름">
     </div>
     <div class="textForm">
-      전화번호<input name="cellphoneNo" type="number" class="cellphoneNo" v-model="user.phone" placeholder="전화번호">
+      생일<input name="cellphoneNo" type="number" class="cellphoneNo" v-model="user.birth" placeholder="전화번호" readonly>
     </div>
     <div class="textForm">
-      <input type="text" id="sample6_postcode" v-model="user.post_no" placeholder="우편번호">
+      전화번호<input name="cellphoneNo" type="number" class="cellphoneNo" v-model="user.phone" placeholder="전화번호" readonly>
+    </div>
+    <div class="textForm">
       <input type="button" @click="sample6_execDaumPostcode()" value="우편번호 찾기" class="postcodeButton"><br>
+      <input type="text" id="sample6_postcode" v-model="user.post_no" placeholder="우편번호">
       <input type="text" id="sample6_address" v-model="user.post_addr" placeholder="주소"><br>
       <input type="text" id="sample6_detailAddress" v-model="user.post_detail_list" placeholder="상세주소">
       <input type="text" id="sample6_extraAddress" placeholder="참고항목">
@@ -35,15 +38,14 @@ export default {
   data() {
     return {
       user: {
-        user_id: '',
-        pw: '',
-        name: '',
-        email: '',
-        nickname: '',
-        phone: '',
-        post_no: '',
-        post_addr: '',
-        post_detail_list: ''
+        user_id: "",
+        name: "",
+        phone: "",
+        pw: "",
+        post_addr: "",
+        post_detail_list: "",
+        post_no: "",
+        birth: "",
       },
       passwordConfirm: ''
     };
@@ -63,7 +65,7 @@ export default {
     async updateUser() {
       if (this.user.pw !== this.passwordConfirm) {
         alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
-        return;
+        return; // 일치하지 않을 때 함수를 여기서 종료하여 아래 코드 실행을 막습니다.
       }
 
       try {
@@ -79,9 +81,39 @@ export default {
       this.$router.push('/DeleteMem');
     },
     sample6_execDaumPostcode() {
-      // Daum 우편번호 서비스 실행 함수
-      // 필요한 경우 구현
-    }
+        new daum.Postcode({
+            oncomplete: function(data) {
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
+
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                if(data.userSelectedType === 'R'){
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        extraAddr += data.bname;
+                    }
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    if(extraAddr !== ''){
+                        extraAddr = ' (' + extraAddr + ')';
+                    }
+                    document.getElementById("sample6_extraAddress").value = extraAddr;
+                
+                } else {
+                    document.getElementById("sample6_extraAddress").value = '';
+                }
+
+                document.getElementById('sample6_postcode').value = data.zonecode;
+                document.getElementById("sample6_address").value = addr;
+                document.getElementById("sample6_detailAddress").focus();
+            }
+        }).open();
+    },
   },
   mounted() {
     this.fetchUserInfo();
@@ -89,68 +121,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.joinForm {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-}
 
-.textForm {
-  margin-bottom: 10px;
-}
-
-.textForm input[type="text"],
-.textForm input[type="password"],
-.textForm input[type="number"] {
-  width: 100%;
-  padding: 8px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-}
-
-.textForm input[type="button"] {
-  padding: 8px 12px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  cursor: pointer;
-  background-color: #f0f0f0;
-}
-
-.textForm input[type="button"]:hover {
-  background-color: #e0e0e0;
-}
-
-.btn {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  color: #fff;
-  background-color: #007bff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.btn:hover {
-  background-color: #0056b3;
-}
-
-.btn-danger {
-  background-color: #dc3545;
-}
-
-.btn-danger:hover {
-  background-color: #c82333;
-}
-
-.postcodeButton {
-  margin-top: 5px;
-}
-</style>

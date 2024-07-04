@@ -1,11 +1,12 @@
 module.exports = {
     inquiryList: `SELECT inquiry_no, inquiry_title, inquiry_content, reg_date, comment_state, user_id 
-                  FROM inquiry`,
+                  FROM inquiry
+                  WHERE user_id = ?`,
     inquiryInfo: `SELECT inquiry_no, inquiry_title, inquiry_content, reg_date, comment_state, user_id, inquiry_img
                   FROM inquiry
                   WHERE inquiry_no = ? `,
-    inquiryInsert: `INSERT INTO inquiry 
-                    SET ? `,
+    inquiryInsert: `INSERT INTO inquiry(inquiry_title, inquiry_content, user_id, inquiry_img)
+                    VALUES(?,?,?,?)`,
     inquiryUpdate: `UPDATE inquiry 
                     SET inquiry_title = ?, inquiry_content = ?, reg_date = CURRENT_TIMESTAMP
                     WHERE inquiry_no = ?`,

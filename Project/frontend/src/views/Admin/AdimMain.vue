@@ -5,10 +5,10 @@
             <li class="breadcrumb-item active">관리자</li>
           </ol>
           <div class="row">
-            <CardComponent :data="memberCount" :column="memberCard"></CardComponent>
-            <CardComponent></CardComponent>
-            <CardComponent></CardComponent>
-            <CardComponent></CardComponent>
+            <CardComponent :data="memberCount" :column="memberCard" :showSubtitle="true"></CardComponent>
+            <CardComponent2 :data="todayAmount" :column="todayCard" :bgColor="'bg-success'" :icon="'fas fa-dollar-sign'" :showSubtitle2="true" :subtitle2="currentDate"></CardComponent2>
+            <CardComponent2 :data="weekAmount" :column="weekCard" :bgColor="'bg-warning'" :icon="'fas fa-calendar-week'" :showSubtitle3="true" :subtitle3="currentYear"></CardComponent2>
+            <CardComponent2 :data="categoryBest" :column="categoryCard" :bgColor="'bg-info'" :icon="'fas fa-star'" :showSubtitle4="true"></CardComponent2>
           </div>
           <div class="card mb-4">
                 <div class="card-header">
@@ -60,6 +60,7 @@
     </template>
 <script>
 import CardComponent from "@/components/Admin/CardComponent.vue"
+import CardComponent2 from "@/components/Admin/CardComponent2.vue"
 import DataTableComponent from '@/components/Admin/DataTableComponent.vue'
 import Modal from '@/components/Admin/waybill.vue'
 import axios from 'axios';
@@ -67,7 +68,7 @@ import axios from 'axios';
     
 export default {
     components: {
-        CardComponent, DataTableComponent, Modal
+        CardComponent, DataTableComponent, Modal, CardComponent2
     },
     data() {
         return {
@@ -87,10 +88,22 @@ export default {
             inquiryColumns :['게시글번호', '문의제목', '회원ID', '작성일', '답변상태'],
             
             memberCount : 1,
-            memberCard : '총 회원 수'
+            memberCard : '총 회원 수',
+
+            todayAmount : 0,
+            todayCard : '일일 매출',
+
+            weekAmount : 0,
+            weekCard : '주간 매출',
+
+            categoryBest : 0,
+            categoryCard : '최다 매출',
+
+            currentDate: new Date().toLocaleDateString('ko-KR'),
+            currentYear: new Date().getFullYear() + '년'
+
         };
 
-        
     },
     async created() {
         try {
@@ -155,6 +168,30 @@ export default {
             res = await axios.get('/api/adminMember/memberCount');
             this.memberCount = res.data.count;
             console.log(this.memberCount);
+
+            res = await axios.get('/api/adminOrder/todayTotalAmount');
+            if (res.data.list && res.data.list.length > 0) {
+                this.todayAmount = res.data.list[0].chart_value;
+            } else {
+                this.todayAmount = 0;
+            }
+
+            res = await axios.get('/api/adminOrder/weekTotalAmount');
+            if (res.data.list && res.data.list.length > 0) {
+                this.weekAmount = res.data.list[0].chart_value;
+                this.weekCard = res.data.list[0].week_of_month;
+            } else {
+                this.weekAmount = 0;
+            }
+
+            res = await axios.get('/api/adminOrder/categoryBest');
+            if (res.data.list && res.data.list.length > 0) {
+                this.categoryBest = res.data.list[0].chart_value;
+                this.categoryCard = res.data.list[0].chart_name;
+            } else {
+                this.categoryBest = 0;
+            }
+
         } catch (err) {
             console.log(err);
         }

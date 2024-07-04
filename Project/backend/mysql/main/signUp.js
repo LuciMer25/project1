@@ -31,5 +31,11 @@ module.exports = {
     userupdatepw:`
    UPDATE user
     SET pw = ?
-    WHERE user_id = ? AND name = ? AND phone = ?`
+    WHERE user_id = ? AND name = ? AND phone = ?`,
+    phone: `
+        SELECT * 
+        from user
+        where phone = ?
+    `
+
 };
