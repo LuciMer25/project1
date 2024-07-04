@@ -19,7 +19,6 @@ import FloatingMenu from '@/components/main/FloatingMenu.vue'
 import Header3 from '@/components/main/Header3.vue'
 import Footer from '@/components/main/Footer.vue'
 import { RouterView } from 'vue-router';
-import Header3 from '@/components/main/Header3.vue';
 export default {
     components :{
       Header3, Footer,FloatingMenu, MyPageSideBar
