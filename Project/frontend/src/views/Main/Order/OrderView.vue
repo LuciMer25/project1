@@ -16,11 +16,27 @@
     </v-row>
     <v-row align="center" justify="center">
       <v-col cols="auto">
-        <v-btn @click="setpaycode('kakao')" color="yellow" size="large" variant="elevated" :active="payment=='kakao'">카카오페이</v-btn>
+        <v-btn
+          @click="setpaycode('kakao')"
+          color="yellow"
+          size="large"
+          variant="elevated"
+          :class="{'active-btn': payment === 'kakao'}"
+          :style="{'opacity': payment === 'kakao' ? 1 : 0.4}"
+          :elevation="payment === 'kakao' ? 12 : 2"
+        >카카오페이</v-btn>
       </v-col>
 
       <v-col cols="auto">
-        <v-btn @click="setpaycode('toss')" color="blue-accent-4" size="large" variant="elevated" :active="payment=='toss'">토스페이</v-btn>
+        <v-btn
+          @click="setpaycode('toss')"
+          color="blue-accent-4"
+          size="large"
+          variant="elevated"
+          :class="{'active-btn': payment === 'toss'}"
+          :style="{'opacity': payment === 'toss' ? 1 : 0.4}"
+          :elevation="payment === 'toss' ? 12 : 2"
+        >토스페이</v-btn>
       </v-col>
     </v-row>
     
@@ -90,7 +106,7 @@ export default {
         this.checkout(proceedInfo);
       }
       else{
-        alert("결제수단을 먼저 선택해주세요!");
+        this.callValidateModal();
       }
     },
     async checkout(proceed){
@@ -156,13 +172,35 @@ export default {
             });
           } 
 
-          alert('결제완료!');
-          this.CreateOrderState(result.data.order_no);
+          
           console.log(result.data.order_no);
-
-          this.$router.push({name:'ordercomplete',params:{orderNo:result.data.order_no}});
+          this.callSuccessModal(result.data.order_no);
+          
         }
 
+    },
+    callSuccessModal(order_no){
+      this.$swal.fire({
+          title: '결제완료!',
+          text: '주문이 접수되었습니다.',
+          icon: 'warning',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: '확인'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.CreateOrderState(order_no);
+            this.$router.push({name:'ordercomplete',params:{orderNo:order_no}});
+          }
+        });
+    },
+    callValidateModal(){
+      this.$swal.fire({
+          title: '결제오류!',
+          text: '결제 수단을 먼저 선택해주세요',
+          icon: 'warning',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: '확인'
+        });
     },
     async CreateOrderState(order_no){
       let result = (await axios.post('/api/insertorderstate/', {order_no : order_no}));
@@ -187,3 +225,14 @@ export default {
   
 }
 </script>
+
+<style scoped>
+.active-btn {
+  background-color: rgba(255, 235, 59, 0.8); /* 약간의 배경색 변경 */
+  color: white; /* 텍스트 색상 변경 */
+  border-radius: 8px; /* 둥근 테두리 */
+  transition: all 0.3s ease; /* 부드러운 전환 효과 */
+  opacity: 1; /* 선택된 버튼의 불투명도 */
+  border: 3px solid #000;
+}
+</style>

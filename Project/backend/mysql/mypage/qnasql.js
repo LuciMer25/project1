@@ -31,11 +31,11 @@ module.exports = {
                                        ON qr.qna_no = q.qna_no
                      WHERE q.prod_no = ?
                      GROUP BY qr.reply_content, 
-                             q.qna_no, 
-                             q.qna_title,
-                             q.qna_content,
-                             q.user_id,
-                             q.reg_date,
-                             q.prod_no
+                              q.qna_no, 
+                              q.qna_title,
+                              q.qna_content,
+                              q.user_id,
+                              q.reg_date,
+                              q.prod_no
                      ORDER BY q.reg_date DESC`
 }

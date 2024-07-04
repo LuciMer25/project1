@@ -58,37 +58,7 @@
         </div>
       </v-col>
     </v-row>
-    <!--모달창-->
-    <v-dialog v-model="dialog" max-width="400">
-      <v-card>
-        <v-card-title class="headline text-center">로그인 필요</v-card-title>
-        <v-card-text class="text-center">로그인이 필요한 서비스입니다.</v-card-text>
-        <v-card-text class="text-center">로그인 하시겠습니까?</v-card-text>
-        <v-card-actions class="justify-center">
-          <v-btn  color="grey" text @click="dialog = false" class="flex-grow-1 bordered-button">취소</v-btn>
-          <v-btn  color="red" text @click="redirectToLogin" class="flex-grow-1 bordered-button">확인</v-btn>
-        </v-card-actions>
-      </v-card>
-  </v-dialog>
-
-  <v-dialog v-model="cartdialog" max-width="400">
-    <v-card>
-      <v-card-title class="headline text-center">장바구니 추가 완료!</v-card-title>
-      <v-card-actions class="justify-center">
-        <v-btn  color="red" text @click="redirectToCart" class="flex-grow-1 bordered-button">장바구니 보기</v-btn>
-        <v-btn  color="grey" text @click="cartdialog=false" class="flex-grow-1 bordered-button">확인</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
-  
-  <v-dialog v-model="wishdialog" max-width="400">
-    <v-card>
-      <v-card-title class="headline text-center" v-text="toggleMessage"></v-card-title>
-      <v-card-actions class="justify-center">
-        <v-btn  color="red" text @click="wishdialog=false" class="flex-grow-1 bordered-button">확인</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+    
  <!-- 메뉴바 -->
  <v-row class="menu-bar" justify="center">
   <v-col cols="auto" class="menu-button">
@@ -103,7 +73,7 @@
   </v-col>
   <v-col cols="auto" class="menu-button">
     <button text class="w-100" @click="scrollTo('inquiries')">
-      <span>상품문의 6</span>
+      <span>상품문의</span>
     </button>
   </v-col>
 </v-row>
@@ -151,6 +121,7 @@
     </div>
     <div id="inquiries">
       <!-- 문의사항 컴포넌트 여기에 추가 -->
+       <ProductQna :prodNo="this.$route.params.prodNo"></ProductQna>
     </div>
   </v-container>
 </template>
@@ -159,20 +130,20 @@
 import axios from 'axios';
 import ContentsImg from '@/components/main/productdetail/ContentImg.vue';
 import ReviewComponent from '@/components/main/productdetail/ReviewComponent.vue';
-
+import ProductQna from '@/components/main/productdetail/ProductQnaComponent.vue';
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 export default {
-  components:{ContentsImg,ReviewComponent},
+  components:{ContentsImg,ReviewComponent,ProductQna},
   data() {
     return {
       quantity: 1,
       product: {},
       titleImage: '',
       fallbackImage:'/imgs/loadfail.jpg',
-      dialog: false, // 모달 창 표시 여부
-      wishdialog:false,
-      cartdialog:false,
       toggleMessage:'',
-      iswished:false
+      iswished:false,
+      modalMessage:''
     };
   },
   created() {
@@ -239,7 +210,7 @@ export default {
         this.$router.push({ name: 'order' });
       }
       // 비회원 주문(결제페이지 미구현으로 현재는 모달 창 열기로 대체)
-      else{this.dialog = true;}
+      else{this.warningModal();}
       
     },
     setCart(){
@@ -255,12 +226,61 @@ export default {
           console.log(res.statusText);
             if(res.statusText=="OK"){
               this.cartdialog = true;
+              this.modalMessage = 'addcart';
+              this.messageModal();
             }
         });
 
       }
       // 모달 창 열기
-      else{this.dialog = true;}
+      else{
+        //this.dialog = true;
+        this.warningModal();
+      }
+    },
+    warningModal(){
+      this.$swal.fire({
+          title: '로그인이 필요합니다',
+          text: '로그인 먼저 해주세요.',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: '로그인',
+          cancelButtonText: '취소'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.$router.replace('/login');
+          }
+        });
+    },
+    messageModal(){
+      let titleText='';
+      let content = ''
+      switch (this.modalMessage) {
+        case 'addwish':
+          titleText='위시리스트'
+          content='찜 목록에 추가되었습니다!'
+          break;
+        case 'delwish':
+          titleText='위시리스트'
+          content='찜 목록에서 삭제되었습니다!'
+        break;
+        case 'addcart':
+          titleText='장바구니'
+          content='장바구니에 추가되었습니다!'
+        break;
+        default:
+          break;
+      }
+      this.$swal.fire({
+          title: titleText,
+          text: content,
+          icon: 'warning',
+          showCancelButton: false,
+          confirmButtonColor: '#d33',
+          confirmButtonText: '확인'
+        });
     },
     setWish(){
       // 로그인 했을시(추후 this.checkLogin앞에 ! 제거해야함.)
@@ -272,20 +292,24 @@ export default {
         })
         .then(res=>{
                     if(res.data.result=='added'){
-                      this.toggleMessage='위시 추가완료'
+                      this.toggleMessage='위시 추가완료';
+                      this.modalMessage='addwish';
                       this.iswished = true;
-                      this.wishdialog=true;                   
+                      this.wishdialog=true;
+                      this.messageModal();                   
                     }
                     else if(res.data.result=='removed')
                     {
-                      this.toggleMessage='위시 삭제완료'
+                      this.toggleMessage='위시 삭제완료';
+                      this.modalMessage='delwish';
                       this.iswished = false;
                       this.wishdialog=true;
+                      this.messageModal();
                     }     
         })
       }
       // 모달 창 열기
-      else{this.dialog = true;}
+      else{this.warningModal();}
     },
     checkLogin() {
       // 로그인 유무 체크 로직 (예시)
@@ -351,7 +375,7 @@ export default {
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 8px;
-  max-width: 300px; /* 원하는 최대 너비로 조정 */
+  width: 300px; /* 원하는 최대 너비로 조정 */
   margin-left: auto; /* 우측 정렬 */
   z-index: 1000;
 }
@@ -399,7 +423,6 @@ export default {
 .inline-btn {
   display: block;
   width: 100%;
-  max-width: 200px; /* 버튼의 최대 너비를 설정 */
 }
 
 .mx-auto {
