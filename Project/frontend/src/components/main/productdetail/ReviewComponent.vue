@@ -35,7 +35,7 @@
       </v-col>
       <v-col cols="12" class="d-flex justify-content-between">
         <p>{{ review.review_content }}</p>
-        <v-img v-if="review.review_img" :src="`/api/upload/review/${review.review_img}`" max-width="100"></v-img>
+        <v-img v-if="review.review_img" :src="`/api/upload/review/${review.review_img}`" width="100"></v-img>
       </v-col>
     </v-row>
   </v-col>
