@@ -68,12 +68,12 @@
   </v-col>
   <v-col cols="auto" class="menu-button">
     <button text class="w-100" @click="scrollTo('reviews')">
-      <span>상품후기 {{ product.cnt }}</span>
+      <span>상품후기({{ product.cnt }}건)</span>
     </button>
   </v-col>
   <v-col cols="auto" class="menu-button">
     <button text class="w-100" @click="scrollTo('inquiries')">
-      <span>상품문의</span>
+      <span>상품문의({{ qnaCount }}건)</span>
     </button>
   </v-col>
 </v-row>
@@ -143,10 +143,12 @@ export default {
       fallbackImage:'/imgs/loadfail.jpg',
       toggleMessage:'',
       iswished:false,
-      modalMessage:''
+      modalMessage:'',
+      qnaCount:0,
     };
   },
   created() {
+    this.fetchQnaCount();
     this.getProduct(this.$route.params.prodNo);
   },
   computed: {
@@ -155,6 +157,12 @@ export default {
     },
   },
   methods: {
+    async fetchQnaCount(){
+      const prodNo = this.$route.params.prodNo;
+      const res = await axios.get(`/api/adminBoard/qnaCount/${prodNo}`)
+      this.qnaCount = res.data.count;
+      console.log(this.qnaCount)
+    },
     scrollTo(sectionId) {
       const element = document.getElementById(sectionId);
       if (element) {

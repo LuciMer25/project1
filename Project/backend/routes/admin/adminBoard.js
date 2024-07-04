@@ -215,4 +215,10 @@ const upload = multer({ storage: storage });
     }
   });
 
+  router.get("/qnaCount/:no", async(req, res)=>{
+    const no = req.params.no;
+    let count = await query("qnaCount", [no])
+    count = count[0].cnt;
+    res.send({ count })
+  })
 module.exports = router;

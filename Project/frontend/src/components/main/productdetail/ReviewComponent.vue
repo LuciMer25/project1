@@ -60,6 +60,15 @@ export default {
       required: true
     }
   },
+  watch: {
+    prodNo: {
+      immediate: true,
+      handler(newVal) {
+        console.log(newVal); // prodNo 값 확인
+        this.fetchReviews(newVal);
+      }
+    }
+  },
   data() {
     return {
       reviews: [],
@@ -85,6 +94,7 @@ export default {
   methods: {
     async fetchReviews() {
       try {
+        console.log(this.prodNo)
         const response = await axios.get(`/api/productreviews?prod_no=${this.prodNo}`);
         this.reviews = response.data;
         this.calculateAverageScore();
