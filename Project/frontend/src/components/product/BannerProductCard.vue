@@ -8,7 +8,7 @@
         </div>
       </div>
     </div>
-  </template>  `/api/upload/products/${product.prod_no}/${product.prod_img}`
+  </template> 
 
   <script>
   export default {

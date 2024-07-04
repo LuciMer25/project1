@@ -2,16 +2,18 @@
   <div class="col-md-3">
     <div class="card">
       <div class="position-relative">
-          <img :src="`/api/upload/${product.prod_img}`" class="card-img-top" alt="Product Image" @click="gotoDetail(product.prod_no)">
+          <img :src="`/api/upload/products/${product.prod_no}/${product.prod_img}`" class="card-img-top" alt="Product Image" @click="gotoDetail(product.prod_no)">
           <span class="rank-badge">{{ rank + 1  }}</span> <!-- 순위 표시 -->
         </div>
       <div class="card-body">
         <h5 class="card-title">{{ product.prod_name }}</h5>
-        <p class="card-text-price">{{ product.price }} 원</p>
+        <p class="card-text-price">{{ formatPrice(product.price) }}원</p>
         <p class="card-text-review">★{{ product.review_avg_score }} ({{ product.review_cnt }})</p>
       </div>
-      <v-btn @click="setCart">CART</v-btn>
-      <v-btn @click="setWish">WISH</v-btn>
+      <div class="setbtn">
+        <v-btn @click="setCart(index)">CART</v-btn>
+        <v-btn @click="setWish(index)">WISH</v-btn>
+      </div>
     </div>
   </div>
   <!-- 모달창 -->
@@ -67,6 +69,13 @@ export default {
       cartdialog:false,
     }
   },
+  computed:{
+      formatPrice() {
+        return (price) => {
+        return price.toLocaleString();
+      };
+    }
+    },
   methods : {
     gotoDetail(no){
       this.$router.push(`product/${no}`);
@@ -134,6 +143,10 @@ export default {
 </script>
 
 <style scoped>
+.setbtn{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
 .card-text-review {
   font-size : 15px;
   text-align : left;

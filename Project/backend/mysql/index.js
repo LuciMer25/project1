@@ -13,8 +13,7 @@ const conn = { // mysql 접속 설정
 const pool = mysql.createPool(conn);
 
 function query(alias, values) {
-    console.log('SQL alias:', alias)
-    console.log('SQL query:', sql[alias])
+
     return new Promise( (resolve, reject) => pool.query(sql[alias],values, function(err, result) {
         if(err) {
             console.log(err)
@@ -27,8 +26,7 @@ function query(alias, values) {
 }
 
 function query(alias, values ){
-  console.log('SQL alias:', alias)
-  console.log('SQL query:', sql[alias])
+
     return new Promise( (resolve, reject)  => {
       pool.getConnection((err, conn) => {
         if (err) reject({err});

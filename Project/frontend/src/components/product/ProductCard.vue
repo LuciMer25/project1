@@ -4,11 +4,13 @@
         <img :src="`/api/upload/products/${product.prod_no}/${product.prod_img}`" class="card-img-top" alt="Product Image" @click="gotoDetail(product.prod_no)">
         <div class="card-body">
           <h5 class="card-title">{{ product.prod_name }}</h5>
-          <p class="card-text">{{ product.price }} 원</p>
+          <p class="card-text">{{ formatPrice(product.price) }}원</p>
           <p class="card-text">★{{ product.review_avg_score }} ({{ product.review_cnt }})</p>
         </div>
-        <v-btn @click="setCart">CART</v-btn>
-        <v-btn @click="setWish">WISH</v-btn>
+        <div class="setbtn">
+          <v-btn @click="setCart">CART</v-btn>
+          <v-btn @click="setWish">WISH</v-btn>
+        </div>
       </div>
     </div>
     <!-- 모달창 -->
@@ -60,6 +62,13 @@
         cartdialog:false,
       } 
     },
+    computed:{
+      formatPrice(){
+        return (price) => {
+        return price.toLocaleString();
+      };
+    }
+    },
     methods : {
       gotoDetail(no){
         this.$router.push(`/product/${no}`);
@@ -75,6 +84,7 @@
           prod_no:this.product.prod_no,
           prod_cnt: 1
         })
+        
         .then(res=>{
           console.log(res.statusText);
             if(res.statusText=="OK"){
@@ -122,18 +132,28 @@
       this.cartdialog=false;
       this.$router.replace('/cart');
     }
-    }
-  };
+  }
+};
   </script>
   
 
 <style scoped>
+.setbtn{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.card{
+  min-height: 500px; /* 최소 높이 설정 */
+}
+
 .fixed-card {
   width: 250px; /* 카드의 너비를 고정 */
-  height: 400px; /* 카드의 높이를 고정 */
+  min-height: 500px; /* 최소 높이 설정 */
   overflow: hidden; /* 내용이 넘칠 경우 숨김 */
   display: flex;
   flex-direction: column;
+  
 }
 
 .fixed-card .card-img-top {
@@ -151,6 +171,9 @@
 .fixed-card .card-title {
   font-size: 1.2rem;
   margin-bottom: 0.5rem;
+  overflow: hidden; /* 넘치는 텍스트 숨김 */
+  text-overflow: ellipsis; /* 넘치는 텍스트에 대한 생략 부호 */
+  white-space: nowrap; /* 줄바꿈 방지 */
 }
 
 .fixed-card .card-text {

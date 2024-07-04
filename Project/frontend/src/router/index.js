@@ -87,6 +87,7 @@ import DeleteMem from '../views/MyPage/EditMember/DeleteMem.vue'
 import CategoryView from '../views/PageMove/CategoryView.vue'
 import SearchView from '../views/PageMove/SearchView.vue'
 
+
 const routes = [
   {
     path: '/',

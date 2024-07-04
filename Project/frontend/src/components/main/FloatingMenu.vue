@@ -1,8 +1,8 @@
 <template>
     <div class="floating-menu">
       <ul>
-        <li><a href="newproductlist">신상품</a></li>
-        <li><a href="bestproductlist">베스트</a></li>
+        <li><a href="/newproductlist">신상품</a></li>
+        <li><a href="/bestproductlist">베스트</a></li>
         <li v-if="showTopBtn"><a href="#" @click.prevent="scrollToTop">TOP</a></li>
       </ul>
     </div>
