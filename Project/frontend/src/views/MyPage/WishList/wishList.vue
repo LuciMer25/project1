@@ -12,9 +12,9 @@
       <tbody>
         <tr v-for="wish in wishList" :key="wish.wish_no">
           <td>
-            <img :src="`/api/upload/products/${wish.prod_no}/${wish.prod_img}`" alt="상품 이미지" width="50" height="50">
+            <img :src="`/api/upload/products/${wish.prod_img}`" alt="상품 이미지" width="50" height="50">
           </td>
-          <td>{{ wish.prod_name }}</td>
+          <td><RouterLink :to="{ name: 'productInfo', params: { prodNo: wish.prod_no } }">상품명 : {{ wish.prod_name }}</RouterLink></td>
           <td>{{ formatCurrency(wish.price) + '원' }}</td>
           <td><button @click="deletebtn(wish.wish_no)">삭제</button></td>
         </tr>
@@ -55,6 +55,9 @@ export default {
         console.error('삭제 실패:', error);
         alert('삭제에 실패했습니다.');
       }
+    },
+    godetail(prod_no) {
+      this.$router.push({ path: `/products/${wishList.prod_no}` });
     },
   },
 };

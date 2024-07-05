@@ -32,11 +32,12 @@
         <div class="orderBox" v-for="order in orders.product" :key="order.prod_no">
           <div class="order">
             <div class="order-details">
-              <img class="prodImage" :src="`/api/upload/${order.prod_img}`" alt="상품 이미지">
+              <img class="prodImage" :src="`/api/upload/products/${order.prod_img}`" alt="상품 이미지">
               <div class="product-info">
                 <div class="info">
-                  <RouterLink :to="{ name: 'prodInfo', params: { no: order.prod_no } }" target="_blank">상품명 : {{ order.prod_name }}</RouterLink>
+                  
                   <span>{{ formatCurrency(order.price) }} 원 · {{ order.prod_cnt }} 개</span>
+                  <RouterLink :to="{ name: 'productInfo', params: { prodNo: order.prod_no } }">상품명 : {{ order.prod_name }}</RouterLink>
                   <span>상품 총 가격: {{ formatCurrency(order.order_amount) }} 원 </span>
                 </div>
               </div>
@@ -90,7 +91,7 @@
       </div>
   
       <div class="back-button-wrapper">
-        <RouterLink to="/admin/orderList" class="back-button">돌아가기</RouterLink>
+        <RouterLink to="/orderList" class="back-button">돌아가기</RouterLink>
       </div>
     </div>
   </template>
