@@ -65,7 +65,8 @@ export default {
       itemList: [],
       payment: '',
       totalprice:0,
-      receiverInfo: {}
+      receiverInfo: {},
+      isAbnormalRequest:true
     };
   },
   created() { 
@@ -179,20 +180,35 @@ export default {
         }
 
     },
-    callSuccessModal(order_no){
-      this.$swal.fire({
-          title: '결제완료!',
-          text: '주문이 접수되었습니다.',
-          icon: 'warning',
-          confirmButtonColor: '#3085d6',
-          confirmButtonText: '확인'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            this.CreateOrderState(order_no);
-            this.$router.push({name:'ordercomplete',params:{orderNo:order_no}});
-          }
-        });
-    },
+    async callSuccessModal(order_no) {
+    const self = this;
+    try {
+      const result = await this.$swal.fire({
+        title: '결제완료!',
+        text: '주문이 접수되었습니다.',
+        icon: 'warning',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: '확인'
+      });
+
+      if (result.isConfirmed) {
+        await self.gotoCompletePage(order_no);
+      }
+    } catch (error) {
+      console.error('Error handling SweetAlert result:', error);
+    }
+  },
+  async gotoCompletePage(orderNum) {
+  try {
+    console.log('gotoComplete 호출됨');
+    await this.CreateOrderState(orderNum);
+    this.isAbnormalRequest = false;
+    console.log('Navigating to ordercomplete page');
+    this.$router.push({ name: 'ordercomplete', params: { orderNo: orderNum } });
+  } catch (error) {
+    console.error('Error navigating to complete page:', error);
+  }
+},
     callValidateModal(){
       this.$swal.fire({
           title: '결제오류!',
@@ -214,12 +230,25 @@ export default {
     }
   },
   beforeRouteLeave(to, from, next) {
-    const answer = window.confirm('진행중인 내용이 저장되지 않을 수 있습니다.');
-    if (answer) {
-      this.$store.dispatch('updateItemList', []);
+    if(this.isAbnormalRequest){
+      this.$swal.fire({
+            title: '페이지에서 나가시겠습니까?',
+            text: '진행중인 내용이 저장되지 않을 수 있습니다.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: '확인',
+            cancelButtonText: '취소'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                this.$store.dispatch('updateItemList', []);
+                next();
+            }
+          });
+    }
+    else{
       next();
-    } else {
-      next(false);
     }
   },
   

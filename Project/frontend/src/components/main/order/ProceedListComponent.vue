@@ -33,12 +33,23 @@
             <div> {{ item.prod_cnt }}개 </div>
           </v-col>
           <v-col cols="2" class="d-flex align-center text-right">
-            <div>{{ item.order_amount }}원</div>
+            <div>{{ formatPrice(item.order_amount) }}원</div>
           </v-col>
         </v-row>
         <v-divider></v-divider>
       </v-col>
     </v-row>
+    <v-row >
+          <v-col cols="8" class="d-flex align-center">
+            <div>
+              <div>총 주문금액</div>
+            </div>
+          </v-col>
+          <v-col cols="2" class="d-flex align-center">
+            <div> {{ formatPrice(totalAmount) }}원 </div>
+          </v-col>
+        </v-row>
+        <v-divider></v-divider>
   </template>
   <script>
   
@@ -47,17 +58,22 @@
         return {
           itemList:[],
           fallbackImg: '/imgs/loadfail.jpg',
+          totalAmount:0
         }
       },
       created(){
         this.itemList = this.$store.getters.getItemList;
         console.log(this.itemList);
+        this.totalAmount = this.itemList.reduce((acc, item) => acc + item.order_amount, 0);
       },
       methods: {
         onImageError(event) {
           if (event && event.target) {
             event.target.src = this.fallbackImg;
           }
+        },
+        formatPrice(value) {
+          return value.toLocaleString();
         },
       },
     }
