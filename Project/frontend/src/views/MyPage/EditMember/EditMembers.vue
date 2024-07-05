@@ -75,17 +75,17 @@ export default {
     },
     async updateUser() {
       if (this.user.pw !== this.passwordConfirm) {
-        alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+        this.$swal('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
         return; // 일치하지 않을 때 함수를 여기서 종료하여 아래 코드 실행을 막습니다.
       }
 
       try {
         await axios.put(`/api/memEdit/${this.user.user_id}`, this.user);
-        alert('회원 정보가 수정되었습니다.');
+        this.$swal('회원 정보가 수정되었습니다.');
         this.$router.push('/');
       } catch (error) {
         console.error('Error updating user info:', error);
-        alert('회원 정보 수정에 실패했습니다.');
+        this.$swal('회원 정보 수정에 실패했습니다.');
       }
     },
     goToDeletePage() {

@@ -120,7 +120,7 @@ export default {
     },
     async changePassword() {
       if (!this.newPassword) {
-        alert('새 비밀번호를 입력해주세요.');
+        this.$swal('새 비밀번호를 입력해주세요.');
         return;
       }
 
@@ -133,7 +133,7 @@ export default {
         });
         this.userPasswordFound = response.data;
         this.newPassword =response.data;
-        alert('비밀번호가 변경되었습니다.');
+        this.$swal('비밀번호가 변경되었습니다.');
         this.newPassword = ''; // 입력 필드 초기화
         this.userpwFind = { name: '', user_id: '', phone: '' }; // 데이터 초기화
         this.closePasswordModal();

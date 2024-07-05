@@ -42,28 +42,28 @@ export default {
     ...mapActions(["logoutUser"]),
     async deleteUser() {
       if (!this.isChecked) {
-        alert("회원탈퇴를 위해서는 반드시 동의해야 합니다.");
+        this.$swal("회원탈퇴를 위해서는 반드시 동의해야 합니다.");
         return;
       } 
       if (!this.user_id) {
-        alert("로그인이 필요합니다.");
+        this.$swal("로그인이 필요합니다.");
         return;
       }
       try {
         const response = await axios.delete(`/api/memdelete/${this.user_id}`);
         
         if (response.data.success) {
-          alert("회원 탈퇴가 정상적으로 처리되었습니다.");
+          this.$swal("회원 탈퇴가 정상적으로 처리되었습니다.");
           sessionStorage.removeItem('user_id'); // 세션에서 사용자 ID를 제거합니다.
           sessionStorage.removeItem('name');
           this.logoutUser();
           this.$router.push('/login'); // 로그인 페이지로 이동합니다.
         } else {
-          alert("회원 탈퇴가 정상적으로 처리되지 않았습니다.");
+          this.$swal("회원 탈퇴가 정상적으로 처리되지 않았습니다.");
         }
       } catch (error) {
         console.error("Error deleting user:", error);
-        alert("회원 탈퇴 중 오류가 발생했습니다.");
+        this.$swal("회원 탈퇴 중 오류가 발생했습니다.");
       }
     },
     

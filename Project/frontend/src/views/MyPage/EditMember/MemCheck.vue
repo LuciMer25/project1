@@ -1,5 +1,6 @@
+
 <template>
-  <div class="col-md-9">
+  <div class="center-container">
     <div class="login-box">
       <h4>회원정보를 보호를 위해
            <br>회원정보를 입력해주세요.</h4>
@@ -16,7 +17,6 @@
 </template>
 
 <script>
-// axios import 추가
 import axios from 'axios';
 
 export default {
@@ -29,34 +29,27 @@ export default {
     };
   },
   mounted() {
-    // Vue 컴포넌트가 마운트될 때 sessionStorage에서 user_id 값을 가져옴
     this.userId = sessionStorage.getItem('user_id');
     console.log(this.userId);
   },
   methods: {
     async handleSubmit() {
-      // 실제 서버의 URL을 정의
       const serverUrl = '/api/memcheck';
 
       try {
-        // axios를 이용하여 서버에 POST 요청을 보냄
         const response = await axios.post(serverUrl, {
           user_id: this.userId,
           pw: this.userLogin.pw
         });
 
-        // 서버에서 올바른 응답을 받은 경우
         if (response.status === 200) {
-          // 비밀번호가 맞으면 다음 페이지로 이동
           window.location.href = '/EditMembers';
         } else {
-          // 비밀번호가 틀린 경우
-          alert('비밀번호가 올바르지 않습니다.');
+          this.$swal('비밀번호가 올바르지 않습니다.');
         }
       } catch (error) {
-        // 서버와의 통신에서 오류가 발생한 경우
         console.error('Error:', error);
-        alert('서버 응답을 처리하는 중 오류가 발생했습니다.');
+        this.$swal('서버 응답을 처리하는 중 오류가 발생했습니다.');
       }
     }
   }
@@ -64,5 +57,46 @@ export default {
 </script>
 
 <style scoped>
-/* 추가적인 스타일링 */
+.center-container{
+  margin: 0 auto;
+  width: 50px;
+  margin-top: 150px;
+  margin-left: 350px;
+}
+
+
+.login-box {
+  background-color: white;
+  padding: 10px;
+  border-radius: 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin: 0 auto;
+
+}
+
+.login-wrapper p {
+  margin: 0;
+  padding: 10px 0;
+}
+
+#login-form input[type="password"],
+#login-form input[type="submit"] {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#login-form input[type="submit"] {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+#login-form input[type="submit"]:hover {
+  background-color: #0056b3;
+}
 </style>
