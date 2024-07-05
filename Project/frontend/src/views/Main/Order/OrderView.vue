@@ -115,8 +115,17 @@ export default {
       // console.log(proceed.user);
       // console.log(this.$store.getters.getItemList);
       //console.log('order_total_amount : '+this.totalprice);
-
-      let data = {
+      if(this.checkInputException(proceed)){
+        this.$swal.fire({
+          title: 'Error!',
+          text: '주문 정보를 다시 확인해주세요.',
+          icon: 'warning',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: '확인'
+        });
+      }
+      else{
+        let data = {
                 orders:{
                         order_total_amount : this.totalprice, 
                         addr: proceed.receiver.address,
@@ -148,12 +157,38 @@ export default {
                               email: proceed.user.email,
                             },
                           }));
+          console.log(result);
+          if(result.code == 'FAILURE_TYPE_PG'){
+            this.callCancelModal();
+          }
+          else{
+            data.orders.pay_code = result.txId;
+            let checkoutResult = (await axios.post('/api/checkout',data));
+            //console.log(checkoutResult);
+            this.callCompletePage(checkoutResult);
+          }
+      }
+    },
+    checkInputException(proceedInfo){
+      let checkException= false;
+      
+      const fieldsToCheck = [
+            proceedInfo.receiver.address,
+            proceedInfo.receiver.detailAddress,
+            proceedInfo.receiver.postalCode,
+            proceedInfo.user.user_id, 
+            proceedInfo.receiver.phone, 
+            proceedInfo.receiver.name
+          ];
 
-          data.orders.pay_code = result.txId;
-          let checkoutResult = (await axios.post('/api/checkout',data));
-          //console.log(checkoutResult);
-          this.callCompletePage(checkoutResult);
-
+      for (const field of fieldsToCheck) {
+        console.log(field);
+          if (field === '' || field === null || field === undefined) {
+              checkException = true;
+          }
+        }
+        console.log('입력정보 : '+checkException);
+        return checkException;
     },
     async  callCompletePage(result){
       if(result.data.message != ''){
@@ -179,6 +214,19 @@ export default {
           
         }
 
+    },
+    async callCancelModal(){
+        try {
+        await this.$swal.fire({
+          title: '결제취소!',
+          text: '결제를 취소하셨습니다. 다시 시도해주세요.',
+          icon: 'warning',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: '확인'
+        });
+      } catch (error) {
+        console.error('Error handling SweetAlert result:', error);
+      }
     },
     async callSuccessModal(order_no) {
     const self = this;
