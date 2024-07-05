@@ -28,8 +28,8 @@
         <tbody>
           <tr :key="i" v-for="(order, i) in limitedOrders" @click="goToDetail(order.order_no)">
             <td>{{ order.order_no }}</td>
-            <td><img :src="order.first_prod_img" alt="상품 이미지" width="50" height="50"></td>
-            <td>{{ order.first_prod_name }}</td>
+            <td><img :src="`/api/upload/products/${order.first_prod_img}`" alt="상품 이미지" width="50" height="50"></td>
+            <td>{{ order.first_prod_name }}(외{{ order.prod_cnt }}건)</td>
             <td>{{ formatCurrency(order.price)+'원' }}</td>
             <td>{{ order.addr }}</td>
             <td>{{ order.detail_addr }}</td>
@@ -66,7 +66,6 @@
     <table class="table table-hover">
       <thead>
         <tr>
-          <th><input type="checkbox"></th>
           <th>상품이미지</th>
           <th>상품명</th>
           <th>가격</th>
@@ -74,9 +73,8 @@
       </thead>
       <tbody>
         <tr v-for="(wish, index) in limitedWishList" :key="index">
-          <td><input type="checkbox"></td>
           <td>
-            <img :src="`/api/upload/products/${wish.prod_no}/${wish.prod_img}`" alt="상품 이미지" width="50" height="50">
+            <img :src="`/api/upload/products/${wish.prod_img}`" alt="상품 이미지" width="50" height="50">
           </td>
           <td>{{ wish.prod_name }}</td>
           <td>{{ formatCurrency(wish.price) + '원' }}</td>

@@ -15,9 +15,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(order, i) in paginatedOrders" :key="i">
-          <td @click="goToDetail(order.order_no)">{{ order.order_no }}</td>
-          <td><img :src="order.first_prod_img" alt="상품 이미지" style="width: 50px; height: 50px;"></td>
+        <tr v-for="(order, i) in paginatedOrders" :key="i" @click="goToDetail(order.order_no)">
+          <td>{{ order.order_no }}</td>
+          <td><img :src="`/api/upload/products/${order.first_prod_img}`" alt="상품 이미지" style="width: 50px; height: 50px;"></td>
           <td>{{ order.first_prod_name }}(외{{ order.prod_cnt }}건)</td>
           <td>{{ formatCurrency(order.price) }}</td>
           <td>{{ order.addr }}</td>

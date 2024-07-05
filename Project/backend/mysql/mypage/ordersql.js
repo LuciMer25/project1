@@ -22,6 +22,9 @@ module.exports = {
     orderConfirm: `UPDATE orders
                    SET order_state = '구매확정' 
                    WHERE order_no = ?`,
+    changeReviewState: `UPDATE order_detail
+		            SET review_avail = 1
+		            WHERE user_id = ?`,
     updateConfirmState: `UPDATE order_state
                          SET buy_complete_date = CURRENT_TIMESTAMP
                          WHERE order_no = ?`,

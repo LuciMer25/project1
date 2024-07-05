@@ -30,6 +30,13 @@ router.get("/",	async(req ,	res )	=> {
     let result = await query("reviewList", user_id).then(res=>res);
     res.send(result);
 });
+// 상품목록
+router.get("/reviewProductSel",	async(req ,	res )	=> {
+  const user_id = req.query.user_id;
+  console.log(user_id);
+  let result = await query("reviewProductSel", user_id).then(res=>res);
+  res.send(result);
+});
 //단건조회
 router.get("/:review_no",	async (req ,res )	=> {
     let result = await query("reviewInfo", req.params.review_no );
@@ -38,6 +45,7 @@ router.get("/:review_no",	async (req ,res )	=> {
 //등록
 router.post("/", upload.single("avatar"), async (req, res) => {
   let data = { ...req.body };
+  const prod_name = req.body.prod_name
   const score = req.body.score;
   const user_id = req.body.user_id;
   const review_title = req.body.review_title;
@@ -56,14 +64,23 @@ router.post("/", upload.single("avatar"), async (req, res) => {
       console.log('업로드된 파일이름:', req.file.filename);
       data.review_img = req.file.filename;
     }
-    let result = await query("reviewInsert", [score, review_title, review_content, user_id, data.review_img, order_no, prod_no]);
-    res.send(result);
+    let result = await query("reviewInsert", [prod_name,score, review_title, review_content, user_id, data.review_img, order_no, prod_no]);
+    let result1 = await query("changeReviewState", [order_no]);
+    // res.send(result);
+    res.send({ result, result1 });
   });
 //수정
 router.put('/:review_no',  (req, res) => {
   const no = req.params.review_no;
   const { review_title, review_content, score } = req.body;
   let result =  query("reviewUpdate", [review_title, review_content, score, no]);
+  res.send(result);
+});
+// 리뷰 상태 수정
+router.put('/changeReviewState',  (req, res) => {
+  const no = req.params.review_no;
+  const { review_avail } = req.body;
+  let result =  query("changeReviewState", [review_avail, no]);
   res.send(result);
 });
 //삭제

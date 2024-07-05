@@ -4,6 +4,11 @@
         <table class="table table-bordered">
           <thead>
             <tr>
+              <th scope="col" class="text-center table-primary">상품명</th>
+              <td scope="col" class="text-center" >{{ReviewInfo.prod_name}}</td>
+              <th scope="col" class="text-center table-primary">상품이미지</th>
+              <td scope="col" class="text-center" ><img :src="`/api/upload/products/${ReviewInfo.prod_img}`" alt="상품 이미지" style="width: 50px; height: 50px;"></td></tr>
+              <tr>
               <th scope="col" class="text-center table-primary">리뷰번호</th>
               <td scope="col" class="text-center" >{{ReviewInfo.review_no}}</td>
               <th scope="col" class="text-center table-primary">평점</th>
@@ -60,13 +65,13 @@
       return {
         searchNo: "",
         ReviewInfo: {
-          score: '',
-          review_title: '',
-          review_content: '',
-          reg_date: '',
-          review_img: '',
-          order_no: '',
-          prod_no: '',
+          // score: '',
+          // review_title: '',
+          // review_content: '',
+          // reg_date: '',
+          // review_img: '',
+          // order_no: '',
+          // prod_no: '',
         },
         isdisabled: false
       };
