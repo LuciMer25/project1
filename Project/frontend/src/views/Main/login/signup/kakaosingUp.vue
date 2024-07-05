@@ -18,8 +18,8 @@
       <input type="date" class="birthdate" placeholder="생년월일" v-model="userInsert.birth">
     </div>
     <div>
-    <input name="phone" type="text" class="phone" placeholder="전화번호" v-model="userInsert.phone">전화번호
-    <button type="button" @click="checkUserphone">전화번호 중복체크</button>
+      <input name="phone" type="text" class="phone" placeholder="전화번호" v-model="userInsert.phone">전화번호<br>
+      <button type="button" @click="checkUserphone">전화번호 중복체크</button>
     </div>
     <div class="textForm">
       <button type="button" @click="sample6_execDaumPostcode">우편번호찾기</button>
@@ -36,9 +36,10 @@
     <div class="textForm">참고항목
       <input type="text" id="sample6_extraAddress" placeholder="참고항목">
     </div>
-    <input type="submit" class="btn" value="가입하기"/>
+    <input type="submit" class="btn" :disabled="!isFormValid" value="가입하기"/>
   </form>
 </template>
+
 
 <script>
 import axios from "axios";
@@ -57,7 +58,26 @@ export default {
         birth: "",
       },
       passwordConfirm: "", // 비밀번호 확인을 위한 변수 추가
+      isPasswordMatch: false, // 비밀번호 일치 여부
+      isPhoneValid: false, // 전화번호 유효성 여부
     };
+  },
+  computed: {
+    isFormValid() {
+      return (
+        this.isPasswordMatch &&
+        this.isPhoneValid &&
+        this.userInsert.user_id &&
+        this.userInsert.pw &&
+        this.passwordConfirm &&
+        this.userInsert.name &&
+        this.userInsert.birth &&
+        this.userInsert.phone &&
+        this.userInsert.post_no &&
+        this.userInsert.post_addr &&
+        this.userInsert.post_detail_list
+      );
+    },
   },
   methods: {
     async saveUser() {
@@ -65,30 +85,33 @@ export default {
         // 서버로 데이터 전송
         const response = await axios.post("/api/signup", this.userInsert);
         if (response.data.affectedRows == 1) {
-          alert("회원가입이 완료되었습니다.");
+          this.$swal("회원가입이 완료되었습니다.");
           sessionStorage.removeItem('email'); // sessionStorage에서 이메일 삭제
           this.$router.push("/login"); // 회원가입 완료 후 로그인 페이지로 이동
         } else {
-          alert("회원가입에 실패하였습니다.");
+          this.$swal("회원가입에 실패하였습니다.");
         }
       } catch (error) {
         console.error("사용자 정보 저장 중 오류:", error);
       }
     },
-    checkPasswordMatch() {  // 추가: 비밀번호 일치 여부 확인
-      if (this.userInsert.pw === this.passwordConfirm) {
-        alert('비밀번호 일치합니다');
+    checkPasswordMatch() {
+      this.isPasswordMatch = this.userInsert.pw === this.passwordConfirm;
+      if (this.isPasswordMatch) {
+        this.$swal('비밀번호가 일치합니다.');
       } else {
-        alert('비밀번호가 일치하지 않습니다.');
+        this.$swal('비밀번호가 일치하지 않습니다.');
       }
     },
     async checkUserphone() {
       try {
         const response = await axios.post("/api/signUp/checkUserphone", { phone: this.userInsert.phone });
         if (response.data.exists) {
-          alert("이미 사용 중인 전화번호입니다.");
+          this.isPhoneValid = false;
+          this.$swal("이미 사용 중인 전화번호입니다.");
         } else {
-          alert("사용 가능한 전화번호입니다.");
+          this.isPhoneValid = true;
+          this.$swal("사용 가능한 전화번호입니다.");
         }
       } catch (error) {
         console.error("전화번호 중복 체크 중 오류:", error);
@@ -151,6 +174,7 @@ export default {
 };
 </script>
 
+
 <style scoped>
 * {
   margin: 0px;
@@ -166,7 +190,7 @@ body {
 .joinForm {
   position: relative;
   width: 500px;
-  height: 1000px;
+  height: 1300px;
   background-color: #FFFFFF;
   text-align: center;
   border-radius: 15px;

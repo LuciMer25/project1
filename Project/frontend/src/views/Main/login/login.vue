@@ -53,7 +53,7 @@ export default {
           sessionStorage.setItem('user_resp', response.data.user_resp); // 사용자 역할 저장
 
           // 로그인 성공 알림
-          alert("로그인 성공!");
+          this.$swal("로그인 성공!");
 
           let user = { user_id: response.data.user_id, name: response.data.name, user_resp: response.data.user_resp };
           this.$store.dispatch('updateLoginInfo', user);
@@ -68,11 +68,11 @@ export default {
           // 사용자 정보 확인
           this.checkSessionStorage();
         } else {
-          alert("로그인 실패: 아이디 또는 비밀번호를 확인해주세요.");
+          this.$swal("로그인 실패: 아이디 또는 비밀번호를 확인해주세요.");
         }
       } catch (error) {
         console.error("로그인 오류:", error);
-        alert("로그인 오류: 서버와의 통신에 문제가 발생했습니다.");
+        this.$swal("로그인 오류: 서버와의 통신에 문제가 발생했습니다.");
       }
     },
     checkSessionStorage() {
@@ -98,7 +98,7 @@ export default {
         success: vm.getKakaoAccount,
         fail: function(error) {
           console.log(error);
-          alert("카카오 로그인에 실패했습니다.");
+          this.$swal("카카오 로그인에 실패했습니다.");
         },
         
       });

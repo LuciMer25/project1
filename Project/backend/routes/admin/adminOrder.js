@@ -53,22 +53,22 @@ const query = require('../../mysql/index.js');
     res.send({ list });
   });
 
-  router.put('/updateCancelState/:no', async(req, res) => {
+  router.put('/adminUpdateCancelState/:no', async(req, res) => {
     const no = req.params.no;
-    let result = await query("updateCancelState", [no]);
+    let result = await query("adminUpdateCancelState", [no]);
     res.send(result);
   });
 
-  router.put('/updateCancelComplete/:no', async(req, res) => {
+  router.put('/adminUpdateCancelComplete/:no', async(req, res) => {
     const no = req.params.no;
-    let result = await query("updateCancelComplete", [no]);
+    let result = await query("adminUpdateCancelComplete", [no]);
     res.send(result);
   })
 
-  router.put('/updateReturnState/:no' , async(req, res) => {
+  router.put('/adminUpdateReturnState/:no' , async(req, res) => {
     const no = req.params.no;
-    let result = await query("updateReturnState", [no]);
-    await query("updateReturnComplete", [no])
+    let result = await query("adminUpdateReturnState", [no]);
+    await query("amdinUpdateReturnComplete", [no])
     res.send(result);
 
   })
