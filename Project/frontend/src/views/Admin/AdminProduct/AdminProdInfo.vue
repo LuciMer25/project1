@@ -118,8 +118,17 @@ export default {
      })
   },
   methods: {
-    showSection(section) {
-      this.activeSection = section;
+    async fetchQnaCount(){
+      const prodNo = this.$route.params.prodNo;
+      const res = await axios.get(`/api/adminBoard/qnaCount/${prodNo}`)
+      this.qnaCount = res.data.count;
+      console.log(this.qnaCount)
+    },
+    scrollTo(sectionId) {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     },
     goUpdateForm(prod_no) {
       this.$router.push(`/admin/prodUpdate/${prod_no}`);
