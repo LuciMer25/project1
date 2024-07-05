@@ -118,10 +118,12 @@ export default {
       ],
       showModal: false,
       orderNo: null,
+      socket: null,
     };
   },
   created() {
     this.fetchOrderList();
+    this.setupWebSocket();
   },
   computed: {
     filteredItems() {
@@ -178,6 +180,16 @@ export default {
       const minutes = String(date.getMinutes()).padStart(2, '0');
       const seconds = String(date.getSeconds()).padStart(2, '0');
       return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    },
+    setupWebSocket() {
+      this.socket = new WebSocket('ws://localhost:3001');
+      this.socket.onmessage = (event) => {
+        const message = JSON.parse(event.data);
+        if (message.type === 'UPDATE_ORDER_STATE') {
+          this.$swal("배송이 완료되었습니다.")
+          this.refreshData();
+        }
+      };
     },
   },
 };
