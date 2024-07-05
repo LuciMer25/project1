@@ -6,7 +6,7 @@ const { subCategory } = require('../../mysql/sql.js');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'D:/project1/project/backend/upload/products/new');
+    cb(null, 'D:/project1/project/backend/upload/products');
   },
   filename: function (req, file, cb) {
     const originalname = Buffer.from(file.originalname, 'latin1').toString('utf8');

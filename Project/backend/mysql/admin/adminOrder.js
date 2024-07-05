@@ -71,19 +71,19 @@ module.exports = {
                      o.order_no, o.order_state, ods.cancel_req_date
                      order by o.order_state desc`,
 
-    updateCancelState : `UPDATE orders
+    adminUpdateCancelState : `UPDATE orders
                          SET order_state = "취소완료"
                          WHERE order_no = ?`,
 
-    updateCancelComplete : `UPDATE order_state
+    adminUpdateCancelComplete : `UPDATE order_state
                             SET cancel_complete_date = CURRENT_TIMESTAMP
                             WHERE order_no = ?`,
 
-    updateReturnState : `UPDATE orders
+    adminUpdateReturnState : `UPDATE orders
                         SET order_state = "반품완료" 
                         WHERE order_no = ?`,
 
-    updateReturnComplete : `UPDATE order_state
+    amdinUpdateReturnComplete : `UPDATE order_state
                             SET return_complete_date = CURRENT_TIMESTAMP
                             WHERE order_no = ?`,
 //     orderDetail : `SELECT od.prod_name, od.prod_img, od.prod_no, od.price, o.*, od.prod_cnt, order_amount, os.order_date
