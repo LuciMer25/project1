@@ -109,8 +109,8 @@
     <div class="endOfHeader"></div>
   </template>
   <script>
-  
-  import router from "@/router";
+
+import router from "@/router";
 import axios from "axios";
   import { RouterLink } from "vue-router";
   import { mapActions, mapGetters } from "vuex";

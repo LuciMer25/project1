@@ -13,18 +13,18 @@
       </v-col>
       <v-col cols="10" md="5">
         <div class="product-info">
-          <v-row justify="end" class="mb-2">
-            <v-btn icon @click="setWish">
-              <v-icon v-if="iswished">mdi-heart</v-icon>
-              <v-icon v-else>mdi-heart-outline</v-icon>
-            </v-btn>
-          </v-row>
-          <h1 class="product-title" v-text="product.prod_name"></h1>
+          <h1 class="product-title">
+  <span v-text="product.prod_name"></span>
+  <v-btn icon @click="setWish" class="ml-8">
+    <v-icon v-if="iswished">mdi-heart</v-icon>
+    <v-icon v-else>mdi-heart-outline</v-icon>
+  </v-btn>
+</h1>
           <v-rating  dense v-model="product.avg_score" readonly half-increments></v-rating>
           <p class="reviews-count">{{ product.avg_score }} ({{ product.cnt }}건)</p>
           <h2 class="price">{{ formatPrice(product.price) }}원</h2>
           <p class="origin">원산지: 상품정보 원산지표시 참조</p>
-          <v-row class="quantity-selector" align="center" justify="center">
+          <v-row class="quantity-selector" align="center" justify="start">
             <v-col cols="auto" class="text-right">
               <span>수량선택</span>
             </v-col>
@@ -349,6 +349,7 @@ export default {
 
 .product-info {
   padding: 20px;
+  padding-top: 0px;
 }
 
 .product-title {

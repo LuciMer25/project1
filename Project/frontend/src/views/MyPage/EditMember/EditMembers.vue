@@ -1,44 +1,45 @@
 <template>
   <div class="col-md-9">
-  <form action="doJoin" method="POST" class="joinForm" @submit.prevent="updateUser">
-    <h2>회원수정</h2>
-    <div class="textForm">
-      아이디
-      <input name="loginId" type="text" class="id" v-model="user.user_id" readonly>
-    </div>
-    <div class="textForm">비밀번호
-    <input name="loginPw" type="password" class="pw" v-model="user.pw" placeholder="비밀번호">
-    </div>
-    <div class="textForm">비밀번호확인
-      <input name="loginPwConfirm" type="password" class="pw" v-model="passwordConfirm" placeholder="비밀번호 확인">
-    </div>
-    <div class="textForm">이름<br>
-      <input name="name" type="text" class="name" v-model="user.name" placeholder="이름">
-    </div>
-    <div class="textForm">전화번호
-      <input name="cellphoneNo" type="number" class="cellphoneNo" v-model="user.phone" placeholder="전화번호" readonly>
-    </div>
-    <div class="textForm">생년월일
-      <input name="cellphoneNo" type="tel" class="cellphoneNo" v-model="user.birth" placeholder="생년월일" readonly>
-    </div>
-    <div class="textForm">
-      <input type="button" @click="sample6_execDaumPostcode()" value="우편번호 찾기" class="postcodeButton"><br>
-      <div>우편번호
-      <input type="text" id="sample6_postcode" v-model="user.post_no" placeholder="우편번호">
+    <form action="doJoin" method="POST" class="joinForm" @submit.prevent="updateUser">
+      <h2>회원수정</h2>
+      <div class="textForm">
+        아이디
+        <input name="loginId" type="text" class="id" v-model="user.user_id" readonly>
       </div>
-      <div>주소<br>
-      <input type="text" id="sample6_address" v-model="user.post_addr" placeholder="주소">
+      <div class="textForm">비밀번호
+        <input name="loginPw" type="password" class="pw" v-model="user.pw" placeholder="비밀번호">
       </div>
-      <div>상세주소
-      <input type="text" id="sample6_detailAddress" v-model="user.post_detail_list" placeholder="상세주소">
+      <div class="textForm">비밀번호확인
+        <input name="loginPwConfirm" type="password" class="pw" v-model="passwordConfirm" placeholder="비밀번호 확인">
       </div>
-    <div>참고항목
-      <input type="text" id="sample6_extraAddress" placeholder="참고항목">
-    </div>
-    </div>
-    <input type="submit" class="btn" value="수정하기"/>
-    <button type="button" class="btn btn-danger" @click="goToDeletePage">회원탈퇴</button>
-  </form>
+      <div class="textForm">이름<br>
+        <input name="name" type="text" class="name" v-model="user.name" placeholder="이름">
+      </div>
+      <div class="textForm">전화번호
+        <input name="cellPhone" id="cellPhone" type="text" class="cellphoneNo" v-model="user.phone" placeholder="전화번호" maxlength="13" @input="formatPhoneNumber">
+        <br> <br><button type="button" @click="checkUserphone">전화번호 중복체크</button>
+      </div>
+      <div class="textForm">생년월일
+        <input name="birth" type="tel" class="cellphoneNo" v-model="user.birth" placeholder="생년월일">
+      </div>
+      <div class="textForm">
+        <br> <input type="button" @click="sample6_execDaumPostcode()" value="우편번호 찾기" class="postcodeButton"><br>
+        <div>우편번호
+          <input type="text" id="sample6_postcode" v-model="user.post_no" placeholder="우편번호">
+        </div>
+        <div>주소<br>
+          <input type="text" id="sample6_address" v-model="user.post_addr" placeholder="주소">
+        </div>
+        <div>상세주소
+          <input type="text" id="sample6_detailAddress" v-model="user.post_detail_list" placeholder="상세주소">
+        </div>
+        <div>참고항목
+          <input type="text" id="sample6_extraAddress" placeholder="참고항목">
+        </div>
+      </div>
+      <input type="submit" class="btn btn-outline-secondary" value="수정하기"/>
+      <button type="button" class="btn btn-danger" @click="goToDeletePage">회원탈퇴</button>
+    </form>
   </div>
 </template>
 
@@ -58,7 +59,8 @@ export default {
         post_no: "",
         birth: "",
       },
-      passwordConfirm: ''
+      passwordConfirm: '',
+      isPhoneValid: false, // 전화번호 유효성 여부 추가
     };
   },
   methods: {
@@ -74,12 +76,26 @@ export default {
       }
     },
     async updateUser() {
+      // 입력 필드가 하나라도 비어 있는지 확인
+      if (!this.user.user_id || !this.user.pw || !this.passwordConfirm || !this.user.name || !this.user.phone || !this.user.birth || !this.user.post_no || !this.user.post_addr) {
+        this.$swal('모든 입력 필드를 채워주세요.');
+        return; // 입력 필드가 비어 있으면 함수 종료
+      }
+
+      // 비밀번호 확인
       if (this.user.pw !== this.passwordConfirm) {
         this.$swal('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
-        return; // 일치하지 않을 때 함수를 여기서 종료하여 아래 코드 실행을 막습니다.
+        return; // 비밀번호가 일치하지 않으면 함수 종료
+      }
+
+      // 전화번호 유효성 확인
+      if (!this.isPhoneValid) {
+        this.$swal('전화번호 중복체크를 해주세요.');
+        return; // 전화번호 유효성 체크 안됨
       }
 
       try {
+        // 사용자 정보 업데이트 요청
         await axios.put(`/api/memEdit/${this.user.user_id}`, this.user);
         this.$swal('회원 정보가 수정되었습니다.');
         this.$router.push('/');
@@ -88,50 +104,88 @@ export default {
         this.$swal('회원 정보 수정에 실패했습니다.');
       }
     },
+    async checkUserphone() {
+      try {
+        const response = await axios.post("/api/signUp/checkUserphone", { phone: this.user.phone });
+        if (response.data.exists) {
+          this.isPhoneValid = false;
+          this.$swal("이미 사용 중인 전화번호입니다.");
+        } else {
+          this.isPhoneValid = true;
+          this.$swal("사용 가능한 전화번호입니다.");
+        }
+      } catch (error) {
+        console.error("전화번호 중복 체크 중 오류:", error);
+      }
+    },
     goToDeletePage() {
       this.$router.push('/DeleteMem');
     },
     sample6_execDaumPostcode() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                var addr = ''; // 주소 변수
-                var extraAddr = ''; // 참고항목 변수
+      new daum.Postcode({
+        oncomplete: (data) => {
+          // 우편번호 설정
+          this.user.post_no = data.zonecode; // 수정: this.user를 사용하여 객체에 접근
 
-                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                    addr = data.roadAddress;
-                } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                    addr = data.jibunAddress;
-                }
+          // 주소 설정
+          this.user.post_addr = data.roadAddress || data.jibunAddress || '';
 
-                if(data.userSelectedType === 'R'){
-                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                        extraAddr += data.bname;
-                    }
-                    if(data.buildingName !== '' && data.apartment === 'Y'){
-                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                    }
-                    if(extraAddr !== ''){
-                        extraAddr = ' (' + extraAddr + ')';
-                    }
-                    document.getElementById("sample6_extraAddress").value = extraAddr;
-                
-                } else {
-                    document.getElementById("sample6_extraAddress").value = '';
-                }
-
-                document.getElementById('sample6_postcode').value = data.zonecode;
-                document.getElementById("sample6_address").value = addr;
-                document.getElementById("sample6_detailAddress").focus();
+          // 참고항목 설정
+          let extraAddr = '';
+          if (data.userSelectedType === 'R') {
+            if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+              extraAddr += data.bname;
             }
-        }).open();
+            if (data.buildingName !== '' && data.apartment === 'Y') {
+              extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+            }
+            if (extraAddr !== '') {
+              extraAddr = ' (' + extraAddr + ')';
+            }
+          }
+          this.user.post_detail_list = extraAddr;
+
+          // Vue의 반응성을 이용해 화면을 자동으로 업데이트
+        }
+      }).open();
     },
+    formatPhoneNumber() {
+      // 전화번호 자동 하이픈 추가 함수
+      this.user.phone = this.autoHypenPhone(this.user.phone);
+    },
+    autoHypenPhone(str) {
+      str = str.replace(/[^0-9]/g, '');
+      var tmp = '';
+      if (str.length < 4) {
+        return str;
+      } else if (str.length < 7) {
+        tmp += str.substr(0, 3);
+        tmp += '-';
+        tmp += str.substr(3);
+        return tmp;
+      } else if (str.length < 11) {
+        tmp += str.substr(0, 3);
+        tmp += '-';
+        tmp += str.substr(3, 4);
+        tmp += '-';
+        tmp += str.substr(7);
+        return tmp;
+      } else {
+        tmp += str.substr(0, 3);
+        tmp += '-';
+        tmp += str.substr(3, 4);
+        tmp += '-';
+        tmp += str.substr(7, 4);
+        return tmp;
+      }
+      return str;
+    }
   },
   mounted() {
     this.fetchUserInfo();
   }
 };
 </script>
-
 
 <style scoped>
 * {
@@ -148,11 +202,12 @@ body {
 .joinForm {
   position: relative;
   width: 500px;
-  height: 1300px;
+  height: 1250px;
   background-color: #FFFFFF;
   text-align: center;
   border-radius: 15px;
   margin: 0 auto; /* 수평 가운데 정렬 */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 .joinForm h2 {
@@ -196,18 +251,41 @@ body {
 .btn {
   width: calc(100% - 40px);
   height: 40px;
-  background: #2ecc71;
-  color: white;
+  background: #3498db;
   border: none;
+  margin-top: 20px;
   border-radius: 5px;
+  color: white;
   font-size: 16px;
   cursor: pointer;
-  margin-top: 20px;
 }
 
 .btn:hover {
-  background: #27ae60;
+  background-color: #2980b9;
+}
+
+.btn-danger {
+  background-color: #e74c3c;
+}
+
+.btn-danger:hover {
+  background-color: #c0392b;
+}
+
+.postcodeButton {
+  width: 100%;
+  height: 40px;
+  background: #2ecc71;
+  border: none;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.postcodeButton:hover {
+  background-color: #27ae60;
 }
 </style>
-
-

@@ -214,7 +214,6 @@ const routes = [
         name: 'notifyInfo',
         component : notifyInfo
       },
-
     ]
   },
   // 마이페이지
@@ -433,5 +432,7 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+
 
 export default router
