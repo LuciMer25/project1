@@ -1,5 +1,4 @@
 <template>
-    <!-- <Header></Header> -->
     <Header3/>
     <RouterView :key="$route.fullPath"></RouterView>
     <Footer></Footer>
