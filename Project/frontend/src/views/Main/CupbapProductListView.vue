@@ -110,8 +110,7 @@
   
   <style scoped>
   .container {
-    margin-top: 20px;
-    text-align: center;
+    margin-top: 20px;    text-align: center;
 
   }
   

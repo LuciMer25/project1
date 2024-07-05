@@ -183,7 +183,7 @@ import axios from "axios";
   } // end of default
   
   </script>
- <style>
+ <!-- <style>
    header{
     margin-top: 20px;
   }
@@ -314,7 +314,6 @@ import axios from "axios";
   
   /* 헤더의 끝  */
   .endOfHeader{
-    border: 1px solid black;
     margin-bottom: 40px;
   }
   
@@ -348,5 +347,5 @@ import axios from "axios";
     display:block;
   }
 
-  </style>
+  </style> -->
    

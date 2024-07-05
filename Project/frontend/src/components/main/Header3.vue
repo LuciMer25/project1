@@ -14,11 +14,14 @@
           <RouterLink to="/mypagemain"><p>마이페이지 |</p></RouterLink>
           <RouterLink to="/cart"><p>장바구니</p></RouterLink>
         </div>
-      </div>
+      </div> 
+      <!-- top-head1 end -->
+     
       <div class="top-head2">
   
         <div class="dropdown">
           <span class="dropbtn">전체 카테고리</span>
+          <div class="containerbox">
           <div class="dropdown-content">
             <RouterLink v-bind:to="`/category/${category.ctgr_no}`"
               :key="i"
@@ -26,6 +29,7 @@
             >
               {{ category.ctgr_name }}
             </RouterLink>
+
             <div class="dropdown2">
                 <RouterLink v-bind:to="`/category/1/${category.ctgr_no}`"
                   :key="i"
@@ -35,7 +39,9 @@
                     {{ category.ctgr_name }}
                   </RouterLink>
             </div>
-  
+          </div>
+
+          <div class="dropdown-content">
             <RouterLink v-bind:to="`/category/${category.ctgr_no}`"
               :key="i"
               v-for="(category, i) in Upcategory2"
@@ -50,7 +56,9 @@
                     {{ category.ctgr_name }}
                   </RouterLink>
             </div>
-  
+          </div>
+
+          <div class="dropdown-content">
             <RouterLink v-bind:to="`/category/${category.ctgr_no}`"
               :key="i"
               v-for="(category, i) in Upcategory3"
@@ -65,7 +73,9 @@
                     {{ category.ctgr_name }}
                   </RouterLink>
             </div>
-  
+          </div>
+          
+          <div class="dropdown-content">
             <RouterLink v-bind:to="`/category/${category.ctgr_no}`"
               :key="i"
               v-for="(category, i) in Upcategory4"
@@ -80,7 +90,9 @@
                     {{ category.ctgr_name }}
                   </RouterLink>
             </div>
+          </div>
             
+          <div class="dropdown-content">
             <RouterLink v-bind:to="`/category/${category.ctgr_no}`"
               :key="i"
               v-for="(category, i) in Upcategory5"
@@ -95,22 +107,22 @@
                     {{ category.ctgr_name }}
                   </RouterLink>
             </div>
-  
+            </div>
           </div>
-        </div> 
-        <ul class="menu">
+          </div>
+          <!-- end of top-head2 -->
+          <ul class="menu">
           <li><RouterLink to="/notify">공지사항</RouterLink></li>
           <li><RouterLink to="/QnAList">QnA</RouterLink></li>
           <li><RouterLink to="/inquiryList">1:1문의</RouterLink></li>
           <li><RouterLink to="/bestproductlist">베스트</RouterLink></li>
         </ul>
-      </div>  
+        </div> 
+       
     </header>
-    <div class="endOfHeader"></div>
   </template>
   <script>
-
-import router from "@/router";
+  
 import axios from "axios";
   import { RouterLink } from "vue-router";
   import { mapActions, mapGetters } from "vuex";
@@ -162,9 +174,7 @@ import axios from "axios";
       this.DownCategory5 = result.data.DownResult5;
   
     }, // end of getcategortList
-    submit(){
-      this.$router.push(`/search/${keyword}`)
-    },
+
     ...mapActions(["logoutUser"]),
     checkLoginStatus() {
       return sessionStorage.getItem('user_id') != null;
@@ -183,170 +193,177 @@ import axios from "axios";
   } // end of default
   
   </script>
- <style>
-   header{
-    margin-top: 20px;
-  }
-  .top-head1{
-    width:90%;
-    margin:auto;
-    line-height: 50px;
-    display:flex;
-    justify-content: space-around;
-    /* background-color: pink; */
-  }
-  
-  .dropbtn{
-    font-weight: bold;
-  }
-  .top-head1 a{
-    text-decoration: none;
-    color:black;
-  }
-  
-  .search-form{
-    margin-left:200px;
-  }
-  
-  .search-form input:nth-child(2){
-    color:white;
-  }
-  .search-bar{
-    margin:auto;
-    width:300px;
-    border:1px solid black;
-    padding:0 15px;
-  }
-  
-  .search-button{
-    background-color: black;
-    border:1px solid black;
-    padding:0 10px;
-    font-weight: bold;
-    border-left: none;
-  }
-  
-  .search-button input{
-    color:white;
-  }
-  
-  .top-head1 a:hover{
-    color:black;
-  }
-  
-  .top-head2{
-    width:90%;
-    padding-left: 150px;
-    margin:auto;
-    line-height: 50px;
-    display:flex;
-    /* background-color: aqua; */
-  }
-  
-  /* 전체 카테고리 */
-  .dropdown{
+
+  <style>
+ header{
+  margin-top: 20px;
+  position: sticky;
+  top: 0px;
+  z-index: 9999;
+}
+.top-head1{
+  width:100%;
+  margin:auto;
+  line-height: 50px;
+  display:flex;
+  justify-content: space-around;
+  background-color: white;
+}
+
+.dropbtn{
+  font-weight: bold;
+}
+.top-head1 a{
+  text-decoration: none;
+  color:black;
+}
+
+.search-form{
+  margin-left:200px;
+}
+
+.search-form input:nth-child(2){
+  color:white;
+}
+.search-bar{
+  margin:auto;
+  width:300px;
+  border:1px solid black;
+  padding:0 15px;
+}
+
+.search-button{
+  background-color: black;
+  border:1px solid black;
+  padding:0 10px;
+  font-weight: bold;
+  border-left: none;
+}
+
+.search-button input{
+  color:white;
+}
+
+.top-head1 a:hover{
+  color:black;
+}
+
+.top-head2{
+  position: sticky;
+  top: 0px;
+  width:100%;
+  padding-left: 150px;
+  /* margin:auto; */
+  line-height: 50px;
+  display:flex;
+  /* position: fixed; */
+  /* top:0; */
+  background-color: white;
+  z-index: 9999;
+  /* background-color: gray; */
+  box-shadow: 0 1px 1px rgba(0,0,0,0.15), 
+            0 2px 2px rgba(0,0,0,0.15), 
+            0 4px 4px rgba(0,0,0,0.15), 
+            0 8px 8px rgba(0,0,0,0.15);
+  margin-bottom:10px;
+}
+
+/* 전체 카테고리 */
+.dropdown{
+display:block;
+margin-right: 50px;
+}
+
+.containerbox{
+  border:1px solid black;
+}
+
+/* 상위 카테고리 */
+.dropdown-content{
+  width:200px;
+  display : none;
   position : relative;
-  display : inline-block;
-  margin-right: 50px;
-  }
-  
-  /* 상위 카테고리 */
-  .dropdown-content{
-    display : none;
-    position : absolute;
-    padding:10px;
-    width:200px;
-    z-index : 1001; 
-    background-color:white;
-    border:1px solid black;
-  }
+  padding:10px;
+  z-index : 1001; 
+  background-color:white;
+}
 
-  .dropdown-content a{
-    display : block;
-    text-decoration: none;
-    color:black;
-  }
+.dropdown-content a{
+  display : block;
+  text-decoration: none;
+  color:black;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
 
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-  
+/* 하위 카테고리 */
+.dropdown2{
+  width:260px;
+  position : absolute;
+  top:-1px;
+  left:200px;
+  padding:10px;
+  display:none;
+  background-color: white;
+  border:1px solid black;
+  z-index: 1000;
+  text-align: left;
+}
+.controlbox{
+  display:flex;
+  /* padding:30px; */
+}
 
-  /* 하위 카테고리 */
-  .dropdown2{
-    width:300px;
-    position : relative;
-    left:-10px;
-    padding:10px;
-    display:none;
-    background-color: white;
-    border:1px solid black;
-    z-index: 1002;
-  }
+.controlbox a{
+  padding-right: 10px;
+}
 
-  .controlbox{
-    display:flex;
-    /* padding:30px; */
-  }
-  
-  .controlbox a{
-    padding-right: 10px;
-  }
-  
-  .menu ul{
-    padding:0;
-    margin:0;
-  }
-  
-  .menu li{
-    padding:0;
-    margin:0;
-    padding-right: 80px;
-    float:left;
-    list-style:none;
-  }
-  
-  .menu a{
-    color:black;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  
-  /* 헤더의 끝  */
-  .endOfHeader{
-    border: 1px solid black;
-    margin-bottom: 40px;
-  }
-  
-  li{
-    list-style: none;
-  }
-  a{
-    font-weight: bold;
-  }
-  a p {
-    font-weight: bold;
-  }
+.menu ul{
+  padding:0;
+  margin:0;
+}
 
-  .container a{
-    text-decoration: none;
-  }
+.menu li{
+  padding:0;
+  margin:0;
+  padding-right: 80px;
+  float:left;
+  list-style:none;
+}
 
-  .menu li a:hover{
-    color:red;
-  }
+.menu a{
+  color:black;
+  text-decoration: none;
+  font-weight: bold;
+}
 
-  .dropdown-content a:hover{ 
-    color:red;
-  }
+li{
+  list-style: none;
+}
+a{
+  font-weight: bold;
+}
+a p {
+  font-weight: bold;
+}
+.container a{
+  text-decoration: none;
+}
+.menu li a:hover{
+  color:red;
+}
+.dropdown-content a:hover{ 
+  color:red;
+}
 
-  .dropdown-content a:hover{
-    color:blue;
-  }
+.dropdown2{
+  display:none;  
+}
 
-  .dropdown-content:hover .dropdown2{
-    display:block;
-  }
+.dropdown-content:hover .dropdown2{
+  display:block;
+}
 
-  </style>
-   
+
+</style>
