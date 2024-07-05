@@ -60,7 +60,6 @@ export default {
         birth: "",
       },
       passwordConfirm: '',
-   
     };
   },
   methods: {
@@ -89,7 +88,8 @@ export default {
       }
 
       // 전화번호 유효성 확인
-    
+   
+
       try {
         // 사용자 정보 업데이트 요청
         await axios.put(`/api/memEdit/${this.user.user_id}`, this.user);
