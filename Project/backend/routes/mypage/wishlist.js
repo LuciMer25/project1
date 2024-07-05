@@ -10,17 +10,10 @@ router.get("/wish/:id", async(req, res) => {
   console.log(list)
 })
 
-router.post("/", async (req, res) => {
-  const user_id = req.body.user_id;
-  console.log(user_id);
-  let wishList = await query("addWish", user_id);
-  res.send(wishList);
-});
-
 // 단건삭제
-router.delete("/:wishNo", async (req, res) => {
-  const wishNo = req.params.wishNo;
-  let result = await query("delwish", wishNo);
+router.delete("/:wish_no", async (req, res) => {
+  const wishNo = req.params.wish_no;
+  let result = await query("delWish", wishNo);
   res.send(result);
 });
 module.exports = router;

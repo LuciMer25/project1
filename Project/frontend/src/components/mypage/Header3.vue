@@ -102,7 +102,7 @@
           <li><RouterLink to="/notify">공지사항</RouterLink></li>
           <li><RouterLink to="/QnAList">QnA</RouterLink></li>
           <li><RouterLink to="/inquiryList">1:1문의</RouterLink></li>
-          <li><RouterLink to="/bestproductlist">베스트</RouterLink></li>
+          <li><RouterLink to="">베스트</RouterLink></li>
         </ul>
       </div>  
     </header>
@@ -162,7 +162,9 @@ import axios from "axios";
       this.DownCategory5 = result.data.DownResult5;
   
     }, // end of getcategortList
-
+    submit(){
+      this.$router.push(`/search/${keyword}`)
+    },
     ...mapActions(["logoutUser"]),
     checkLoginStatus() {
       return sessionStorage.getItem('user_id') != null;

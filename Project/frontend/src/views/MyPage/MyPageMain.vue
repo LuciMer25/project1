@@ -30,7 +30,7 @@
             <td>{{ order.order_no }}</td>
             <td><img :src="order.first_prod_img" alt="상품 이미지" width="50" height="50"></td>
             <td>{{ order.first_prod_name }}</td>
-            <td>{{ formatCurrency(order.price) }}</td>
+            <td>{{ formatCurrency(order.price)+'원' }}</td>
             <td>{{ order.addr }}</td>
             <td>{{ order.detail_addr }}</td>
             <td>{{ formatDate(order.order_date) }}</td>
@@ -63,14 +63,26 @@
       </table>
     </div>
     <h3 class="title3">위시리스트</h3><hr>
-    <!-- 위시리스트 컴포넌트 추가 -->
-    <div>
-      <ul>
-        <li v-for="(wish, index) in limitedWishList" :key="index">
-          {{ wish }}
-        </li>
-      </ul>
-    </div>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th><input type="checkbox"></th>
+          <th>상품이미지</th>
+          <th>상품명</th>
+          <th>가격</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(wish, index) in limitedWishList" :key="index">
+          <td><input type="checkbox"></td>
+          <td>
+            <img :src="`/api/upload/products/${wish.prod_no}/${wish.prod_img}`" alt="상품 이미지" width="50" height="50">
+          </td>
+          <td>{{ wish.prod_name }}</td>
+          <td>{{ formatCurrency(wish.price) + '원' }}</td>
+        </tr>
+      </tbody>
+    </table>
     <h3 class="title4">1:1문의</h3><hr>
     <div>
       <table class="table table-hover">
@@ -105,6 +117,7 @@ export default {
       orders: [],
       reviewList: [],
       inquiryList: [],
+      wishList: [],
     };
   },
   created() {
@@ -112,18 +125,35 @@ export default {
     this.getOrderList();
     this.getReviewList();
     this.getInquiryList();
+    this.getWishList();
   },
   methods: {
     async getOrderList() {
       try {
         const user = this.$store.getters.getUserInfo;
         console.log('유저정보:', user);
-        const response = await axios.get(`/api/order`, {
-          params: {
-            user_id: user.user_id,
-          },
-        });
-        this.orders = response.data;
+        if(user != null){
+          const response = await axios.get(`/api/order`, {
+            params: {
+              user_id: user.user_id,
+            },
+          });
+          this.orders = response.data;
+        }
+        else{
+          this.$swal.fire({
+            title: '로그인이 필요한 서비스입니다',
+            text: '로그인 페이지로 이동합니다.',
+            icon: 'warning',
+            confirmButtonColor: '#d33',
+            confirmButtonText: '확인',
+          })
+          .then((result) => {
+            if (result.isConfirmed) {
+              this.$router.replace('/login');
+            }
+          });
+        }
       } catch (error) {
         console.error('Error fetching order list:', error);
       }
@@ -156,6 +186,13 @@ export default {
         console.error('Error fetching inquiry list:', error);
       }
     },
+    async getWishList() {
+      const user = sessionStorage.getItem("user_id");
+      console.log('유저정보:', user);
+      const response = await axios.get(`/api/wishlist/wish/${user}`);
+      this.wishList = response.data.list;
+      console.log(this.wishList);
+    },
     formatDate(dateStr) {
       const date = new Date(dateStr);
       const year = date.getFullYear();
@@ -185,8 +222,7 @@ export default {
       return this.inquiryList.slice(0, 3);
     },
     limitedWishList() {
-      // 위시리스트는 데이터가 없는 상태로 예시만 제공되었기 때문에 실제 데이터에 맞게 수정이 필요합니다.
-      return []; // 현재는 빈 배열을 반환하고 있습니다.
+      return this.wishList.slice(0, 3);
     },
   },
 };

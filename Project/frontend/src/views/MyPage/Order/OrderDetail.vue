@@ -137,6 +137,8 @@
           params: { user_id: userId }
         });
         this.orders.user = userData.data;
+        console.log(this.orders.user)
+        console.log(orders.order_state)
   
       } catch (error) {
         console.log(error);

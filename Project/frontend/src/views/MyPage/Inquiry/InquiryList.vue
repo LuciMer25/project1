@@ -70,12 +70,28 @@ export default {
       try {
         const user = this.$store.getters.getUserInfo;
         console.log('유저정보:', user);
-        const response = await axios.get(`/api/inquiry`, {
-          params: {
-            user_id: user.user_id
-          }
-        });
-        this.inquiryList = response.data;
+        if(user != null) {
+          const response = await axios.get(`/api/inquiry`, {
+            params: {
+              user_id: user.user_id
+            }
+          });
+          this.inquiryList = response.data;
+        }
+        else{
+          this.$swal.fire({
+            title: '로그인이 필요한 서비스입니다',
+            text: '로그인 페이지로 이동합니다.',
+            icon: 'warning',
+            confirmButtonColor: '#d33',
+            confirmButtonText: '확인',
+          })
+          .then((result) => {
+            if (result.isConfirmed) {
+              this.$router.replace('/login');
+            }
+          });
+        }
       } catch (error) {
         console.error('Error fetching inquiry list:', error);
       }

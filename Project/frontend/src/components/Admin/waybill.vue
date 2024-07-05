@@ -45,6 +45,7 @@ export default {
         .then(() => {
           this.$swal('운송장 번호가 등록되었습니다.');
           console.log(this.orderNo, this.wayBill);
+          this.$emit('refresh')
           this.close();
         })
         .catch(() => {

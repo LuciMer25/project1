@@ -149,5 +149,7 @@
   .star.filled {
     color: black; /* 채워진 별 색상 */
   }
+
+  
   </style>
   
