@@ -35,7 +35,8 @@ router.get("/", async (req, res) => {
 router.put("/cancelOrder/:order_no", async (req, res) => {
   const no = req.params.order_no;
   let result = await query("cancelOrder", [no]);
-  res.send(result);
+  let result1 = await query("updateCancelState", [no]);
+  res.send({ result, result1 });
 });
 // 취소요청 취소
 router.put("/cancelRevoke/:order_no", async (req, res) => {
@@ -53,13 +54,30 @@ router.put("/returnCancel/:order_no", async (req, res) => {
 router.put("/orderConfirm/:order_no", async (req, res) => {
   const no = req.params.order_no;
   let result = await query("orderConfirm", [no]);
-  res.send(result);
+  let result1 = await query("updateConfirmState", [no]);
+  res.send({ result, result1 });
 });
 // 반품요청
 router.put("/returnOrder/:order_no", async (req, res) => {
   const no = req.params.order_no;
   let result = await query("returnOrder", [no]);
-  res.send(result);
+  let result1 = await query("updateReturnState", [no]);
+  res.send({ result, result1 });
 });
+
+// 주문상세
+router.get('/myPageOrderProdDetail/:no' , async(req, res) => {
+  const no = req.params.no;
+  const user_id = req.query.user_id;
+  let list = await query("myPageOrderProdDetail", [user_id , no]);
+  res.send({ list });
+})
+router.get('/myPageOrderUserDetail/:no', async (req, res) => {
+  const no = req.params.no;
+  const user_id = req.query.user_id;
+  let list = await query("myPageOrderUserDetail", [user_id , no]);
+  res.send( list[0] )
+})
+
 
 module.exports = router;

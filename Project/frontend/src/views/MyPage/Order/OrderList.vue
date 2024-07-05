@@ -15,51 +15,65 @@
         </tr>
       </thead>
       <tbody>
-        <tr :key="i" v-for="(order, i) in orders">
-          <td @click="goToDetail">{{ order.order_no }}</td>
-          <td>{{ order.first_prod_img }}</td>
-          <td>{{ order.first_prod_name }}</td>
-          <td>{{ order.price }}</td>
+        <tr v-for="(order, i) in paginatedOrders" :key="i">
+          <td @click="goToDetail(order.order_no)">{{ order.order_no }}</td>
+          <td><img :src="order.first_prod_img" alt="상품 이미지" style="width: 50px; height: 50px;"></td>
+          <td>{{ order.first_prod_name }}(외{{ order.prod_cnt }}건)</td>
+          <td>{{ formatCurrency(order.price) }}</td>
           <td>{{ order.addr }}</td>
           <td>{{ order.detail_addr }}</td>
-          <td>{{ order.order_date }}</td>
+          <td>{{ formatDate(order.order_date) }}</td>
           <td>{{ order.order_state }}</td>
           <td v-if="order.order_state === '상품준비중'">
-            <button @click="cancelorder(order.order_no)">취소요청</button>
+            <button @click="cancelOrder(order.order_no)">취소요청</button>
           </td>
           <td v-else-if="order.order_state === '배송완료'">
-            <button @click="returnorder(order.order_no)">반품요청</button>
-            <button @click="orderconfirm(order.order_no)">구매확정</button>
+            <button @click="returnOrder(order.order_no)">반품요청</button>
+            <button @click="orderConfirm(order.order_no)">구매확정</button>
           </td>
           <td v-else-if="order.order_state === '취소요청'">
-            <button @click="cancelrevoke(order.order_no)">취소</button>
+            <button @click="cancelRevoke(order.order_no)">취소</button>
           </td>
           <td v-else-if="order.order_state === '반품요청'">
-            <button @click="returncancel(order.order_no)">취소</button>
+            <button @click="returnCancel(order.order_no)">취소</button>
           </td>
-          <td v-else-if="order.order_state === '배송중'"></td>
-          <td v-else-if="order.order_state === '취소완료'"></td>
-          <td v-else-if="order.order_state === '반품완료'"></td>
+          <td v-else></td>
         </tr>
       </tbody>
     </table>
+
+    <!-- 페이지네이션 -->
+    <ul class="pagination justify-content-center">
+      <li class="page-item" :class="{ disabled: currentPage === 1 }">
+        <a class="page-link" @click="changePage(currentPage - 1)">이전</a>
+      </li>
+      <li v-for="page in visiblePages" :key="page" class="page-item" :class="{ active: page === currentPage }">
+        <a class="page-link" @click="changePage(page)">{{ page }}</a>
+      </li>
+      <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+        <a class="page-link" @click="changePage(currentPage + 1)">다음</a>
+      </li>
+    </ul>
   </div>
 </template>
+
 <script>
 import axios from "axios";
+
 export default {
   data() {
     return {
       orders: [],
-      searchNo: null
+      currentPage: 1,
+      pageSize: 5,            // 한 페이지에 보여줄 주문 수
+      maxDisplayedPages: 5    // 페이지네이션에서 최대로 보여질 페이지 수
     };
   },
   created() {
-    // this.searchNo = this.$route.query.order_no;
-    this.getorderList();
+    this.getOrderList();
   },
   methods: {
-    async getorderList() {
+    async getOrderList() {
       try {
         const user = this.$store.getters.getUserInfo;
         console.log('유저정보:', user);
@@ -73,79 +87,106 @@ export default {
         console.error('Error fetching order list:', error);
       }
     },
-    async cancelorder(order_no) {
-      this.searchNo = order_no;
-      console.log(this.searchNo);
+    async cancelOrder(order_no) {
       try {
-          await axios.put(`/api/Order/cancelOrder/${this.searchNo}`)
-          .then(() => {
-          alert("취소요청 되었습니다");
-          this.$router.go(this.$router.currentRoute)
-        });
+        await axios.put(`/api/Order/cancelOrder/${order_no}`);
+        alert("취소요청 되었습니다");
+        this.getOrderList(); // 목록 다시 불러오기
       } catch (error) {
-        console.log("실패", error);
-        alert("실패");
+        console.error("Failed to cancel order:", error);
+        alert("취소요청 실패");
       }
     },
-    async returnorder(order_no) {
-      this.searchNo = order_no;
-      console.log(this.searchNo);
+    async returnOrder(order_no) {
       try {
-          await axios.put(`/api/Order/returnOrder/${this.searchNo}`)
-          .then(() => {
-          alert("반품요청 되었습니다");
-          this.$router.go(this.$router.currentRoute)
-        });
+        await axios.put(`/api/Order/returnOrder/${order_no}`);
+        alert("반품요청 되었습니다");
+        this.getOrderList(); // 목록 다시 불러오기
       } catch (error) {
-        console.log("실패", error);
-        alert("실패");
+        console.error("Failed to request return:", error);
+        alert("반품요청 실패");
       }
     },
-    async orderconfirm(order_no) {
-      this.searchNo = order_no;
-      console.log(this.searchNo);
+    async orderConfirm(order_no) {
       try {
-          await axios.put(`/api/Order/orderConfirm/${this.searchNo}`)
-          .then(() => {
-          alert("구매확정 되었습니다");
-          this.$router.go(this.$router.currentRoute)
-        });
+        await axios.put(`/api/Order/orderConfirm/${order_no}`);
+        alert("구매확정 되었습니다");
+        this.getOrderList(); // 목록 다시 불러오기
       } catch (error) {
-        console.log("실패", error);
-        alert("실패");
+        console.error("Failed to confirm order:", error);
+        alert("구매확정 실패");
       }
     },
-    async cancelrevoke(order_no) {
-      this.searchNo = order_no;
-      console.log(this.searchNo);
+    async cancelRevoke(order_no) {
       try {
-          await axios.put(`/api/Order/cancelRevoke/${this.searchNo}`)
-          .then(() => {
-          alert("요청이 취소되었습니다");
-          this.$router.go(this.$router.currentRoute)
-        });
+        await axios.put(`/api/Order/cancelRevoke/${order_no}`);
+        alert("요청이 취소되었습니다");
+        this.getOrderList(); // 목록 다시 불러오기
       } catch (error) {
-        console.log("실패", error);
-        alert("실패");
+        console.error("Failed to revoke cancellation:", error);
+        alert("취소요청 취소 실패");
       }
     },
-    async returncancel(order_no) {
-      this.searchNo = order_no;
-      console.log(this.searchNo);
+    async returnCancel(order_no) {
       try {
-          await axios.put(`/api/Order/returnCancel/${this.searchNo}`)
-          .then(() => {
-          alert("요청이 취소되었습니다");
-          this.$router.go(this.$router.currentRoute)
-        });
+        await axios.put(`/api/Order/returnCancel/${order_no}`);
+        alert("요청이 취소되었습니다");
+        this.getOrderList(); // 목록 다시 불러오기
       } catch (error) {
-        console.log("실패", error);
-        alert("실패");
+        console.error("Failed to cancel return request:", error);
+        alert("반품요청 취소 실패");
       }
     },
+    formatDate(dateStr) {
+      const date = new Date(dateStr);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const seconds = String(date.getSeconds()).padStart(2, '0');
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    },
+    formatCurrency(amount) {
+      if (!amount && amount !== 0) return '0';
+      return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    },
+    goToDetail(order_no) {
+      this.$router.push({ path: `/orderDetail/${order_no}` });
+    },
+    changePage(page) {
+      if (page < 1) page = 1;
+      if (page > this.totalPages) page = this.totalPages;
+      this.currentPage = page;
+    }
   },
+  computed: {
+    totalPages() {
+      return Math.ceil(this.orders.length / this.pageSize);
+    },
+    visiblePages() {
+      const pageCount = Math.ceil(this.orders.length / this.pageSize);
+      let startPage = Math.max(1, this.currentPage - Math.floor(this.maxDisplayedPages / 2));
+      let endPage = Math.min(startPage + this.maxDisplayedPages - 1, pageCount);
+
+      startPage = Math.max(1, endPage - this.maxDisplayedPages + 1);
+      endPage = Math.min(pageCount, startPage + this.maxDisplayedPages - 1);
+
+      const pages = [];
+      for (let page = startPage; page <= endPage; page++) {
+        pages.push(page);
+      }
+      return pages;
+    },
+    paginatedOrders() {
+      const startIndex = (this.currentPage - 1) * this.pageSize;
+      const endIndex = startIndex + this.pageSize;
+      return this.orders.slice(startIndex, endIndex);
+    }
+  }
 };
 </script>
+
 <style scoped>
 table * {
   text-align: center;

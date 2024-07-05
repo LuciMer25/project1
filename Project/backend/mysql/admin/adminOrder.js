@@ -96,22 +96,22 @@ module.exports = {
     orderProdDetail : `SELECT od.prod_name, od.prod_img, od.prod_no, od.price, od.prod_cnt, od.prod_img, od.order_amount
                        FROM order_detail od JOIN orders o
 			         		  on o.order_no = od.order_no
-                       AND o.order_no = ?`,
+                       WHERE o.order_no = ?`,
     
     orderUserDetail : `SELECT o.order_no, o.order_total_amount, o.addr, o.waybill_no, o.post_no, o.detail_addr, o.name, o.phone_no, os.order_date, o.paytype
                        FROM orders o JOIN order_state os
 			                ON o.order_no = os.order_no
-                       AND o.order_no = ?`,
+                       WHERE o.order_no = ?`,
     
     cancelUserDetail : `SELECT o.order_no, o.order_total_amount, o.addr, os.cancel_req_date, os.cancel_complete_date, o.post_no, o.detail_addr, o.name, o.phone_no, o.paytype
                         FROM orders o JOIN order_state os
 			                 ON o.order_no = os.order_no
-                        AND o.order_no = ?`,
+                        WHERE o.order_no = ?`,
 
     returnUserDetail : `SELECT o.order_no, o.order_total_amount, o.addr, os.return_req_date, os.return_complete_date, o.post_no, o.detail_addr, o.name, o.phone_no, o.paytype
                         FROM orders o JOIN order_state os
 			                 ON o.order_no = os.order_no
-                        AND o.order_no =?`,
+                        WHERE o.order_no =?`,
 
     todayTotalAmount : `SELECT DATE(ods.buy_complete_date) AS chart_date,
                                SUM(o.order_total_amount) AS chart_value

@@ -15,7 +15,7 @@
             <td @click="goToDetail">{{ order.order_no }}</td>
             <td>{{ order.first_prod_img }}</td>
             <td>{{ order.first_prod_name }}</td>
-            <td>{{ order.price }}</td>
+            <td>{{ formatCurrency(order.price) }}</td>
             <td>{{ order.order_state }}</td>
           </tr>
         </tbody>
@@ -50,6 +50,12 @@
         console.error('Error fetching cancel list:', error);
       }
       },
+      formatCurrency(amount) {
+      if (amount === undefined || amount === null) {
+        return '0';
+      }
+      return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
     },
   };
   </script>

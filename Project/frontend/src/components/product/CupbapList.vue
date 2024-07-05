@@ -9,14 +9,16 @@
       <div class="row">
         <div class="col-md-3" v-for="(product, index) in bestProduct.slice(0, 4)" :key="index">
           <div class="card product-card">
-            <img :src="product.prod_img" class="card-img-top" alt="Product Image" @click="gotoDetail(product.prod_no)">
+            <img :src="`/api/upload/products/${product.prod_img}`" class="card-img-top" alt="Product Image" @click="gotoDetail(product.prod_no)">
 
             <div class="card-body">
               <h5 class="card-title">{{ product.prod_name }}</h5>
-              <p class="card-text">{{ product.price }} 원</p>
+              <p class="card-text">{{ formatPrice(product.price) }}원</p>
             </div>
-            <v-btn @click="setCart">CART</v-btn>
-            <v-btn @click="setWish">WISH</v-btn>
+            <div class="setbtn">
+              <v-btn @click="setCart(index)">CART</v-btn>
+              <v-btn @click="setWish(index)">WISH</v-btn>
+            </div>
           </div>
         </div>
       </div>
@@ -65,6 +67,13 @@
           cartdialog:false,
       }
     },
+    computed:{
+      formatPrice() {
+        return (price) => {
+        return price.toLocaleString();
+        };
+      }
+    },
     created(){
       this.getBestProduct()
     },
@@ -79,7 +88,7 @@
       gotoDetail(no){
         this.$router.push(`product/${no}`);
       },
-      setCart(){
+      setCart(index){
         console.log('cart called')
         // 로그인 했을시(추후 this.checkLogin앞에 ! 제거해야함.)
         console.log(this.checkLogin());
@@ -87,7 +96,7 @@
       {
         axios.post(`/api/productInfo/addCart`,{
           user_id:this.$store.getters.getUserInfo.user_id,
-          prod_no:this.product.prod_no,
+          prod_no:this.bestProduct[index].prod_no,
           prod_cnt: 1
         })
         .then(res=>{
@@ -101,13 +110,13 @@
       // 모달 창 열기
       else{this.dialog = true;}
     },
-    setWish(){
+    setWish(index){
       // 로그인 했을시(추후 this.checkLogin앞에 ! 제거해야함.)
       if(this.checkLogin())
       {
         axios.post(`/api/productInfo/addWish`,{
           user_id:this.$store.getters.getUserInfo.user_id,
-          prod_no:this.product.prod_no
+          prod_no:this.bestProduct[index].prod_no
         })
         .then(res=>{
                     if(res.data.result=='added'){
@@ -141,6 +150,10 @@
   }
   </script>
 <style scoped>
+.setbtn{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
 .new-product-list {
   padding: 20px;
   border-radius: 10px;
@@ -160,6 +173,8 @@
   margin-top: 0; /* 기본적인 margin-top 제거 */
 }
 .product-card {
+  width : 300px;
+  height : 350px;
   margin-bottom: 20px;
   overflow: hidden;
   border-radius: 10px;

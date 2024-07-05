@@ -35,7 +35,7 @@
       </v-col>
       <v-col cols="12" class="d-flex justify-content-between">
         <p>{{ review.review_content }}</p>
-        <v-img v-if="review.review_img" :src="`/api/upload/review/${review.review_img}`" max-width="100"></v-img>
+        <v-img v-if="review.review_img" :src="`/api/upload/review/${review.review_img}`" width="100"></v-img>
       </v-col>
     </v-row>
   </v-col>
@@ -58,6 +58,15 @@ export default {
     prodNo: {
       type: String,
       required: true
+    }
+  },
+  watch: {
+    prodNo: {
+      immediate: true,
+      handler(newVal) {
+        console.log(newVal); // prodNo 값 확인
+        this.fetchReviews(newVal);
+      }
     }
   },
   data() {
@@ -85,6 +94,7 @@ export default {
   methods: {
     async fetchReviews() {
       try {
+        console.log(this.prodNo)
         const response = await axios.get(`/api/productreviews?prod_no=${this.prodNo}`);
         this.reviews = response.data;
         this.calculateAverageScore();

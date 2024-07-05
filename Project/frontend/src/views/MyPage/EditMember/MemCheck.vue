@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container">
+  <div class="col-md-9">
     <div class="login-box">
       <h4>회원정보를 보호를 위해
            <br>회원정보를 입력해주세요.</h4>

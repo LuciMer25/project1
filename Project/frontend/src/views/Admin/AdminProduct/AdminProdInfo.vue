@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="12" md="6" class="text-center">
         <v-img 
-          :src="`/api/upload/products/${this.product.prod_no}/${this.product.prod_img}`" 
+          :src="`/api/upload/products/${this.product.prod_img}`" 
           alt="상품 이미지" 
           max-height="300"
           max-width="300"
@@ -34,6 +34,7 @@
         </div>
       </v-col>
     </v-row>
+   
     <v-row class="menu-bar" justify="center">
       <v-col cols="auto" class="menu-button">
         <button class="w-100" @click="scrollTo('detail')">
@@ -41,70 +42,67 @@
         </button>
       </v-col>
       <v-col cols="auto" class="menu-button">
-        <button class="w-100"  @click="scrollTo('reviews')">
-          <span>상품후기 {{ product.cnt }}</span>
+        <button class="w-100" @click="scrollTo('reviews')">
+          <span>상품후기 ({{ product.cnt }})건</span>
         </button>
       </v-col>
       <v-col cols="auto" class="menu-button">
         <button class="w-100" @click="scrollTo('inquiries')">
-          <span>상품문의 6</span>
+          <span>상품문의 ({{ qnaCount }}건)</span>
         </button>
       </v-col>
     </v-row>
     <v-col cols="12" md="3" class="right-case">
-    <div class="product-info center-content">
-      <h1 class="product-title" v-text="product.prod_name"></h1>
-      
+      <div class="product-info center-content">
+        <h1 class="product-title" v-text="product.prod_name"></h1>
+        <h2 class="price">{{ formatPrice(product.price) }}원</h2>
         <p class="origin">원산지: 상품정보 원산지표시 참조</p>
         <v-row class="quantity-selector" align="center" justify="center">
           <v-col cols="auto" class="text-right">
+            <p class="origin">대분류: {{ product.top_ctgr_name }}</p>
           </v-col>
           <v-col cols="auto">
-           
+            <p class="origin">소분류: {{ product.ctgr_name }}</p>
           </v-col>
           <v-col cols="auto">
-            
-          </v-col>
-          <v-col cols="auto">
+            <p class="origin">등록일: {{ formatDate(product.reg_date) }}</p>
           </v-col>
         </v-row>
-        <div class="actions">
-          <v-col cols="auto">
-           
-          </v-col>
-          <v-col cols="auto">
-            
-          </v-col>
-        </div>
       </div>
     </v-col>
-    <div id="detail" v-if="activeSection === 'detail'">
+    <div id="detail" >
       <ContentsImg :img="`/api/upload/products/${product.prod_no}/${product.prod_content_img}`"/>
     </div>
-    <div id="reviews" v-if="activeSection === 'reviews'">
-      <ReviewComponent :prodNo="product.prod_no"></ReviewComponent>
+    <div id="reviews" >
+      <AdminReview :prodNo="String(this.$route.params.no)"></AdminReview>
     </div>
-    <div id="inquiries" v-if="activeSection === 'inquiries'">
-      <!-- 문의사항 컴포넌트 여기에 추가 -->
-     
+    <div id="inquiries" >
+      
+      <AdminQnaComponent :prodNo="String(this.$route.params.no)"></AdminQnaComponent>
     </div>
   </v-container>
+  <AdminTop></AdminTop>
 </template>
 
 <script>
 import axios from 'axios';
 import ContentsImg from '@/components/main/productdetail/ContentImg.vue';
-import ReviewComponent from '@/components/main/productdetail/ReviewComponent.vue';
+import AdminReview from '@/components/Admin/AdminReview.vue';
+import AdminQnaComponent from '@/components/Admin/AdminQnaComponent.vue'
+import AdminTop from '@/components/Admin/AdminTop.vue'
 
 export default {
   components: {
     ContentsImg,
-    ReviewComponent,
+    AdminReview,
+    AdminQnaComponent,
+    AdminTop
   },
   data() {
     return {
       product: {},
-      activeSection: 'detail' // 기본으로 상세정보 섹션을 활성화
+      qnaCount : 0,
+
     };
   },
   created() {
@@ -112,17 +110,16 @@ export default {
     axios.get(`/api/adminProduct/prodInfo/${no}`)
       .then(res => {
         this.product = res.data.list[0];
+        console.log(this.product);
       });
+    axios.get(`/api/adminBoard/qnaCount/${no}`)
+     .then(res => {
+        this.qnaCount = res.data.count;
+     })
   },
   methods: {
-    // showSection(section) {
-    //   this.activeSection = section;
-    // },
-    scrollTo(sectionId) {
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
+    showSection(section) {
+      this.activeSection = section;
     },
     goUpdateForm(prod_no) {
       this.$router.push(`/admin/prodUpdate/${prod_no}`);
@@ -149,7 +146,13 @@ export default {
         return '0';
       }
       return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    }
+    },
+    formatPrice(value) {
+      if (value == null || value === undefined) {
+        value = 0; 
+      }
+      return value.toLocaleString();
+    },
   }
 };
 </script>
@@ -166,11 +169,51 @@ export default {
 .product-title {
   font-size: 1.5rem;
   margin-bottom: 10px;
-  word-break: break-word;
+  word-break: break-word; /* 긴 텍스트 줄바꿈 */
 }
 
 .reviews-count {
   margin: 10px 0;
+}
+
+.menu-bar {
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  padding: 0; /* padding 제거 */
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.menu-button {
+  padding: 0; /* padding 제거 */
+}
+
+.right-case {
+  position: sticky;
+  top: 20px; /* 필요에 따라 조정 */
+  align-self: flex-start;
+  height: fit-content;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 300px; /* 원하는 최대 너비로 조정 */
+  margin-left: auto; /* 우측 정렬 */
+  z-index: 1000;
+}
+
+.w-100 {
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 5px;
+  margin-right: 5px;
+  border: none; /* 경계선 제거 */
+}
+
+.menu-button:hover {
+  background-color: #e0e0e0; /* hover 시 회색 배경 */
 }
 
 .price {
@@ -195,25 +238,58 @@ export default {
 
 .actions {
   display: flex;
+  flex-direction: column;
+  align-items: center; /* 중앙 정렬 */
   gap: 10px;
+}
+
+.inline-btn {
+  display: block;
+  width: 100%;
 }
 
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
-  display: block;
+  display: block; /* 중앙 정렬을 위해 블록으로 설정 */
+}
+.image-with-border {
+  border: 1.5px solid #CCC; /* 검정색 테두리 */
+  border-radius: 8px; /* 둥근 모서리 */
+  padding: 4px; /* 테두리와 이미지 간의 간격 */
+}
+.flex-grow-1 {
+  flex-grow: 1;
+  margin: 0 4px;
+}
+.bordered-button {
+  border: 1px solid #ccc; /* 테두리 추가 */
+  border-radius: 4px; /* 테두리 모서리 둥글게 */
 }
 
-.menu-bar {
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
+.center-content {
+  text-align: center;
+}
+
+.quantity-btn {
+  width: 25px;
+  height: 32px;
+  line-height: 32px;
   padding: 0;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  cursor: pointer;
 }
 
-.menu-button {
+.quantity-input {
+  width: 30px;
+  height: 32px;
+  font-size: 1.2rem;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
   padding: 0;
 }
 
@@ -225,19 +301,5 @@ export default {
 
 .menu-button:hover {
   background-color: #e0e0e0;
-}
-
-.right-case {
-  position: sticky;
-  top: 20px; /* 필요에 따라 조정 */
-  align-self: flex-start;
-  height: fit-content;
-  padding: 20px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  max-width: 300px; /* 원하는 최대 너비로 조정 */
-  margin-left: auto; /* 우측 정렬 */
-  z-index: 1000;
 }
 </style>

@@ -32,6 +32,7 @@ import ReviewUpdate from '../views/MyPage/Review/ReviewUpdate.vue'
 import WishList from '../views/MyPage/WishList/wishList.vue'
 // 주문/배송(맹)
 import OrderList from '../views/MyPage/Order/OrderList.vue'
+import OrderDetail from '../views/MyPage/Order/OrderDetail.vue'
 // 취소/반품(맹)
 import CancelList from '../views/MyPage/Cancel/CancelList.vue'
 // 마이페이지 사이드바(삭제 예정)
@@ -87,6 +88,7 @@ import DeleteMem from '../views/MyPage/EditMember/DeleteMem.vue'
 import CategoryView from '../views/PageMove/CategoryView.vue'
 import SearchView from '../views/PageMove/SearchView.vue'
 
+
 const routes = [
   {
     path: '/',
@@ -127,7 +129,8 @@ const routes = [
         component: CategoryView
       },
       {
-        path: '/search',
+        path: '/search/:keyword',
+        name: 'search',
         component: SearchView
       },
       {
@@ -221,7 +224,7 @@ const routes = [
     children: [
       // 마이페이지 메인
       {
-        path: '',
+        path: '/mypagemain',
         component: MyPageMain,
       },
       // 문의페이지
@@ -308,6 +311,10 @@ const routes = [
         path: '/DeleteMem',
         component: DeleteMem,
       },
+      {
+        path: '/OrderDetail/:no',
+        component: OrderDetail
+      }
     ]
   },
 

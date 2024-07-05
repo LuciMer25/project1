@@ -20,6 +20,7 @@ const ProductInfoRouter = require('./routes/main/order/productDetail.js');
 const CartRouter = require('./routes/main/order/cart.js');
 const ProductReviewRouter = require('./routes/main/order/productreview.js');
 const OrderStateRouter = require('./routes/main/order/orderstate.js');
+const ProductQnaRouter = require('./routes/main/order/qna.js');
 
 // 마이페이지(맹선우)
 var inquiryRouter = require('./routes/mypage/inquiry');
@@ -31,7 +32,9 @@ const wishRouter = require('./routes/mypage/wishlist');
 const orderRouter = require('./routes/mypage/order');
 const cancelRouter = require('./routes/mypage/cancel');
 
+// 헤더, 검색(최석원)
 const CategoryRouter = require('./routes/main/category.js');
+const SearchRouter = require('./routes/main/search.js');
 var app = express();
 
 // 메인, 상품(김성태)
@@ -132,6 +135,7 @@ app.use('/api/productInfo',ProductInfoRouter);
 app.use('/api/cart',CartRouter);
 app.use('/api/productreviews',ProductReviewRouter);
 app.use('/api/insertorderstate',OrderStateRouter);
+app.use('/api/productqna',ProductQnaRouter);
 
 
 // 마이페이지(맹선우)
@@ -160,9 +164,9 @@ app.use('/api/userFind', userFindRouter);
 app.use('/api/kakaologin', kakaologinRouter); 
 
 
-
 // 메인, 카테고리(최석원)
 app.use('/api/category', CategoryRouter);
+app.use('/api/search', SearchRouter);
 
 app.use('/api/memcheck', memcheckRoter);
 app.use('/api/memEdit', memEditRouter);

@@ -38,11 +38,25 @@ router.get("/:review_no",	async (req ,res )	=> {
 //등록
 router.post("/", upload.single("avatar"), async (req, res) => {
   let data = { ...req.body };
+  const score = req.body.score;
+  const user_id = req.body.user_id;
+  const review_title = req.body.review_title;
+  const review_content = req.body.review_content;
+  const prod_no = req.body.prod_no;
+  const order_no = req.body.order_no;
+  console.log('평점' + score)
+  console.log('유저:' + user_id);
+  console.log('리뷰제목:' + review_title);
+  console.log('리뷰내용:' + review_content);
+  console.log('제품번호' + prod_no)
+  console.log('주문번호:' + order_no);
+  console.log(req.body);
+  console.log(req.file)
     if (req.file != null) {
       console.log('업로드된 파일이름:', req.file.filename);
       data.review_img = req.file.filename;
     }
-    let result = await query("reviewInsert", data);
+    let result = await query("reviewInsert", [score, review_title, review_content, user_id, data.review_img, order_no, prod_no]);
     res.send(result);
   });
 //수정

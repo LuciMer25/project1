@@ -1,16 +1,34 @@
 <template>
   <div class="container">
-    <CategoryMenu 
-      :topCtgrNo="top_ctgr_no"
-      :ctgrNo="ctgr_no"
-      @subcategory-selected="handleSubCategorySelected">
-    </CategoryMenu>
-    <CategoryContent :productsCount="newProduct.length" :itemsPerPage="itemsPerPage" @sort="sortProducts" @update-items-per-page="updateItemsPerPage" />
-    <div class="row">
-      <ProductCard v-for="(product, index) in paginatedProducts" :key="index" :product="product" :rank="index" />
+      <CategoryMenu 
+        :topCtgrNo="top_ctgr_no"
+        :ctgrNo="ctgr_no"
+        @subcategory-selected="handleSubCategorySelected">
+      </CategoryMenu>
+      <CategoryContent
+        :productsCount="newProduct.length"
+        :itemsPerPage="itemsPerPage"
+        @sort="sortProducts"
+        @update-items-per-page="updateItemsPerPage"
+      />
+      <div class="row">
+      <ProductCard
+          v-for="(product, index) in paginatedProducts"
+          :key="index"
+          :product="product"
+          :rank="index"
+      />
     </div>
-    <Pagination :currentPage="currentPage" :totalPages="totalPages" @change-page="changePage" />
+    <div class="paging">
+    <Pagination
+      :current-page="currentPage"
+      :total-pages="totalPages"
+      @go-page="changePage"
+      :page-size="5"
+    />
+    </div>
   </div>
+  
 </template>
 
 <script>
@@ -22,7 +40,7 @@ import CategoryMenu from "../../components/product/CategoryMenu.vue";
 
 export default {
   props: {
-    top_ctgr_no : {
+    top_ctgr_no: {
       type: Number,
       required: true
     },
@@ -43,7 +61,7 @@ export default {
       newProductSorted: [],
       itemsPerPage: 8,
       currentPage: 1,
-      selectedSubCtgrNo: null  // 선택된 하위 카테고리 번호 초기화
+      selectedSubCtgrNo: null
     };
   },
   created() {
@@ -51,6 +69,7 @@ export default {
   },
   computed: {
     totalPages() {
+      console.log(Math.ceil(this.newProductSorted.length / this.itemsPerPage))
       return Math.ceil(this.newProductSorted.length / this.itemsPerPage);
     },
     paginatedProducts() {
@@ -62,12 +81,7 @@ export default {
   methods: {
     async getNewProduct(top_ctgr_no, ctgr_no) {
       try {
-        let url = '';
-        if (ctgr_no > 0) {
-          url = `/api/categorylist/${top_ctgr_no}/${ctgr_no}`;
-        } else {
-          url = `/api/categorylist/${top_ctgr_no}`;
-        }
+        let url = ctgr_no > 0 ? `/api/categorylist/${top_ctgr_no}/${ctgr_no}` : `/api/categorylist/${top_ctgr_no}`;
         let result = await axios.get(url);
         this.newProduct = result.data;
         this.newProductSorted = [...this.newProduct];
@@ -114,11 +128,11 @@ export default {
     },
     handleSubCategorySelected(subcategory) {
       if (subcategory) {
-        this.selectedSubCtgrNo = subcategory.ctgr_no; // 선택된 하위 카테고리 번호 저장
-        this.getNewProduct(this.top_ctgr_no, this.selectedSubCtgrNo); // 선택된 하위 카테고리의 상품 가져오기
+        this.selectedSubCtgrNo = subcategory.ctgr_no;
+        this.getNewProduct(this.top_ctgr_no, this.selectedSubCtgrNo);
       } else {
-        this.selectedSubCtgrNo = null; // 이 경우에는 전체 카테고리를 보여주므로 null로 설정
-        this.getNewProduct(this.top_ctgr_no, this.ctgr_no); // 전체 카테고리의 상품 가져오기
+        this.selectedSubCtgrNo = null;
+        this.getNewProduct(this.top_ctgr_no, this.ctgr_no);
       }
     }
   }
@@ -128,6 +142,7 @@ export default {
 <style scoped>
 .container {
   margin-top: 20px;
+  text-align: center;
 }
 
 h4 {
@@ -141,7 +156,11 @@ h4 {
 .text-right {
   text-align: right;
 }
-
+.paging{
+  margin: 0 auto; /* 가운데 정렬 */
+  display: inline-block; /* 블록 요소를 인라인 블록으로 변환하여 좌우 마진을 자동으로 설정할 수 있도록 함 */
+  margin-top: 20px; /* 필요한 경우 위 여백 추가 */
+}
 .btn-outline-primary {
   margin-top: 20px;
 }

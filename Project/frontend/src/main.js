@@ -18,6 +18,7 @@ import store from "./store"; //Vuex 저장소 추가
 //   persist: true
 // }
 import VueDaumPostcode from 'vue-daum-postcode';
+import Pagination from 'vue-pagination-2';
 
 
 const vuetify = createVuetify({
@@ -40,6 +41,7 @@ createApp(App)
   .use(store)
   .use(VueDaumPostcode)
   .use(VueSweetalert2)
+  .use(Pagination)
   .mount('#app')
 // .use(VueSession, sessionOptions)
 

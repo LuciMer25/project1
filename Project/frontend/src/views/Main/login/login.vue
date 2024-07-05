@@ -143,7 +143,7 @@ export default {
         });
     },
     signUp() {
-      this.$router.push('/singUpList'); // 회원가입 창으로 이동
+      this.$router.push('/signtUp1'); // 회원가입 창으로 이동
     },
   },
 };

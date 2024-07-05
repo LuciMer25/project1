@@ -5,11 +5,14 @@
       <div class="row">
       <ProductCard v-for="(product, index) in paginatedProducts" :key="index" :product="product"/>
       </div>
-      <Pagination
-        :currentPage="currentPage"
-        :totalPages="totalPages"
-        @change-page="changePage"
-      />
+      <div class="paging">
+        <Pagination
+          :current-page="currentPage"
+          :total-pages="totalPages"
+          @go-page="changePage"
+          :page-size="5"
+        />
+    </div>
     </div>
   </template>
      
@@ -109,6 +112,8 @@
   <style scoped>
   .container {
     margin-top: 20px;
+    text-align: center;
+
   }
   
   h2 {
@@ -124,7 +129,11 @@
   .text-right {
     text-align: right;
   }
-  
+  .paging{
+  margin: 0 auto; /* 가운데 정렬 */
+  display: inline-block; /* 블록 요소를 인라인 블록으로 변환하여 좌우 마진을 자동으로 설정할 수 있도록 함 */
+  margin-top: 20px; /* 필요한 경우 위 여백 추가 */
+}
   .btn-outline-primary {
     margin-top: 20px;
   }

@@ -9,40 +9,13 @@
           상품 목록
         </v-card-title>
         <v-card-text>
-          <v-row>
-            <v-col cols="12" md="6">
-              <v-select
-                v-model="selectedTopCategory"
-                :items="topCategories"
-                label="대분류 선택"
-                item-text="ctgr_name"
-                item-value="ctgr_no"
-                single-line
-                hide-details
-                @change="filterCategories"
-              ></v-select>
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-select
-                v-model="selectedCategory"
-                :items="filteredCategories"
-                label="소분류 선택"
-                item-text="ctgr_name"
-                item-value="ctgr_no"
-                single-line
-                hide-details
-              ></v-select>
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-text-field
-                v-model="search"
-                append-icon="mdi-magnify"
-                label="Search"
-                single-line
-                hide-details
-              ></v-text-field>
-            </v-col>
-          </v-row>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+          ></v-text-field>
           <v-data-table
             :headers="headers"
             :items="filteredItems"

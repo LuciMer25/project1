@@ -1,6 +1,4 @@
 <template>
-
-
       <!-- 오른쪽 문의목록 -->
       <div class="col-md-9">
         <a href="inquiryform">문의등록</a>
@@ -18,11 +16,10 @@
             <tr
               :key="inquiry.inquiry_no"
               v-for="inquiry in paginatedInquiry"
-              @click="goToDetail(inquiry.inquiry_no)"
-            >
+              @click="goToDetail(inquiry.inquiry_no)">
               <td>{{ inquiry.inquiry_no }}</td>
               <td>{{ inquiry.inquiry_title }}</td>
-              <td>{{ inquiry.reg_date }}</td>
+              <td>{{ formatDate(inquiry.reg_date) }}</td>
               <td>{{ inquiry.comment_state }}</td>
             </tr>
           </tbody>
@@ -89,6 +86,16 @@ export default {
         query: { inquiry_no: inquiry_no },
       });
     },
+    formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        },
     getDateFormat(date) {
       return this.$dateFormat(date);
     },

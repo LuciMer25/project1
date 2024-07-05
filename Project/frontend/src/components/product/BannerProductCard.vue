@@ -1,14 +1,14 @@
 <template>
     <div class="col-md-3">
       <div class="card">
-        <img :src="`/api/upload/products/${product.prod_no}/${product.prod_img}`" class="card-img-top" alt="Product Image" @click="gotoDetail(product.prod_no)">
+        <img :src="`/api/upload/products/${product.prod_img}`" class="card-img-top" alt="Product Image" @click="gotoDetail(product.prod_no)">
         <div class="card-body">
           <h5 class="card-title">{{ product.prod_name }}</h5>
           <p class="card-text">{{ product.price }} 원</p>
         </div>
       </div>
     </div>
-  </template>  `/api/upload/products/${product.prod_no}/${product.prod_img}`
+  </template> 
 
   <script>
   export default {

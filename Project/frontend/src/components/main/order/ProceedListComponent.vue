@@ -17,7 +17,7 @@
         <v-row>
           <v-col cols="2">
             <img
-            :src="`/api/upload/products/${item.prod_no}/${item.prod_img}`"
+            :src="`/api/upload/products/${item.prod_img}`"
             :alt="item.prod_name"
             @error="onImageError"
             :data-fallback="fallbackImg"
