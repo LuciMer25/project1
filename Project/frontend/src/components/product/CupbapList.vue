@@ -210,7 +210,8 @@
 }
 .card-img-top {
   transition: transform 0.3s;
-  height: 200px;
+  height: 350px;
+  width : 300px;
   object-fit: cover;
 }
 </style>

@@ -102,15 +102,15 @@
           <li><RouterLink to="/notify">공지사항</RouterLink></li>
           <li><RouterLink to="/QnAList">QnA</RouterLink></li>
           <li><RouterLink to="/inquiryList">1:1문의</RouterLink></li>
-          <li><RouterLink to="">베스트</RouterLink></li>
+          <li><RouterLink to="/bestproductlist">베스트</RouterLink></li>
         </ul>
       </div>  
     </header>
     <div class="endOfHeader"></div>
   </template>
   <script>
-  
-  import router from "@/router";
+
+import router from "@/router";
 import axios from "axios";
   import { RouterLink } from "vue-router";
   import { mapActions, mapGetters } from "vuex";

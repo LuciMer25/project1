@@ -214,7 +214,6 @@ const routes = [
         name: 'notifyInfo',
         component : notifyInfo
       },
-
     ]
   },
   // 마이페이지
