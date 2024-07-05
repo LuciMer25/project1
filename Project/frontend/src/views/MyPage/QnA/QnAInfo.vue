@@ -8,7 +8,7 @@
             <td scope="col" class="text-center" >{{QnAInfo.qna_no}}</td>
             <th scope="col" class="text-center table-primary">작성일자</th>
             <td scope="col" class="text-center">
-              {{QnAInfo.reg_date }}
+              {{formatDate(QnAInfo.reg_date) }}
             </td>
             
               <th scope="col" class="text-center table-primary">제목</th>
@@ -125,6 +125,16 @@ export	default {
               this.$router.push('/qnaList')
             })
    },
+   formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        },
     // test(res){
     //   this.QnAInfo = res;
     //   console.log(res);
