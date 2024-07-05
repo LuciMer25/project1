@@ -1,9 +1,10 @@
 <!-- src/components/ReviewComponent.vue -->
 <template>
   <v-row justify="center" cols="auto">
-    <v-col cols="12">
-    <span class="subtitle-1" style="font-size: 1rem; font-weight: bold; text-align: left;">상품후기</span>
+    <v-col cols="7">
+    <span class="subtitle-1" style="font-size: 1rem; font-weight: bold; text-align: center;">상품후기</span>
   </v-col>
+  <v-col cols="7">
     <v-card cols="auto">
       <v-card-title style="border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
   <v-row  align="center" justify="center" class="text-center">
@@ -35,7 +36,7 @@
       </v-col>
       <v-col cols="12" class="d-flex justify-content-between">
         <p>{{ review.review_content }}</p>
-        <v-img v-if="review.review_img" :src="`/api/upload/review/${review.review_img}`" width="100"></v-img>
+        <img v-if="review.review_img" :src="`/api/upload/review/${review.review_img}`" height="120"width="120"></img>
       </v-col>
     </v-row>
   </v-col>
@@ -43,11 +44,13 @@
           <v-pagination
             v-model="page"
             :length="pageCount"
+            :total-visible="5"
             @input="onPageChange"
           ></v-pagination>
         </v-container>
       </v-card-text>
     </v-card>
+  </v-col>
   </v-row>
 </template>
 
