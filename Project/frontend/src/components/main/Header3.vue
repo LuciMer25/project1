@@ -162,9 +162,7 @@ import axios from "axios";
       this.DownCategory5 = result.data.DownResult5;
   
     }, // end of getcategortList
-    submit(){
-      this.$router.push(`/search/${keyword}`)
-    },
+
     ...mapActions(["logoutUser"]),
     checkLoginStatus() {
       return sessionStorage.getItem('user_id') != null;

@@ -13,26 +13,48 @@
          </div>
      </div>
      </div>
+     <div class="paging">
+    <Pagination
+      :current-page="currentPage"
+      :total-pages="totalPages"
+      @go-page="changePage"
+      :page-size="5"
+    />
+    </div>
  </div>
  </template>
  
  <script>
  import axios from 'axios';
  import CategoryContent from "../../components/product/CategoryContent.vue";
- 
+ import Pagination from "../../components/Pagination.vue";
+
  export default {
    components:{
      CategoryContent,
+     Pagination
    },
    data(){
      return{
          newProduct : [],
-         newProductSorted : []
+         newProductSorted : [],
+         itemsPerPage: 8,
+         currentPage: 1
      }
    },
    created() {
      this.getNewProduct();
    },
+   computed : {
+            totalPages() {
+            return Math.ceil(this.newProductSorted.length / this.itemsPerPage);
+            },
+            paginatedProducts() {
+              const start = (this.currentPage - 1) * this.itemsPerPage;
+              const end = start + this.itemsPerPage;
+              return this.newProductSorted.slice(start, end);
+            }
+       },
    methods: {
      async getNewProduct()   {
       console.log('받은값 :  '+ this.$route.params.keyword);
@@ -82,7 +104,17 @@
          default:
            break;
        }
+       this.currentPage = 1;
      },
+     updateItemsPerPage(items) {
+            this.itemsPerPage = items;
+            this.currentPage = 1; // Reset to the first page whenever items per page changes
+          },
+          changePage(page) {
+            if (page >= 1 && page <= this.totalPages) {
+              this.currentPage = page;
+            }
+          },
        gotoDetail(no){
            this.$router.push(`product/${no}`);
        }
