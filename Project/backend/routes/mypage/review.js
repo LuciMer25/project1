@@ -51,7 +51,7 @@ router.post("/", upload.single("avatar"), async (req, res) => {
   console.log('제품번호' + prod_no)
   console.log('주문번호:' + order_no);
   console.log(req.body);
-  console.log(req.file)
+  console.log(req.file);
     if (req.file != null) {
       console.log('업로드된 파일이름:', req.file.filename);
       data.review_img = req.file.filename;

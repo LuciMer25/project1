@@ -45,7 +45,7 @@ module.exports = {
                    WHERE o.user_id = ?
                    AND o.order_no = ?`,
 
-    myPageOrderUserDetail : `SELECT o.order_no, o.order_total_amount, o.addr, o.waybill_no, o.post_no, o.detail_addr, o.name, o.phone_no, os.order_date, o.paytype, os.cancel_req_date, os.cancel_complete_date, os.return_req_date, os.return_complete_date, os.buy_complete_date
+    myPageOrderUserDetail : `SELECT o.order_no, o.order_total_amount, o.addr, o.waybill_no, o.post_no, o.detail_addr, o.name, o.phone_no, os.order_date, o.paytype, os.cancel_req_date, os.cancel_complete_date, os.return_req_date, os.return_complete_date, os.buy_complete_date, o.order_state
                    FROM orders o JOIN order_state os
                               ON o.order_no = os.order_no
                    WHERE o.user_id = ?
