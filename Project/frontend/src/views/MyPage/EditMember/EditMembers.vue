@@ -60,7 +60,7 @@ export default {
         birth: "",
       },
       passwordConfirm: '',
-      isPhoneValid: false, // 전화번호 유효성 여부 추가
+   
     };
   },
   methods: {
@@ -89,11 +89,7 @@ export default {
       }
 
       // 전화번호 유효성 확인
-      if (!this.isPhoneValid) {
-        this.$swal('전화번호 중복체크를 해주세요.');
-        return; // 전화번호 유효성 체크 안됨
-      }
-
+    
       try {
         // 사용자 정보 업데이트 요청
         await axios.put(`/api/memEdit/${this.user.user_id}`, this.user);
