@@ -1,6 +1,6 @@
-const express =	require("express");
-const router =	express.Router();
-const query =	require("../../mysql");
+const express = require("express");
+const router = express.Router();
+const query = require("../../mysql");
 const multer = require('multer');
 router.use(express.json());
 
@@ -25,14 +25,21 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 //목록
-router.get("/",	async(req ,	res )	=> {
+router.get("/", async (req , res ) => {
     const user_id = req.query.user_id;
-    let result = await query("reviewList", user_id).then(res=>res);
+    let result = await query("reviewList", user_id).then(res => res);
     res.send(result);
 });
+// 상품목록
+router.get("/reviewProductSel", async (req , res ) => {
+  const user_id = req.query.user_id;
+  console.log(user_id);
+  let result = await query("reviewProductSel", user_id).then(res => res);
+  res.send(result);
+});
 //단건조회
-router.get("/:review_no",	async (req ,res )	=> {
-    let result = await query("reviewInfo", req.params.review_no );
+router.get("/:review_no", async (req ,res ) => {
+    let result = await query("reviewInfo", req.params.review_no);
     res.send(result);
 });
 //등록
@@ -44,6 +51,7 @@ router.post("/", upload.single("avatar"), async (req, res) => {
   const review_content = req.body.review_content;
   const prod_no = req.body.prod_no;
   const order_no = req.body.order_no;
+  const prod_name = req.body.prod_name;
   console.log('평점' + score)
   console.log('유저:' + user_id);
   console.log('리뷰제목:' + review_title);
@@ -51,24 +59,32 @@ router.post("/", upload.single("avatar"), async (req, res) => {
   console.log('제품번호' + prod_no)
   console.log('주문번호:' + order_no);
   console.log(req.body);
-  console.log(req.file)
+  console.log(req.file);
     if (req.file != null) {
       console.log('업로드된 파일이름:', req.file.filename);
       data.review_img = req.file.filename;
     }
     let result = await query("reviewInsert", [score, review_title, review_content, user_id, data.review_img, order_no, prod_no]);
-    res.send(result);
+    let result1 = await query("changeReviewState", [order_no]);
+    res.send({ result, result1 });
   });
 //수정
 router.put('/:review_no',  (req, res) => {
   const no = req.params.review_no;
   const { review_title, review_content, score } = req.body;
-  let result =  query("reviewUpdate", [review_title, review_content, score, no]);
+  let result = query("reviewUpdate", [review_title, review_content, score, no]);
+  res.send(result);
+});
+// 리뷰 상태 수정
+router.put('/changeReviewState',  (req, res) => {
+  const no = req.params.review_no;
+  const { review_avail } = req.body;
+  let result = query("changeReviewState", [review_avail, no]);
   res.send(result);
 });
 //삭제
 router.delete('/:review_no',  (req, res) => {
-    let result =  query("reviewDelete", req.params.review_no);
+    let result = query("reviewDelete", req.params.review_no);
     res.send(result);
 });
 

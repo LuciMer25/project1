@@ -4,13 +4,18 @@
         <table class="table table-bordered">
           <thead>
             <tr>
+              <th scope="col" class="text-center table-primary">상품명</th>
+              <td scope="col" class="text-center" >{{ReviewInfo.prod_name}}</td>
+              <th scope="col" class="text-center table-primary">상품이미지</th>
+              <td scope="col" class="text-center" ><img :src="`/api/upload/products/${ReviewInfo.prod_img}`" alt="상품 이미지" style="width: 50px; height: 50px;"></td></tr>
+              <tr>
               <th scope="col" class="text-center table-primary">리뷰번호</th>
               <td scope="col" class="text-center" >{{ReviewInfo.review_no}}</td>
               <th scope="col" class="text-center table-primary">평점</th>
               <td scope="col" class="text-center" ><input v-model = "ReviewInfo.score" :disabled="!isdisabled"></td>
               <th scope="col" class="text-center table-primary">작성일자</th>
               <td scope="col" class="text-center">
-                {{ReviewInfo.reg_date }}
+                {{ formatDate(ReviewInfo.reg_date) }}
               </td>
               
                 <th scope="col" class="text-center table-primary">제목</th>
@@ -60,13 +65,13 @@
       return {
         searchNo: "",
         ReviewInfo: {
-          score: '',
-          review_title: '',
-          review_content: '',
-          reg_date: '',
-          review_img: '',
-          order_no: '',
-          prod_no: '',
+          // score: '',
+          // review_title: '',
+          // review_content: '',
+          // reg_date: '',
+          // review_img: '',
+          // order_no: '',
+          // prod_no: '',
         },
         isdisabled: false
       };
@@ -97,7 +102,17 @@
             alert('삭제되었습니다');
             this.$router.push('/reviewList');
           });
-      }
+      },
+      formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        },
     },
     components: {},
   };

@@ -118,6 +118,12 @@ export default {
      })
   },
   methods: {
+    async fetchQnaCount(){
+      const prodNo = this.$route.params.prodNo;
+      const res = await axios.get(`/api/adminBoard/qnaCount/${prodNo}`)
+      this.qnaCount = res.data.count;
+      console.log(this.qnaCount)
+    },
     scrollTo(sectionId) {
       const element = document.getElementById(sectionId);
       if (element) {
@@ -294,5 +300,15 @@ export default {
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 0;
+}
+
+.w-100 {
+  width: 100%;
+  margin: 0 5px;
+  border: none;
+}
+
+.menu-button:hover {
+  background-color: #e0e0e0;
 }
 </style>

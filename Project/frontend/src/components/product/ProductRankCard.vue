@@ -147,6 +147,31 @@ export default {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
+.card{
+  min-height: 500px; /* 최소 높이 설정 */
+}
+.fixed-card .card-img-top {
+  height: 150px; /* 이미지의 높이를 고정 */
+  object-fit: cover; /* 이미지를 고정된 영역에 맞추기 */
+}
+
+.fixed-card .card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.fixed-card .card-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  overflow: hidden; /* 넘치는 텍스트 숨김 */
+  text-overflow: ellipsis; /* 넘치는 텍스트에 대한 생략 부호 */
+  white-space: nowrap; /* 줄바꿈 방지 */
+}
+
+.fixed-card .card-text {
+  margin-bottom: 0.5rem;
+}
 .card-text-review {
   font-size : 15px;
   text-align : left;

@@ -138,7 +138,7 @@
       async orderStateChange(order_no) {
         this.orderNo = order_no;
         try {
-          await axios.put(`/api/adminOrder/updateReturnState/${this.orderNo}`);
+          await axios.put(`/api/adminOrder/adminUpdateReturnState/${this.orderNo}`);
           this.$swal('반품완료 되었습니다.');
           await this.refreshData();
         } catch (error) {

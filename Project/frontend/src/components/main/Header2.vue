@@ -106,11 +106,8 @@ methods: {
 } // end of default
 
 </script>
-<!-- <style>
-/* .dropdown-content a:nth-child(1):hover .dropdown2:nth-child(2){
-  display:block;
-} */
 
+<!-- <style>
 .controlbox{
   display:flex;
   /* padding:30px; */

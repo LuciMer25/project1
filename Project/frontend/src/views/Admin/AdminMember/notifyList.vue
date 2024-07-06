@@ -1,7 +1,7 @@
 <template>
   <v-container>
-    <v-card>
-      <v-card-title>
+    <v-card class="center-card">
+      <v-card-title class="center-text">
         공지사항
       </v-card-title>
       <v-data-table
@@ -68,9 +68,6 @@ export default {
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const day = String(date.getDate()).padStart(2, '0');
-        const hours = String(date.getHours()).padStart(2, '0');
-        const minutes = String(date.getMinutes()).padStart(2, '0');
-        const seconds = String(date.getSeconds()).padStart(2, '0');
         return `${year}-${month}-${day}`;
       },
       async goPage(page) {
@@ -98,10 +95,27 @@ export default {
 .v-container {
   max-width: 800px;
   margin: auto;
+  display: flex;
+  justify-content: center;
+}
+.center-card {
+  width: 100%;
+  max-width: 800px;
+}
+.center-text {
+  text-align: center;
+}
+.title-link {
+  cursor: pointer;
+  text-decoration: none;
+}
+.title-link:hover {
+  text-decoration: underline;
+  color: darkblue;
 }
 .button-container {
-display: flex;
-justify-content: flex-end;
-padding: 16px;
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px;
 }
 </style>

@@ -2,7 +2,15 @@
   <div class="col-md-9">
     <form @submit.prevent>
       <label for="name">리뷰등록</label><br>
-        <div>
+      <div>
+        <label for="prodSelect">상품 선택</label><br>
+        <select id="prodSelect" v-model="reviewInfo.prod_no">
+          <option v-for="product in products" :key="product.prod_no" :value="product.prod_no">
+            주문번호 : {{ product.order_no }}  상품명 : {{ product.prod_name }}
+          </option>
+        </select>
+      </div>
+      <div>
         <label>평점</label><br>
         <input type="radio" id="score1" value="1" v-model="reviewInfo.score" />
         <label for="score1">1</label>
@@ -15,7 +23,6 @@
         <input type="radio" id="score5" value="5" v-model="reviewInfo.score" />
         <label for="score5">5</label>
       </div>
-        
       <input type="text" id="review_title" v-model="reviewInfo.review_title" />
       <textarea
         id="review_content"
@@ -34,6 +41,7 @@
     </form>
   </div>
 </template>
+
 <script>
 import axios from "axios";
 export default {
@@ -46,18 +54,12 @@ export default {
         review_content: '',
         user_id: '',
         review_img: '',
-        order_no: 1,
-        prod_no: 1,
+        order_no: '',
+        prod_no: null,
       },
+      products: [],
       file: null,
-      prodImgFile: null,
-      contentImgFile: null,
     };
-  },
-  computed: {
-    regdate() {
-      return this.$dateFormat(this.reviewInfo.reg_date);
-    },
   },
   created() {
     this.searchNo = this.$route.query.review_no || "";
@@ -66,20 +68,23 @@ export default {
     } else {
       this.reviewInfo.reg_date = this.getToday();
     }
-  },
-  watch: {
-    $route(to, form) {
-      if (to.query.review_no !== form.query.review_no) {
-        this.searchNo = this.$route.query.review_no || "";
-        if (this.searchNo > 0) {
-          this.getreviewInfo();
-        } else {
-          this.reviewInfo = { reg_date: this.getToday() };
-        }
-      }
-    },
+    this.getProducts();
   },
   methods: {
+    async getProducts() {
+      try {
+        const user = this.$store.getters.getUserInfo;
+        console.log(user);
+        const response = await axios.get('/api/review/reviewProductSel',{
+          params: {
+            user_id: user.user_id
+          }
+        }); // 서버에서 상품 목록을 가져오는 엔드포인트
+        this.products = response.data;
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    },
     async getreviewInfo() {
       let result = await axios.get(`/api/review/${this.searchNo}`);
       this.reviewInfo = result.data[0];
@@ -90,36 +95,31 @@ export default {
       console.log(this.file);
     },
     async saveBoard() {
-      const user = sessionStorage.getItem('user_id');//this.$store.getters.getUserInfo;
-      console.log('유저정보'+user);
+      const user = sessionStorage.getItem('user_id');
+      console.log('유저정보' + user);
       const formData = new FormData();
+      const selectedProduct = this.products.find(product => product.prod_no === this.reviewInfo.prod_no);
+      
+      formData.append("prod_no", this.reviewInfo.prod_no);
+      formData.append("prod_name", selectedProduct.prod_name);
       formData.append("score", this.reviewInfo.score);
       formData.append("review_title", this.reviewInfo.review_title);
       formData.append("review_content", this.reviewInfo.review_content);
       formData.append("user_id", user);
-      formData.append("order_no", this.reviewInfo.order_no);
-      formData.append("prod_no", this.reviewInfo.prod_no);
+      formData.append("order_no", selectedProduct.order_no);
       if (this.file) {
         formData.append("avatar", this.file);
         console.log(this.file);
       }
       axios.post("/api/review", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then(() => {
-          console.log(this.board);
-          alert("등록되었습니다.");
-          this.$router.push("/reviewList");
-        });
-      // if (result.insertId > 0) {
-      //   alert("정상적으로 등록되었습니다.");
-      //   //this.boardInfo.no = result.insertId;
-      //   this.$router.push({ path: "/qnaList" });
-      // } else {
-      //   alert("정상적으로 저장되지 않았습니다.");
-      // }
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(() => {
+        alert("등록되었습니다.");
+        this.$router.push("/reviewList");
+      });
     },
     getToday() {
       // return this.$dateFormat("");
@@ -127,6 +127,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 /* Style inputs with type="text", select elements and textareas */
 input[type="text"],

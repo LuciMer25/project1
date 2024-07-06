@@ -38,7 +38,7 @@ export default {
         success: vm.getKakaoAccount,
         fail: function(error) {
           console.log(error);
-          alert("카카오 로그인에 실패했습니다.");
+          this.$swal("카카오 로그인에 실패했습니다.");
         },
       });
     },

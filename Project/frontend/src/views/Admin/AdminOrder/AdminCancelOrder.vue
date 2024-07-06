@@ -132,8 +132,9 @@
       async cancelBtn(order_no) {
         this.orderNo = order_no;
         try {
-          await axios.put(`/api/adminOrder/updateCancelState/${this.orderNo}`);
-          await axios.put(`/api/adminOrder/updateCancelComplete/${this.orderNo}`).then(async () => {
+          await axios.put(`/api/adminOrder/adminUpdateCancelState/${this.orderNo}`);
+          await axios.put(`/api/adminOrder/adminUpdateCancelComplete/${this.orderNo}`)
+          .then(async () => {
             this.$swal('취소완료 되었습니다.');
             await this.refreshData();
           });

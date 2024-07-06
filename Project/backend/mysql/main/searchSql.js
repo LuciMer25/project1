@@ -13,8 +13,6 @@ module.exports = {
                             GROUP BY prod_no
                         ) AS r 
                     ON p.prod_no = r.prod_no
-                    WHERE reg_date BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) 
-                    AND NOW()
-                    AND prod_name LIKE ? 
+                    WHERE prod_name LIKE ? 
                     ORDER BY p.reg_date desc`,
 }

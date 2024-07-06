@@ -20,7 +20,7 @@
               :key="review.review_no"
               v-for="review in paginatedReviews"
               @click="goToDetail(review.review_no)"
-            >
+            > 
               <td>{{ review.review_no }}</td>
               <td>{{ review.score }}</td>
               <td>{{ review.review_title }}</td>
@@ -80,7 +80,7 @@ export default {
         console.error('Error fetching review list:', error);
       }
     },
-    goToDetail(review_no) {
+      goToDetail(review_no) {
       this.$router.push({ path: "/reviewInfo", query: { review_no: review_no } });
     },
     changePage(page) {

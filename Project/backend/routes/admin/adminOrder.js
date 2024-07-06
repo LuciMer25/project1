@@ -2,6 +2,16 @@ const express = require('express');
 const router = express.Router();
 const schedule = require('node-schedule');
 const query = require('../../mysql/index.js');
+const http = require('http');
+const WebSocket = require('ws');
+
+const app = express();
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ server });
+
+wss.on('connection', (ws) => {
+  console.log('클라이언트가 연결되었습니다.');
+});
 
   router.get("/orderList", async (req, res) => {
     let list = await query("adminOrderList");
@@ -35,6 +45,12 @@ const query = require('../../mysql/index.js');
       try {
         await query("updateStateSchedule", [no]);
         console.log("배송완료로 변경");
+
+        wss.clients.forEach(client => {
+          if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify({ type: 'UPDATE_ORDER_STATE', orderNo: no }));
+          }
+        });
       } catch (err) {
         console.log(`스케쥴링 안됨`, err);
       }
@@ -53,22 +69,22 @@ const query = require('../../mysql/index.js');
     res.send({ list });
   });
 
-  router.put('/updateCancelState/:no', async(req, res) => {
+  router.put('/adminUpdateCancelState/:no', async(req, res) => {
     const no = req.params.no;
-    let result = await query("updateCancelState", [no]);
+    let result = await query("adminUpdateCancelState", [no]);
     res.send(result);
   });
 
-  router.put('/updateCancelComplete/:no', async(req, res) => {
+  router.put('/adminUpdateCancelComplete/:no', async(req, res) => {
     const no = req.params.no;
-    let result = await query("updateCancelComplete", [no]);
+    let result = await query("adminUpdateCancelComplete", [no]);
     res.send(result);
   })
 
-  router.put('/updateReturnState/:no' , async(req, res) => {
+  router.put('/adminUpdateReturnState/:no' , async(req, res) => {
     const no = req.params.no;
-    let result = await query("updateReturnState", [no]);
-    await query("updateReturnComplete", [no])
+    let result = await query("adminUpdateReturnState", [no]);
+    await query("amdinUpdateReturnComplete", [no])
     res.send(result);
 
   })
@@ -112,4 +128,8 @@ const query = require('../../mysql/index.js');
     res.send({ list })
   })
   
+server.listen(3001, () => {
+  console.log('서버가 3001 포트에서 실행 중입니다.');
+});
+
 module.exports = router;

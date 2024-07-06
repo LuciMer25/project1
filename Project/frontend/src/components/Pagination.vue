@@ -32,27 +32,19 @@ export default {
     }
   },
   created() {
-      console.log(this.currentPage)
-      console.log(this.totalPages);
-      console.log(this.pageSize);
   },
   computed: {
       
     displayedPages() {
       let startPage = Math.max(1, this.currentPage - Math.floor(this.pageSize / 2));
       let endPage = Math.min(this.totalPages, startPage + this.pageSize - 1);
-      
-      console.log("startpage : " + startPage)
-      console.log("endpage : " + endPage)
 
       const pages = [];
       
       for (let i = startPage; i <= endPage; i++) {
       pages.push(i);
       }
-      
-      console.log("pages : " + pages)
-      
+            
       return pages;
       }
   },

@@ -65,7 +65,8 @@ export default {
       itemList: [],
       payment: '',
       totalprice:0,
-      receiverInfo: {}
+      receiverInfo: {},
+      isAbnormalRequest:true
     };
   },
   created() { 
@@ -114,8 +115,17 @@ export default {
       // console.log(proceed.user);
       // console.log(this.$store.getters.getItemList);
       //console.log('order_total_amount : '+this.totalprice);
-
-      let data = {
+      if(this.checkInputException(proceed)){
+        this.$swal.fire({
+          title: 'Error!',
+          text: '주문 정보를 다시 확인해주세요.',
+          icon: 'warning',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: '확인'
+        });
+      }
+      else{
+        let data = {
                 orders:{
                         order_total_amount : this.totalprice, 
                         addr: proceed.receiver.address,
@@ -147,12 +157,38 @@ export default {
                               email: proceed.user.email,
                             },
                           }));
+          console.log(result);
+          if(result.code == 'FAILURE_TYPE_PG'){
+            this.callCancelModal();
+          }
+          else{
+            data.orders.pay_code = result.txId;
+            let checkoutResult = (await axios.post('/api/checkout',data));
+            //console.log(checkoutResult);
+            this.callCompletePage(checkoutResult);
+          }
+      }
+    },
+    checkInputException(proceedInfo){
+      let checkException= false;
+      
+      const fieldsToCheck = [
+            proceedInfo.receiver.address,
+            proceedInfo.receiver.detailAddress,
+            proceedInfo.receiver.postalCode,
+            proceedInfo.user.user_id, 
+            proceedInfo.receiver.phone, 
+            proceedInfo.receiver.name
+          ];
 
-          data.orders.pay_code = result.txId;
-          let checkoutResult = (await axios.post('/api/checkout',data));
-          //console.log(checkoutResult);
-          this.callCompletePage(checkoutResult);
-
+      for (const field of fieldsToCheck) {
+        console.log(field);
+          if (field === '' || field === null || field === undefined) {
+              checkException = true;
+          }
+        }
+        console.log('입력정보 : '+checkException);
+        return checkException;
     },
     async  callCompletePage(result){
       if(result.data.message != ''){
@@ -179,20 +215,48 @@ export default {
         }
 
     },
-    callSuccessModal(order_no){
-      this.$swal.fire({
-          title: '결제완료!',
-          text: '주문이 접수되었습니다.',
+    async callCancelModal(){
+        try {
+        await this.$swal.fire({
+          title: '결제취소!',
+          text: '결제를 취소하셨습니다. 다시 시도해주세요.',
           icon: 'warning',
           confirmButtonColor: '#3085d6',
           confirmButtonText: '확인'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            this.CreateOrderState(order_no);
-            this.$router.push({name:'ordercomplete',params:{orderNo:order_no}});
-          }
         });
+      } catch (error) {
+        console.error('Error handling SweetAlert result:', error);
+      }
     },
+    async callSuccessModal(order_no) {
+    const self = this;
+    try {
+      const result = await this.$swal.fire({
+        title: '결제완료!',
+        text: '주문이 접수되었습니다.',
+        icon: 'warning',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: '확인'
+      });
+
+      if (result.isConfirmed) {
+        await self.gotoCompletePage(order_no);
+      }
+    } catch (error) {
+      console.error('Error handling SweetAlert result:', error);
+    }
+  },
+  async gotoCompletePage(orderNum) {
+  try {
+    console.log('gotoComplete 호출됨');
+    await this.CreateOrderState(orderNum);
+    this.isAbnormalRequest = false;
+    console.log('Navigating to ordercomplete page');
+    this.$router.push({ name: 'ordercomplete', params: { orderNo: orderNum } });
+  } catch (error) {
+    console.error('Error navigating to complete page:', error);
+  }
+},
     callValidateModal(){
       this.$swal.fire({
           title: '결제오류!',
@@ -214,12 +278,25 @@ export default {
     }
   },
   beforeRouteLeave(to, from, next) {
-    const answer = window.confirm('진행중인 내용이 저장되지 않을 수 있습니다.');
-    if (answer) {
-      this.$store.dispatch('updateItemList', []);
+    if(this.isAbnormalRequest){
+      this.$swal.fire({
+            title: '페이지에서 나가시겠습니까?',
+            text: '진행중인 내용이 저장되지 않을 수 있습니다.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: '확인',
+            cancelButtonText: '취소'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                this.$store.dispatch('updateItemList', []);
+                next();
+            }
+          });
+    }
+    else{
       next();
-    } else {
-      next(false);
     }
   },
   
