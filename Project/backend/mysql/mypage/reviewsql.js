@@ -1,22 +1,22 @@
 module.exports = {
-    reviewList: `select p.prod_name, p.prod_img, score, review_no, review_title, review_content, review_img, r.user_id, order_state, o.order_no, od.review_avail
-                 from product p join review r
-                 on p.prod_no = r.prod_no
-                 join orders o
-                 on r.order_no = o.order_no
-                 join order_detail od
-                 on r.order_no = od.order_no
-                 where r.user_id = ?
-                 and order_state = '구매확정'
-                 and od.review_avail = 0
-                 group by p.prod_name, p.prod_img, score, review_no, review_title, review_content, review_img, r.user_id, order_state, o.order_no, od.review_avail`,
-    // reviewList: `select r.review_no, r.score, r.review_title, r.review_content, r.reg_date, r.user_id, o.order_no, r.review_img, p.prod_no
-    //              from review r join product p
-    //              on r.prod_no = p.prod_no
+    // reviewList: `select p.prod_name, p.prod_img, score, review_no, review_title, review_content, review_img, r.user_id, order_state, o.order_no, od.review_avail
+    //              from product p join review r
+    //              on p.prod_no = r.prod_no
     //              join orders o
     //              on r.order_no = o.order_no
+    //              join order_detail od
+    //              on r.order_no = od.order_no
     //              where r.user_id = ?
-    //              group by r.review_no, r.score, r.review_title, r.review_content, r.reg_date, r.user_id, o.order_no, r.review_img, p.prod_no`,
+    //              and order_state = '구매확정'
+    //              and od.review_avail = 0
+    //              group by p.prod_name, p.prod_img, score, review_no, review_title, review_content, review_img, r.user_id, order_state, o.order_no, od.review_avail`,
+    reviewList: `select r.review_no, r.score, r.review_title, r.review_content, r.reg_date, r.user_id, o.order_no, r.review_img, p.prod_no
+                 from review r join product p
+                 on r.prod_no = p.prod_no
+                 join orders o
+                 on r.order_no = o.order_no
+                 where r.user_id = ?
+                 group by r.review_no, r.score, r.review_title, r.review_content, r.reg_date, r.user_id, o.order_no, r.review_img, p.prod_no`,
     reviewInfo: `select r.review_no, r.score, r.review_title, r.review_content, r.reg_date, r.user_id, o.order_no, r.review_img, p.prod_name, p.prod_img
                  from review r join product p
                  on r.prod_no = p.prod_no
@@ -34,7 +34,7 @@ module.exports = {
                    SET  review_title = ?, review_content = ?, score = ?, reg_date = CURRENT_TIMESTAMP
                    WHERE review_no = ?`,
     reviewInsert: `INSERT INTO review(score, review_title, review_content, user_id, review_img, order_no, prod_no)
-                   VALUES (?,?,?,?,?,?,?)`,
+                   VALUES (?, ?, ?, ?, ?, ?, ?)`,
     reviewDelete: `DELETE
                    FROM review
                    WHERE review_no = ?`,

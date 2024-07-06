@@ -4,7 +4,7 @@
       <label for="name">리뷰등록</label><br>
       <div>
         <label for="prodSelect">상품 선택</label><br>
-        <select id="prodSelect" v-model="products.prod_no">
+        <select id="prodSelect" v-model="reviewInfo.prod_no">
           <option v-for="product in products" :key="product.prod_no" :value="product.prod_no">
             주문번호 : {{ product.order_no }}  상품명 : {{ product.prod_name }}
           </option>
@@ -98,13 +98,15 @@ export default {
       const user = sessionStorage.getItem('user_id');
       console.log('유저정보' + user);
       const formData = new FormData();
-      formData.append("prod_no", this.products.prod_no);
-      formData.append("prod_name", this.products.prod_name);
+      const selectedProduct = this.products.find(product => product.prod_no === this.reviewInfo.prod_no);
+      
+      formData.append("prod_no", this.reviewInfo.prod_no);
+      formData.append("prod_name", selectedProduct.prod_name);
       formData.append("score", this.reviewInfo.score);
       formData.append("review_title", this.reviewInfo.review_title);
       formData.append("review_content", this.reviewInfo.review_content);
       formData.append("user_id", user);
-      formData.append("order_no", this.reviewInfo.order_no);
+      formData.append("order_no", selectedProduct.order_no);
       if (this.file) {
         formData.append("avatar", this.file);
         console.log(this.file);
@@ -115,7 +117,6 @@ export default {
         },
       })
       .then(() => {
-        console.log(this.board);
         alert("등록되었습니다.");
         this.$router.push("/reviewList");
       });
