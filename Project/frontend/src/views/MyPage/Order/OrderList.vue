@@ -1,5 +1,6 @@
 <template>
   <div class="col-md-9">
+    <h3 style="font-weight: bold">주문/배송 조회</h3>
     <table class="table table-hover">
       <thead>
         <tr>
@@ -15,11 +16,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(order, i) in paginatedOrders" :key="i" @click="goToDetail(order.order_no)">
+        <tr v-for="(order, i) in processedOrders" :key="i">
           <td>{{ order.order_no }}</td>
           <td><img :src="`/api/upload/products/${order.first_prod_img}`" alt="상품 이미지" style="width: 50px; height: 50px;"></td>
-          <td>{{ order.first_prod_name }}(외{{ order.prod_cnt }}건)</td>
-          <td>{{ formatCurrency(order.price) }}</td>
+          <td  @click="goToDetail(order.order_no)">{{ order.first_prod_name }}(외{{ order.prod_cnt - 1 }}건)</td>
+          <td>{{ formatCurrency(order.order_total_amount) }}</td>
           <td>{{ order.addr }}</td>
           <td>{{ order.detail_addr }}</td>
           <td>{{ formatDate(order.order_date) }}</td>
@@ -90,51 +91,51 @@ export default {
     async cancelOrder(order_no) {
       try {
         await axios.put(`/api/Order/cancelOrder/${order_no}`);
-        alert("취소요청 되었습니다");
+        this.$swal("취소요청 되었습니다");
         this.getOrderList(); // 목록 다시 불러오기
       } catch (error) {
         console.error("Failed to cancel order:", error);
-        alert("취소요청 실패");
+        this.$swal("취소요청 실패");
       }
     },
     async returnOrder(order_no) {
       try {
         await axios.put(`/api/Order/returnOrder/${order_no}`);
-        alert("반품요청 되었습니다");
+        this.$swal("반품요청 되었습니다");
         this.getOrderList(); // 목록 다시 불러오기
       } catch (error) {
         console.error("Failed to request return:", error);
-        alert("반품요청 실패");
+        this.$swal("반품요청 실패");
       }
     },
     async orderConfirm(order_no) {
       try {
         await axios.put(`/api/Order/orderConfirm/${order_no}`);
-        alert("구매확정 되었습니다");
+        this.$swal("구매확정 되었습니다");
         this.getOrderList(); // 목록 다시 불러오기
       } catch (error) {
         console.error("Failed to confirm order:", error);
-        alert("구매확정 실패");
+        this.$swal("구매확정 실패");
       }
     },
     async cancelRevoke(order_no) {
       try {
         await axios.put(`/api/Order/cancelRevoke/${order_no}`);
-        alert("요청이 취소되었습니다");
+        this.$swal("요청이 취소되었습니다");
         this.getOrderList(); // 목록 다시 불러오기
       } catch (error) {
         console.error("Failed to revoke cancellation:", error);
-        alert("취소요청 취소 실패");
+        this.$swal("취소요청 취소 실패");
       }
     },
     async returnCancel(order_no) {
       try {
         await axios.put(`/api/Order/returnCancel/${order_no}`);
-        alert("요청이 취소되었습니다");
+        this.$swal("요청이 취소되었습니다");
         this.getOrderList(); // 목록 다시 불러오기
       } catch (error) {
         console.error("Failed to cancel return request:", error);
-        alert("반품요청 취소 실패");
+        this.$swal("반품요청 취소 실패");
       }
     },
     formatDate(dateStr) {
@@ -162,10 +163,10 @@ export default {
   },
   computed: {
     totalPages() {
-      return Math.ceil(this.orders.length / this.pageSize);
+      return Math.ceil(this.processedOrders.length / this.pageSize);
     },
     visiblePages() {
-      const pageCount = Math.ceil(this.orders.length / this.pageSize);
+      const pageCount = Math.ceil(this.processedOrders.length / this.pageSize);
       let startPage = Math.max(1, this.currentPage - Math.floor(this.maxDisplayedPages / 2));
       let endPage = Math.min(startPage + this.maxDisplayedPages - 1, pageCount);
 
@@ -178,10 +179,23 @@ export default {
       }
       return pages;
     },
+    processedOrders() {
+      const map = new Map();
+      this.orders.forEach(order => {
+        if (!map.has(order.order_no)) {
+          map.set(order.order_no, { ...order, prod_cnt: 1 });
+        } else {
+          const existingOrder = map.get(order.order_no);
+          existingOrder.prod_cnt++;
+          map.set(order.order_no, existingOrder);
+        }
+      });
+      return Array.from(map.values());
+    },
     paginatedOrders() {
       const startIndex = (this.currentPage - 1) * this.pageSize;
       const endIndex = startIndex + this.pageSize;
-      return this.orders.slice(startIndex, endIndex);
+      return this.processedOrders.slice(startIndex, endIndex);
     }
   }
 };
@@ -190,5 +204,11 @@ export default {
 <style scoped>
 table * {
   text-align: center;
+  font-size: 14px;
+}
+
+.col-md-9{
+  margin-top: 40px;
+  width: 75%;
 }
 </style>

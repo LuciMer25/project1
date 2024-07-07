@@ -8,7 +8,7 @@ module.exports = {
     inquiryInsert: `INSERT INTO inquiry(inquiry_title, inquiry_content, user_id, inquiry_img)
                     VALUES(?,?,?,?)`,
     inquiryUpdate: `UPDATE inquiry 
-                    SET inquiry_title = ?, inquiry_content = ?, reg_date = CURRENT_TIMESTAMP, inquiry_img
+                    SET inquiry_title = ?, inquiry_content = ?, reg_date = CURRENT_TIMESTAMP
                     WHERE inquiry_no = ?`,
     
     inquiryDelete: `DELETE 
@@ -19,5 +19,5 @@ module.exports = {
                    FROM inquiry_reply ir join inquiry i
                    on ir.inquiry_no = i.inquiry_no
                    where i.inquiry_no = ?
-                   group by ir.reply_content, i.inquiry_no`
+                   group by ir.reply_content, i.inquiry_no`,
 }

@@ -34,6 +34,17 @@ router.get("/", async (req, res) => {
   let result = await query("qnaList", user_id).then((res) => res);
   res.send(result);
 });
+// 07/06 추가
+// QnA상품목록
+router.get("/selectProdQnA", async (req, res) => {
+  try {
+    let result = await query("selectProdQnA");
+    res.send(result);
+  } catch (error) {
+    console.error("Error fetching product QnA:", error);
+    res.status(500).send("Failed to fetch product QnA");
+  }
+});
 //단건조회
 router.get("/:qna_no", async (req, res) => {
   let result = await query("qnaInfo", req.params.qna_no);
@@ -77,4 +88,27 @@ router.get("/reply/:qna_no", async (req, res) => {
   let result = await query("qnaReply", req.params.qna_no);
   res.send(result);
 });
+
+// QnA 대분류
+// router.get("/QnAFirstCtgr", async (req, res) => {
+//   const user_id = req.query.user_id
+//   let result = await query("QnAFirstCtgr", user_id);
+//     console.log("QnA : "+ user_id)
+//     console.log("대분류 리스트:" + result); // 콘솔에 결과를 로그로 출력해 확인
+//     const topCategories = result.filter(category => !category.top_ctgr_no);
+//     const categories = result.filter(category => category.top_ctgr_no);
+//     res.send({ topCategories, categories });
+// });
+// QnA 소분류
+// router.get("/QnASecondCtgr/:no", async (req, res) => {
+//   const no = req.params.no;
+//   let list = await query("QnASecondCtgr", [no]);
+//   res.send({ list });
+// });
+// QnA 상품선택
+// router.get("/QnAThirdCtgr/:no", async (req, res) => {
+//   const no = req.params.no;
+//   let list = await query("QnAThirdCtgr", [no]);
+//   res.send({ list });
+// });
 module.exports = router;

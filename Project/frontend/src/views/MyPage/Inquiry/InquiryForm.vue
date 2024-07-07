@@ -1,16 +1,23 @@
 <template>
   <div class="col-md-9">
     <form @submit.prevent>
-      <label for="name">문의등록</label>
-      <input type="text" id="inquiry_title" v-model="inquiryInfo.inquiry_title" />
-      <textarea
-        id="inquiry_content"
-        style="height: 200px"
-        v-model="inquiryInfo.inquiry_content"
-      ></textarea>
-      <p>첨부파일</p>
-      <input type="file" @change="onChangeFileUpload">
-      <button
+      <div class="form-group">
+        <h3 style="font-weight: bold;">문의등록</h3>
+        <div class="input-group">
+          <p style="margin-right: 30px; margin-top: 16px;">제목</p>
+          <input type="text" id="inquiry_title" class="form-control" 
+            style="width: 40%; margin-right: 600px;" v-model="inquiryInfo.inquiry_title" />
+        </div>
+      </div>
+      <div class="form-group" style="display: flex; align-items: center;">
+        <label for="inquiry_content" style="margin-right: 0px; margin-top: -185px; width: 62px;">내용</label>
+        <textarea id="inquiry_content" style="height: 200px; width: 75%;" class="form-control" v-model="inquiryInfo.inquiry_content"></textarea>
+      </div>
+      <div class="form-group" style="display: flex; align-items: center;">
+        <p style="margin-right: 10px; margin-top: 15px;">첨부파일</p>
+        <input type="file" id="file" @change="onChangeFileUpload" style="margin-left: 10px;">
+      </div>
+      <button style="margin-top: 50px; margin-left: 450px;"
         type="button"
         class="btn btn-xs btn-info"
         @click="saveBoard(inquiryInfo.inquiry_no)"
@@ -91,7 +98,7 @@ export default {
               )
               .then(()=>{
                 console.log(this.board)
-                alert('등록되었습니다.')
+                this.$swal('등록되었습니다.')
                 this.$router.push('/inquiryList')
             })
     },
@@ -129,10 +136,20 @@ button[type="button"]:hover {
   background-color: #45a049;
 }
 
+.col-md-9{
+  margin-top: 40px;
+}
 
 .container {
   border-radius: 5px;
   background-color: #f2f2f2;
   padding: 20px;
 }
+
+hr {
+      border: none; /* 기본 테두리 제거 */
+      height: 3px; /* 선의 높이 (굵기) */
+      background-color: #898989; /* 선의 색상 */
+      margin: 20px 0; /* 위아래 여백 설정 */
+    }
 </style>

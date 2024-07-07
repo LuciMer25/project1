@@ -26,11 +26,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr :key="i" v-for="(order, i) in limitedOrders" @click="goToDetail(order.order_no)">
+          <tr v-for="(order, i) in groupedOrders" :key="i" @click="goToDetail(order.order_no)">
             <td>{{ order.order_no }}</td>
             <td><img :src="`/api/upload/products/${order.first_prod_img}`" alt="상품 이미지" width="50" height="50"></td>
-            <td>{{ order.first_prod_name }}(외{{ order.prod_cnt }}건)</td>
-            <td>{{ formatCurrency(order.price)+'원' }}</td>
+            <td>{{ order.first_prod_name }}(외{{ order.extra_products.length }}건)</td>
+            <td>{{ formatCurrency(order.order_total_amount) }}</td>
             <td>{{ order.addr }}</td>
             <td>{{ order.detail_addr }}</td>
             <td>{{ formatDate(order.order_date) }}</td>
@@ -129,24 +129,22 @@ export default {
     async getOrderList() {
       try {
         const user = this.$store.getters.getUserInfo;
-        console.log('유저정보:', user);
-        if(user != null){
+        if (user != null) {
           const response = await axios.get(`/api/order`, {
             params: {
               user_id: user.user_id,
             },
           });
           this.orders = response.data;
-        }
-        else{
+        } else {
+          // Handle case where user is not logged in
           this.$swal.fire({
             title: '로그인이 필요한 서비스입니다',
             text: '로그인 페이지로 이동합니다.',
             icon: 'warning',
             confirmButtonColor: '#d33',
             confirmButtonText: '확인',
-          })
-          .then((result) => {
+          }).then((result) => {
             if (result.isConfirmed) {
               this.$router.replace('/login');
             }
@@ -159,7 +157,6 @@ export default {
     async getReviewList() {
       try {
         const user = this.$store.getters.getUserInfo;
-        console.log('유저정보:', user);
         const response = await axios.get(`/api/review`, {
           params: {
             user_id: user.user_id
@@ -173,7 +170,6 @@ export default {
     async getInquiryList() {
       try {
         const user = this.$store.getters.getUserInfo;
-        console.log('유저정보:', user);
         const response = await axios.get(`/api/inquiry`, {
           params: {
             user_id: user.user_id
@@ -186,10 +182,8 @@ export default {
     },
     async getWishList() {
       const user = sessionStorage.getItem("user_id");
-      console.log('유저정보:', user);
       const response = await axios.get(`/api/wishlist/wish/${user}`);
       this.wishList = response.data.list;
-      console.log(this.wishList);
     },
     formatDate(dateStr) {
       const date = new Date(dateStr);
@@ -222,6 +216,22 @@ export default {
     limitedWishList() {
       return this.wishList.slice(0, 3);
     },
+    groupedOrders() {
+      // Group orders by order_no
+      const grouped = this.orders.reduce((acc, order) => {
+        const found = acc.find(o => o.order_no === order.order_no);
+        if (found) {
+          found.extra_products.push(order);
+        } else {
+          acc.push({
+            ...order,
+            extra_products: [],
+          });
+        }
+        return acc;
+      }, []);
+      return grouped;
+    },
   },
 };
 </script>
@@ -252,5 +262,29 @@ table * {
   padding-left: 200px;
   font-size: 16px;
   line-height: 24px;
+}
+
+.title1 {
+  font-weight: bold;
+  margin-top: 30px;
+}
+
+.title2 {
+  font-weight: bold;
+  
+}
+
+.title3 {
+  font-weight: bold;
+  
+}
+
+.title4 {
+  font-weight: bold;
+  
+}
+
+.mp-info-wrap{
+  margin-top: 50px;
 }
 </style>

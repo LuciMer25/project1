@@ -4,7 +4,7 @@
 
       <!-- 오른쪽 리뷰목록 -->
       <div class="col-md-9">
-        <a href="reviewform">리뷰등록</a>
+        <h3 style="font-weight: bold">상품후기</h3>
         <table class="table table-hover">
           <thead>
             <tr>
@@ -24,7 +24,7 @@
               <td>{{ review.review_no }}</td>
               <td>{{ review.score }}</td>
               <td>{{ review.review_title }}</td>
-              <td>{{ review.reg_date }}</td>
+              <td>{{ formatDate(review.reg_date) }}</td>
               <td>{{ review.user_id }}</td>
             </tr>
           </tbody>
@@ -42,6 +42,9 @@
             <a class="page-link" @click="changePage(currentPage + 1)">다음</a>
           </li>
         </ul>
+        <div class="text-right mt-3">
+          <a href="reviewform" class="btn btn-primary">리뷰등록</a>
+        </div>
       </div>
 
 </template>
@@ -86,6 +89,16 @@ export default {
     changePage(page) {
       this.currentPage = page;
     },
+    formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        },
   },
   computed: {
     totalPages() {
@@ -131,5 +144,14 @@ export default {
 .page-item.disabled {
   pointer-events: none;
   opacity: 0.5;
+}
+
+.col-md-9{
+  margin-top: 40px;
+}
+
+.btn.btn-primary{
+  background-color: darkgray;
+  border: darkgray;
 }
 </style>
