@@ -1,5 +1,6 @@
 <template>
   <div class="col-md-9">
+    <h3 style="font-weight: bold">위시리스트</h3>
     <table class="table table-hover">
       <thead>
         <tr>
@@ -14,7 +15,7 @@
           <td>
             <img :src="`/api/upload/products/${wish.prod_img}`" alt="상품 이미지" width="50" height="50">
           </td>
-          <td><RouterLink :to="{ name: 'productInfo', params: { prodNo: wish.prod_no } }">상품명 : {{ wish.prod_name }}</RouterLink></td>
+          <td><RouterLink :to="{ name: 'productInfo', params: { prodNo: wish.prod_no } }" style="text-decoration: none; color: black;">상품명 : {{ wish.prod_name }}</RouterLink></td>
           <td>{{ formatCurrency(wish.price) + '원' }}</td>
           <td><button @click="deletebtn(wish.wish_no)">삭제</button></td>
         </tr>
@@ -53,7 +54,7 @@ export default {
         this.getWishList(); // 위시리스트 갱신
       } catch (error) {
         console.error('삭제 실패:', error);
-        alert('삭제에 실패했습니다.');
+        this.$swal('삭제에 실패했습니다.');
       }
     },
     godetail(prod_no) {
@@ -64,5 +65,13 @@ export default {
 </script>
 
 <style scoped>
-/* 스타일 추가 가능 */
+.col-md-9{
+  margin-top: 40px;
+}
+
+.prodname {
+  text-decoration: none; /* Remove underline */
+  color: black; /* Set text color to black */
+}
+
 </style>

@@ -1,8 +1,15 @@
 <template>
   <div class="col-md-9">
     <div class="row">
-      <table class="table table-bordered">
+      <table class="table table-bordered" style="width: 90%;">
         <thead>
+          <tr>
+            <th scope="col" class="text-center table-primary" style="height:auto">상품명</th>
+            <td scope="col" class="text-center" colspan="2">{{QnAInfo.prod_name}}</td>
+            <th scope="col" class="text-center table-primary">상품이미지</th>
+            <td scope="col" class="text-center" colspan="2">
+              <img :src="`/api/upload/products/${QnAInfo.prod_img}`" alt="첨부파일" style="width: 50px; height: 50px;"></td>
+          </tr>
           <tr>
             <th scope="col" class="text-center table-primary">QnA번호</th>
             <td scope="col" class="text-center" >{{QnAInfo.qna_no}}</td>
@@ -10,16 +17,16 @@
             <td scope="col" class="text-center">
               {{formatDate(QnAInfo.reg_date) }}
             </td>
-            
-              <th scope="col" class="text-center table-primary">제목</th>
-              <td scope="col" class="text-center"><input v-model = "QnAInfo.qna_title" :disabled="!isdisabled" cols="170" rows="25"> </td>
-
+            <th scope="col" class="text-center table-primary">답변상태</th>
+            <td colspan="5" scope="col" class="text-center">{{QnAInfo.comment_state}}</td>
           </tr>
           <tr>
-          <th>첨부파일</th>
-          <td colspan="4"><img :src="`/api/upload/qna/${QnAInfo.qna_img}`" alt="첨부파일" width="100px" height="100px"></td>
-          <th scope="col" class="text-center table-primary">답변상태</th>
-          <td scope="col" class="text-center">{{QnAInfo.comment_state}}</td>
+            <th scope="col" class="text-center table-primary">제목</th>
+            <td scope="col" colspan="5" class="text-center"><input v-model = "QnAInfo.qna_title" :disabled="!isdisabled" cols="170" rows="25"> </td>
+          </tr>
+          <tr>
+          <th scope="col" class="text-center table-primary">첨부파일</th>
+          <td colspan="5"><img :src="`/api/upload/qna/${QnAInfo.qna_img}`" alt="첨부파일" width="100px" height="100px"></td>
         </tr>
         </thead>
         <tbody>
@@ -62,7 +69,7 @@
                 수정완료
               </button>
               
-              <button @click = "deletebtn">삭제</button>
+              <button class="btn btn-danger" style="margin-left: 10px" @click="deletebtn">삭제</button>
             </td>
           </tr>
         </tbody>
@@ -114,14 +121,14 @@ export	default {
     const url = `/api/qna/${this.searchNo }`
     axios.put(url, this.QnAInfo)
     .then(() => {
-      alert('수정되었습니다')
+      this.$swal('수정되었습니다')
       this.$router.push('/qnaList')
     })
    },
    deletebtn(){
     axios.delete(`/api/qna/${this.searchNo}`)
             .then(() => {
-              alert('삭제되었습니다')
+              this.$swal('삭제되었습니다')
               this.$router.push('/qnaList')
             })
    },
@@ -144,3 +151,8 @@ export	default {
      },
 };
 </script>
+<style>
+.col-md-9{
+  margin-top: 40px;
+}
+</style>

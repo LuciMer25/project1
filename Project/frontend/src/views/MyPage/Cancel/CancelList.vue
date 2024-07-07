@@ -1,5 +1,6 @@
 <template>
   <div class="col-md-9">
+    <h3 style="font-weight: bold">취소/반품 조회</h3>
     <table class="table table-hover">
       <thead>
         <tr>
@@ -108,5 +109,9 @@ export default {
 <style scoped>
 table * {
   text-align: center;
+}
+
+.col-md-9{
+  margin-top: 40px;
 }
 </style>

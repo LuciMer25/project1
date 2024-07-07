@@ -1,40 +1,48 @@
 <template>
   <div class="col-md-9">
     <form @submit.prevent>
-      <label for="name">리뷰등록</label><br>
-      <div>
-        <label for="prodSelect">상품 선택</label><br>
-        <select id="prodSelect" v-model="reviewInfo.prod_no">
-          <option v-for="product in products" :key="product.prod_no" :value="product.prod_no">
-            주문번호 : {{ product.order_no }}  상품명 : {{ product.prod_name }}
-          </option>
-        </select>
+      <h3 style="font-weight: bold;">후기등록</h3>
+      <div style="display: flex; flex-direction: column; align-items: flex-start;">
+        <div style="display: flex; width: 100%; margin-bottom: 30px;">
+          <label for="prodSelect" style="margin-top: 16px">상품 선택</label>
+          <select id="prodSelect" v-model="reviewInfo.prod_no" style="width: 50%; margin-left: 20px;">
+            <option v-for="product in products" :key="product.prod_no" :value="product.prod_no">
+              주문번호 : {{ product.order_no }}  상품명 : {{ product.prod_name }}
+            </option>
+          </select>
+        </div>
+        <div style="display: flex; width: 100%; margin-bottom: 30px;">
+          <label>평점</label>
+          <div style="display: flex; align-items: center; margin-left: 60px;">
+            <input type="radio" id="score1" value="1" v-model="reviewInfo.score" style="margin-right: 4px" />
+            <label for="score1" style="margin-right: 20px">1</label>
+            <input type="radio" id="score2" value="2" v-model="reviewInfo.score" style="margin-right: 4px" />
+            <label for="score2" style="margin-right: 20px">2</label>
+            <input type="radio" id="score3" value="3" v-model="reviewInfo.score" style="margin-right: 4px" />
+            <label for="score3" style="margin-right: 20px">3</label>
+            <input type="radio" id="score4" value="4" v-model="reviewInfo.score" style="margin-right: 4px" />
+            <label for="score4" style="margin-right: 20px">4</label>
+            <input type="radio" id="score5" value="5" v-model="reviewInfo.score" style="margin-right: 4px" />
+            <label for="score5">5</label>
+          </div>
+        </div>
+        <div style="display: flex; width: 100%; margin-bottom: 60px;">
+          <h6 style="margin-top: 19px;">제목</h6>
+          <input type="text" id="review_title" v-model="reviewInfo.review_title" style="width: 50%; margin-left: 60px;" />
+        </div>
+        <div style="display: flex; width: 100%; margin-bottom: 30px;">
+          <h6>내용</h6>
+          <textarea id="review_content" style="height: 200px; width: 70%; margin-left: 60px;" v-model="reviewInfo.review_content"></textarea>
+        </div>
       </div>
-      <div>
-        <label>평점</label><br>
-        <input type="radio" id="score1" value="1" v-model="reviewInfo.score" />
-        <label for="score1">1</label>
-        <input type="radio" id="score2" value="2" v-model="reviewInfo.score" />
-        <label for="score2">2</label>
-        <input type="radio" id="score3" value="3" v-model="reviewInfo.score" />
-        <label for="score3">3</label>
-        <input type="radio" id="score4" value="4" v-model="reviewInfo.score" />
-        <label for="score4">4</label>
-        <input type="radio" id="score5" value="5" v-model="reviewInfo.score" />
-        <label for="score5">5</label>
+      <div class="form-group" style="display: flex; align-items: center;">
+        <p style="margin-right: 10px; margin-top: 15px;">첨부파일</p>
+        <input type="file" id="file" @change="onChangeFileUpload" style="margin-left: 10px;">
       </div>
-      <input type="text" id="review_title" v-model="reviewInfo.review_title" />
-      <textarea
-        id="review_content"
-        style="height: 200px"
-        v-model="reviewInfo.review_content"
-      ></textarea>
-      <p>첨부파일</p>
-      <input type="file" @change="onChangeFileUpload" />
-      <button
+      <button style="margin-top: 50px; margin-left: 450px;"
         type="button"
         class="btn btn-xs btn-info"
-        @click="saveBoard(reviewInfo.review_no)"
+        @click="saveBoard"
       >
         저장
       </button>
@@ -49,12 +57,12 @@ export default {
     return {
       searchNo: "",
       reviewInfo: {
-        score: '',
-        review_title: '',
-        review_content: '',
-        user_id: '',
-        review_img: '',
-        order_no: '',
+        score: "",
+        review_title: "",
+        review_content: "",
+        user_id: "",
+        review_img: "",
+        order_no: "",
         prod_no: null,
       },
       products: [],
@@ -74,15 +82,14 @@ export default {
     async getProducts() {
       try {
         const user = this.$store.getters.getUserInfo;
-        console.log(user);
-        const response = await axios.get('/api/review/reviewProductSel',{
+        const response = await axios.get("/api/review/reviewProductSel", {
           params: {
-            user_id: user.user_id
-          }
-        }); // 서버에서 상품 목록을 가져오는 엔드포인트
+            user_id: user.user_id,
+          },
+        });
         this.products = response.data;
       } catch (error) {
-        console.error('Error fetching products:', error);
+        console.error("Error fetching products:", error);
       }
     },
     async getreviewInfo() {
@@ -91,15 +98,12 @@ export default {
     },
     onChangeFileUpload(event) {
       this.file = event.target.files[0];
-      console.log(event.target);
-      console.log(this.file);
     },
     async saveBoard() {
-      const user = sessionStorage.getItem('user_id');
-      console.log('유저정보' + user);
+      const user = sessionStorage.getItem("user_id");
       const formData = new FormData();
-      const selectedProduct = this.products.find(product => product.prod_no === this.reviewInfo.prod_no);
-      
+      const selectedProduct = this.products.find((product) => product.prod_no === this.reviewInfo.prod_no);
+
       formData.append("prod_no", this.reviewInfo.prod_no);
       formData.append("prod_name", selectedProduct.prod_name);
       formData.append("score", this.reviewInfo.score);
@@ -109,17 +113,17 @@ export default {
       formData.append("order_no", selectedProduct.order_no);
       if (this.file) {
         formData.append("avatar", this.file);
-        console.log(this.file);
       }
-      axios.post("/api/review", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then(() => {
-        alert("등록되었습니다.");
-        this.$router.push("/reviewList");
-      });
+      axios
+        .post("/api/review", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then(() => {
+          this.$swal("등록되었습니다.");
+          this.$router.push("/reviewList");
+        });
     },
     getToday() {
       // return this.$dateFormat("");
@@ -129,7 +133,7 @@ export default {
 </script>
 
 <style scoped>
-/* Style inputs with type="text", select elements and textareas */
+/* Style inputs with type="text`, select elements and textareas */
 input[type="text"],
 select,
 textarea {
@@ -163,5 +167,9 @@ button[type="button"]:hover {
   border-radius: 5px;
   background-color: #f2f2f2;
   padding: 20px;
+}
+
+.col-md-9{
+  margin-top: 40px;
 }
 </style>

@@ -2,7 +2,7 @@
 
       <!-- 오른쪽 QnA목록 -->
       <div class="col-md-9">
-        <a href="qnaform">QnA등록</a>
+        <h3 style="font-weight: bold">QnA</h3>
         <table class="table table-hover">
           <thead>
             <tr>
@@ -46,6 +46,9 @@
             <a class="page-link" @click="changePage(currentPage + 1)">다음</a>
           </li>
         </ul>
+        <div class="text-right mt-3">
+        <a href="qnaform" class="btn btn-primary">QnA등록</a>
+      </div>
       </div>
 </template>
 <script>
@@ -164,4 +167,14 @@ table * {
   pointer-events: none;
   opacity: 0.5;
 }
+
+.col-md-9{
+  margin-top: 40px;
+}
+
+.btn.btn-primary{
+  background-color: darkgray;
+  border: darkgray;
+}
+
 </style>

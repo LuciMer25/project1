@@ -88,7 +88,7 @@
         </v-data-table>
       </v-card-text>
     </v-card>
-    <Modal v-if="showModal" :orderNo="orderNo" @close="closeModal" @refresh="refreshData" @refresh="refreshData" />
+    <Modal v-if="showModal" :orderNo="orderNo" @close="closeModal" @refresh="refreshData" />
   </v-container>
 </template>
 
