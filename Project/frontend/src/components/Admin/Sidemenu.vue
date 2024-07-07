@@ -67,6 +67,7 @@
 							<RouterLink to = "/admin/orderList" class="nav-link" >주문 현황</RouterLink> 
 							<RouterLink to = "/admin/cancelList" class="nav-link" >취소 현황</RouterLink> 
 							<RouterLink to = "/admin/returnList" class="nav-link" >반품 현황</RouterLink>
+							<RouterLink to = "/admin/completeList" class="nav-link" >구매확정 현황</RouterLink>
 						</nav>
 					</div>
 					<div class="sb-sidenav-menu-heading"> </div>

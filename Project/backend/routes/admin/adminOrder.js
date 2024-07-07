@@ -127,6 +127,22 @@ wss.on('connection', (ws) => {
     let list = await query("categoryBest")
     res.send({ list })
   })
+
+  router.get('/completeOrder', async(req, res) => {
+    let list = await query("completeOrder")
+    res.send({ list })
+  })
+
+  router.get('/adminCompleteDetail/:no', async (req, res) => {
+    const no = req.params.no;
+    try {
+      let list = await query("completeDetail", [no]);
+      res.send(list[0]);
+    } catch (error) {
+      console.error(`Error fetching adminCompleteDetail: ${error}`);
+      res.status(500).send('Internal Server Error');
+    }
+  });
   
 server.listen(3001, () => {
   console.log('서버가 3001 포트에서 실행 중입니다.');
