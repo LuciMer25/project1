@@ -24,12 +24,12 @@ module.exports = {
                  on r.order_no = o.order_no
                  where r.review_no = ?
                  group by r.review_no, r.score, r.review_title, r.review_content, r.reg_date, r.user_id, o.order_no, r.review_img, p.prod_name, p.prod_img`,
-    reviewProductSel: `select od.prod_name, od.prod_no, o.order_no
-                       from order_detail od join orders o
-                       on od.order_no = o.order_no
-                       where o.order_state = "구매확정"
-                       and o.user_id = ?
-                       and od.review_avail = 0`,
+    reviewProductSel: `SELECT od.prod_name, od.prod_no, o.order_no
+                       FROM order_detail od join orders o
+                       ON od.order_no = o.order_no
+                       WHERE o.order_state = "구매확정"
+                       AND o.user_id = ?
+                       AND od.review_avail = 0`,
     reviewUpdate: `UPDATE review
                    SET  review_title = ?, review_content = ?, score = ?, reg_date = CURRENT_TIMESTAMP
                    WHERE review_no = ?`,

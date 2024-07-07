@@ -30,7 +30,7 @@
             <td>{{ order.order_no }}</td>
             <td><img :src="`/api/upload/products/${order.first_prod_img}`" alt="상품 이미지" width="50" height="50"></td>
             <td>{{ order.first_prod_name }}(외{{ order.extra_products.length }}건)</td>
-            <td>{{ formatCurrency(order.order_total_amount) }}</td>
+            <td>{{ formatCurrency(order.order_total_amount) +"원"}}</td>
             <td>{{ order.addr }}</td>
             <td>{{ order.detail_addr }}</td>
             <td>{{ formatDate(order.order_date) }}</td>
