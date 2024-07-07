@@ -62,8 +62,8 @@ router.post("/", upload.single("avatar"), async (req, res) => {
 //수정
 router.put('/:inquiry_no',  (req, res) => {
   const no = req.params.inquiry_no;
-  const { inquiry_title, inquiry_content, inquiry_img } = req.body;
-  let result =  query("inquiryUpdate", [inquiry_title, inquiry_content, inquiry_img, no]);
+  const { inquiry_title, inquiry_content} = req.body;
+  let result =  query("inquiryUpdate", [inquiry_title, inquiry_content, no]);
   res.send(result);
 });
 

@@ -6,18 +6,18 @@
           <tr>
             <th scope="col" class="text-center table-primary">문의번호</th>
             <td scope="col" class="text-center">{{ InquiryInfo.inquiry_no }}</td>
-            <th scope="col" class="text-center table-primary">작성일자</th>
-            <td scope="col" class="text-center">{{ formatDate(InquiryInfo.reg_date) }}</td>
             <th scope="col" class="text-center table-primary">제목</th>
             <td scope="col" class="text-center">
               <input v-model="InquiryInfo.inquiry_title" :disabled="!isdisabled">
             </td>
+            <th scope="col" class="text-center table-primary">작성일자</th>
+            <td scope="col" class="text-center">{{ formatDate(InquiryInfo.reg_date) }}</td>
           </tr>
           <tr>
-            <th>첨부파일</th>
-            <td colspan="4">
-              <img :src="`/api/upload/inquiry/${InquiryInfo.inquiry_img}`" alt="첨부파일">
-              <input v-if="isdisabled" type="file" @change="handleFileUpload">
+            <th scope="col" class="text-center table-primary" style="text-align: center">첨부파일</th>
+            <td colspan="3">
+              <img :src="`/api/upload/inquiry/${InquiryInfo.inquiry_img}`" alt="첨부파일" style="width: 100px; height: 100px;">
+              <!-- <input v-if="isdisabled" type="file" @change="handleFileUpload"> -->
             </td>
             <th scope="col" class="text-center table-primary">답변상태</th>
             <td scope="col" class="text-center">{{ InquiryInfo.comment_state }}</td>
@@ -27,14 +27,15 @@
           <tr>
             <td colspan="6" class="text-left" valign="top" height="300">
               <pre style="white-space: pre-wrap; border: none; background-color: white;">
-                <textarea v-model="InquiryInfo.inquiry_content" :disabled="!isdisabled"></textarea>
+                <textarea v-model="InquiryInfo.inquiry_content" :disabled="!isdisabled" 
+                style="width: 100%; height: 300px; text-align: left;" ></textarea>
               </pre>
             </td>
           </tr>
           <tr>
-            <td colspan="6" class="text-left" valign="top" height="300">
+            <td colspan="6" class="text-left" valign="top" height="300" >
               <pre v-if="comment_state === '답변 대기'" style="white-space: pre-wrap; border: none; background-color: white;"></pre>
-              <pre v-else style="white-space: pre-wrap; border: none; background-color: white;">
+              <pre v-else style="white-space: nowrap; border: none; background-color: white; text-align: left;">
                 {{ InquiryReply.reply_content }}
               </pre>
             </td>
@@ -47,7 +48,7 @@
               <button class="btn btn-xs btn-info" v-else @click="updatecomplete">
                 수정완료
               </button>
-              <button @click="deletebtn">삭제</button>
+              <button class="btn btn-danger" style="margin-left: 10px" @click="deletebtn">삭제</button>
             </td>
           </tr>
         </tbody>
@@ -109,14 +110,14 @@ export default {
       }
       await axios.put(url, this.InquiryInfo)
         .then(() => {
-          alert('수정되었습니다');
+          this.$swal('수정되었습니다');
           this.$router.push('/inquiryList');
         });
     },
     deletebtn() {
       axios.delete(`/api/inquiry/${this.searchNo}`)
         .then(() => {
-          alert('삭제되었습니다');
+          this.$swal('삭제되었습니다');
           this.$router.push('/inquiryList');
         });
     },
@@ -140,5 +141,9 @@ export default {
 <style scoped>
 table * {
   text-align: center;
+}
+
+.col-md-9{
+  margin-top: 40px;
 }
 </style>

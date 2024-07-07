@@ -1,5 +1,5 @@
 module.exports = {
-    orderList: `select o.order_no, o.order_state, ods.order_date, od.price, o.addr, o.detail_addr, o.user_id,
+    orderList: `select o.order_no, o.order_state, ods.order_date, od.price, o.addr, o.detail_addr, o.user_id, od.order_amount, o.order_total_amount,
                            min(od.prod_img) as first_prod_img, 
                            min(od.prod_name) as first_prod_name, 
                            count(od.prod_no) -1 as prod_cnt 
@@ -11,7 +11,7 @@ module.exports = {
                           or o.order_state = "취소요청" or o.order_state = "반품요청" or o.order_state = "구매확정"
                           or o.order_state = "취소완료" or o.order_state = "반품완료")
                           and o.user_id = ?
-                    group by o.order_no, o.order_state, ods.order_date, od.price
+                    group by o.order_no, o.order_state, ods.order_date, od.price, o.addr, o.detail_addr, o.user_id, od.order_amount, o.order_total_amount
                     order by o.order_no desc`,
     cancelOrder: `UPDATE orders
                   SET order_state = "취소요청"

@@ -24,7 +24,7 @@ const ProductQnaRouter = require('./routes/main/order/qna.js');
 
 // 마이페이지(맹선우)
 var inquiryRouter = require('./routes/mypage/inquiry');
-var qnaRouter = require('./routes/mypage/qna');
+const qnaRouter = require('./routes/mypage/qna');
 const mypageorderRouter = require('./routes/mypage/mypageorder');
 // const inquiryreplyRouter = require('./routes/mypage/inquiryreply')
 const reviewRouter = require('./routes/mypage/review');
@@ -67,7 +67,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api/upload', express.static('D:/project1/project/backend/upload'));
+app.use('/api/upload', express.static('D:/git_home/project1/project/backend/upload'));
 // app.use('/api/upload/products', express.static('D:/upload/products'));
 app.use('/api/upload/products', (req, res, next) => {
   const filePath = path.join('D:project1/Project/backend/upload/products', req.path);
@@ -147,6 +147,7 @@ app.use('/api/review', reviewRouter);
 app.use('/api/wishlist', wishRouter);
 app.use('/api/order', orderRouter);
 app.use('/api/cancel', cancelRouter);
+
 
 
 // 메인, 상품(김성태)

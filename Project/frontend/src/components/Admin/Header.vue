@@ -2,7 +2,7 @@
 
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="index.html">관리자 페이지</a>
+            <RouterLink to ="/admin" class="navbar-brand ps-3" >관리자 페이지</RouterLink
             <!-- Sidebar Toggle-->
             <!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0"></form>

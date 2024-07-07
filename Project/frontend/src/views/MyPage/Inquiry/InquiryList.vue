@@ -1,7 +1,7 @@
 <template>
       <!-- 오른쪽 문의목록 -->
       <div class="col-md-9">
-        <a href="inquiryform">문의등록</a>
+        <h3 style="font-weight: bold">1:1 문의</h3>
         <table class="table table-hover">
           <thead>
             <tr>
@@ -44,6 +44,9 @@
             <a class="page-link" @click="changePage(currentPage + 1)">다음</a>
           </li>
         </ul>
+        <div class="text-right mt-3">
+        <a href="inquiryform" class="btn btn-primary">문의등록</a>
+      </div>
       </div>
  
 </template>
@@ -164,5 +167,14 @@ table * {
 .page-item.disabled {
   pointer-events: none;
   opacity: 0.5;
+}
+
+.col-md-9{
+  margin-top: 40px;
+}
+
+.btn.btn-primary{
+  background-color: darkgray;
+  border: darkgray;
 }
 </style>

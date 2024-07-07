@@ -152,5 +152,20 @@ module.exports = {
                     GROUP BY c2.ctgr_name
                     ORDER BY chart_value DESC
                     LIMIT 1`,
+    completeOrder : `SELECT o.order_no, o.order_state, ods.order_date, o.waybill_no, o.user_id, o.addr, o.detail_addr, ods.buy_complete_date, o.order_total_amount,
+                            min(od.prod_img) as first_prod_img, 
+                            min(od.prod_name) as first_prod_name, 
+                            count(od.prod_no) -1 as prod_cnt 
+                     FROM orders o JOIN order_detail od 
+                                    ON o.order_no = od.order_no 
+                                    JOIN order_state ods 
+                                    ON o.order_no = ods.order_no 
+                                    WHERE o.order_state = "구매확정" 
+                     GROUP BY o.order_no, o.order_state, ods.order_date, ods.buy_complete_date, o.order_total_amount`,
+
+    completeDetail : `SELECT o.order_no, o.order_total_amount, o.addr, o.waybill_no, o.post_no, o.detail_addr, o.name, o.phone_no, os.order_date, o.paytype, os.buy_complete_date
+                       FROM orders o JOIN order_state os
+			                ON o.order_no = os.order_no
+                       WHERE o.order_no = ?`
 
 }

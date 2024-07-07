@@ -12,7 +12,7 @@
             <img class="prodImage" :src="`/api/upload/${order.prod_img}`" alt="상품 이미지">
             <div class="product-info">
               <div class="info">
-                <RouterLink :to="{ name: 'prodInfo', params: { no: order.prod_no } }" target="_blank">상품명 : {{ order.prod_name }}</RouterLink>
+                <span class="prod-link" @click="goToProduct(order.prod_no)">상품명 : {{ order.prod_name }}</span>
                 <span>{{ formatCurrency(order.price) }} 원 · {{ order.prod_cnt }} 개</span>
                 <span>상품 총 가격 : {{ formatCurrency(order.order_amount) }} 원 </span>
               </div>
@@ -68,8 +68,8 @@
     </div>
 
     <div class="back-button-wrapper">
-      <button class="back-button">
-        <RouterLink to="/admin/cancelList">돌아가기</RouterLink>
+      <button class="back-button" @click="goBack">
+        돌아가기
       </button>
     </div>
   </div>
@@ -110,6 +110,12 @@ export default {
     },
     formatCurrency(amount) {
       return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    },
+    goToProduct(prod_no) {
+      this.$router.push({ name: 'prodInfo', params: { no: prod_no } });
+    },
+    goBack() {
+      this.$router.push('/admin/cancelList');
     }
   }
 }
@@ -168,11 +174,12 @@ export default {
   flex-direction: column;
 }
 
-.product-info .info a {
+.product-info .info .prod-link {
   text-decoration: none;
   color: #346aff;
   font-size: 1rem;
   margin-bottom: 5px;
+  cursor: pointer;
 }
 
 .product-info .info span {
