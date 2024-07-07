@@ -140,7 +140,7 @@ export default {
       quantity: 1,
       product: {},
       titleImage: '',
-      fallbackImage:'/imgs/loadfail.jpg',
+      fallbackImage:'/api/upload/products/loadfail.jpg',
       toggleMessage:'',
       iswished:false,
       modalMessage:'',
