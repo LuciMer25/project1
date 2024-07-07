@@ -15,9 +15,9 @@ module.exports = {
                               min(od.prod_img) as first_prod_img, 
                               min(od.prod_name) as first_prod_name, 
                               count(od.prod_no) -1 as prod_cnt 
-                       from orders o join order_detail od 
+                       from orders o LEFT join order_detail od 
                                      on o.order_no = od.order_no 
-                                     join order_state ods 
+                                     LEFT join order_state ods 
                                      on o.order_no = ods.order_no 
                        where o.order_state = "취소요청" 
                        group by o.order_no, o.order_state, ods.cancel_req_date
@@ -27,9 +27,9 @@ module.exports = {
                               min(od.prod_img) as first_prod_img, 
                               min(od.prod_name) as first_prod_name, 
                               count(od.prod_no) -1 as prod_cnt 
-                       from orders o join order_detail od 
+                       from orders o LEFT join order_detail od 
                                      on o.order_no = od.order_no 
-                                     join order_state ods 
+                                     LEFT join order_state ods 
                                      on o.order_no = ods.order_no 
                        where o.order_state = "반품요청" or o.order_state = "반품완료" 
                        group by o.order_no, o.order_state, ods.return_req_date
@@ -39,9 +39,9 @@ module.exports = {
                            min(od.prod_img) as first_prod_img, 
                            min(od.prod_name) as first_prod_name, 
                            count(od.prod_no) -1 as prod_cnt 
-                    from orders o join order_detail od 
+                    from orders o LEFT join order_detail od 
                                   on o.order_no = od.order_no 
-                                  join order_state ods 
+                                  LEFT join order_state ods 
                                   on o.order_no = ods.order_no 
                     where o.order_state = "상품준비중" or o.order_state = "배송중" or o.order_state = "배송완료" 
                     group by o.order_no, o.order_state, ods.order_date
@@ -63,9 +63,9 @@ module.exports = {
                             min(od.prod_img) as first_prod_img, 
                             min(od.prod_name) as first_prod_name, 
                             count(od.prod_no) -1 as prod_cnt
-                     from orders o join order_detail od 
+                     from orders o LEFT join order_detail od 
                                    on o.order_no = od.order_no
-                                   join order_state ods on o.order_no = ods.order_no
+                                   LEFT join order_state ods on o.order_no = ods.order_no
                      where o.order_state = '취소요청' or o.order_state = '취소완료'
                      group by
                      o.order_no, o.order_state, ods.cancel_req_date
@@ -122,12 +122,10 @@ module.exports = {
                         ORDER BY DATE(ods.buy_complete_date)`,
 
     weekTotalAmount : `SELECT week_of_month, chart_value
-                       FROM (
-                            SELECT 
-                                   CONCAT(MONTH(ods.buy_complete_date), '월 ', 
-                                   WEEK(ods.buy_complete_date, 1) - WEEK(DATE_SUB(ods.buy_complete_date, INTERVAL DAYOFMONTH(ods.buy_complete_date) - 1 DAY), 1) + 1, '주차') AS week_of_month,
-                                   SUM(o.order_total_amount) AS chart_value,
-                                   WEEK(ods.buy_complete_date, 1) - WEEK(DATE_SUB(ods.buy_complete_date, INTERVAL DAYOFMONTH(ods.buy_complete_date) - 1 DAY), 1) + 1 AS week_number
+                       FROM (SELECT CONCAT(MONTH(ods.buy_complete_date), '월 ', 
+                                    WEEK(ods.buy_complete_date, 1) - WEEK(DATE_SUB(ods.buy_complete_date, INTERVAL DAYOFMONTH(ods.buy_complete_date) - 1 DAY), 1) + 1, '주차') AS week_of_month,
+                                    SUM(o.order_total_amount) AS chart_value,
+                                    WEEK(ods.buy_complete_date, 1) - WEEK(DATE_SUB(ods.buy_complete_date, INTERVAL DAYOFMONTH(ods.buy_complete_date) - 1 DAY), 1) + 1 AS week_number
                             FROM orders o JOIN order_state ods 
                                           ON o.order_no = ods.order_no
                             WHERE ods.buy_complete_date >= DATE_SUB(CURRENT_DATE, INTERVAL DAYOFMONTH(CURRENT_DATE) - 1 DAY)
@@ -152,6 +150,7 @@ module.exports = {
                     GROUP BY c2.ctgr_name
                     ORDER BY chart_value DESC
                     LIMIT 1`,
+
     completeOrder : `SELECT o.order_no, o.order_state, ods.order_date, o.waybill_no, o.user_id, o.addr, o.detail_addr, ods.buy_complete_date, o.order_total_amount,
                             min(od.prod_img) as first_prod_img, 
                             min(od.prod_name) as first_prod_name, 

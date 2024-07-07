@@ -10,7 +10,7 @@
           <label for="remember-check">
             <input type="checkbox" id="remember-check" v-model="rememberUser">아이디 저장하기
           </label>
-          <input type ="button" value="아이디 비밀번호 찾기" @click="FindIdPw"> 
+          <input type="button" value="아이디 비밀번호 찾기" @click="FindIdPw"> 
           <input type="submit" value="Login">
           <input type="button" value="회원가입" @click="signUp">
         </form>
@@ -46,8 +46,11 @@ export default {
     ...mapActions(['loginUser', 'updateLoginInfo']),
     async loginUser() {
       try {
+        console.log("로그인 시도:", this.userLogin);
         const response = await axios.post('/api/login', this.userLogin);
         if (response.status === 200) {
+          console.log("로그인 성공:", response.data);
+
           // 세션 및 sessionStorage에 사용자 정보 저장
           sessionStorage.setItem('user_id', response.data.user_id);
           sessionStorage.setItem('name', response.data.name);
@@ -75,12 +78,25 @@ export default {
 
           // 사용자 정보 확인
           this.checkSessionStorage();
+
+          // 로그인 후 회원 상태 업데이트
+          this.updateMemberStatus(response.data.user_id);
+
         } else {
           this.$swal("로그인 실패: 아이디 또는 비밀번호를 확인해주세요.");
         }
       } catch (error) {
         console.error("로그인 오류:", error);
         this.$swal("로그인 오류: 서버와의 통신에 문제가 발생했습니다.");
+      }
+    },
+    async updateMemberStatus(userId) {
+      console.log("회원 ID:", userId);
+      try {
+        const response = await axios.put(`/api/adminMember/memberUpdateDate/${userId}`);
+        console.log("최근 접속 날짜가 업데이트되었습니다:", response.data);
+      } catch (error) {
+        console.error("접속 날짜 업데이트 오류:", error);
       }
     },
     checkSessionStorage() {
@@ -94,7 +110,7 @@ export default {
       console.log('사용자 역할:', user_resp);
     },
     signUp() {
-      this.$router.push('/signtUp1'); // signUp1 경로로 이동
+      this.$router.push('/signUp1'); // signUp1 경로로 이동
     },
     FindIdPw() {
       this.$router.push('/FindIdPw'); // FindIdPw 경로로 이동
@@ -161,7 +177,6 @@ export default {
   },
 };
 </script>
-
 
 <style>
 * {

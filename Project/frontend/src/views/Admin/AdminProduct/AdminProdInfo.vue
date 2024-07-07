@@ -102,6 +102,7 @@ export default {
     return {
       product: {},
       qnaCount : 0,
+      fallbackImage:'/api/upload/products/loadfail.jpg',
 
     };
   },

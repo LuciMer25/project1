@@ -80,7 +80,7 @@ export default {
     return {
       search: '',
       selectedStatus: null,
-      statuses: ['전체', '답변 완료', '답변 대기'],
+      statuses: ['전체', '답변 완료', '답변 대기', '답변 완료(수정)'],
       qnaList: [],
       headers: [
         { text: '게시글 번호', value: 'qna_no' },
