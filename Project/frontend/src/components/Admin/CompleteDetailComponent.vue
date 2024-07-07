@@ -2,21 +2,23 @@
   <div class="container">
     <div class="order-details-wrapper">
       <h2 class="section-title">주문상세</h2>
-      <span>주문날짜: {{ formatDate(data.user.order_date) }}</span><br />
-      <span>운송장번호: {{ data.user.waybill_no }}</span>
-
+      <span>주문 날짜: {{ formatDate(data.user.order_date) }} </span><br />
+      <span>구매확정 날짜 : {{ formatDate(data.user.buy_complete_date) }}</span><br />
+      <span>운송장 번호 : {{ data.user.waybill_no }}</span>
       <div class="orderBox" v-for="order in data.product" :key="order.id">
         <div class="order">
+          <div class="order-header"></div>
           <div class="order-details">
             <img class="prodImage" :src="`/api/upload/${order.prod_img}`" alt="상품 이미지">
             <div class="product-info">
               <div class="info">
                 <span class="prod-link" @click="goToProduct(order.prod_no)">상품명 : {{ order.prod_name }}</span>
                 <span>{{ formatCurrency(order.price) }} 원 · {{ order.prod_cnt }} 개</span>
-                <span>상품 총 가격: {{ formatCurrency(order.order_amount) }} 원 </span>
+                <span>상품 총 가격 : {{ formatCurrency(order.order_amount) }} 원 </span>
               </div>
             </div>
           </div>
+          <div class="actions"></div>
         </div>
       </div>
     </div>
@@ -56,8 +58,8 @@
           <tr>
             <td>
               <div class="total-amount">
-                <strong>총 결제금액</strong>
-                <strong>{{ formatCurrency(data.user.order_total_amount) }}원</strong>
+                <strong>총 결제금액 </strong>
+                <strong>{{ formatCurrency(data.user.order_total_amount) }} 원</strong>
               </div>
             </td>
           </tr>
@@ -66,8 +68,8 @@
     </div>
 
     <div class="back-button-wrapper">
-      <button class="back-button" @click="goBack">
-        돌아가기
+      <button class="back-button">
+        <RouterLink to="/admin/completeList">돌아가기</RouterLink>
       </button>
     </div>
   </div>
@@ -83,6 +85,7 @@ export default {
         product: [],
         user: {
           order_date: '',
+          buy_complete_date: '',
           waybill_no: '',
           order_total_amount: '',
           name: '',
@@ -110,16 +113,11 @@ export default {
       return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     },
     goToProduct(prod_no) {
-      console.log(prod_no);
-      this.$router.push(`/admin/prodInfo/${prod_no}`);
-    },
-    goBack() {
-      this.$router.push('/admin/orderList');
+      this.$router.push({ name: 'prodInfo', params: { no: prod_no } });
     }
   }
 }
 </script>
-
 <style scoped>
 .container {
   text-align: center;
@@ -145,6 +143,13 @@ export default {
   margin-bottom: 20px;
   border-radius: 5px;
   background-color: #fff;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .order-details {

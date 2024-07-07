@@ -60,8 +60,8 @@ import adminNotify from '../views/Admin/AdminBoard/AdminNotify.vue'
 import adminNotifyInfo from '../views/Admin/AdminBoard/AdminNotifyInfo.vue'
 import adminNotifyInsert from '../views/Admin/AdminBoard/AdminNotifyInsert.vue'
 import adminChart from '../views/Admin/AdminChart/AdminChart.vue'
-
-
+import adminComplete from '../views/Admin/AdminOrder/AdminCompleteOrder.vue'
+import adminCompleteDetail from '../views/Admin/AdminOrder/AdminCompleteDetail.vue'
 // 상품
 import NewProductlist from '../views/Main/NewProductListView.vue'
 import BestProductlist from '../views/Main/BestProductListView.vue'
@@ -408,6 +408,14 @@ const routes = [
         path: 'adminChart',
         component : adminChart
       },
+      {
+        path: 'completeList',
+        component : adminComplete
+      },
+      {
+        path: 'completeDetail/:no',
+        component : adminCompleteDetail
+      }
 
     ]
   },
