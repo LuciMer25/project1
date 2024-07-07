@@ -67,7 +67,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api/upload', express.static('D:/git_home/project1/project/backend/upload'));
+app.use('/api/upload', express.static('D:/project1/project/backend/upload'));
 // app.use('/api/upload/products', express.static('D:/upload/products'));
 app.use('/api/upload/products', (req, res, next) => {
   const filePath = path.join('D:project1/Project/backend/upload/products', req.path);
