@@ -10,12 +10,14 @@ module.exports = {
 
     qnaAllList : `select q.qna_no, q.user_id, q.qna_title, q.reg_date, q.comment_state, q.prod_no, p.prod_name as prod_name 
               from QnA q left join product p 
-                         on p.prod_no = q.prod_no`,
+                         on p.prod_no = q.prod_no
+               order by comment_state = '답변 대기' desc`,
     
     qnaCount : `SELECT count(*) cnt FROM QnA WHERE prod_no = ?`,
 
     inquiryAllList : `select inquiry_no, inquiry_title, reg_date, comment_state, user_id 
-                  from inquiry`,
+                      from inquiry
+                      order by comment_state = '답변 대기' desc`,
 
     adminQnaInfo : `SELECT q.qna_no, q.user_id, q.qna_title, q.reg_date, q.qna_content, q.prod_no, q.qna_img, qr.reply_content, qr.reply_reg_date, p.prod_name
                     FROM QnA q LEFT JOIN QnA_reply qr

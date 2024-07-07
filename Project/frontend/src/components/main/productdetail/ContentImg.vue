@@ -23,7 +23,7 @@
             },
         },
         data (){
-        return {fallbackImg:'/imgs/loadfail.jpg'}
+        return {fallbackImg:'/api/upload/products/loadfail.jpg'}
         },
         created(){
 

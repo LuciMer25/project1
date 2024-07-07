@@ -102,6 +102,7 @@ export default {
     return {
       product: {},
       qnaCount : 0,
+      fallbackImage:'/api/upload/products/loadfail.jpg',
 
     };
   },
@@ -173,6 +174,7 @@ export default {
 
 .product-info {
   padding: 20px;
+  padding-top: 0px;
 }
 
 .product-title {
@@ -300,15 +302,5 @@ export default {
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 0;
-}
-
-.w-100 {
-  width: 100%;
-  margin: 0 5px;
-  border: none;
-}
-
-.menu-button:hover {
-  background-color: #e0e0e0;
 }
 </style>
