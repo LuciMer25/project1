@@ -16,7 +16,8 @@ module.exports = {
                  join orders o
                  on r.order_no = o.order_no
                  where r.user_id = ?
-                 group by r.review_no, r.score, r.review_title, r.review_content, r.reg_date, r.user_id, o.order_no, r.review_img, p.prod_no`,
+                 group by r.review_no, r.score, r.review_title, r.review_content, r.reg_date, r.user_id, o.order_no, r.review_img, p.prod_no
+                 order by reg_date desc`,
     reviewInfo: `select r.review_no, r.score, r.review_title, r.review_content, r.reg_date, r.user_id, o.order_no, r.review_img, p.prod_name, p.prod_img
                  from review r join product p
                  on r.prod_no = p.prod_no
@@ -49,7 +50,7 @@ module.exports = {
                                    ON r.prod_no = p.prod_no
                      WHERE r.prod_no=?
                      ORDER BY r.reg_date desc`,
-    changeReviewState: `UPDATE order_detail
-		                SET review_avail = 1
-		                WHERE order_no = ?`
+                     changeReviewState: `UPDATE order_detail
+                     SET review_avail = 1
+                     WHERE order_no = ? AND prod_no = ?`
 }
