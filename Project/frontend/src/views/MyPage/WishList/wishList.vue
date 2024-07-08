@@ -17,7 +17,7 @@
           </td>
           <td><RouterLink :to="{ name: 'productInfo', params: { prodNo: wish.prod_no } }" style="text-decoration: none; color: black;">상품명 : {{ wish.prod_name }}</RouterLink></td>
           <td>{{ formatCurrency(wish.price) + '원' }}</td>
-          <td><button @click="deletebtn(wish.wish_no)">삭제</button></td>
+          <td><button @click="deletebtn(wish.wish_no)" style="background-color: gray; border-radius: 5px; width:80px; height: 30px; color: white;">삭제</button></td>
         </tr>
       </tbody>
     </table>

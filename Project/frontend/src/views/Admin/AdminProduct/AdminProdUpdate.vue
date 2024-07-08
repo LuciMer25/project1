@@ -63,7 +63,6 @@ export default {
     return {
       product: {},
       topCategories: [],
-      categories: [],
       filteredCategories: [],
       prodNo : null
     };
@@ -78,7 +77,6 @@ export default {
     axios.get('/api/adminProduct/categoryList')
       .then(res => {
         this.topCategories = res.data.topCategories;
-        this.categories = res.data.categories;
       })
   },
   methods: {

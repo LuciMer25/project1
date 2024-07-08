@@ -4,8 +4,8 @@
       <h3 class="title-t ty3">마이페이지</h3>
       <dl class="mypage-menu-list">
         <dt class="title-t ty7">쇼핑정보</dt>
-        <dd><RouterLink to="orderlist" class="router-link">주문/배송조회</RouterLink></dd>
-        <dd><RouterLink to="cancellist" class="router-link">취소/반품조회</RouterLink></dd>
+        <dd><RouterLink to="/orderlist" class="router-link">주문/배송조회</RouterLink></dd>
+        <dd><RouterLink to="/cancellist" class="router-link">취소/반품조회</RouterLink></dd>
         <dt class="title-t ty7">쇼핑활동</dt>
         <dd><RouterLink to="reviewlist" class="router-link">상품후기</RouterLink></dd>
         <dd><RouterLink to="wishlist" class="router-link">위시리스트</RouterLink></dd>

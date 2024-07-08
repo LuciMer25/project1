@@ -7,7 +7,7 @@
             <th scope="col" class="text-center table-primary" style="height:auto">상품명</th>
             <td scope="col" class="text-center" colspan="2">{{QnAInfo.prod_name}}</td>
             <th scope="col" class="text-center table-primary">상품이미지</th>
-            <td scope="col" class="text-center" colspan="2">
+            <td scope="col" class="text-center" colspan="2" style="text-align: center">
               <img :src="`/api/upload/products/${QnAInfo.prod_img}`" alt="첨부파일" style="width: 50px; height: 50px;"></td>
           </tr>
           <tr>
@@ -25,8 +25,8 @@
             <td scope="col" colspan="5" class="text-center"><input v-model = "QnAInfo.qna_title" :disabled="!isdisabled" cols="170" rows="25"> </td>
           </tr>
           <tr>
-          <th scope="col" class="text-center table-primary">첨부파일</th>
-          <td colspan="5"><img :src="`/api/upload/qna/${QnAInfo.qna_img}`" alt="첨부파일" width="100px" height="100px"></td>
+          <th scope="col" class="text-center table-primary" >첨부파일</th>
+          <td colspan="5"><img :src="`/api/upload/qna/${QnAInfo.qna_img}`" alt="첨부파일" width="100px" height="100px" style="margin-left: 400px"></td>
         </tr>
         </thead>
         <tbody>
@@ -154,5 +154,10 @@ export	default {
 <style>
 .col-md-9{
   margin-top: 40px;
+}
+
+.img-center {
+  display: flex;
+  text-align: center;
 }
 </style>

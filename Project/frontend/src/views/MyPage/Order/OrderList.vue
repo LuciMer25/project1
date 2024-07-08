@@ -2,6 +2,7 @@
   <div class="col-md-9">
     <h3 style="font-weight: bold">주문/배송 조회</h3>
     <table class="table table-hover">
+      <!-- 테이블 헤더 -->
       <thead>
         <tr>
           <th>주문번호</th>
@@ -15,42 +16,49 @@
           <th>취소/반품/구매확정</th>
         </tr>
       </thead>
+      <!-- 테이블 바디 -->
       <tbody>
-        <tr v-for="(order, i) in processedOrders" :key="i">
+        <!-- 페이징된 주문 목록을 반복 -->
+        <tr v-for="(order, index) in paginatedOrders" :key="index">
           <td>{{ order.order_no }}</td>
           <td><img :src="`/api/upload/products/${order.first_prod_img}`" alt="상품 이미지" style="width: 50px; height: 50px;"></td>
-          <td  @click="goToDetail(order.order_no)">{{ order.first_prod_name }}(외{{ order.prod_cnt - 1 }}건)</td>
+          <td @click="goToDetail(order.order_no)">{{ order.first_prod_name }}(외{{ order.prod_cnt - 1 }}건)</td>
           <td>{{ formatCurrency(order.order_total_amount) }}</td>
           <td>{{ order.addr }}</td>
           <td>{{ order.detail_addr }}</td>
           <td>{{ formatDate(order.order_date) }}</td>
           <td>{{ order.order_state }}</td>
-          <td v-if="order.order_state === '상품준비중'">
-            <button @click="cancelOrder(order.order_no)">취소요청</button>
+          <td>
+            <!-- 주문 상태에 따른 버튼 표시 -->
+            <template v-if="order.order_state === '상품준비중'">
+              <button @click="cancelOrder(order.order_no)" style="background-color: gray; border-radius: 5px; width:80px; height: 30px; color: white;">취소요청</button>
+            </template>
+            <template v-else-if="order.order_state === '배송완료'">
+              <button @click="returnOrder(order.order_no)" style="background-color: #03a9f4; border-radius: 5px; width:80px; height: 20px; color: white;">반품요청</button><br>
+              <button @click="orderConfirm(order.order_no)" style="background-color: #4caf50; border-radius: 5px; width:80px; height: 20px; color: white;">구매확정</button>
+            </template>
+            <template v-else-if="order.order_state === '취소요청'">
+              <button @click="cancelRevoke(order.order_no)" style="background-color: #ef5350; border-radius: 5px; width:80px; height: 30px; color: white;">취소</button>
+            </template>
+            <template v-else-if="order.order_state === '반품요청'">
+              <button @click="returnCancel(order.order_no)" style="background-color: #ef5350; border-radius: 5px; width:80px; height: 30px; color: white;">취소</button>
+            </template>
           </td>
-          <td v-else-if="order.order_state === '배송완료'">
-            <button @click="returnOrder(order.order_no)">반품요청</button>
-            <button @click="orderConfirm(order.order_no)">구매확정</button>
-          </td>
-          <td v-else-if="order.order_state === '취소요청'">
-            <button @click="cancelRevoke(order.order_no)">취소</button>
-          </td>
-          <td v-else-if="order.order_state === '반품요청'">
-            <button @click="returnCancel(order.order_no)">취소</button>
-          </td>
-          <td v-else></td>
         </tr>
       </tbody>
     </table>
 
     <!-- 페이지네이션 -->
     <ul class="pagination justify-content-center">
+      <!-- 이전 페이지 링크 -->
       <li class="page-item" :class="{ disabled: currentPage === 1 }">
         <a class="page-link" @click="changePage(currentPage - 1)">이전</a>
       </li>
+      <!-- 페이지 번호 링크 -->
       <li v-for="page in visiblePages" :key="page" class="page-item" :class="{ active: page === currentPage }">
         <a class="page-link" @click="changePage(page)">{{ page }}</a>
       </li>
+      <!-- 다음 페이지 링크 -->
       <li class="page-item" :class="{ disabled: currentPage === totalPages }">
         <a class="page-link" @click="changePage(currentPage + 1)">다음</a>
       </li>
@@ -77,7 +85,6 @@ export default {
     async getOrderList() {
       try {
         const user = this.$store.getters.getUserInfo;
-        console.log('유저정보:', user);
         const response = await axios.get(`/api/order`, {
           params: {
             user_id: user.user_id
@@ -207,8 +214,9 @@ table * {
   font-size: 14px;
 }
 
-.col-md-9{
+.col-md-9 {
   margin-top: 40px;
   width: 75%;
 }
+
 </style>

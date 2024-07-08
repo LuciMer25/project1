@@ -110,7 +110,7 @@ export default {
       console.log('사용자 역할:', user_resp);
     },
     signUp() {
-      this.$router.push('/signUp1'); // signUp1 경로로 이동
+      this.$router.push('/signtUp1'); // signUp1 경로로 이동
     },
     FindIdPw() {
       this.$router.push('/FindIdPw'); // FindIdPw 경로로 이동

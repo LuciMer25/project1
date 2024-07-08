@@ -9,7 +9,7 @@
         <div class="order">
           <div class="order-header"></div>
           <div class="order-details">
-            <img class="prodImage" :src="`/api/upload/${order.prod_img}`" alt="상품 이미지">
+            <img class="prodImage" :src="`/api/upload/products/${order.prod_img}`" alt="상품 이미지">
             <div class="product-info">
               <div class="info">
                 <span class="prod-link" @click="goToProduct(order.prod_no)">상품명 : {{ order.prod_name }}</span>

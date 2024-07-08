@@ -148,7 +148,7 @@ export default {
   grid-template-columns: 1fr 1fr;
 }
 .card{
-  min-height: 500px; /* 최소 높이 설정 */
+  min-height: 530px; /* 최소 높이 설정 */
 }
 .fixed-card .card-img-top {
   height: 150px; /* 이미지의 높이를 고정 */

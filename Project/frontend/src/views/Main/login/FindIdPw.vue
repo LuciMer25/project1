@@ -15,7 +15,7 @@
               <form @submit.prevent="findUserId">
                 <input type="text" name="name" placeholder="이름" v-model="userFind.name">
                 <hr>
-                <input type="text" name="phone" placeholder="전화번호" v-model="userFind.phone">
+                <input type="text" name="phone" placeholder="전화번호" v-model="userFind.phone" @input="formatPhoneNumber(userFind.phone)">
                 <div class="modal-btn">
                   <button type="button" @click="closeIdModal">닫기</button> /
                   <button type="submit">확인</button>
@@ -41,7 +41,7 @@
                 <hr>
                 <input type="text" name="user_id" placeholder="아이디" v-model="userpwFind.user_id">
                 <hr>
-                <input type="text" name="phone" placeholder="전화번호" v-model="userpwFind.phone">
+                <input type="text" name="phone" placeholder="전화번호" v-model="userpwFind.phone" @input="formatPhoneNumber(userpwFind.phone)">
                 <div class="modal-btn">
                   <button type="button" @click="closePasswordModal">닫기</button>  /
                   <button type="submit">확인</button>
@@ -132,7 +132,7 @@ export default {
           pw: this.newPassword
         });
         this.userPasswordFound = response.data;
-        this.newPassword =response.data;
+        this.newPassword = response.data;
         this.$swal('비밀번호가 변경되었습니다.');
         this.newPassword = ''; // 입력 필드 초기화
         this.userpwFind = { name: '', user_id: '', phone: '' }; // 데이터 초기화
@@ -140,6 +140,39 @@ export default {
       } catch (error) {
         console.error('비밀번호 변경 에러:', error);
       }
+      
+    },
+    formatPhoneNumber(phone) {
+      // 전화번호 자동 하이픈 추가 함수
+      this.userFind.phone = this.autoHypenPhone(phone);
+      this.userpwFind.phone = this.autoHypenPhone(phone);
+    },
+    autoHypenPhone(str) {
+      str = str.replace(/[^0-9]/g, '');
+      var tmp = '';
+      if (str.length < 4) {
+        return str;
+      } else if (str.length < 7) {
+        tmp += str.substr(0, 3);
+        tmp += '-';
+        tmp += str.substr(3);
+        return tmp;
+      } else if (str.length < 11) {
+        tmp += str.substr(0, 3);
+        tmp += '-';
+        tmp += str.substr(3, 4);
+        tmp += '-';
+        tmp += str.substr(7);
+        return tmp;
+      } else {
+        tmp += str.substr(0, 3);
+        tmp += '-';
+        tmp += str.substr(3, 4);
+        tmp += '-';
+        tmp += str.substr(7, 4);
+        return tmp;
+      }
+      return str;
     }
   }
 };

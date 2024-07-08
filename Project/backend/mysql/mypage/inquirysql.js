@@ -1,7 +1,8 @@
 module.exports = {
     inquiryList: `SELECT inquiry_no, inquiry_title, inquiry_content, reg_date, comment_state, user_id 
                   FROM inquiry
-                  WHERE user_id = ?`,
+                  WHERE user_id = ?
+                  order by reg_date desc`,
     inquiryInfo: `SELECT inquiry_no, inquiry_title, inquiry_content, reg_date, comment_state, user_id, inquiry_img
                   FROM inquiry
                   WHERE inquiry_no = ? `,

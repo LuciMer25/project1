@@ -6,7 +6,7 @@
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" @click="createWayBill">생성</v-btn>
-        <v-btn color="success" @click="addWayBill">등록</v-btn>
+        <v-btn :disabled="!wayBill" color="success" @click="addWayBill">등록</v-btn>
         <v-spacer></v-spacer>
         <v-btn color="grey" @click="close">닫기</v-btn>
       </v-card-actions>
@@ -39,13 +39,15 @@ export default {
       this.wayBill = Math.random().toString().substr(2, 13);
     },
     addWayBill() {
-      console.log(this.orderNo);
+      if (!this.wayBill) {
+        this.$swal('운송장 번호를 입력하세요.');
+        return;
+      }
       axios
         .put(`/api/adminOrder/updateWayBill/${this.orderNo}`, { wayBill: this.wayBill })
         .then(() => {
           this.$swal('운송장 번호가 등록되었습니다.');
-          console.log(this.orderNo, this.wayBill);
-          this.$emit('refresh')
+          this.$emit('refresh');
           this.close();
         })
         .catch(() => {

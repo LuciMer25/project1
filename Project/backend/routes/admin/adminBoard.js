@@ -195,6 +195,7 @@ const upload = multer({ storage: storage });
     await query("fileDeleteAll", [no]);
     res.send(result);
   })
+  
   router.post("/fileInsert1/:noticeNo", upload.array('files'), async (req, res) => {
     const { noticeNo } = req.params;
     const files = req.files;
