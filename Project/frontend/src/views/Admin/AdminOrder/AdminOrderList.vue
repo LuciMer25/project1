@@ -182,7 +182,7 @@ export default {
       return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     },
     setupWebSocket() {
-      this.socket = new WebSocket('ws://localhost:3001');
+      this.socket = new WebSocket('ws://192.168.0.10:3001');
       this.socket.onmessage = (event) => {
         const message = JSON.parse(event.data);
         if (message.type === '배송완료') {

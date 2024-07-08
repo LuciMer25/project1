@@ -50,6 +50,9 @@ wss.on('connection', (ws) => {
         wss.clients.forEach(client => {
           if (client.readyState === WebSocket.OPEN) {
             client.send(JSON.stringify({ type: '배송완료', orderNo: no }));
+            console.log("웹소켓 실행됨")
+          }else {
+            console.log("안실행안됨")
           }
         });
       } catch (err) {
