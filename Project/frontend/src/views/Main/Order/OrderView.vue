@@ -55,6 +55,7 @@ import axios from 'axios';
 import PortOne from '@portone/browser-sdk/v2';
 const kakao = "channel-key-ee0cacc5-2d48-4eaa-9dd9-8b4dfecfc881";
 const toss = "channel-key-af2f729c-7952-408c-8290-6a30c10c5785";
+import { v4 as uuidv4 } from 'uuid';
 export default {
   name: 'OrderView',
   components: {
@@ -143,7 +144,7 @@ export default {
       
          const result = (await PortOne.requestPayment({
                             storeId: "store-48e0d738-fd6d-4a46-bfb7-aedffef0b647",
-                            paymentId: `payment-${crypto.randomUUID()}`,
+                            paymentId: `payment-${uuidv4()}`, // UUID 생성
                             orderName: proceed.itemInfo,
                             totalAmount: this.totalprice,
                             currency: "KRW",
