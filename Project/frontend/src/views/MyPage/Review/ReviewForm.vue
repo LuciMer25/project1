@@ -100,31 +100,32 @@ export default {
       this.file = event.target.files[0];
     },
     async saveBoard() {
-      const user = sessionStorage.getItem("user_id");
-      const formData = new FormData();
-      const selectedProduct = this.products.find((product) => product.prod_no === this.reviewInfo.prod_no);
+  const user = sessionStorage.getItem("user_id");
+  const formData = new FormData();
+  const selectedProduct = this.products.find((product) => product.prod_no === this.reviewInfo.prod_no);
 
-      formData.append("prod_no", this.reviewInfo.prod_no);
-      formData.append("prod_name", selectedProduct.prod_name);
-      formData.append("score", this.reviewInfo.score);
-      formData.append("review_title", this.reviewInfo.review_title);
-      formData.append("review_content", this.reviewInfo.review_content);
-      formData.append("user_id", user);
-      formData.append("order_no", selectedProduct.order_no);
-      if (this.file) {
-        formData.append("avatar", this.file);
-      }
-      axios
-        .post("/api/review", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then(() => {
-          this.$swal("등록되었습니다.");
-          this.$router.push("/reviewList");
-        });
+  formData.append("prod_no", this.reviewInfo.prod_no);
+  formData.append("prod_name", selectedProduct.prod_name);
+  formData.append("score", this.reviewInfo.score);
+  formData.append("review_title", this.reviewInfo.review_title);
+  formData.append("review_content", this.reviewInfo.review_content);
+  formData.append("user_id", user);
+  formData.append("order_no", selectedProduct.order_no);
+  
+  if (this.file) {
+    formData.append("avatar", this.file);
+  }
+  
+  axios.post("/api/review", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
     },
+  })
+  .then(() => {
+    this.$swal("등록되었습니다.");
+    this.$router.push("/reviewList");
+  });
+},
     getToday() {
       // return this.$dateFormat("");
     },

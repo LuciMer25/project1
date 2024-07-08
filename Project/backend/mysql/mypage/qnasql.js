@@ -1,7 +1,8 @@
 module.exports = {
     qnaList: `SELECT qna_no, user_id, qna_title, reg_date, qna_content, comment_state, prod_no, user_id
               FROM QnA
-              WHERE user_id = ?`,
+              WHERE user_id = ?
+              order by reg_date desc`,
     // qnaInfo: `SELECT qna_no, user_id, qna_title, reg_date, qna_content, comment_state, prod_no, qna_img 
     //           FROM QnA
     //           WHERE qna_no = ? `,
