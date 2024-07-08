@@ -2,7 +2,7 @@
   <div class="container mt-5">
     <div class="card mt-4">
       <div class="card-header">
-        상품 수정
+        상품 등록
       </div>
       <div class="card-body">
         <div class="row mb-3">
@@ -97,7 +97,7 @@ export default {
         formData.append('price', this.product.price);
         formData.append('ctgr_no', this.product.ctgr_no);
         if (this.product.prod_img) {
-            formData.append('prodImg', this.product.prod_img);
+          formData.append('prodImg', this.product.prod_img);
         }
         if (this.product.prod_content_img) {
           formData.append('contentImg', this.product.prod_content_img);

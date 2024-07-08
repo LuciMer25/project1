@@ -48,8 +48,7 @@ router.get("/prodInfo/:no", async (req, res) => {
 router.get("/categoryList", async (req, res) => {
   let list = await query("categoryList");
   const topCategories = list.filter(category => !category.top_ctgr_no);
-  const categories = list.filter(category => category.top_ctgr_no);
-  res.send({ topCategories, categories });
+  res.send({ topCategories });
 });
 
 router.get("/subCategory/:no", async (req, res) => {

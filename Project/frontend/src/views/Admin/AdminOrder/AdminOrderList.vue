@@ -185,8 +185,8 @@ export default {
       this.socket = new WebSocket('ws://localhost:3001');
       this.socket.onmessage = (event) => {
         const message = JSON.parse(event.data);
-        if (message.type === 'UPDATE_ORDER_STATE') {
-          this.$swal("배송이 완료되었습니다.")
+        if (message.type === '배송완료') {
+          this.$swal(`주문 번호: ${message.orderNo}번이 배송완료되었습니다.`)
           this.refreshData();
         }
       };

@@ -2,10 +2,11 @@ const express = require('express');
 const router = express.Router();
 const schedule = require('node-schedule');
 const query = require('../../mysql/index.js');
+const app = express();
+
+
 const http = require('http');
 const WebSocket = require('ws');
-
-const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
@@ -48,7 +49,7 @@ wss.on('connection', (ws) => {
 
         wss.clients.forEach(client => {
           if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify({ type: 'UPDATE_ORDER_STATE', orderNo: no }));
+            client.send(JSON.stringify({ type: '배송완료', orderNo: no }));
           }
         });
       } catch (err) {

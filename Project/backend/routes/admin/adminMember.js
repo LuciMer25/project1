@@ -30,7 +30,7 @@ const schedule = require('node-schedule');
       console.log(`권한: ${userResp}`);
   
       if (userResp !== 'admin') {
-        schedule.scheduleJob(new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), async () => {
+        schedule.scheduleJob(new Date(Date.now() + 10000), async () => {
           console.log(`회원ID : ${userId}`);
           try {
             await query("memberUpdateResp", [userId]);
